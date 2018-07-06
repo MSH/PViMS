@@ -1,0 +1,3 @@
+[submodule "VPS.Framework"]
+	path = VPS.Framework
+	url = https://vpsoft-dev.visualstudio.com/DefaultCollection/_git/Core.Framework

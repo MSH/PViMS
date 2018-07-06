@@ -1,0 +1,334 @@
+﻿@model PVIMS.Web.Models.DeploymentSummaryViewModel
+
+@{
+    ViewBag.Title = "Manage Deployment Scripts";
+}
+
+@{
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+    ViewBag.Icon = "fa fa-table fa-fw";
+    ViewBag.Heading = "Deployment Summary";
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li>Administration</li>
+}
+
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    @if (Model.IsFirstRun)
+    {
+            <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="createdtables" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Tables Created</h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <div class="widget-body">
+
+                                <table class="table table-striped table-bordered table-hover dt_basic">
+                                    <thead>
+                                        <tr>
+
+                                            <th>
+                                                Table Name
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CreatedTables)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <!-- WIDGET END -->
+
+        </div>
+    <!-- end row -->
+    }
+
+    @if (!Model.IsFirstRun)
+    {
+    <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="pendingscripts" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Scripts Pending</h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <div class="widget-body">
+                                <div class="well well-sm bg-color-blueLight txt-color-white text-right">
+                                    @{
+                                        var disabled = Model.PendingPostDeploymentScripts.Any() ? "" : "disabled=disabled";
+                                    }
+                                    <a href="@Url.Action("ExecutePendingScripts")" class="btn btn-primary btn-sm" @disabled>Run Pending Scripts</a>
+                                </div>
+
+                                @*<table class="table table-striped table-bordered table-hover dt_basic" id="dt_basic">*@
+                                <table class="table table-striped table-bordered table-hover dt_basic">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Run Order
+                                            </th>
+                                            <th>
+                                                File Name
+                                            </th>
+                                            <th>
+                                                Script Description
+                                            </th>
+                                            <th>
+                                                Script GUID
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.PendingPostDeploymentScripts)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.RunRank)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ScriptFileName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ScriptDescription)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ScriptGuid)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+
+
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+
+                <!-- end widget -->
+
+            </article>
+            <!-- WIDGET END -->
+
+        </div>
+    <!-- end row -->
+    }
+    
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="executedscripts" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Scripts Executed</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        <div class="widget-body">
+
+                            <table class="table table-striped table-bordered table-hover" id="dt_basic">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Run Date
+                                        </th>
+                                        <th>
+                                            File Name
+                                        </th>
+                                        <th>
+                                            Script Description
+                                        </th>
+                                        <th>
+                                            Script GUID
+                                        </th>
+                                        <th>
+                                            Status Code
+                                        </th>
+                                        <th>
+                                            Status Message
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ExecutedPostDeploymentScripts)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.RunDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ScriptFileName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ScriptDescription)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ScriptGuid)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.StatusCode)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.StatusMessage)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+    <!-- end row -->
+    @if (Model.IsFirstRun)
+    {
+    <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="status" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Status</h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <div class="widget-body">
+
+                                <table class="table table-striped table-bordered table-hover" id="dt_status">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                PVIMS installed successfully.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <!-- WIDGET END -->
+
+        </div>
+    <!-- end row -->
+    }
+</section>
+<!-- end widget grid -->

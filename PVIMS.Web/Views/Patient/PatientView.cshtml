@@ -1,0 +1,434 @@
+﻿
+@{
+    ViewBag.Title = "Patient View";
+    Layout = "~/Views/Shared/_OfflineLayout.cshtml";
+
+    ViewBag.Icon = "fa fa-table fa-fw";
+    ViewBag.Heading = string.Format("Patient ({0})", "John Doe");
+    ViewBag.SubHeading = "View";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li>Patients</li>
+}
+
+<section novalidate>
+
+    <div class="row">
+        @*<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-table fa-fw "></i>
+                Patients
+                <span>
+                    >
+                    View
+                </span>
+            </h1>
+        </div>*@
+    </div>
+
+    <!-- widget grid -->
+    <div id="patient-details" class="">
+
+        <div class="row">
+
+            <article class="col-sm-12 col-md-12 col-lg-9">
+
+                <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                        <h2>Patient Information </h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body padding" id="tabs">
+
+                            <ul class="nav nav-tabs bordered">
+                                <li id="liDetails" class="active">
+                                    <a href="#tab1" data-toggle="tab" aria-expanded="true" data-bind="click: selectTab.bind($data, 'tab1')">Details</a>
+                                </li>
+                                <li id="liNotes">
+                                    <a href="#tab2" data-toggle="tab" aria-expanded="true" data-bind="click: selectTab.bind($data, 'tab2')">Notes</a>
+                                </li>
+                                @*<li id="liAppointments">
+                            <a href="#tab3" data-toggle="tab" aria-expanded="true" data-bind="click: selectTab.bind($data, 'tab3')">Appointments</a>
+                        </li>*@
+                                @*<li id="liAttachments" >
+                            <a href="#tab4" data-toggle="tab" aria-expanded="true">Attachments</a>
+                        </li>*@
+                                @*<li id="liEncounters">
+                            <a href="#tab5" data-toggle="tab" aria-expanded="true" data-bind="click: selectTab.bind($data, 'tab5')">Encounters</a>
+                        </li>*@
+                            </ul>
+                            <div class="tab-content">
+
+                                <div id="tab1" class="tab-pane active smart-form">
+                                    <div id="divIdentifier">
+                                        <fieldset>
+                                            <legend>Identifiers</legend>
+                                            <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="input">
+                                                        Unique ID
+                                                        <input class="form-control" id="txtUID" type="text" readonly="readonly" style="background-color:#EBEBE4;"
+                                                               data-bind="value: patient().PatientId">
+                                                    </label>
+                                                </section>
+                                                <section class="col col-6">
+                                                    <label class="input">
+                                                        GUID
+                                                        <input class="form-control" id="txtGUID" type="text" readonly="readonly" style="background-color:#EBEBE4;"
+                                                               data-bind="value: patient().PatientUniqueIdentifier">
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <fieldset>
+                                        <legend>Details</legend>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>First Name
+                                                    <input class="form-control" id="txtFirstName" type="text" maxlength="30"
+                                                           data-bind="value: patient().PatientFirstName, enable: formMode() === 'Edit', style: { backgroundColor: formMode() === 'View' ? '#EBEBE4' : 'white' }">
+                                                </label>
+                                            </section>
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em> Surname
+                                                    <input class="form-control" id="txtSurname" type="text" maxlength="30"
+                                                           data-bind="value: patient().PatientLastName, enable: formMode() === 'Edit', style: { backgroundColor: formMode() === 'View' ? '#EBEBE4' : 'white' }">
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label id="lblMiddleName" class="input">
+                                                    Middle Name
+
+                                                    <input class="form-control" id="txtMiddleName" type="text" maxlength="30"
+                                                           data-bind="value: patient().PatientMiddleName, enable: formMode() === 'Edit', style: { backgroundColor: formMode() === 'View' ? '#EBEBE4' : 'white' }">
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>Date of Birth
+                                                    <input class="form-control datepicker" id="txtDOB" type="text" placeholder="yyyy-mm-dd"
+                                                           data-bind="value: patient().formattedDate, enable: formMode() === 'Edit', style: { backgroundColor: formMode() === 'View' ? '#EBEBE4' : 'white' }">
+                                                </label>
+                                            </section>
+                                            <section class="col col-1">
+                                                <div id="divAge" data-bind="if: patient().Age() > 0">
+                                                    <label class="input">
+                                                        Age
+                                                        <input class="form-control" id="txtAge" type="text" readonly="readonly" style="background-color:lightyellow" data-bind="value: patient().Age">
+                                                    </label>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label id="lblFacility" class="input">
+                                                    <em class="fa fa-asterisk text-danger" style="padding-right: 3px; font-size: 75%; vertical-align: top;"></em>Facility:
+                                                    @*<input class="form-control" id="txtFacility" type="text" readonly="readonly" style="background-color: #EBEBE4;" >*@
+                                                    <select class="form-control" data-bind="options: facilities, optionsText: 'FacilityName', optionsValue: 'Id', value: patient().FacilityId,
+                                                            enable: formMode() === 'Edit', style: { backgroundColor: formMode() === 'View' ? '#EBEBE4' : 'white' }"></select>
+                                                </label>
+                                            </section>
+                                            <section class="col col-2">
+                                                <div id="divFacilityEnrolled" data-bind="if: moment(patient().PatientCreatedDate()).isValid() ">
+                                                    <label class="input">
+                                                        Date Entered In System
+                                                        <input class="form-control" id="txtEnrolledDate" type="text" readonly="readonly" style="background-color: lightyellow; text-align: center;" data-bind="value: moment(patient().PatientCreatedDate()).format('YYYY-MM-DD')" />
+                                                    </label>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="40%">Variable</th>
+                                                            <th width="30%">Current Value</th>
+                                                            <th width="30%">Last Updated</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody data-bind="template: {name: tmplName, foreach: patient().customAttributes}"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <script type="text/html" id="custom-view">
+                                        <tr>
+                                            <td data-bind="text: AttributeName"></td>
+                                            <td>
+                                                <div data-bind="if:$data.AttributeTypeName === 'Text' || $data.AttributeTypeName === 'String' || $data.AttributeTypeName === 'Numeric' || $data.AttributeTypeName === 'Date' || $data.AttributeTypeName === 'DateTime' ">
+                                                    <span data-bind="text: currentValue()"></span>
+                                                </div>
+                                                <div data-bind="if:$data.AttributeTypeName === 'Selection'">
+                                                    <span data-bind="text: $parent.getAttribute(currentValue(),AttributeName)"></span>
+                                                </div>
+                                            </td>
+                                            <td data-bind="text: $parent.formatDate(lastUpdated, lastUpdatedUser)"></td>
+                                        </tr>
+                                    </script>
+                                    <script type="text/html" id="custom-edit">
+                                        <tr>
+                                            <td data-bind="text: $data.AttributeName"></td>
+                                            <td>
+                                                @*override defaut validation config defined on config script only for this context*@
+                                                <div data-bind="validationOptions:{messagesOnModified: false}">
+                                                    <div data-bind="if:$data.AttributeTypeName === 'Text' || $data.AttributeTypeName === 'String'">
+                                                        <input data-bind="textInput: currentValue" />
+                                                    </div>
+                                                    <div data-bind="if:$data.AttributeTypeName === 'Numeric'">
+                                                        <input type="number" data-bind="textInput: currentValue" />
+                                                    </div>
+                                                    <div data-bind="if:$data.AttributeTypeName === 'Date' || $data.AttributeTypeName === 'DateTime'">
+                                                        <input type="text" data-bind="textInput: currentValue" />
+                                                    </div>
+                                                    <div data-bind="if:$data.AttributeTypeName === 'Selection'">
+                                                        <select data-bind="options: $parent.filterAttributes($data.AttributeName), optionsText: 'DataItemValue', optionsValue: 'SelectionKey', value: $data.currentValue"></select>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </script>
+
+                                    <div id="divAudit">
+                                        <fieldset>
+                                            <legend>Audit</legend>
+                                            <div class="row">
+                                                <section class="col col-8">
+                                                    <label class="input">
+                                                        Created...
+                                                        <input class="form-control" id="txtCreated" type="text" readonly="readonly" style="background-color:#EBEBE4;"
+                                                               data-bind="value: patient().formattedCreatedBy">
+                                                    </label>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-8">
+                                                    <label class="input">
+                                                        Updated...
+                                                        <input class="form-control" id="txtUpdated" type="text" readonly="readonly" style="background-color:#EBEBE4;"
+                                                               data-bind="value: patient().formattedUpdatedBy">
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div id="tab2" class="tab-pane">
+                                    <textarea id="notesArea" data-bind="ckeditor: formNotes, enable: formMode() === 'Edit'"></textarea>
+                                </div>
+
+                                @*<div id="tab3" class="tab-pane">
+                            <br />
+                            <div class="well well-sm bg-color-blueLight txt-color-white text-right">
+                                <span id="spnAppointmentbuttons">
+
+                                </span>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Reason</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: appointements">
+                                        <tr>
+                                            <td data-bind="text: date"></td>
+                                            <td data-bind="text: reason"></td>
+                                            <td data-bind="text: status"></td>
+                                            <td data-bind="text: action"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>*@
+
+                                @*<div id="tab5" class="tab-pane">
+                            <br />
+                            <div class="well well-sm bg-color-blueLight txt-color-white text-right">
+                                <span id="spnEncounterButtons">
+
+                                </span>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%">Date</th>
+                                            <th width="40%">Type</th>
+                                            <th width="20%">Discharged</th>
+                                            <th width="20%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: encounters">
+                                        <tr>
+                                            <td data-bind="text: date"></td>
+                                            <td data-bind="text: type"></td>
+                                            <td data-bind="text: discharged"></td>
+                                            <td data-bind="text: action"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>*@
+
+                            </div>
+                            <br />
+                            <div class="smart-form">
+                                <footer>
+                                    <span id="spnButtons">
+                                        <button class="btn btn-primary" id="btnEdit" data-bind="click: edit, visible: (formMode() === 'View')">Edit</button>
+                                        <button class="btn btn-primary" id="btnSave" data-bind="click: save, visible: formMode() === 'Edit'">Save</button>
+                                        <button class="btn btn-default" id="btnCancel" data-bind="click: cancel, visible: formMode() === 'Edit'">Cancel</button>
+                                        <a class="btn btn-default" href="/Patient/PatientSearch" data-bind="visible: (formMode() === 'View')">Patient Search</a>
+                                    </span>
+                                </footer>
+                                <div class="alert alert-success fade in" id="divstatus" name="divstatus" data-bind="visible: saved">
+                                    <strong>Success</strong> Patient saved successfully!&nbsp&nbsp&nbsp
+                                    <a type="button" class="btn btn-primary" href="/Patient/PatientSearch">Search For Patients</a>
+                                </div>
+                                <div class="alert alert-danger alert-block" id="diverror" name="diverror" data-bind="visible: saveInvalid()">
+                                    <strong>Error </strong>Please ensure all details are captured correctly...&nbsp&nbsp&nbsp
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+
+                <!-- Appointment Modal -->
+                @*<div class="modal" id="appointmentModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>Patient Appointments
+                            </div>
+                            <div class="modal-body smart-form">
+                                <fieldset>
+                                    <legend>Details</legend>
+                                    <input class="form-control" id="txtAppointmentUID" type="hidden" value="0">
+                                    <div class="row">
+                                        <section class="col col-6">
+                                            <label class="input">
+                                                Appointment Date
+                                                <input class="form-control" id="txtAppointmentDate" type="date" value="">
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-8">
+                                            <label class="input">
+                                                Reason
+                                                <textarea class="form-control" id="txtAppointmentReason" maxlength="250" rows="3" />
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div id="divAppointmentCancellation" style="display:none;">
+                                        <legend>Cancellation</legend>
+                                        <br />
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    Cancelled
+                                                    <select id="ddlAppointmentCancelled" name="ddlAppointmentCancelled" class="input-sm form-control">
+                                                        <option value="No" selected="selected">No</option>
+                                                        <option value="Yes">Yes</option>
+                                                    </select>
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-8">
+                                                <label class="input">
+                                                    Reason
+                                                    <textarea class="form-control" id="txtAppointmentCancelledReason" maxlength="250" rows="3" />
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div id="divAppointmentAudit" style="display:none;">
+                                    <fieldset>
+                                        <legend>Audit</legend>
+                                        <div class="row">
+                                            <section class="col col-8">
+                                                <label class="input">
+                                                    Created...
+                                                    <input class="form-control" id="txtAppointmentCreated" type="text" readonly="readonly" style="background-color:#EBEBE4;">
+                                                </label>
+                                            </section>
+                                        </div>
+                                        <div class="row">
+                                            <section class="col col-8">
+                                                <label class="input">
+                                                    Updated...
+                                                    <input class="form-control" id="txtAppointmentUpdated" type="text" readonly="readonly" style="background-color:#EBEBE4;">
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <span id="divAppointmentSave">
+                                    <asp:button id="btnSaveAppointment" text="Save" onclick="btnSaveAppointment_Click" class="btn btn-default" />
+                                </span>
+                                <span id="divAppointmentDelete">
+                                    <asp:button id="btnDeleteAppointment" text="Delete" onclick="btnDeleteAppointment_Click" class="btn btn-default" />
+                                </span>
+                                <span id="divAppointmentDNA">
+                                    <asp:button id="btnDNAAppointment" text="Did Not Arrive" onclick="btnDNAAppointment_Click" class="btn btn-default" />
+                                </span>
+                                <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</button>
+                            </div>
+
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>*@<!-- /.modal -->
+
+            </article>
+
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end widget grid -->
+
+</section>
+

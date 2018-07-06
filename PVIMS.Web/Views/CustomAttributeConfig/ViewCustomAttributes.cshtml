@@ -1,0 +1,182 @@
+﻿@model IEnumerable<PVIMS.Core.Models.CustomAttributeConfigListItem>
+
+@{
+    ViewBag.Title = "View Custom Attributes";
+}
+
+@{
+	Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+	ViewBag.Icon = "fa-puzzle-piece";
+	ViewBag.Heading = Request["entityName"];
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+	<li>Administration</li>
+	<li>@Html.ActionLink("Custom Attributes", "ViewExtendableEntities", "CustomAttributeConfig")</li>
+} 
+<!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Custom Attributes for @ViewBag.EntityName </h2>
+                        <div class="widget-toolbar">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info">Actions:</button>
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="@Url.Action("AddCustomAttribute", new { ViewBag.EntityName })">Configure New Custom Attribute</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <div class="widget-body">
+
+                                <div class="panel-group" id="accordion">
+
+                                    @{
+                                        var counter = 0;
+                                    }
+
+                                    @foreach (var category in ViewBag.Categories)
+                                    {
+                                        var currentCategory = category;
+                                        var collapseCategory = string.Format("category{0}", counter++);
+
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#@collapseCategory">Custom Attributes : @category</a>
+                                                </h3>
+                                            </div>
+
+                                            <div id="@collapseCategory" class="panel-collapse collapse">
+                                                <div class="panel-body">
+
+                                                    <table class="table table-responsive table-striped table-bordered table-hover no-margin">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:15%">
+                                                                    @Html.DisplayNameFor(model => model.EntityName)
+                                                                </th>
+                                                                <th style="width:15%">
+                                                                    @Html.DisplayNameFor(model => model.Category)
+                                                                </th>
+                                                                <th style="width:25%">
+                                                                    @Html.DisplayNameFor(model => model.AttributeName)
+                                                                </th>
+                                                                <th style="width:20%">
+                                                                    @Html.DisplayNameFor(model => model.AttributeTypeName)
+                                                                </th>
+                                                                <th style="width:10%">
+                                                                    @Html.DisplayNameFor(model => model.Required)
+                                                                </th>
+                                                                <th style="width:15%">
+                                                                    Actions
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            @foreach (var attribute in Model.Where(m => m.Category == currentCategory))
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => attribute.EntityName)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => attribute.Category)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => attribute.AttributeName)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => attribute.AttributeTypeName)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => attribute.Required)
+                                                                    </td>
+                                                                    <td class="hidden-xs">
+                                                                        <div class="btn-group">
+                                                                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+                                                                                Action
+                                                                                <span class="caret"></span>
+                                                                            </button>
+                                                                            <ul class="dropdown-menu pull-right">
+                                                                                <li>
+                                                                                    <a href="@Url.Action("ViewCustomAttribute", new { attribute.EntityName, attribute.AttributeName })">View Attribute</a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a href="@Url.Action("EditCustomAttribute", new { attribute.EntityName, attribute.AttributeName })">Edit Attribute</a>
+                                                                                </li>
+                                                                                @if (attribute.AttributeTypeName == "Selection")
+                                                                                {
+                                                                                    <li>
+                                                                                        <a href="@Url.Action("ViewSelectionDataItems", new { attribute.AttributeName })">View Selection Items</a>
+                                                                                    </li>
+                                                                                }
+
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <!-- WIDGET END -->
+
+        </div>
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->

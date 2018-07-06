@@ -1,0 +1,992 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{043D16FC-CD53-4492-BC47-B3840379AEF5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PVIMS.Entities.EF</RootNamespace>
+    <AssemblyName>PVIMS.Entities.EF</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DatabaseInitializer.cs" />
+    <Compile Include="PVIMSDbContext.cs" />
+    <Compile Include="Migrations\201506151011036_InitialCreate.cs" />
+    <Compile Include="Migrations\201506151011036_InitialCreate.Designer.cs">
+      <DependentUpon>201506151011036_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506151438507_Add user and role tables.cs" />
+    <Compile Include="Migrations\201506151438507_Add user and role tables.Designer.cs">
+      <DependentUpon>201506151438507_Add user and role tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506160853409_merge.cs" />
+    <Compile Include="Migrations\201506160853409_merge.Designer.cs">
+      <DependentUpon>201506160853409_merge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506160953583_Add current context to user.cs" />
+    <Compile Include="Migrations\201506160953583_Add current context to user.Designer.cs">
+      <DependentUpon>201506160953583_Add current context to user.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506161427281_CustomAttributeChanges.cs" />
+    <Compile Include="Migrations\201506161427281_CustomAttributeChanges.Designer.cs">
+      <DependentUpon>201506161427281_CustomAttributeChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506261550022_DatasetInstanceAndRelated.cs" />
+    <Compile Include="Migrations\201506261550022_DatasetInstanceAndRelated.Designer.cs">
+      <DependentUpon>201506261550022_DatasetInstanceAndRelated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506270957422_WorkPlan.AddDataset.cs" />
+    <Compile Include="Migrations\201506270957422_WorkPlan.AddDataset.Designer.cs">
+      <DependentUpon>201506270957422_WorkPlan.AddDataset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506290857176_DatasetInstanceValue.RemoveDatasetInstanceProperty.cs" />
+    <Compile Include="Migrations\201506290857176_DatasetInstanceValue.RemoveDatasetInstanceProperty.Designer.cs">
+      <DependentUpon>201506290857176_DatasetInstanceValue.RemoveDatasetInstanceProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507121123219_Remove context from datasetelementsub.cs" />
+    <Compile Include="Migrations\201507121123219_Remove context from datasetelementsub.Designer.cs">
+      <DependentUpon>201507121123219_Remove context from datasetelementsub.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507241313345_Patient IExtendable.cs" />
+    <Compile Include="Migrations\201507241313345_Patient IExtendable.Designer.cs">
+      <DependentUpon>201507241313345_Patient IExtendable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508191248181_CustomAttributeValidationImplementation.cs" />
+    <Compile Include="Migrations\201508191248181_CustomAttributeValidationImplementation.Designer.cs">
+      <DependentUpon>201508191248181_CustomAttributeValidationImplementation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509010838166_addUniqueIdentifierForPatientInformationEntities.cs" />
+    <Compile Include="Migrations\201509010838166_addUniqueIdentifierForPatientInformationEntities.Designer.cs">
+      <DependentUpon>201509010838166_addUniqueIdentifierForPatientInformationEntities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509081143519_DatasetCategory to Entity.cs" />
+    <Compile Include="Migrations\201509081143519_DatasetCategory to Entity.Designer.cs">
+      <DependentUpon>201509081143519_DatasetCategory to Entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509081247008_Remove additional Dataset_Id from DatasetCategory.cs" />
+    <Compile Include="Migrations\201509081247008_Remove additional Dataset_Id from DatasetCategory.Designer.cs">
+      <DependentUpon>201509081247008_Remove additional Dataset_Id from DatasetCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509211154064_Add LabTestUnit.cs" />
+    <Compile Include="Migrations\201509211154064_Add LabTestUnit.Designer.cs">
+      <DependentUpon>201509211154064_Add LabTestUnit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509211219191_Link PatientLabTest with LabTest.cs" />
+    <Compile Include="Migrations\201509211219191_Link PatientLabTest with LabTest.Designer.cs">
+      <DependentUpon>201509211219191_Link PatientLabTest with LabTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509240647564_Add UserFacility.cs" />
+    <Compile Include="Migrations\201509240647564_Add UserFacility.Designer.cs">
+      <DependentUpon>201509240647564_Add UserFacility.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510060909106_DisableAutoGeneratedGuidForPatientInformationEntities.cs" />
+    <Compile Include="Migrations\201510060909106_DisableAutoGeneratedGuidForPatientInformationEntities.Designer.cs">
+      <DependentUpon>201510060909106_DisableAutoGeneratedGuidForPatientInformationEntities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510150612136_Add middlename to patient.cs" />
+    <Compile Include="Migrations\201510150612136_Add middlename to patient.Designer.cs">
+      <DependentUpon>201510150612136_Add middlename to patient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601121009520_Dummy.cs" />
+    <Compile Include="Migrations\201601121009520_Dummy.Designer.cs">
+      <DependentUpon>201601121009520_Dummy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601131119390_Add Condition Labs.cs" />
+    <Compile Include="Migrations\201601131119390_Add Condition Labs.Designer.cs">
+      <DependentUpon>201601131119390_Add Condition Labs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601140926225_Link chronic to element.cs" />
+    <Compile Include="Migrations\201601140926225_Link chronic to element.Designer.cs">
+      <DependentUpon>201601140926225_Link chronic to element.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601140931009_Conditions per element.cs" />
+    <Compile Include="Migrations\201601140931009_Conditions per element.Designer.cs">
+      <DependentUpon>201601140931009_Conditions per element.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601190655107_Add chronic field to encounter type.cs" />
+    <Compile Include="Migrations\201601190655107_Add chronic field to encounter type.Designer.cs">
+      <DependentUpon>201601190655107_Add chronic field to encounter type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601191105483_Extend size of user.usercontext.cs" />
+    <Compile Include="Migrations\201601191105483_Extend size of user.usercontext.Designer.cs">
+      <DependentUpon>201601191105483_Extend size of user.usercontext.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601201433154_PatientClinicalEvent.Description dropped and replaced with SourceTerminologyMedDRA.cs" />
+    <Compile Include="Migrations\201601201433154_PatientClinicalEvent.Description dropped and replaced with SourceTerminologyMedDRA.Designer.cs">
+      <DependentUpon>201601201433154_PatientClinicalEvent.Description dropped and replaced with SourceTerminologyMedDRA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602071115563_DropAdditionalMedicationFromClinicalEvent.cs" />
+    <Compile Include="Migrations\201602071115563_DropAdditionalMedicationFromClinicalEvent.Designer.cs">
+      <DependentUpon>201602071115563_DropAdditionalMedicationFromClinicalEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602071135352_PatientClinicalEventFKMandatory.cs" />
+    <Compile Include="Migrations\201602071135352_PatientClinicalEventFKMandatory.Designer.cs">
+      <DependentUpon>201602071135352_PatientClinicalEventFKMandatory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602071145189_Placeholder_1.cs" />
+    <Compile Include="Migrations\201602071145189_Placeholder_1.Designer.cs">
+      <DependentUpon>201602071145189_Placeholder_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602270642487_CausalityPerMedicine.cs" />
+    <Compile Include="Migrations\201602270642487_CausalityPerMedicine.Designer.cs">
+      <DependentUpon>201602270642487_CausalityPerMedicine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602270714455_ChangeNaranjoCausalitySize.cs" />
+    <Compile Include="Migrations\201602270714455_ChangeNaranjoCausalitySize.Designer.cs">
+      <DependentUpon>201602270714455_ChangeNaranjoCausalitySize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602271125391_E2BCriteriaDatasetElement.cs" />
+    <Compile Include="Migrations\201602271125391_E2BCriteriaDatasetElement.Designer.cs">
+      <DependentUpon>201602271125391_E2BCriteriaDatasetElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602271133097_E2BCriteriaDatasetElementSystem.cs" />
+    <Compile Include="Migrations\201602271133097_E2BCriteriaDatasetElementSystem.Designer.cs">
+      <DependentUpon>201602271133097_E2BCriteriaDatasetElementSystem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602281025233_E2BCriteriaDatasetElementSub.cs" />
+    <Compile Include="Migrations\201602281025233_E2BCriteriaDatasetElementSub.Designer.cs">
+      <DependentUpon>201602281025233_E2BCriteriaDatasetElementSub.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602281337171_SubElementNameLengthened.cs" />
+    <Compile Include="Migrations\201602281337171_SubElementNameLengthened.Designer.cs">
+      <DependentUpon>201602281337171_SubElementNameLengthened.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603161035173_AddMetaTables.cs" />
+    <Compile Include="Migrations\201603161035173_AddMetaTables.Designer.cs">
+      <DependentUpon>201603161035173_AddMetaTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603161036527_AddSystemMetaReportIndicator.cs" />
+    <Compile Include="Migrations\201603161036527_AddSystemMetaReportIndicator.Designer.cs">
+      <DependentUpon>201603161036527_AddSystemMetaReportIndicator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603161219309_AddMetaPages.cs" />
+    <Compile Include="Migrations\201603161219309_AddMetaPages.Designer.cs">
+      <DependentUpon>201603161219309_AddMetaPages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603221025188_AddMedDRAGrading.cs" />
+    <Compile Include="Migrations\201603221025188_AddMedDRAGrading.Designer.cs">
+      <DependentUpon>201603221025188_AddMedDRAGrading.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603221107339_AddMedDRAScale.cs" />
+    <Compile Include="Migrations\201603221107339_AddMedDRAScale.Designer.cs">
+      <DependentUpon>201603221107339_AddMedDRAScale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604211435583_AddTerminologyMeddratoCondition.cs" />
+    <Compile Include="Migrations\201604211435583_AddTerminologyMeddratoCondition.Designer.cs">
+      <DependentUpon>201604211435583_AddTerminologyMeddratoCondition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604251117307_StartDateForConditionNotMandatory.cs" />
+    <Compile Include="Migrations\201604251117307_StartDateForConditionNotMandatory.Designer.cs">
+      <DependentUpon>201604251117307_StartDateForConditionNotMandatory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604272005230_AddLabValue.cs" />
+    <Compile Include="Migrations\201604272005230_AddLabValue.Designer.cs">
+      <DependentUpon>201604272005230_AddLabValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604291049202_AddedArchiveFieldsToCohortGroupEnrolment.cs" />
+    <Compile Include="Migrations\201604291049202_AddedArchiveFieldsToCohortGroupEnrolment.Designer.cs">
+      <DependentUpon>201604291049202_AddedArchiveFieldsToCohortGroupEnrolment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604291412394_AddedArchivedByUserNameToCohortGroupEnrolment.cs" />
+    <Compile Include="Migrations\201604291412394_AddedArchivedByUserNameToCohortGroupEnrolment.Designer.cs">
+      <DependentUpon>201604291412394_AddedArchivedByUserNameToCohortGroupEnrolment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605020704244_LinkedUserToCohortGroupEnrolment.cs" />
+    <Compile Include="Migrations\201605020704244_LinkedUserToCohortGroupEnrolment.Designer.cs">
+      <DependentUpon>201605020704244_LinkedUserToCohortGroupEnrolment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605031526308_LinkedUserToPatientRelatedTables.cs" />
+    <Compile Include="Migrations\201605031526308_LinkedUserToPatientRelatedTables.Designer.cs">
+      <DependentUpon>201605031526308_LinkedUserToPatientRelatedTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605251337123_AddSourceDescriptiontoClinicalEvent.cs" />
+    <Compile Include="Migrations\201605251337123_AddSourceDescriptiontoClinicalEvent.Designer.cs">
+      <DependentUpon>201605251337123_AddSourceDescriptiontoClinicalEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606130800215_AddConditionMedDra.cs" />
+    <Compile Include="Migrations\201606130800215_AddConditionMedDra.Designer.cs">
+      <DependentUpon>201606130800215_AddConditionMedDra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606131534047_AddPostDeployment.cs" />
+    <Compile Include="Migrations\201606131534047_AddPostDeployment.Designer.cs">
+      <DependentUpon>201606131534047_AddPostDeployment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606151633118_AddEulaAcceptanceDate.cs" />
+    <Compile Include="Migrations\201606151633118_AddEulaAcceptanceDate.Designer.cs">
+      <DependentUpon>201606151633118_AddEulaAcceptanceDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606270612441_AddIsSearchableToCustumAttribute.cs" />
+    <Compile Include="Migrations\201606270612441_AddIsSearchableToCustumAttribute.Designer.cs">
+      <DependentUpon>201606270612441_AddIsSearchableToCustumAttribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607020346350_RemoveTreatmentStartDateFromCondition.cs" />
+    <Compile Include="Migrations\201607020346350_RemoveTreatmentStartDateFromCondition.Designer.cs">
+      <DependentUpon>201607020346350_RemoveTreatmentStartDateFromCondition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607041020450_ReincludeTxStartDateToPatientCondition.cs" />
+    <Compile Include="Migrations\201607041020450_ReincludeTxStartDateToPatientCondition.Designer.cs">
+      <DependentUpon>201607041020450_ReincludeTxStartDateToPatientCondition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609061240233_RenameDateEndtoOutcomeDate.cs" />
+    <Compile Include="Migrations\201609061240233_RenameDateEndtoOutcomeDate.Designer.cs">
+      <DependentUpon>201609061240233_RenameDateEndtoOutcomeDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609070710141_RenameDetailsToCommentsInPatientStatusHistory.cs" />
+    <Compile Include="Migrations\201609070710141_RenameDetailsToCommentsInPatientStatusHistory.Designer.cs">
+      <DependentUpon>201609070710141_RenameDetailsToCommentsInPatientStatusHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609130922484_EnabledLabResultToBeNullable.cs" />
+    <Compile Include="Migrations\201609130922484_EnabledLabResultToBeNullable.Designer.cs">
+      <DependentUpon>201609130922484_EnabledLabResultToBeNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610100711155_AddContactDetailsFacility.cs" />
+    <Compile Include="Migrations\201610100711155_AddContactDetailsFacility.Designer.cs">
+      <DependentUpon>201610100711155_AddContactDetailsFacility.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610120640054_AddDatasetXmlEntities.cs" />
+    <Compile Include="Migrations\201610120640054_AddDatasetXmlEntities.Designer.cs">
+      <DependentUpon>201610120640054_AddDatasetXmlEntities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610121628404_AddLabResult.cs" />
+    <Compile Include="Migrations\201610121628404_AddLabResult.Designer.cs">
+      <DependentUpon>201610121628404_AddLabResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610160645327_AddDatasetCategoryCondition.cs" />
+    <Compile Include="Migrations\201610160645327_AddDatasetCategoryCondition.Designer.cs">
+      <DependentUpon>201610160645327_AddDatasetCategoryCondition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610171002216_AddOutcometoClinicalEvent.cs" />
+    <Compile Include="Migrations\201610171002216_AddOutcometoClinicalEvent.Designer.cs">
+      <DependentUpon>201610171002216_AddOutcometoClinicalEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610171021137_AddOutcometoCondition.cs" />
+    <Compile Include="Migrations\201610171021137_AddOutcometoCondition.Designer.cs">
+      <DependentUpon>201610171021137_AddOutcometoCondition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610281231429_AddDatasetInstanceTagField.cs" />
+    <Compile Include="Migrations\201610281231429_AddDatasetInstanceTagField.Designer.cs">
+      <DependentUpon>201610281231429_AddDatasetInstanceTagField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610311230470_AddRiskFactors.cs" />
+    <Compile Include="Migrations\201610311230470_AddRiskFactors.Designer.cs">
+      <DependentUpon>201610311230470_AddRiskFactors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611031711366_AddAuditLog.cs" />
+    <Compile Include="Migrations\201611031711366_AddAuditLog.Designer.cs">
+      <DependentUpon>201611031711366_AddAuditLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611040557121_ModifyAuditLog.cs" />
+    <Compile Include="Migrations\201611040557121_ModifyAuditLog.Designer.cs">
+      <DependentUpon>201611040557121_ModifyAuditLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611060550427_AddVersionMeddra.cs" />
+    <Compile Include="Migrations\201611060550427_AddVersionMeddra.Designer.cs">
+      <DependentUpon>201611060550427_AddVersionMeddra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611071732594_RemoveObjectIdMetaTable.cs" />
+    <Compile Include="Migrations\201611071732594_RemoveObjectIdMetaTable.Designer.cs">
+      <DependentUpon>201611071732594_RemoveObjectIdMetaTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611081813463_AlterColumnNameSizeOnMetaColumn.cs" />
+    <Compile Include="Migrations\201611081813463_AlterColumnNameSizeOnMetaColumn.Designer.cs">
+      <DependentUpon>201611081813463_AlterColumnNameSizeOnMetaColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611100800231_AddRangetoMetaColumn.cs" />
+    <Compile Include="Migrations\201611100800231_AddRangetoMetaColumn.Designer.cs">
+      <DependentUpon>201611100800231_AddRangetoMetaColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611151626215_RemoveEncounterFromClinicalEvent.cs" />
+    <Compile Include="Migrations\201611151626215_RemoveEncounterFromClinicalEvent.Designer.cs">
+      <DependentUpon>201611151626215_RemoveEncounterFromClinicalEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611171700583_AddAttributeDetailToCustomConfig.cs" />
+    <Compile Include="Migrations\201611171700583_AddAttributeDetailToCustomConfig.Designer.cs">
+      <DependentUpon>201611171700583_AddAttributeDetailToCustomConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611171705393_AddAttributeDetailToCustomConfig2.cs" />
+    <Compile Include="Migrations\201611171705393_AddAttributeDetailToCustomConfig2.Designer.cs">
+      <DependentUpon>201611171705393_AddAttributeDetailToCustomConfig2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611171711066_AddAttributeDetailToCustomConfig3.cs" />
+    <Compile Include="Migrations\201611171711066_AddAttributeDetailToCustomConfig3.Designer.cs">
+      <DependentUpon>201611171711066_AddAttributeDetailToCustomConfig3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611231244101_ModifyPatientCondition.cs" />
+    <Compile Include="Migrations\201611231244101_ModifyPatientCondition.Designer.cs">
+      <DependentUpon>201611231244101_ModifyPatientCondition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611290543412_AddDownloadDatasettoUser.cs" />
+    <Compile Include="Migrations\201611290543412_AddDownloadDatasettoUser.Designer.cs">
+      <DependentUpon>201611290543412_AddDownloadDatasettoUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612201724574_ModifySizeRiskFactorCriteria.cs" />
+    <Compile Include="Migrations\201612201724574_ModifySizeRiskFactorCriteria.Designer.cs">
+      <DependentUpon>201612201724574_ModifySizeRiskFactorCriteria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612260807315_AddConditionToCohort.cs" />
+    <Compile Include="Migrations\201612260807315_AddConditionToCohort.Designer.cs">
+      <DependentUpon>201612260807315_AddConditionToCohort.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701241558531_AddReferenceToLabTest.cs" />
+    <Compile Include="Migrations\201701241558531_AddReferenceToLabTest.Designer.cs">
+      <DependentUpon>201701241558531_AddReferenceToLabTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702011815074_ModifyFacilityNameSize.cs" />
+    <Compile Include="Migrations\201702011815074_ModifyFacilityNameSize.Designer.cs">
+      <DependentUpon>201702011815074_ModifyFacilityNameSize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702011905419_ModifyLabValueType.cs" />
+    <Compile Include="Migrations\201702011905419_ModifyLabValueType.Designer.cs">
+      <DependentUpon>201702011905419_ModifyLabValueType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705031320389_AddDatasetMapping.cs" />
+    <Compile Include="Migrations\201705031320389_AddDatasetMapping.Designer.cs">
+      <DependentUpon>201705031320389_AddDatasetMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705041209222_UpdateMappingType.cs" />
+    <Compile Include="Migrations\201705041209222_UpdateMappingType.Designer.cs">
+      <DependentUpon>201705041209222_UpdateMappingType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705111710141_AddContactDetail.cs" />
+    <Compile Include="Migrations\201705111710141_AddContactDetail.Designer.cs">
+      <DependentUpon>201705111710141_AddContactDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705121622048_AddOrganisationToContactDetail.cs" />
+    <Compile Include="Migrations\201705121622048_AddOrganisationToContactDetail.Designer.cs">
+      <DependentUpon>201705121622048_AddOrganisationToContactDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705270853408_AddAttributeToMapping.cs" />
+    <Compile Include="Migrations\201705270853408_AddAttributeToMapping.Designer.cs">
+      <DependentUpon>201705270853408_AddAttributeToMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705270913359_AddPropertyToMapping.cs" />
+    <Compile Include="Migrations\201705270913359_AddPropertyToMapping.Designer.cs">
+      <DependentUpon>201705270913359_AddPropertyToMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707131329395_PatientLabTestNullableFields.cs" />
+    <Compile Include="Migrations\201707131329395_PatientLabTestNullableFields.Designer.cs">
+      <DependentUpon>201707131329395_PatientLabTestNullableFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707181314198_ModifyPatientConditionComments.cs" />
+    <Compile Include="Migrations\201707181314198_ModifyPatientConditionComments.Designer.cs">
+      <DependentUpon>201707181314198_ModifyPatientConditionComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707281250475_AddPublicToDataset.cs" />
+    <Compile Include="Migrations\201707281250475_AddPublicToDataset.Designer.cs">
+      <DependentUpon>201707281250475_AddPublicToDataset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707291009387_AddDatasetRules.cs" />
+    <Compile Include="Migrations\201707291009387_AddDatasetRules.Designer.cs">
+      <DependentUpon>201707291009387_AddDatasetRules.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707291014123_AddDatasetRules_2.cs" />
+    <Compile Include="Migrations\201707291014123_AddDatasetRules_2.Designer.cs">
+      <DependentUpon>201707291014123_AddDatasetRules_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708011625200_AddFriendlyNameToDataset.cs" />
+    <Compile Include="Migrations\201708011625200_AddFriendlyNameToDataset.Designer.cs">
+      <DependentUpon>201708011625200_AddFriendlyNameToDataset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708011628232_AddHelpToDataset.cs" />
+    <Compile Include="Migrations\201708011628232_AddHelpToDataset.Designer.cs">
+      <DependentUpon>201708011628232_AddHelpToDataset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708101051448_ModifyFriendlyNameSize.cs" />
+    <Compile Include="Migrations\201708101051448_ModifyFriendlyNameSize.Designer.cs">
+      <DependentUpon>201708101051448_ModifyFriendlyNameSize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708161242300_AddHelpToElementSubs.cs" />
+    <Compile Include="Migrations\201708161242300_AddHelpToElementSubs.Designer.cs">
+      <DependentUpon>201708161242300_AddHelpToElementSubs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708250538089_AddXmlNodeToSubElement.cs" />
+    <Compile Include="Migrations\201708250538089_AddXmlNodeToSubElement.Designer.cs">
+      <DependentUpon>201708250538089_AddXmlNodeToSubElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708250842573_AddSubElementToMapping.cs" />
+    <Compile Include="Migrations\201708250842573_AddSubElementToMapping.Designer.cs">
+      <DependentUpon>201708250842573_AddSubElementToMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708251124405_AddSubMappings.cs" />
+    <Compile Include="Migrations\201708251124405_AddSubMappings.Designer.cs">
+      <DependentUpon>201708251124405_AddSubMappings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709130938035_AddOrgUnit.cs" />
+    <Compile Include="Migrations\201709130938035_AddOrgUnit.Designer.cs">
+      <DependentUpon>201709130938035_AddOrgUnit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709250929100_AddCommonToMeddra.cs" />
+    <Compile Include="Migrations\201709250929100_AddCommonToMeddra.Designer.cs">
+      <DependentUpon>201709250929100_AddCommonToMeddra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711141547259_AddOrderAndLocationToMetaPage.cs" />
+    <Compile Include="Migrations\201711141547259_AddOrderAndLocationToMetaPage.Designer.cs">
+      <DependentUpon>201711141547259_AddOrderAndLocationToMetaPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711141617572_AddStatusToInstance.cs" />
+    <Compile Include="Migrations\201711141617572_AddStatusToInstance.Designer.cs">
+      <DependentUpon>201711141617572_AddStatusToInstance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711281622081_AddWorkFlowEntities.cs" />
+    <Compile Include="Migrations\201711281622081_AddWorkFlowEntities.Designer.cs">
+      <DependentUpon>201711281622081_AddWorkFlowEntities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711281651380_AddContextToReportInstance.cs" />
+    <Compile Include="Migrations\201711281651380_AddContextToReportInstance.Designer.cs">
+      <DependentUpon>201711281651380_AddContextToReportInstance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711281758532_AddStatusToDatasetInstance.cs" />
+    <Compile Include="Migrations\201711281758532_AddStatusToDatasetInstance.Designer.cs">
+      <DependentUpon>201711281758532_AddStatusToDatasetInstance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711281930496_AddCurrentStatusToActivityInstance.cs" />
+    <Compile Include="Migrations\201711281930496_AddCurrentStatusToActivityInstance.Designer.cs">
+      <DependentUpon>201711281930496_AddCurrentStatusToActivityInstance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711301507157_AddGuidtoWorkFlow.cs" />
+    <Compile Include="Migrations\201711301507157_AddGuidtoWorkFlow.Designer.cs">
+      <DependentUpon>201711301507157_AddGuidtoWorkFlow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711301601538_AddCurrentToReportInstance.cs" />
+    <Compile Include="Migrations\201711301601538_AddCurrentToReportInstance.Designer.cs">
+      <DependentUpon>201711301601538_AddCurrentToReportInstance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711301611136_ModifyCurrentToReportInstance.cs" />
+    <Compile Include="Migrations\201711301611136_ModifyCurrentToReportInstance.Designer.cs">
+      <DependentUpon>201711301611136_ModifyCurrentToReportInstance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711301807431_AddIdentifierToReportInstance.cs" />
+    <Compile Include="Migrations\201711301807431_AddIdentifierToReportInstance.Designer.cs">
+      <DependentUpon>201711301807431_AddIdentifierToReportInstance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712181624304_AddReportingInstanceMedication.cs" />
+    <Compile Include="Migrations\201712181624304_AddReportingInstanceMedication.Designer.cs">
+      <DependentUpon>201712181624304_AddReportingInstanceMedication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712181636246_AddSourceIdentifierToPatientMedication.cs" />
+    <Compile Include="Migrations\201712181636246_AddSourceIdentifierToPatientMedication.Designer.cs">
+      <DependentUpon>201712181636246_AddSourceIdentifierToPatientMedication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712190647324_ModifyReportInstanceMedicationGuid.cs" />
+    <Compile Include="Migrations\201712190647324_ModifyReportInstanceMedicationGuid.Designer.cs">
+      <DependentUpon>201712190647324_ModifyReportInstanceMedicationGuid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712191421574_ModifyReportInstanceCurrentActivity.cs" />
+    <Compile Include="Migrations\201712191421574_ModifyReportInstanceCurrentActivity.Designer.cs">
+      <DependentUpon>201712191421574_ModifyReportInstanceCurrentActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712201132276_AddAttachmentToActivityEvent.cs" />
+    <Compile Include="Migrations\201712201132276_AddAttachmentToActivityEvent.Designer.cs">
+      <DependentUpon>201712201132276_AddAttachmentToActivityEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712201309595_AddGuidToDatasetElement.cs" />
+    <Compile Include="Migrations\201712201309595_AddGuidToDatasetElement.Designer.cs">
+      <DependentUpon>201712201309595_AddGuidToDatasetElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712201627170_AddContextDataToActivityEvent.cs" />
+    <Compile Include="Migrations\201712201627170_AddContextDataToActivityEvent.Designer.cs">
+      <DependentUpon>201712201627170_AddContextDataToActivityEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712281647423_DropMedicationCausality.cs" />
+    <Compile Include="Migrations\201712281647423_DropMedicationCausality.Designer.cs">
+      <DependentUpon>201712281647423_DropMedicationCausality.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712291500127_AddFriendlyDescriptionToActivityEvent.cs" />
+    <Compile Include="Migrations\201712291500127_AddFriendlyDescriptionToActivityEvent.Designer.cs">
+      <DependentUpon>201712291500127_AddFriendlyDescriptionToActivityEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802210955533_AddMetaPageToWidget.cs" />
+    <Compile Include="Migrations\201802210955533_AddMetaPageToWidget.Designer.cs">
+      <DependentUpon>201802210955533_AddMetaPageToWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802271017062_AddVisibleToMetaPage.cs" />
+    <Compile Include="Migrations\201802271017062_AddVisibleToMetaPage.Designer.cs">
+      <DependentUpon>201802271017062_AddVisibleToMetaPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804241300039_AddWidgetStatusToWidget.cs" />
+    <Compile Include="Migrations\201804241300039_AddWidgetStatusToWidget.Designer.cs">
+      <DependentUpon>201804241300039_AddWidgetStatusToWidget.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804241616363_AddWidgetIcon.cs" />
+    <Compile Include="Migrations\201804241616363_AddWidgetIcon.Designer.cs">
+      <DependentUpon>201804241616363_AddWidgetIcon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\EntityFrameworkUnitOfWork.cs" />
+    <Compile Include="Repositories\DomainRepositoryT.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PVIMS.Core\PVIMS.Core.csproj">
+      <Project>{60640f1e-8399-4beb-9794-2ba98e132aa4}</Project>
+      <Name>VPS.Dcat.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VPS.Framework\VPS.Common\VPS.Common.csproj">
+      <Project>{5E9106F2-788F-46D3-9A2E-EB9A512C20DD}</Project>
+      <Name>VPS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VPS.Framework\VPS.CustomAttributes\VPS.CustomAttributes.csproj">
+      <Project>{4ab0bbe9-ef76-4399-b461-a5d55ccd2cbe}</Project>
+      <Name>VPS.CustomAttributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VPS.Framework\VPS.EF\VPS.EF.csproj">
+      <Project>{F9D11493-D8B2-4E0A-B149-D5A8EF0A7C79}</Project>
+      <Name>VPS.EF</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201506151011036_InitialCreate.resx">
+      <DependentUpon>201506151011036_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506151438507_Add user and role tables.resx">
+      <DependentUpon>201506151438507_Add user and role tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506160853409_merge.resx">
+      <DependentUpon>201506160853409_merge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506160953583_Add current context to user.resx">
+      <DependentUpon>201506160953583_Add current context to user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506161427281_CustomAttributeChanges.resx">
+      <DependentUpon>201506161427281_CustomAttributeChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506261550022_DatasetInstanceAndRelated.resx">
+      <DependentUpon>201506261550022_DatasetInstanceAndRelated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506270957422_WorkPlan.AddDataset.resx">
+      <DependentUpon>201506270957422_WorkPlan.AddDataset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506290857176_DatasetInstanceValue.RemoveDatasetInstanceProperty.resx">
+      <DependentUpon>201506290857176_DatasetInstanceValue.RemoveDatasetInstanceProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507121123219_Remove context from datasetelementsub.resx">
+      <DependentUpon>201507121123219_Remove context from datasetelementsub.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507241313345_Patient IExtendable.resx">
+      <DependentUpon>201507241313345_Patient IExtendable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508191248181_CustomAttributeValidationImplementation.resx">
+      <DependentUpon>201508191248181_CustomAttributeValidationImplementation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509010838166_addUniqueIdentifierForPatientInformationEntities.resx">
+      <DependentUpon>201509010838166_addUniqueIdentifierForPatientInformationEntities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509081143519_DatasetCategory to Entity.resx">
+      <DependentUpon>201509081143519_DatasetCategory to Entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509081247008_Remove additional Dataset_Id from DatasetCategory.resx">
+      <DependentUpon>201509081247008_Remove additional Dataset_Id from DatasetCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509211154064_Add LabTestUnit.resx">
+      <DependentUpon>201509211154064_Add LabTestUnit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509211219191_Link PatientLabTest with LabTest.resx">
+      <DependentUpon>201509211219191_Link PatientLabTest with LabTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509240647564_Add UserFacility.resx">
+      <DependentUpon>201509240647564_Add UserFacility.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510060909106_DisableAutoGeneratedGuidForPatientInformationEntities.resx">
+      <DependentUpon>201510060909106_DisableAutoGeneratedGuidForPatientInformationEntities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510150612136_Add middlename to patient.resx">
+      <DependentUpon>201510150612136_Add middlename to patient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601121009520_Dummy.resx">
+      <DependentUpon>201601121009520_Dummy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601131119390_Add Condition Labs.resx">
+      <DependentUpon>201601131119390_Add Condition Labs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601140926225_Link chronic to element.resx">
+      <DependentUpon>201601140926225_Link chronic to element.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601140931009_Conditions per element.resx">
+      <DependentUpon>201601140931009_Conditions per element.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601190655107_Add chronic field to encounter type.resx">
+      <DependentUpon>201601190655107_Add chronic field to encounter type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601191105483_Extend size of user.usercontext.resx">
+      <DependentUpon>201601191105483_Extend size of user.usercontext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601201433154_PatientClinicalEvent.Description dropped and replaced with SourceTerminologyMedDRA.resx">
+      <DependentUpon>201601201433154_PatientClinicalEvent.Description dropped and replaced with SourceTerminologyMedDRA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602071115563_DropAdditionalMedicationFromClinicalEvent.resx">
+      <DependentUpon>201602071115563_DropAdditionalMedicationFromClinicalEvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602071135352_PatientClinicalEventFKMandatory.resx">
+      <DependentUpon>201602071135352_PatientClinicalEventFKMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602071145189_Placeholder_1.resx">
+      <DependentUpon>201602071145189_Placeholder_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602270642487_CausalityPerMedicine.resx">
+      <DependentUpon>201602270642487_CausalityPerMedicine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602270714455_ChangeNaranjoCausalitySize.resx">
+      <DependentUpon>201602270714455_ChangeNaranjoCausalitySize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602271125391_E2BCriteriaDatasetElement.resx">
+      <DependentUpon>201602271125391_E2BCriteriaDatasetElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602271133097_E2BCriteriaDatasetElementSystem.resx">
+      <DependentUpon>201602271133097_E2BCriteriaDatasetElementSystem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602281025233_E2BCriteriaDatasetElementSub.resx">
+      <DependentUpon>201602281025233_E2BCriteriaDatasetElementSub.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602281337171_SubElementNameLengthened.resx">
+      <DependentUpon>201602281337171_SubElementNameLengthened.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603161035173_AddMetaTables.resx">
+      <DependentUpon>201603161035173_AddMetaTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603161036527_AddSystemMetaReportIndicator.resx">
+      <DependentUpon>201603161036527_AddSystemMetaReportIndicator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603161219309_AddMetaPages.resx">
+      <DependentUpon>201603161219309_AddMetaPages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603221025188_AddMedDRAGrading.resx">
+      <DependentUpon>201603221025188_AddMedDRAGrading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603221107339_AddMedDRAScale.resx">
+      <DependentUpon>201603221107339_AddMedDRAScale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604211435583_AddTerminologyMeddratoCondition.resx">
+      <DependentUpon>201604211435583_AddTerminologyMeddratoCondition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604251117307_StartDateForConditionNotMandatory.resx">
+      <DependentUpon>201604251117307_StartDateForConditionNotMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604272005230_AddLabValue.resx">
+      <DependentUpon>201604272005230_AddLabValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604291049202_AddedArchiveFieldsToCohortGroupEnrolment.resx">
+      <DependentUpon>201604291049202_AddedArchiveFieldsToCohortGroupEnrolment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604291412394_AddedArchivedByUserNameToCohortGroupEnrolment.resx">
+      <DependentUpon>201604291412394_AddedArchivedByUserNameToCohortGroupEnrolment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605020704244_LinkedUserToCohortGroupEnrolment.resx">
+      <DependentUpon>201605020704244_LinkedUserToCohortGroupEnrolment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605031526308_LinkedUserToPatientRelatedTables.resx">
+      <DependentUpon>201605031526308_LinkedUserToPatientRelatedTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605251337123_AddSourceDescriptiontoClinicalEvent.resx">
+      <DependentUpon>201605251337123_AddSourceDescriptiontoClinicalEvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606130800215_AddConditionMedDra.resx">
+      <DependentUpon>201606130800215_AddConditionMedDra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606131534047_AddPostDeployment.resx">
+      <DependentUpon>201606131534047_AddPostDeployment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606151633118_AddEulaAcceptanceDate.resx">
+      <DependentUpon>201606151633118_AddEulaAcceptanceDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606270612441_AddIsSearchableToCustumAttribute.resx">
+      <DependentUpon>201606270612441_AddIsSearchableToCustumAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607020346350_RemoveTreatmentStartDateFromCondition.resx">
+      <DependentUpon>201607020346350_RemoveTreatmentStartDateFromCondition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607041020450_ReincludeTxStartDateToPatientCondition.resx">
+      <DependentUpon>201607041020450_ReincludeTxStartDateToPatientCondition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609061240233_RenameDateEndtoOutcomeDate.resx">
+      <DependentUpon>201609061240233_RenameDateEndtoOutcomeDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609070710141_RenameDetailsToCommentsInPatientStatusHistory.resx">
+      <DependentUpon>201609070710141_RenameDetailsToCommentsInPatientStatusHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609130922484_EnabledLabResultToBeNullable.resx">
+      <DependentUpon>201609130922484_EnabledLabResultToBeNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610100711155_AddContactDetailsFacility.resx">
+      <DependentUpon>201610100711155_AddContactDetailsFacility.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610120640054_AddDatasetXmlEntities.resx">
+      <DependentUpon>201610120640054_AddDatasetXmlEntities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610121628404_AddLabResult.resx">
+      <DependentUpon>201610121628404_AddLabResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610160645327_AddDatasetCategoryCondition.resx">
+      <DependentUpon>201610160645327_AddDatasetCategoryCondition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610171002216_AddOutcometoClinicalEvent.resx">
+      <DependentUpon>201610171002216_AddOutcometoClinicalEvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610171021137_AddOutcometoCondition.resx">
+      <DependentUpon>201610171021137_AddOutcometoCondition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610281231429_AddDatasetInstanceTagField.resx">
+      <DependentUpon>201610281231429_AddDatasetInstanceTagField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610311230470_AddRiskFactors.resx">
+      <DependentUpon>201610311230470_AddRiskFactors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611031711366_AddAuditLog.resx">
+      <DependentUpon>201611031711366_AddAuditLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611040557121_ModifyAuditLog.resx">
+      <DependentUpon>201611040557121_ModifyAuditLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611060550427_AddVersionMeddra.resx">
+      <DependentUpon>201611060550427_AddVersionMeddra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611071732594_RemoveObjectIdMetaTable.resx">
+      <DependentUpon>201611071732594_RemoveObjectIdMetaTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611081813463_AlterColumnNameSizeOnMetaColumn.resx">
+      <DependentUpon>201611081813463_AlterColumnNameSizeOnMetaColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611100800231_AddRangetoMetaColumn.resx">
+      <DependentUpon>201611100800231_AddRangetoMetaColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611151626215_RemoveEncounterFromClinicalEvent.resx">
+      <DependentUpon>201611151626215_RemoveEncounterFromClinicalEvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611171700583_AddAttributeDetailToCustomConfig.resx">
+      <DependentUpon>201611171700583_AddAttributeDetailToCustomConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611171705393_AddAttributeDetailToCustomConfig2.resx">
+      <DependentUpon>201611171705393_AddAttributeDetailToCustomConfig2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611171711066_AddAttributeDetailToCustomConfig3.resx">
+      <DependentUpon>201611171711066_AddAttributeDetailToCustomConfig3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611231244101_ModifyPatientCondition.resx">
+      <DependentUpon>201611231244101_ModifyPatientCondition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611290543412_AddDownloadDatasettoUser.resx">
+      <DependentUpon>201611290543412_AddDownloadDatasettoUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612201724574_ModifySizeRiskFactorCriteria.resx">
+      <DependentUpon>201612201724574_ModifySizeRiskFactorCriteria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612260807315_AddConditionToCohort.resx">
+      <DependentUpon>201612260807315_AddConditionToCohort.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701241558531_AddReferenceToLabTest.resx">
+      <DependentUpon>201701241558531_AddReferenceToLabTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702011815074_ModifyFacilityNameSize.resx">
+      <DependentUpon>201702011815074_ModifyFacilityNameSize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702011905419_ModifyLabValueType.resx">
+      <DependentUpon>201702011905419_ModifyLabValueType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705031320389_AddDatasetMapping.resx">
+      <DependentUpon>201705031320389_AddDatasetMapping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705041209222_UpdateMappingType.resx">
+      <DependentUpon>201705041209222_UpdateMappingType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705111710141_AddContactDetail.resx">
+      <DependentUpon>201705111710141_AddContactDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705121622048_AddOrganisationToContactDetail.resx">
+      <DependentUpon>201705121622048_AddOrganisationToContactDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705270853408_AddAttributeToMapping.resx">
+      <DependentUpon>201705270853408_AddAttributeToMapping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705270913359_AddPropertyToMapping.resx">
+      <DependentUpon>201705270913359_AddPropertyToMapping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707131329395_PatientLabTestNullableFields.resx">
+      <DependentUpon>201707131329395_PatientLabTestNullableFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707181314198_ModifyPatientConditionComments.resx">
+      <DependentUpon>201707181314198_ModifyPatientConditionComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707281250475_AddPublicToDataset.resx">
+      <DependentUpon>201707281250475_AddPublicToDataset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707291009387_AddDatasetRules.resx">
+      <DependentUpon>201707291009387_AddDatasetRules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707291014123_AddDatasetRules_2.resx">
+      <DependentUpon>201707291014123_AddDatasetRules_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708011625200_AddFriendlyNameToDataset.resx">
+      <DependentUpon>201708011625200_AddFriendlyNameToDataset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708011628232_AddHelpToDataset.resx">
+      <DependentUpon>201708011628232_AddHelpToDataset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708101051448_ModifyFriendlyNameSize.resx">
+      <DependentUpon>201708101051448_ModifyFriendlyNameSize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708161242300_AddHelpToElementSubs.resx">
+      <DependentUpon>201708161242300_AddHelpToElementSubs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708250538089_AddXmlNodeToSubElement.resx">
+      <DependentUpon>201708250538089_AddXmlNodeToSubElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708250842573_AddSubElementToMapping.resx">
+      <DependentUpon>201708250842573_AddSubElementToMapping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708251124405_AddSubMappings.resx">
+      <DependentUpon>201708251124405_AddSubMappings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709130938035_AddOrgUnit.resx">
+      <DependentUpon>201709130938035_AddOrgUnit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709250929100_AddCommonToMeddra.resx">
+      <DependentUpon>201709250929100_AddCommonToMeddra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711141547259_AddOrderAndLocationToMetaPage.resx">
+      <DependentUpon>201711141547259_AddOrderAndLocationToMetaPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711141617572_AddStatusToInstance.resx">
+      <DependentUpon>201711141617572_AddStatusToInstance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711281622081_AddWorkFlowEntities.resx">
+      <DependentUpon>201711281622081_AddWorkFlowEntities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711281651380_AddContextToReportInstance.resx">
+      <DependentUpon>201711281651380_AddContextToReportInstance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711281758532_AddStatusToDatasetInstance.resx">
+      <DependentUpon>201711281758532_AddStatusToDatasetInstance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711281930496_AddCurrentStatusToActivityInstance.resx">
+      <DependentUpon>201711281930496_AddCurrentStatusToActivityInstance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711301507157_AddGuidtoWorkFlow.resx">
+      <DependentUpon>201711301507157_AddGuidtoWorkFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711301601538_AddCurrentToReportInstance.resx">
+      <DependentUpon>201711301601538_AddCurrentToReportInstance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711301611136_ModifyCurrentToReportInstance.resx">
+      <DependentUpon>201711301611136_ModifyCurrentToReportInstance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711301807431_AddIdentifierToReportInstance.resx">
+      <DependentUpon>201711301807431_AddIdentifierToReportInstance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712181624304_AddReportingInstanceMedication.resx">
+      <DependentUpon>201712181624304_AddReportingInstanceMedication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712181636246_AddSourceIdentifierToPatientMedication.resx">
+      <DependentUpon>201712181636246_AddSourceIdentifierToPatientMedication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712190647324_ModifyReportInstanceMedicationGuid.resx">
+      <DependentUpon>201712190647324_ModifyReportInstanceMedicationGuid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712191421574_ModifyReportInstanceCurrentActivity.resx">
+      <DependentUpon>201712191421574_ModifyReportInstanceCurrentActivity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712201132276_AddAttachmentToActivityEvent.resx">
+      <DependentUpon>201712201132276_AddAttachmentToActivityEvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712201309595_AddGuidToDatasetElement.resx">
+      <DependentUpon>201712201309595_AddGuidToDatasetElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712201627170_AddContextDataToActivityEvent.resx">
+      <DependentUpon>201712201627170_AddContextDataToActivityEvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712281647423_DropMedicationCausality.resx">
+      <DependentUpon>201712281647423_DropMedicationCausality.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712291500127_AddFriendlyDescriptionToActivityEvent.resx">
+      <DependentUpon>201712291500127_AddFriendlyDescriptionToActivityEvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802210955533_AddMetaPageToWidget.resx">
+      <DependentUpon>201802210955533_AddMetaPageToWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802271017062_AddVisibleToMetaPage.resx">
+      <DependentUpon>201802271017062_AddVisibleToMetaPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804241300039_AddWidgetStatusToWidget.resx">
+      <DependentUpon>201804241300039_AddWidgetStatusToWidget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804241616363_AddWidgetIcon.resx">
+      <DependentUpon>201804241616363_AddWidgetIcon.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ModVersions\DataMod.v1.10.0.Function.sql" />
+    <Content Include="ModVersions\DataMod.v1.10.0.sql" />
+    <Content Include="ModVersions\DataMod.v1.12.0.sql" />
+    <Content Include="ModVersions\DataMod.v1.15.1.sql" />
+    <Content Include="ModVersions\DataMod.v1.16.0.sql" />
+    <Content Include="ModVersions\DataMod.v1.5.10.sql" />
+    <Content Include="ModVersions\DataMod.v1.5.14.sql" />
+    <Content Include="ModVersions\DataMod.v1.5.18.sql" />
+    <Content Include="ModVersions\DataMod.v1.5.20.sql" />
+    <Content Include="ModVersions\DataMod.v1.5.26.sql" />
+    <Content Include="ModVersions\DataMod.v1.5.3.sql" />
+    <Content Include="ModVersions\DataMod.v1.8.0.sql" />
+    <Content Include="ModVersions\DataMod.v1.9.0.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

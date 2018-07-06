@@ -1,0 +1,144 @@
+﻿@model PVIMS.Web.Models.AcceptEulaModel
+
+@{
+    ViewBag.Title = "Accept End User License Agreement";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+    ViewBag.Icon = "fa fa-stethoscope";
+    ViewBag.Heading = string.Format("Accept EULA ({0})", Model.UserName);
+    ViewBag.SubHeading = string.Format("Accept EULA ({0} {1})", Model.FirstName, Model.LastName);
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+<!-- widget grid -->
+<div id="widget-grid" class="">
+
+    <div class="row">
+        <div style="float:left; width:15%; border: 1px solid white;">
+
+        </div>
+
+        <article class="col-sm-12 col-md-12 col-lg-9">
+            <br /><br />
+
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-pencil"></i> </span>
+                    <h2>Accept End User License Agreement (@Model.FirstName @Model.LastName)</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body padding">
+
+                        <div class="bs-example" style="overflow: hidden;">
+                            <div class="text-center">
+                                <h6>End User License Agreement for PViMS</h6>
+                                <p><h6>PViMS© SOFTWARE LICENSE</h6></p>
+                            </div>
+                            <p>
+                                READ THE TERMS AND CONDITIONS OF THIS PViMS© SOFTWARE LICENSE AGREEMENT ("EULA") CAREFULLY BEFORE DOWNLOADING, INSTALLING, OR USING THE PViMS© SOFTWARE PROGRAM, THE SOURCE CODE, TOOLS, AND RELATED DOCUMENTATION ("PRODUCT"). YOU MAY USE THE PRODUCT ONLY ON THE CONDITION THAT YOU ACCEPT ALL OF THE TERMS CONTAINED IN THIS EULA. IF YOU DO NOT AGREE TO THE TERMS AND CONDITIONS OF THIS EULA, DO NOT DOWNLOAD, INSTALL, OR USE THE PRODUCT. BY ACCESSING AND USING ANY PART OF THIS PRODUCT, YOU AGREE TO BE BOUND BY THE TERMS OF THIS EULA.
+                            </p>
+                            <p>
+                                <ol>
+                                    <li><b>General.</b> Except as provided in Section 3 below, the PViMS© Software Program is provided in object code format, for your internal uses only. Any reference to "You" or "Licensee" means any individual or entity accessing and using, in any manner, the Product.<br /><br /></li>
+                                    <li>
+                                        <b>License.</b>
+                                        <ul>
+                                            <li>Subject to the terms and conditions of this EULA, Licensor grants You a nonexclusive, nontransferable, limited, royalty-free license to install and use the Software Program and Documentation within Your business solely for internal use ("Permitted Purposes"). Permitted Purposes does not include use of the Product or any of its components in a production environment or production system in any manner.</li>
+                                            <li>If You wish to use the Product for any purpose other than Permitted Purposes, You must purchase a standard commercial license from Licensor.</li>
+                                            <li>You may make one copy of the Software Program for backup and archival purposes only. No other copies or copying of the Product or any part thereof is authorized. On any copy You make, You must duplicate on any back-up copy of the PViMS© Software Program all copyright, trademark, confidentiality, and patent notices found thereon.</li>
+                                            <li>The U.S. Government and others acting on its behalf, has a paid-up nonexclusive irrevocable worldwide license to reproduce, prepare derivative works and display publicly by or on behalf of the Government.</li>
+                                        </ul><br />
+                                    </li>
+                                    <li>
+                                        <b>Source Code License.</b> You may receive a copy of the source code listings for the PViMS© Software Program (the "Source Code") from the Licensor upon request. If You receive the Source Code (and You acknowledge that Management Sciences for Health, Inc. [MSH], is not required to provide the Source Code) You are granted a nonexclusive, nontransferable, limited license to
+                                        <ul>
+                                            <li>execute the Source Code for internal testing purposes for the Product,</li>
+                                            <li>modify the Source Code in conjunction with MSH as required for Your internal business purposes relating to use of the Product only, and</li>
+                                            <li>
+                                                make an archival copy of the Source Code if permitted by MSH as is necessary for internal business purposes relating to the use of the Product only.<br /><br />
+                                                Any copy or partial copy of the Source Code must include Licensor’s notice of copyright and other restrictive legends contained on the Source Code provided by Licensor. If you are provided Source Code, You must safeguard the Source Code and all copies of the Source Code to ensure access and use only by Your authorized employees and Authorized Contractors (defined below) who have a need for access in connection with their services to You only. You understand and agree that the Licensor is not responsible for any modifications to the Product made by You or on Your behalf, or the outcome of the use of any modified Product. In the event Licensor is no longer providing support for the Product, you may, upon receipt of written approval from an authorized representative of MSH, make the Source Code available to Your authorized contractor who has signed and returned the form of NDA attached to this EULA to MSH ("Authorized Contractor"), solely as necessary for maintenance and modifications to the Product on Your behalf.<br /><br />
+                                                Because the Source Code is provided to You for Your internal use in connection with the PViMS Software Program only, You may not provide access to or a copy of all or part of the Source Code to any third party (other than an Authorized Contractor) without Licensor’s written consent. You have no rights to provide, sell, or distribute copies of the Source Code or any derivative works that incorporate any part thereof, to any third parties. You may not modify, enhance, translate, or otherwise change the Source Code, except as required for Your internal use of the PViMS Software Program.<br /><br />
+                                                Any modifications or derivative works that incorporate any code, designs, artwork, data, information, graphics, images, processes, inventions, techniques, materials, forms, reports, devices, or other content of the Source Code of the Product will be owned by Licensor.<br />
+                                            </li>
+                                        </ul><br />
+                                    </li>
+                                    <li>
+                                        <b>Prohibited Use.</b> You may not
+                                        <ul>
+                                            <li>use the Product for any purpose other than Permitted Purposes;</li>
+                                            <li>modify, reverse engineer, translate into another programming language, decompile or disassemble the Product or any portion of it, or attempt to engage in any of such activities;</li>
+                                            <li>make any modifications, or derivative works of the Product (except as permitted in Section 3, if applicable), transmit the Product or otherwise permit it to be accessible over a network, by telephone, electronically, or any other means, including but not limited to through the Internet or in the operation of a service bureau (other than as required by Your employees and Authorized Contractors in the performance of services permitted by this EULA for the Licensee);</li>
+                                            <li>remove, cover, or change any proprietary notices or markings on the Product or its components;</li>
+                                            <li>export the Product in violation of applicable export control laws.</li>
+                                        </ul><br />
+                                    </li>
+                                    <li><b>Termination.</b> This EULA will automatically terminate if You fail to comply with any material provision of this agreement, including, without limitation, attempt to use the Product or the Source Code for any purpose other than Permitted Purposes. Upon termination of this EULA, You must stop all use of the Product and destroy any backup or archival copy of the Product made pursuant to Section 2 and of the Source Code. Your obligations and Licensor’s rights under this EULA or relating to the Product and the Source Code, if applicable, shall survive the termination of this EULA for any reason.<br /><br /></li>
+                                    <li><b>Ownership.</b> Licensor and, where applicable, its licensors retains the sole right, title, and interest in the Product, the Source Code, and all related intellectual property and proprietary rights. Nothing in this EULA constitutes a waiver of the rights of Licensor under United States (U.S.) or international copyright law or any other federal or state law. Except for the license granted in Section 2, and if applicable, Section 3, Licensee receives no other right in the Product.<br /><br /></li>
+                                    <li><b>Third-Party Programs.</b> The Product contains or is accompanied by a third-party product ("Adobe Acrobat Reader"), which is provided to You under terms and conditions that are different from this EULA. Any use of this third-party program identified will be subject to the terms and conditions of such other license agreement and the terms and conditions of this EULA shall not apply to such third-party programs except that the disclaimer of warranties and limitation of liabilities provisions contained in this EULA shall continue to apply with respect to such third-party programs.<br /><br /></li>
+                                    <li>
+                                        <b>Disclaimer.</b> THE PRODUCT AND SOURCE CODE, IF APPLICABLE, ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, ANY IMPLIED WARRANTY OF MERCHANTABILITY, NONINFRINGEMENT, FITNESS FOR A PARTICULAR PURPOSE, SYSTEM INTEGRATION OR DATA ACCURACY. IN NO EVENT SHALL LICENSOR, OR ANY THIRD PARTY FROM WHOM IT HAS LICENSED ANY SOFTWARE OR PRODUCT COMPONENTS, BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES SUFFERED BY LICENSEE OR ANY THIRD PARTY (INCLUDING BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, LOSS OF DATA, OR LOST PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING FROM OR AS A RESULT OF USING THIS SOFTWARE, OR SOURCE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br /><br />
+                                        Licensee is solely responsible for determining the appropriateness of using the Product and, if applicable, Source Code, and assumes all risks associated with its exercise of rights under this EULA, including but not limited to the risks and costs of program errors; compliance with applicable laws; damage to or loss of data, programs, or equipment; and unavailability or interruption of operations.<br /><br />
+                                        The licensing and use of the MedDRA (Medical Dictionary for Regulatory Activities) Dictionary does not fall within any licensing granted through the use of PViMS.<br /><br />
+                                        In the Analytical portal, Exposed Cases ONLY include cases where the Adverse Drug Reaction falls within the stard and end date of the medication.<br /><br />
+                                    </li>
+                                    <li><b>Indemnification.</b> You agree to indemnify, defend, and hold harmless Licensor and its affiliates, and their respective directors, officers, employees, agents, and assigns and licensors, as applicable, against any and all claims, damages, losses, and expenses (including reasonable attorneys’ fees), as incurred, arising from or in connection with or otherwise with respect to any claim, demand, or legal action by a licensee, employee, consultant, independent contractor, or agent of Licensee, or by a third party, related directly or indirectly to the Licensee’s use of the Product or the Source Code for any purpose ("Third-Party Claim"). Licensor may, at its option, conduct the defense in any such Third-Party Claim (subject to reimbursement by the Licensee of actual expenses incurred therewith), and Licensee agrees to cooperate fully with such defense.<br /><br /></li>
+                                    <li><b>Support.</b> Use of the Product does not provide a contract for support (technical or otherwise) from Management Sciences for Health, Inc.  Such services must be defined and agreed to in a separate contractual agreement or document.<br /><br /></li>
+                                    <li><b>Confidential Information; Equitable Relief.</b> Licensee agrees that at all times and notwithstanding any termination or expiration of this EULA, Licensee will hold in strict confidence and not disclose to any third party any Confidential Information, and will use the Confidential Information for no purpose other than as expressly permitted by this EULA. Without limiting the foregoing, Licensee shall only permit access to Confidential Information to those of its employees or authorized representatives having a need to know the information for Permitted Purposes and who have signed confidentiality agreements or are otherwise bound by confidentiality obligations at least as restrictive as those contained herein. Licensee shall immediately notify Licensor upon discovery of any loss or unauthorized disclosure of the Confidential Information. "Confidential Information" means any and all technical and nontechnical information and data, whether in oral, written, graphic, or electronic form, provided by Licensor to you in connection with the Product and the Source Code, if applicable. Confidential Information does not include any information that is (a) already lawfully known to Licensee, from a source other than Licensor, (b) generally known to the public and in the public domain, or (c) lawfully obtained from any third party who is not subject to a duty of confidentiality to Licensor. Licensee hereby acknowledges that unauthorized disclosure or use of the Confidential Information or Product will cause immediate and irreparable harm to Licensor. Accordingly, Licensor will have the right to seek and obtain without the posting of any bond, which Licensee will not oppose, preliminary and final injunctive relief to enforce this EULA in case of any actual or threatened breach, in addition to other rights and remedies that may be available to Licensor.<br /><br /></li>
+                                    <li>
+                                        <b>General Provisions.</b>
+                                        <ul>
+                                            <li>Severability: If a court finds any provision of this EULA invalid or unenforceable under any applicable law, such provision is, to that extent, deemed omitted, and the balance of this EULA will be enforceable in accordance with its own terms.</li>
+                                            <li>Integration; Amendment: This EULA expresses the complete understanding of the parties with respect to the subject matter and supersedes all prior oral and written agreements, representations, and understandings regarding such subject matter. This EULA may not be modified except by written amendment signed by both parties.</li>
+                                            <li>Waiver: The failure to exercise any right provided in this EULA shall not be a waiver of prior or subsequent rights.</li>
+                                            <li>Governing Law: This EULA shall be governed in accordance with the laws of the Commonwealth of Virginia of the United States, exclusive of its choice of law rules.</li>
+                                            <li>Jurisdiction: Licensee consents to the exclusive jurisdiction and venue of the federal and state courts located in the Commonwealth of Virginia in any action arising out of or relating to this EULA. Licensee waives any other venue to which it might be entitled by domicile or otherwise.</li>
+                                            <li>Successors and Assigns: This EULA shall bind each party’s heirs, successors and assigns. Licensee may not assign or transfer its rights or obligations under this EULA without the prior written consent of Licensor. Any assignment or transfer in violation of this section shall be void.</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </p>
+                        </div>
+                    </div>
+
+                    <br />
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.HiddenFor(model => model.UserId)
+
+                        <div class="smart-form">
+                            <footer>
+                                <input type="submit" value="Accept" class="btn btn-primary" style="color: black;" />
+                                @Html.ActionLink("Do Not Accept", "Login", "Account", null, new { @class = "btn btn-default" })
+                            </footer>
+                        </div>
+                    }
+
+                </div>
+                <!-- end widget content -->
+
+            </div>
+
+        </article>
+
+        <div style="float:right; width:15%; border: 1px solid white;">
+
+        </div>
+
+    </div>
+    <!-- end row -->
+</div>
+@section Scripts {
+
+}

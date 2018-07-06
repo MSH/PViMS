@@ -1,0 +1,207 @@
+﻿@model PVIMS.Web.Models.PatientLabTestAddModel
+
+@{
+    ViewBag.Title = "Add Patient Test and Procedure";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa-stethoscope";
+    ViewBag.Heading = "Tests and Procedures";
+    ViewBag.SubHeading = "Add";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li><a href="~/Encounter/EncounterSearch.aspx">Encounters</a></li>
+    <li>Encounter (@Model.PatientFullName)</li>
+    <li>Add Test and Procedure</li>
+}
+
+<!-- widget grid -->
+<div id="widget-grid" class="">
+
+    <div class="row">
+
+        <article class="col-sm-12 col-md-12 col-lg-9">
+
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-pencil"></i> </span>
+                    <h2>Tests and Procedures (@Model.PatientFullName)</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <div class="widget-body no-padding">
+
+                        @using (Html.BeginForm("AddPatientLabTest", "PatientLabTest", FormMethod.Post, new { @class = "smart-form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            if (!ViewData.ModelState.IsValid)
+                            {
+                                <p class="alert alert-danger">
+                                    Please review and correct the errors below.
+                                </p>
+                            }
+
+                            @Html.HiddenFor(model => model.PatientId)
+                            @Html.HiddenFor(model => model.PatientFullName)
+
+                            <header>
+                                Basic Details
+                            </header>
+
+                            <fieldset>
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.LabTestId)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.LabTestId, (IEnumerable<SelectListItem>)ViewBag.LabTests, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.LabTestId, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.TestDate)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.TestDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.TestDate, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.TestResult)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.TestResult, (IEnumerable<SelectListItem>)ViewBag.TestResults, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.TestResult, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.LabValue)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.LabValue, new { htmlAttributes = new { @type = "text" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.LabValue, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.ReferenceLower)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.ReferenceLower, new { htmlAttributes = new { @type = "text" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.ReferenceLower, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.ReferenceUpper)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.ReferenceUpper, new { htmlAttributes = new { @type = "text" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.ReferenceUpper, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.LabTestUnitId, htmlAttributes: new { @class = "label" })
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.LabTestUnitId, (IEnumerable<SelectListItem>)ViewBag.LabTestUnits, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.LabTestUnitId, "", new { @class = "text-danger" })
+                                </section>
+
+                            </fieldset>
+
+                            if (Model.CustomAttributes != null && Model.CustomAttributes.Any())
+                            {
+                                <header>
+                                    Additional Details
+                                </header>
+
+                                <fieldset>
+
+                                    @for (int i = 0; i < Model.CustomAttributes.Length; i++)
+                                    {
+                                        <section>
+                                            @Html.HiddenFor(m => m.CustomAttributes[i].Name)
+                                            @Html.HiddenFor(m => m.CustomAttributes[i].Type)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].IsRequired)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].StringMaxLength)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].NumericMinValue)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].NumericMaxValue)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].PastDateOnly)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].FutureDateOnly)
+
+                                            @if (Model.CustomAttributes[i].IsRequired)
+                                            {
+                                                <label class="label"><em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>@Model.CustomAttributes[i].Name <font color="red">@Model.CustomAttributes[i].Detail</font></label>
+                                            }
+                                            else
+                                            {
+                                                <label class="label">@Model.CustomAttributes[i].Name <font color="red">@Model.CustomAttributes[i].Detail</font></label>
+                                            }
+
+                                            @switch (Model.CustomAttributes[i].Type)
+                                            {
+                                                case "Numeric":
+                                                    <label class="input">
+                                                        @Html.EditorFor(model => model.CustomAttributes[i].Value, new { htmlAttributes = new { @type = "Number" } })
+                                                    </label>
+                                                    break;
+                                                case "Selection":
+                                                <label class="input">
+                                                    @Html.DropDownListFor(model => model.CustomAttributes[i].Value, (IEnumerable<SelectListItem>)ViewData[Model.CustomAttributes[i].Name], new { @class = "form-control" })
+                                                </label>
+                                                    break;
+                                                case "DateTime":
+                                                <label class="input">
+                                                    @Html.EditorFor(model => model.CustomAttributes[i].Value, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
+                                                </label>
+                                                    break;
+                                                case "String":
+                                                default:
+                                                <label class="input">
+                                                    @Html.EditorFor(model => model.CustomAttributes[i].Value)
+                                                </label>
+                                                    break;
+                                            }
+                                            @Html.ValidationMessageFor(model => model.CustomAttributes[i].Value, "", new { @class = "text-danger" })
+                                        </section>
+                                    }
+
+                                </fieldset>
+                            }
+
+                            <footer>
+                                <button type="submit" class="btn btn-primary">
+                                    Submit
+                                </button>
+                                <a href="@ViewBag.ReturnUrl" class="btn btn-default">Back</a>
+                            </footer>
+                        }
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+        </article>
+
+    </div>
+    <!-- end row -->
+</div>
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+    $(".input-validation-error").removeClass("input-validation-error").parent().addClass("has-error");
+
+    </script>
+
+}
+

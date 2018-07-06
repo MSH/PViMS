@@ -1,0 +1,116 @@
+﻿@model IEnumerable<PVIMS.Core.Models.SelectionDataItemDetail>
+
+@{
+    ViewBag.Title = "View Selection Items";
+}
+
+@{
+	Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+	ViewBag.Icon = "fa-list-ul";
+	ViewBag.Heading = "List Items";
+	ViewBag.SubHeading = ViewBag.AttributeKey;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+	<li>Administration</li>
+	<li>@Html.ActionLink("Custom Attributes", "ViewExtendableEntities", "CustomAttributeConfig")</li>
+}
+
+ 
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Selection Items</h2>
+                        <div class="widget-toolbar">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info">Actions:</button>
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="@Url.Action("AddSelectionDataItem", new { ViewBag.AttributeKey })">Configure New Selection Item</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <div class="widget-body">
+
+                                <table class="table table-responsive table-striped table-bordered table-hover no-margin">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:40%">
+                                                @Html.DisplayNameFor(model => model.AttributeKey)
+                                            </th>
+                                            <th style="width:30%">
+                                                @Html.DisplayNameFor(model => model.SelectionKey)
+                                            </th>
+                                            <th style="width:30%">
+                                                @Html.DisplayNameFor(model => model.DataItemValue)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.AttributeKey)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.SelectionKey)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DataItemValue)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <!-- WIDGET END -->
+
+        </div>
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->

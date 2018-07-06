@@ -1,0 +1,201 @@
+﻿@{
+    ViewBag.Title = "Patient Condition";
+    Layout = "~/Views/Shared/_OfflineLayout.cshtml";
+    ViewBag.Icon = "fa-stethoscope";
+    ViewBag.Heading = "Patient Condition";
+    ViewBag.SubHeading = "";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+<section id="patientCondition-view">
+    <!-- widget grid -->
+    <div id="widget-grid" class="">
+
+        <div class="row">
+
+            <article class="col-sm-12 col-md-12 col-lg-9">
+
+                <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-pencil"></i> </span>
+                        <h2 data-bind="text: widgetTitle">Patient Condition Information</h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <div class="widget-body no-padding">
+                            <div class="smart-form">
+
+                                <div data-bind="if: showErrors()">
+                                    <p class="alert alert-danger">
+                                        Please review and correct the errors below.
+                                    </p>
+                                </div>
+
+                                <header>
+                                    Basic Details
+                                </header>
+
+                                <fieldset>
+                                    <section style="background-color:lightblue; padding: 10px;" data-bind="if: showMedDraLabel">
+                                        <label class="label" style="font-weight: bold;">MedDRA Terminology</label>
+                                        <section>
+                                            <label class="input" data-bind="text: patientCondition().medDra().Description">
+                                            </label>
+                                        </section>
+                                        <section>
+                                            <button type="button" id="btnMSearch" value="Change" data-bind="click: ToggleMedDra">Change</button>
+                                        </section>
+                                    </section>
+
+                                    <section style="background-color:lightblue; padding: 10px;" data-bind="if: showMedDraForm">
+                                        <label class="label" style="font-weight: bold;">MedDRA Terminology</label>
+                                        <section>
+                                            <label>Term Type</label>
+                                            <label class="select">
+                                                <select class="form-control" data-bind="options: termTypes, optionsText: 'Description', optionsValue: 'Id', value: termType"></select>
+                                            </label>
+                                        </section>
+                                        <section>
+                                            <label>Find By Term</label>
+                                            <label class="input">
+                                                <input data-bind="textInput: termFind" />
+                                            </label>
+                                        </section>
+                                        <section>
+                                            <button class="btn btn-primary" value="Search" name="button" data-bind="click: search">
+                                                &nbsp;&nbsp;Search&nbsp;&nbsp;
+                                            </button>
+                                        </section>
+
+                                        <section>
+                                            <label>Term Results</label>
+                                            <label class="input">
+                                                <select class="form-control" style="height: 150px;" size="10" data-bind="options: termResults, optionsText: 'Description', optionsValue: 'Id', value: patientCondition().MedDraId"></select>
+                                            </label>
+                                        </section>
+                                    </section>
+                                    @*<section>
+                                <label>
+                                    <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>
+                                    Condition
+                                </label>
+                                <label class="select">
+                                    <select data-bind="options: conditions, optionsText: 'Description', optionsValue: 'ConditionId', value: patientCondition().ConditionId"></select>
+                                </label>
+                            </section>*@
+
+                                    <section>
+                                        <label>
+                                            <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>
+                                            Start Date
+                                        </label>
+                                        <label class="input">
+                                            <input type="text" class="form-control datepicker" placeholder="yyyy-mm-dd" data-bind="textInput: patientCondition().formattedStartDate" />
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>Outcome Date</label>
+                                        <label class="input">
+                                            <input type="text" class="form-control datepicker" placeholder="yyyy-mm-dd" data-bind="textInput: patientCondition().formattedEndDate" />
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>Treatment Start Date</label>
+                                        <label class="input">
+                                            <input type="text" class="form-control datepicker" placeholder="yyyy-mm-dd" data-bind="textInput: patientCondition().formattedTreatmentStartDate" />
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>Comments</label>
+                                        <label class="textarea">
+                                            <textarea class="custom-scroll" rows="5" data-bind="textInput: patientCondition().Comments"></textarea>
+                                        </label>
+                                    </section>
+
+                                </fieldset>
+
+                                <div data-bind="if: patientCondition().customAttributes().length > 0" class="smart-form">
+                                    <header>
+                                        Additional Details
+                                    </header>
+                                    <fieldset>
+                                        <div data-bind="foreach: patientCondition().customAttributes()">
+                                            <section>
+                                                <label class="label">
+                                                    <span data-bind="if: Required">
+                                                        <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>
+                                                    </span>
+                                                    <span data-bind="text: AttributeName"></span>
+                                                </label>
+                                                <div data-bind="if:$data.AttributeTypeName === 'Text' || $data.AttributeTypeName === 'String'">
+                                                    <label class="input">
+                                                        <input data-bind="textInput: currentValue" />
+                                                    </label>
+                                                </div>
+
+                                                <div data-bind="if:$data.AttributeTypeName === 'Numeric'">
+                                                    <label class="input">
+                                                        <input type="number" data-bind="textInput: currentValue" />
+                                                    </label>
+                                                </div>
+
+                                                <div data-bind="if:$data.AttributeTypeName === 'Date' || $data.AttributeTypeName === 'DateTime'">
+                                                    <label class="input">
+                                                        <input type="text" class="form-control datepicker" placeholder="yyyy-mm-dd" data-bind="textInput: currentValue" />
+                                                    </label>
+                                                </div>
+
+                                                <div data-bind="if:$data.AttributeTypeName === 'Selection'">
+                                                    <label class="select">
+                                                        <select data-bind="options: $parent.filterAttributes($data.AttributeName), optionsText: 'DataItemValue', optionsValue: 'SelectionKey', value: $data.currentValue"></select>
+                                                    </label>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <footer>
+                                    <button class="btn btn-primary" data-bind="click: save">
+                                        Submit
+                                    </button>
+                                    <a data-bind="attr: { href:createURL('ViewEncounterOffline','Encounter',{'encounterId': encounterId(), 'id': patientCondition().PatientId()})}" class="btn btn-default">
+                                        Back
+                                    </a>
+                                </footer>
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+            </article>
+
+        </div>
+        <!-- end row -->
+    </div>
+</section>
+
+
+
+@section scripts{
+
+    @*files will be loaded throught requirejs Module*@
+   @* @Scripts.Render("~/bundles/jqueryval")*@
+
+    <script>
+
+    $(".input-validation-error").removeClass("input-validation-error").parent().addClass("has-error");
+
+    </script>
+
+}

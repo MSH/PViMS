@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPS.CustomAttributes", "VPS.CustomAttributes\VPS.CustomAttributes.csproj", "{4AB0BBE9-EF76-4399-B461-A5D55CCD2CBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E2B2286D-115E-437C-AF6E-CCFC6F7D1A3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPS.Common", "VPS.Common\VPS.Common.csproj", "{5E9106F2-788F-46D3-9A2E-EB9A512C20DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CA8FD489-86C5-4B42-A2FE-B524B93C19CE}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Test|Any CPU = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4AB0BBE9-EF76-4399-B461-A5D55CCD2CBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB0BBE9-EF76-4399-B461-A5D55CCD2CBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB0BBE9-EF76-4399-B461-A5D55CCD2CBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB0BBE9-EF76-4399-B461-A5D55CCD2CBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB0BBE9-EF76-4399-B461-A5D55CCD2CBE}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB0BBE9-EF76-4399-B461-A5D55CCD2CBE}.Test|Any CPU.Build.0 = Release|Any CPU
+		{5E9106F2-788F-46D3-9A2E-EB9A512C20DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E9106F2-788F-46D3-9A2E-EB9A512C20DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E9106F2-788F-46D3-9A2E-EB9A512C20DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E9106F2-788F-46D3-9A2E-EB9A512C20DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E9106F2-788F-46D3-9A2E-EB9A512C20DD}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{5E9106F2-788F-46D3-9A2E-EB9A512C20DD}.Test|Any CPU.Build.0 = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

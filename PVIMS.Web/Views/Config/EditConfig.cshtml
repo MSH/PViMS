@@ -1,0 +1,146 @@
+﻿@model PVIMS.Web.Models.ConfigEditModel
+
+@{
+    ViewBag.Title = "Edit Configuration";
+}
+
+@{
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+    ViewBag.Icon = "fa-windows";
+    ViewBag.Heading = "Edit Configuration";
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li>Configurations</li>
+}
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Configuration</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.ConfigId)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ConfigType, htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.ConfigType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                    </div>
+                                </div>
+
+                                @if (Model.ConfigType == "E2BVersion")
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ConfigValue1, new { @class = "control-label col-md-3" })
+                                        <div class="col-md-6">
+                                            @Html.DropDownListFor(model => model.ConfigValue1, (IEnumerable<SelectListItem>)ViewBag.ConfigValue1Items, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ConfigValue1, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+                                @if (Model.ConfigType == "WebServiceSubscriberList")
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ConfigValue2, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.ConfigValue2, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ConfigValue2, "", new { @class = "text-danger" })
+                                            <div class="note">
+                                                Multiple subscribers to be delimited with comma ....
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (Model.ConfigType == "AssessmentScale")
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ConfigValue3, new { @class = "control-label col-md-3" })
+                                        <div class="col-md-6">
+                                            @Html.DropDownListFor(model => model.ConfigValue3, (IEnumerable<SelectListItem>)ViewBag.ConfigValue3Items, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ConfigValue3, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+                                @if (Model.ConfigType == "ReportInstanceNewAlertCount")
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ConfigValue4, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.ConfigValue4, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ConfigValue4, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+                                @if (Model.ConfigType == "MedicationOnsetCheckPeriodWeeks")
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ConfigValue5, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.ConfigValue5, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ConfigValue5, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-3 col-md-10">
+                                        <a href="~/Admin/ManageConfig.aspx" class="btn btn-default">Cancel</a>
+                                        <input type="submit" value="Save" class="btn btn-primary" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

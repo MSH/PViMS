@@ -1,0 +1,70 @@
+﻿@model PVIMS.Web.Models.MetaPageDeleteModel
+@{
+    ViewBag.Title = "Delete Page";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa-windows";
+    ViewBag.Heading = "Page";
+    ViewBag.SubHeading = "Delete";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+@section breadcrumb
+{
+    <li>Pages</li>
+}
+
+<!-- widget grid -->
+<div id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-6">
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-cogs"></i> </span>
+                    <h2>Delete Page (@Model.PageName)</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <div class="widget-body no-padding">
+                        <div class="alert alert-danger alert-block">
+                            <strong>Please note!</strong> You are about to delete this record. This action is not reversible....
+                        </div>
+
+                        @using (Html.BeginForm("DeleteMetaPage", "Publisher", FormMethod.Post, new { @class = "smart-form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @Html.HiddenFor(model => model.MetaPageId)
+
+                            <header>
+                                Basic Details
+                            </header>
+
+                            <fieldset>
+                                <section>
+                                    @Html.LabelFor(model => model.PageName)
+                                    <label class="textarea">
+                                        @Html.EditorFor(model => model.PageName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.PageName, "", new { @class = "text-danger" })
+                                </section>
+                            </fieldset>
+
+                            <footer>
+                                <button type="submit" class="btn btn-primary" value="Submit" name="button">
+                                    Delete
+                                </button>
+                                <a href="@ViewBag.ReturnUrl" class="btn btn-default">Back</a>
+                            </footer>
+                        }
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+    </div>
+    <!-- end row -->
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

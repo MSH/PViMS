@@ -1,0 +1,129 @@
+﻿@model PVIMS.Web.Models.CohortAddModel
+
+@{
+    ViewBag.Title = "Add Cohort";
+}
+
+@{
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+    ViewBag.Icon = "fa-cogs";
+    ViewBag.Heading = "Add Cohort";
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li>Cohorts</li>
+}
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Cohort</h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body">
+
+                        @using (Html.BeginForm("AddCohort", "Cohort", FormMethod.Post, new { @class = "smart-form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <header>
+                                Basic Details
+                            </header>
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <fieldset>
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.CohortName)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.CohortName)
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.CohortName, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.CohortCode)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.CohortCode)
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.CohortCode, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.StartDate)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.FinishDate, htmlAttributes: new { @class = "label" })
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.FinishDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.FinishDate, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.ConditionId)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.ConditionId, (IEnumerable<SelectListItem>)ViewBag.Conditions, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.ConditionId, "", new { @class = "text-danger" })
+                                </section>
+
+                            </fieldset>
+                            <footer>
+                                <button type="submit" class="btn btn-primary">
+                                    Submit
+                                </button>
+                                <a href="~/Cohort/CohortSearch.aspx" class="btn btn-default">Cancel</a>
+                            </footer>
+                        }
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

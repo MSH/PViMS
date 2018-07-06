@@ -1,0 +1,161 @@
+﻿@model IEnumerable<PVIMS.Web.Models.ActivityListItem>
+
+@{
+    ViewBag.Title = "Activities";
+}
+
+@{
+	Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+    ViewBag.Icon = "fa-bar-chart-o";
+	ViewBag.Heading = "Activities";
+    ViewBag.ClinicalCol = "white"; ViewBag.AnalyticalCol = "orange"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+	<li>Activities</li>
+}
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Activities</h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <div class="widget-body">
+
+                                <table class="table table-striped table-bordered table-hover" id="dt">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Activity)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ExecutionEvent)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ExecutionBy)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ExecutionDate)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Comments)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ReceiptDate)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ReceiptCode)
+                                            </th>
+                                            <th>
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Activity)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ExecutionEvent)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ExecutionBy)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ExecutionDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Comments)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ReceiptDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ReceiptCode)
+                                                </td>
+                                                <td>
+                                                    @if (item.PatientSummaryFileId > 0 || item.E2bXmlFileId > 0)
+                                                    {
+                                                    <div class="btn-group">
+                                                        <button data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">
+                                                            Action
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu pull-right">
+                                                            @if (item.PatientSummaryFileId > 0)
+                                                            {
+                                                                <li>
+                                                                    <a href="@Url.Action("DownloadSingleAttachment", "FileDownload", new { attid = item.PatientSummaryFileId })">View Patient Summary</a>
+                                                                </li>
+                                                            }
+                                                            @if (item.PatientExtractFileId > 0)
+                                                            {
+                                                                <li>
+                                                                    <a href="@Url.Action("DownloadSingleAttachment", "FileDownload", new { attid = item.PatientExtractFileId })">View Patient Extract</a>
+                                                                </li>
+                                                            }
+                                                            @if (item.E2bXmlFileId > 0)
+                                                            {
+                                                                <li>
+                                                                    <a href="@Url.Action("DownloadSingleAttachment", "FileDownload", new { attid = item.E2bXmlFileId })">View E2B File</a>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                    <footer>
+                        <a href="@ViewBag.ReturnUrl" class="btn btn-default">Back</a>
+                    </footer>
+
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <!-- WIDGET END -->
+
+        </div>
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->

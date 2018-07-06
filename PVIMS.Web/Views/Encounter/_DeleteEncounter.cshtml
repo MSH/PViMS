@@ -1,0 +1,64 @@
+﻿
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header" style="color:white;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>Encounter Deletion
+
+        </div>
+        <div class="modal-body smart-form">
+            <fieldset>
+                @*<legend>Patient Details</legend>*@
+
+                <div class="row">
+                    <section class="col col-6">
+                        <label class="input">
+                            Patient Full Name
+
+                            <input class="form-control" id="deletePatientFullName" readonly="readonly" style="background-color: #EBEBE4;" type="text" value="">
+                        </label>
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="col col-6">
+                        <label class="input">
+                            Encounter Type
+
+                            <input class="form-control" id="deleteEncounterType" readonly="readonly" style="background-color: #EBEBE4;" type="text" value="">
+                        </label>
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="col col-6">
+                        <label class="input">
+                            Encounter Date
+
+                            <input class="form-control" id="deleteEncounterDate" readonly="readonly" style="background-color: #EBEBE4;" type="text" value="">
+                        </label>
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="col col-8">
+                        <label class="input" id="lblDeletionReason">
+                            <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>Reason
+
+                            <textarea class="form-control" id="deletionReason" maxlength="250" rows="3" style="width: 529px;" />
+                            <div class="note note-error hidden" id="deletionErrorMessage">Reason is required</div>
+                        </label>
+                    </section>
+                </div>
+            </fieldset>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</button>
+            <button type="button" id="deleteEncounterValidator" class="btn btn-default" onclick="validateDeletionReason()">Delete</button>           
+            <button type="button" id="deleteEncounter" class="btn btn-default hidden" onclick="deleteEncounter()">Delete</button>
+        </div>
+
+    </div>
+    <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jqueryui")

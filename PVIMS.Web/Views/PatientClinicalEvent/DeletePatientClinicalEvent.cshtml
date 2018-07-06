@@ -1,0 +1,104 @@
+﻿@model PVIMS.Web.Models.PatientClinicalEventDeleteModel
+@{
+    ViewBag.Title = "Delete Patient Adverse Event";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa-stethoscope";
+    ViewBag.Heading = "Adverse Event";
+    ViewBag.SubHeading = "Delete";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+@section breadcrumb
+{
+    <li><a href="~/Encounter/EncounterSearch.aspx">Encounters</a></li>
+    <li>Encounter (@Model.PatientFullName)</li>
+    <li>Delete Adverse Event</li>
+}
+
+<!-- widget grid -->
+<div id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-9">
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-pencil"></i> </span>
+                    <h2>Patient Adverse Event Information (@Model.PatientFullName)</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <div class="widget-body no-padding">
+                        <div class="alert alert-danger alert-block">
+                            <strong>Please note!</strong> You are about to delete this record. This action is not reversible....
+                        </div>
+
+                        @using (Html.BeginForm("DeletePatientClinicalEvent", "PatientClinicalEvent", FormMethod.Post, new { @class = "smart-form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            if (!ViewData.ModelState.IsValid)
+                            {
+                                <p class="alert alert-danger">
+                                    Please review and correct the errors below.
+                                </p>
+                            }
+
+                            @Html.HiddenFor(model => model.PatientClinicalEventId)
+                            @Html.HiddenFor(model => model.PatientFullName)
+
+                            <header>
+                                Basic Details
+                            </header>
+
+                            <fieldset>
+                                <section style="background-color:lightblue; padding: 10px;">
+                                    <label class="label" style="font-weight: bold;">MedDRA Terminology</label>
+                                    <section>
+                                        <label class="input">
+                                            @Html.DisplayFor(model => model.SourceTerminologyMedDRA, new { @class = "text-danger" })
+                                        </label>
+                                    </section>
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.SourceDescription)
+                                    <label class="textarea">
+                                        @Html.TextAreaFor(model => model.SourceDescription, new { @class = "custom-scroll", @rows = "6", MaxLength = "500", @readonly = "readonly", @style = "background-color:lightgray; height: 80px;" })
+                                    </label>
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.OnsetDate)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.OnsetDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd", @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                    </label>
+                                </section>
+
+                                <section>
+                                    <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>@Html.LabelFor(model => model.ArchiveReason)
+                                    <label class="textarea">
+                                        @Html.TextAreaFor(model => model.ArchiveReason, new { @style = "height: 80px;", @class = "custom-scroll", @rows = "3", MaxLength = "200" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.ArchiveReason, "", new { @class = "text-danger" })
+                                </section>
+
+                            </fieldset>
+
+                            <footer>
+                                <button type="submit" class="btn btn-primary" value="Submit" name="button">
+                                    Delete
+                                </button>
+                                <a href="@ViewBag.ReturnUrl" class="btn btn-default">Back</a>
+                            </footer>
+                        }
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+    </div>
+    <!-- end row -->
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

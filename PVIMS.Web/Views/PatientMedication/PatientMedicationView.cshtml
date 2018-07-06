@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "Patient Medication";
+    Layout = "~/Views/Shared/_OfflineLayout.cshtml";
+    ViewBag.Icon = "fa-stethoscope";
+    ViewBag.Heading = "Patient Medication";
+    ViewBag.SubHeading = "View";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+<section id="patientMedication-view">
+    <!-- widget grid -->
+    <div id="widget-grid" class="">
+
+        <div class="row">
+
+            <article class="col-sm-12 col-md-12 col-lg-9">
+
+                <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-pencil"></i> </span>
+                        <h2 data-bind="text: widgetTitle">Patient Medication Information</h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <div class="widget-body no-padding">
+
+                            <div class="smart-form">
+                                <div data-bind="if: showErrors()">
+                                    <p class="alert alert-danger">
+                                        Please review and correct the errors below.
+                                    </p>
+                                </div>
+
+                                <header>
+                                    Basic Details
+                                </header>
+
+                                <fieldset>
+
+                                    <section>
+                                        <label>Medication</label>
+                                        <label class="select">
+                                            <select data-bind="options: medications, optionsText: 'DrugName', optionsValue: 'MedicationId', value: patientMedication().MedicationId"></select>
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>Start Date</label>
+                                        <label class="input">
+                                            <input type="text" class="form-control datepicker" placeholder="yyyy-mm-dd" data-bind="textInput: patientMedication().formattedStartDate" />
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>End Date</label>
+                                        <label class="input">
+                                            <input type="text" class="form-control datepicker" placeholder="yyyy-mm-dd" data-bind="textInput: patientMedication().formattedEndDate" />
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>Dose</label>
+                                        <label class="input">
+                                            <input type="text" data-bind="textInput: patientMedication().Dose" />
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>
+                                            Dose Unit
+                                        </label>
+                                        <label class="input">
+                                            @*<input type="text" data-bind="textInput: patientMedication().DoseUnit " />*@
+                                            <select class="form-control" data-bind="options: doseUnits, optionsText: 'Description', optionsValue: 'Id', value: patientMedication().DoseUnit"></select>
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>
+                                            Dose Fequency
+                                        </label>
+                                        <label class="input">
+                                            <input type="text" data-bind="textInput: patientMedication().DoseFrequency" />
+                                        </label>
+                                    </section>
+
+                                </fieldset>
+
+                                <div data-bind="if: patientMedication().customAttributes().length > 0" class="smart-form">
+                                    <header>
+                                        Additional Details
+                                    </header>
+                                    <fieldset>
+                                        <div data-bind="foreach: patientMedication().customAttributes()">
+                                            <section>
+                                                <label class="label">
+                                                    <span data-bind="if: Required">
+                                                        <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>
+                                                    </span>
+                                                    <span data-bind="text: AttributeName"></span>
+                                                </label>
+                                                <div data-bind="if:$data.AttributeTypeName === 'Text' || $data.AttributeTypeName === 'String'">
+                                                    <label class="input">
+                                                        <input data-bind="textInput: currentValue" />
+                                                    </label>
+                                                </div>
+
+                                                <div data-bind="if:$data.AttributeTypeName === 'Numeric'">
+                                                    <label class="input">
+                                                        <input type="number" data-bind="textInput: currentValue" />
+                                                    </label>
+                                                </div>
+
+                                                <div data-bind="if:$data.AttributeTypeName === 'Date' || $data.AttributeTypeName === 'DateTime'">
+                                                    <label class="input">
+                                                        <input type="text" class="form-control datepicker" placeholder="yyyy-mm-dd" data-bind="textInput: currentValue" />
+                                                    </label>
+                                                </div>
+
+                                                <div data-bind="if:$data.AttributeTypeName === 'Selection'">
+                                                    <label class="select">
+                                                        <select data-bind="options: $parent.filterAttributes($data.AttributeName), optionsText: 'DataItemValue', optionsValue: 'SelectionKey', value: $data.currentValue"></select>
+                                                    </label>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <footer>
+                                    <button class="btn btn-primary" data-bind="click: save">
+                                        Submit
+                                    </button>
+                                    <a data-bind="attr: { href:createURL('ViewEncounterOffline','Encounter',{'encounterId': encounterId(), 'id': patientMedication().PatientId()})}" class="btn btn-default">
+                                        Back
+                                    </a>
+                                </footer>
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+            </article>
+
+        </div>
+        <!-- end row -->
+    </div>
+</section>
+
+@section scripts{
+
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+
+    <script>
+
+    $(".input-validation-error").removeClass("input-validation-error").parent().addClass("has-error");
+
+    </script>
+
+}
+

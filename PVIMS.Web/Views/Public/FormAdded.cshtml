@@ -1,0 +1,66 @@
+﻿@model PVIMS.Web.Models.DatasetInstanceModel
+
+@{
+    ViewBag.Title = "Spontaneous Report";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+    ViewBag.Icon = "fa fa-stethoscope";
+    ViewBag.Heading = "Spontaneous Report";
+    ViewBag.SubHeading = "View";
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+<!-- widget grid -->
+<div id="widget-grid" class="">
+
+    <div class="row">
+        <div style="float:left; width:15%; border: 1px solid white;">
+
+        </div>
+
+        <article class="col-sm-12 col-md-12 col-lg-9">
+            <br /><br />
+
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body padding">
+
+                        <div class="bs-example" style="overflow: hidden;">
+                            <div class="text-center">
+                                <h6>Spontaneous Report Added Successfully</h6>
+                            </div>
+                            <p>
+                                Your spontaneous report has been added successfully. If you have any queries, please contact us on ....
+                            </p>
+                            <p>
+                                @Html.ActionLink("Return to Home Page", "Login", "Account", null, new { @class = "btn btn-default" })
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end widget content -->
+
+            </div>
+
+        </article>
+
+        <div style="float:right; width:15%; border: 1px solid white;">
+
+        </div>
+
+    </div>
+
+</div>
+@section Scripts {
+
+}

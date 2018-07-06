@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "Add Patient LabTest";
+    Layout = "~/Views/Shared/_OfflineLayout.cshtml";
+    ViewBag.Icon = "fa-stethoscope";
+    ViewBag.Heading = "Clinical Evaluations";
+    ViewBag.SubHeading = "";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+<section id="patientLabTest-edit">
+    <!-- widget grid -->
+
+    <div id="widget-grid" class="">
+
+        <div class="row">
+
+            <article class="col-sm-12 col-md-12 col-lg-9">
+
+                <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-pencil"></i> </span>
+                        <h2 data-bind="text: widgetTitle">Patient Clinical Evaluations Information</h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <div class="widget-body no-padding">
+                            <div class="smart-form">
+                                <div data-bind="if: showErrors()">
+                                    <p class="alert alert-danger">
+                                        Please review and correct the errors below.
+                                    </p>
+                                </div>
+
+                                <header>
+                                    Basic Details
+                                </header>
+
+                                <fieldset>
+                                    <section>
+                                        <label>
+                                            <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>
+                                            Lab Test
+                                        </label>
+                                        <label class="select">
+                                            <select data-bind="options: testLabTypes, value: patientLabTest().TestName"></select>
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>
+                                            <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>
+                                            Test Date
+                                        </label>
+                                        <label class="input">
+                                            <input type="text" class="form-control datepicker" placeholder="yyyy-mm-dd" data-bind="value: patientLabTest().formattedTestDate">
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>Test Result</label>
+                                        <label class="select">
+                                            <select class="form-control" data-bind="options: TestResults, optionsText: 'Description', optionsValue: 'Id', value: patientLabTest().TestResult"></select>
+                                            @*<input data-bind="textInput: patientLabTest().TestResult">*@
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>Lab Value</label>
+                                        <label class="input">
+                                            <input data-bind="textInput: patientLabTest().LabValue">
+                                        </label>
+                                    </section>
+
+                                    <section>
+                                        <label>Lab Value Unit</label>
+                                        <label class="select">
+                                            <select class="form-control" data-bind="options: labTestUnits, optionsText: 'Description', optionsValue: 'Id', value: patientLabTest().TestUnit"></select>
+                                            @*<input data-bind="textInput: patientLabTest().TestUnit">*@
+                                        </label>
+                                    </section>
+
+                                </fieldset>
+
+                                <div data-bind="if: patientLabTest().customAttributes().length > 0" class="smart-form">
+                                    <header>
+                                        Additional Details
+                                    </header>
+                                    <fieldset>
+                                        <div data-bind="foreach: patientLabTest().customAttributes()">
+                                            <section>
+                                                <label class="label">
+                                                    <span data-bind="if: Required">
+                                                        <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>
+                                                    </span>
+                                                    <span data-bind="text: AttributeName"></span>
+                                                </label>
+                                                <div data-bind="if:$data.AttributeTypeName === 'Text' || $data.AttributeTypeName === 'String'">
+                                                    <label class="input">
+                                                        <input data-bind="textInput: currentValue" />
+                                                    </label>
+                                                </div>
+
+                                                <div data-bind="if:$data.AttributeTypeName === 'Numeric'">
+                                                    <label class="input">
+                                                        <input type="number" data-bind="textInput: currentValue" />
+                                                    </label>
+                                                </div>
+
+                                                <div data-bind="if:$data.AttributeTypeName === 'Date' || $data.AttributeTypeName === 'DateTime'">
+                                                    <label class="input">
+                                                        <input type="date" data-bind="textInput: currentValue" />
+                                                    </label>
+                                                </div>
+
+                                                <div data-bind="if:$data.AttributeTypeName === 'Selection'">
+                                                    <label class="select">
+                                                        <select data-bind="options: $parent.filterAttributes($data.AttributeName), optionsText: 'DataItemValue', optionsValue: 'SelectionKey', value: $data.currentValue"></select>
+                                                    </label>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <footer>
+                                    <button class="btn btn-primary" data-bind="click: save">
+                                        Submit
+                                    </button>
+                                    <a data-bind="attr: { href:createURL('ViewEncounterOffline','Encounter',{'encounterId': encounterId(), 'id': patientLabTest().PatientId()})}" class="btn btn-default">
+                                        Back
+                                    </a>
+                                </footer>
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+            </article>
+
+        </div>
+        <!-- end row -->
+    </div>
+</section>
+
+
+@section scripts{
+
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+
+    <script>
+
+    $(".input-validation-error").removeClass("input-validation-error").parent().addClass("has-error");
+
+    </script>
+
+}
+

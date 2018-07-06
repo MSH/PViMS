@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Basic Styles -->
+    @Styles.Render("~/css/bootstrap.min.css")
+    @Styles.Render("~/css/font-awesome.min.css")
+
+    <!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
+    @Styles.Render("~/css/smartadmin-production.min.css")
+    @Styles.Render("~/css/smartadmin-skins.min.css")
+
+    <!-- wizard Styles -->
+	@Styles.Render("~/css/gsdk-bootstrap-wizard.css")
+
+    <!-- SmartAdmin RTL Support is under construction
+         This RTL CSS will be released in version 1.5
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/smartadmin-rtl.min.css"> -->
+
+    <!-- We recommend you use "your_style.css" to override SmartAdmin
+         specific styles this will also ensure you retrain your customization with each SmartAdmin update.
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/your_style.css"> -->
+
+    @*@Styles.Render("~/css/app/bundle")*@
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+
+    <!-- Specifying a Webpage Icon for Web Clip
+         Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
+    <link rel="apple-touch-icon" href="~/img/splash/sptouch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/img/splash/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/img/splash/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/img/splash/touch-icon-ipad-retina.png">
+
+    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Startup image for web apps -->
+    <link rel="apple-touch-startup-image" href="~/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+    <link rel="apple-touch-startup-image" href="~/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+    <link rel="apple-touch-startup-image" href="~/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+
+</head>
+<body class="">
+    <!-- Header Start -->
+    <header id="header">
+        <div style="width:100%; margin: 0 auto;">
+            <div style="align-content:center; float:left; width:100%; border: 1px solid white;">
+                <img src="~/img/SIAPS_USAID_Small.jpg" alt="Data Collection and Analysis Tool" style="display:block; margin-left:auto;margin-right:auto;" />
+            </div>
+         </div>
+    </header>
+
+    <!-- Header End -->
+    <!-- MAIN PANEL -->
+    <div id="mainpublic" role="main">
+
+        @RenderBody()
+
+    </div>
+
+    <!-- END MAIN PANEL -->
+    <!-- PAGE FOOTER -->
+    <div class="page-footer">
+        <div class="row">
+            <div class="text-center">
+                <span class="txt-color-white">Management Sciences For Health © 2016 | version 1.16.0</span>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE FOOTER -->
+    <!--================================================== -->
+    @Scripts.Render("~/bundles/jquery")
+
+    <script src="~/js/libs/jquery-ui.min.js"></script>
+    <script>
+        if (!window.jQuery.ui) {
+            document.write('<script src="../js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+        }
+    </script>
+
+    <!-- SITE WIDE SCRIPTS-->
+    <script src="@Scripts.Url("~/js/app.config.js")"></script><!-- IMPORTANT: APP CONFIG -->
+    <script src="@Scripts.Url("~/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js")"></script><!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
+    <script src="@Scripts.Url("~/js/bootstrap/bootstrap.min.js")"></script><!-- BOOTSTRAP JS -->
+    <script src="@Scripts.Url("~/js/notification/SmartNotification.min.js")"></script><!-- CUSTOM NOTIFICATION -->
+    <script src="@Scripts.Url("~/js/smartwidgets/jarvis.widget.min.js")"></script><!-- JARVIS WIDGETS -->
+    <script src="@Scripts.Url("~/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js")"></script><!-- EASY PIE CHARTS -->
+    <script src="@Scripts.Url("~/js/plugin/jquery-validate/jquery.validate.min.js")"></script><!-- JQUERY VALIDATE -->
+    <script src="@Scripts.Url("~/js/plugin/masked-input/jquery.maskedinput.min.js" )"></script><!-- JQUERY MASKED INPUT -->
+    <script src="@Scripts.Url("~/js/plugin/select2/select2.min.js" )"></script><!-- JQUERY SELECT2 INPUT -->
+    <script src="@Scripts.Url("~/js/plugin/bootstrap-slider/bootstrap-slider.min.js" )"></script><!-- JQUERY UI + Bootstrap Slider -->
+    <script src="@Scripts.Url("~/js/plugin/msie-fix/jquery.mb.browser.min.js" )"></script><!-- browser msie issue fix -->
+    <script src="@Scripts.Url("~/js/plugin/fastclick/fastclick.min.js")"></script><!-- FastClick: For mobile devices -->
+    <script src="@Scripts.Url("~/js/plugin/bootstraptree/bootstrap-tree.min.js")"></script>
+    <!--[if IE 8]>
+    <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+    <![endif]-->
+
+    <script src="@Scripts.Url("~/js/app.min.js" )"></script><!-- MAIN APP JS FILE -->
+
+    <script src="@Scripts.Url("~/js/plugin/datatables/jquery.dataTables.min.js" )"></script>
+    <script src="@Scripts.Url("~/js/plugin/datatables/dataTables.colVis.min.js" )"></script>
+    <script src="@Scripts.Url("~/js/plugin/datatables/dataTables.tableTools.min.js" )"></script>
+    <script src="@Scripts.Url("~/js/plugin/datatables/dataTables.bootstrap.min.js" )"></script>
+    <script src="@Scripts.Url("~/js/plugin/datatable-responsive/datatables.responsive.min.js" )"></script>
+    <script src="@Scripts.Url("~/js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js" )"></script>
+	<script src="@Scripts.Url("~/js/plugin/bootstrap-wizard/gsdk-bootstrap-wizard.js")"></script>
+
+    @*@Scripts.Render("~/scripts/lib/bundle")*@
+    <script src="@Scripts.Url("~/Scripts/jquery.signalR-2.1.2.min.js")"></script>
+    @*@Scripts.Render("~/signalr/hubs")*@
+
+    @*@Scripts.Render("~/Scripts/App/bundle")*@
+    @*@Scripts.Render("~/Scripts/App/ViewModels/bundle")*@
+    @Scripts.Render("~/Scripts/ckeditor/ckeditor.js")
+    @Scripts.Render("~/Scripts/ckeditor/adapters/jquery.js")
+    @Scripts.Render("~/Scripts/synchronisation.js")
+
+    <script type="text/javascript">
+
+        //$(function () {
+        //	var notifications = $.connection.notificationHub;
+
+        //	$.connection.hub.disconnected(function () {
+        //		setTimeout(function () {
+        //			$.connection.hub.start();
+        //		}, 1000); // Restart connection after 1 second.
+        //	});
+
+        //	notifications.client.notify = function (message) {
+        //		$.smallBox({
+        //			title: "New Message",
+        //			content: message,
+        //			color: "#296191",
+        //			//timeout: 8000,
+        //			icon: "fa fa-bell swing animated"
+        //		});
+        //	};
+
+        //	$.connection.hub.logging = true;
+
+        //	$.connection.hub.start();
+        //});
+
+        // DO NOT REMOVE : GLOBAL FUNCTIONS!
+
+        $(document).ready(function () {
+
+            pageSetUp();
+
+        })
+
+    </script>
+    @RenderSection("scripts", required: false)
+
+    <script>
+
+    $('body').popover({
+        selector: 'a[data-toggle=popover]',
+        container: 'body'
+    }).tooltip({
+        selector: "a[data-toggle=tooltip]",
+        container: 'body'
+    });
+
+    </script>
+
+    @{Html.RenderPartial("~/_KnockoutTemplates.ascx");}
+
+</body>
+</html>

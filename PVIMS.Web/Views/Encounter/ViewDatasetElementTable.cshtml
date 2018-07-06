@@ -1,0 +1,428 @@
+﻿@model IEnumerable<PVIMS.Web.Models.DatasetInstanceSubValueGroupingModel>
+@using System.Linq
+
+@{
+    ViewBag.Title = string.Format("Manage {0}", ViewBag.DatasetElementName);
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa-stethoscope";
+    ViewBag.Heading = "Encounter";
+    ViewBag.SubHeading = string.Format("Manage {0}", ViewBag.DatasetElementName);
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li><a href="~/Encounter/EncounterSearch.aspx">Encounters</a></li>
+    <li><a href="@Url.Action("ViewEncounter", new { id = ViewBag.EncounterId })">Encounter</a></li>
+    <li>Manage @ViewBag.DatasetElementName</li>
+}
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>@ViewBag.DatasetElementName</h2>
+                    <div class="widget-toolbar">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info btn-xs">Actions:</button>
+                            <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a data-toggle="modal"
+                                       data-target="#addDatasetElementSubModal"
+                                       data-id="@ViewBag.DatasetElementId"
+                                       data-datasetinstance="@ViewBag.DatasetInstanceId"
+                                       data-original-title="Add @ViewBag.DatasetElementName item">
+                                        Add @ViewBag.DatasetElementName item
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        <div class="widget-body">
+                            <table class="table table-bordered table-striped table-responsive">
+                                <tr>
+                                    @foreach (var header in ViewBag.TableHeaderColumns)
+                                    {
+                                        <th>@header.DatasetElementSubName</th>
+                                    }
+                                    <th></th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        @foreach (var headerColumn in ViewBag.TableHeaderColumns)
+                                        {
+                                            var matchingItem = item.Values.SingleOrDefault(v => v.DatasetElementSubId == headerColumn.DatasetElementSubId);
+
+                                            if (matchingItem != null)
+                                            {
+                                                <td>@matchingItem.InstanceValue</td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                        }
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-default"
+                                                   data-toggle="modal"
+                                                   data-target="#editDatasetElementSubModal"
+                                                   data-id="@ViewBag.DatasetElementId"
+                                                   data-context="@item.Context"
+                                                   data-datasetinstance="@ViewBag.DatasetInstanceId"
+                                                   data-original-title="Edit @ViewBag.DatasetElementName item">
+                                                    <i class="fa fa-pencil fa-fw"></i>
+                                                    Edit
+                                                </a>
+                                                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+                                                    <span class="fa fa-caret-down"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="@Url.Action("DeleteDatasetInstanceSubValuesForDatasetElement", new { id = ViewBag.DatasetElementId, encounterId = ViewBag.EncounterId, datasetInstanceId = ViewBag.DatasetInstanceId, context = item.Context })"><i class="fa fa-trash-o fa-fw"></i>Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+        <!-- ADD DatasetElementSub Modal -->
+        <div class="modal fade" id="addDatasetElementSubModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h4 class="modal-title" id="addDatasetElementSubModalTitle">Add @ViewBag.DatasetElementName item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="tableDiv">
+                            <form class="form" role="form" id="datasetElementSubAddForm">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="submitButton" class="btn btn-default">
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- EDIT DatasetElementSub Modal -->
+        <div class="modal fade" id="editDatasetElementSubModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h4 class="modal-title" id="editDatasetElementSubModalTitle">Edit @ViewBag.DatasetElementName item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="tableDiv">
+                            <form class="form" role="form" id="datasetElementSubEditForm"></form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="updateButton" class="btn btn-default">
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+    </div>
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
+@section scripts
+{
+    <script>
+
+        $('#addDatasetElementSubModal').on('hidden.bs.modal', function (e) {
+            window.location.reload(true);
+        })
+
+        $('#editDatasetElementSubModal').on('hidden.bs.modal', function (e) {
+            window.location.reload(true);
+        })
+
+        $('#addDatasetElementSubModal').on('show.bs.modal', function (e) {
+
+            var datasetElementId = $(e.relatedTarget).data('id');
+            var datasetInstanceId = $(e.relatedTarget).data('datasetinstance');
+            var formElements = [];
+
+            jQuery.ajax({
+                type: "GET",
+                url: "../../Api/DatasetInstanceApi/GetDatasetElementSubsForDatasetElementId",
+                data: { id: datasetElementId },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var form = $('#datasetElementSubAddForm');
+                    form.empty();
+                    $.each(data, function (index, value) {
+
+                        formElements.push(value.DatasetElementSubId);
+
+                        var formField = "<div class='form-group'>";
+
+                        var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubName;
+
+                        formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+
+                        switch (value.DatasetElementSubType) {
+                            case "Date":
+                                formField += "<input type='text' class='form-control datepicker' placeholder='yyyy-mm-dd' id='" + value.DatasetElementSubId + "'/>";
+                                break;
+                            case "Listbox":
+                            case "DropDownList":
+                                formField += "<select class='form-control' id='" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubName + "'>";
+
+                                formField += "<option value=''></option>";
+
+                                $.each(value.FieldValues, function (innerIndex, innerValue) {
+                                    formField += "<option value='" + innerValue.FieldValueId + "'>" + innerValue.FieldValueName + "</option>";
+                                });
+
+                                formField += "</select>";
+                                break;
+                            case "YesNo":
+                                formField += "<select class='form-control' id='" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubId + "'>";
+                                formField += "<option value=''></option>";
+                                formField += "<option value='Yes'>Yes</option>";
+                                formField += "<option value='Yes'>Yes</option>";
+                                formField += "</select>";
+                                break;
+                            case "NumericTextbox":
+                                formField += "<input type='number' class='form-control' id='" + value.DatasetElementSubId + "'/>";
+                                break;
+                            case "AlphaNumericTextbox":
+                            default:
+                                formField += "<input type='text' class='form-control' id='" + value.DatasetElementSubId + "'/>";
+                                break;
+
+                        }
+
+                        formField += "</div>"
+
+                        form.append(formField)
+                    });
+                }
+            });
+
+            $('#submitButton').click(function () {
+
+                $('span.text-danger', $('#datasetElementSubAddForm')).remove();
+
+                var formValues = [];
+
+                $.each(formElements, function (index, value) {
+                    formValue = { "DatasetElementSubId": value, "Value": $('#' + value).val() };
+                    formValues.push(formValue);
+                });
+
+                var model = { DatasetElementId: datasetElementId, DatasetInstanceId: datasetInstanceId, Values: formValues };
+
+                $.ajax({
+                    type: "POST",
+                    url: "../../Api/DatasetInstanceApi/SaveDatasetInstanceSubValues",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    context: $('#datasetElementSubAddForm'),
+                    dataType: "json",
+                }).done(function () {
+                    $('#addDatasetElementSubModal').modal('hide');
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    var errors = JSON.parse(jqXHR.responseText);
+                    $.each(errors, function (index, value) {
+                        var formElement = $('#datasetElementSubAddForm').find('#' + value.Id);
+
+                        // Bind to the change event for the failed element to clear validation errors on change.
+                        $(formElement).change(function () {
+                            $(this).parent().removeClass('has-error');
+                            $('span', $(this).parent()).remove();
+                        });
+
+                        var parent = formElement.parent('div');
+                        parent.addClass('has-error');
+                        $(parent).append('<span class="text-danger">' + value.Message + '</span>');
+                    });
+                });
+
+            });
+
+        })
+
+        $('#editDatasetElementSubModal').on('show.bs.modal', function (e) {
+
+            var datasetElementId = $(e.relatedTarget).data('id');
+            var datasetInstanceId = $(e.relatedTarget).data('datasetinstance');
+            var context = $(e.relatedTarget).data('context');
+
+            var formElements = [];
+
+            jQuery.ajax({
+                type: "GET",
+                url: "../../Api/DatasetInstanceApi/GetDatasetInstanceSubValues",
+                data: { datasetInstanceId : datasetInstanceId, datasetElementId: datasetElementId, subValueContext: context },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var form = $('#datasetElementSubEditForm');
+                    form.empty();
+                    $.each(data, function (index, value) {
+
+                        formElements.push(value.DatasetElementSubId);
+
+                        var formField = "<div class='form-group'>";
+
+                        var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubName;
+
+                        formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+
+                        switch (value.DatasetElementSubType) {
+                            case "Date":
+                                formField += "<input type='text' class='form-control datepicker' id='" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "'/>";
+                                break;
+                            case "Listbox":
+                            case "DropDownList":
+                                formField += "<select class='form-control' id='" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubName + "'>";
+
+                                formField += "<option value=''></option>";
+
+                                $.each(value.FieldValues, function (innerIndex, innerValue) {
+                                    var isSelected = (value.DatasetInstanceSubValue == innerValue.FieldValueName) ? "selected" : "";
+                                    formField += "<option value='" + innerValue.FieldValueId + "' " + isSelected + ">" + innerValue.FieldValueName + "</option>";
+                                });
+
+                                formField += "</select>";
+                                break;
+                            case "YesNo":
+
+                                var nothingSelected = (value.DatasetInstanceSubValue == "") ? "selected" : "";
+                                var yesSelected = (value.DatasetInstanceSubValue == "Yes") ? "selected" : "";
+                                var noSelected = (value.DatasetInstanceSubValue == "No") ? "selected" : "";
+
+                                formField += "<select class='form-control' id='" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubId + "'>";
+                                formField += "<option value='' " + nothingSelected + "></option>";
+                                formField += "<option value='Yes' " + yesSelected + ">Yes</option>";
+                                formField += "<option value='No' " + noSelected + ">No</option>";
+                                formField += "</select>";
+                                break;
+                            case "NumericTextbox":
+                                formField += "<input type='number' class='form-control' id='" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "'/>";
+                                break;
+                            case "AlphaNumericTextbox":
+                            default:
+                                formField += "<input type='text' class='form-control' id='" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "'/>";
+                                break;
+
+                        }
+
+                        formField += "</div>"
+
+                        form.append(formField)
+
+                    });
+                }
+            });
+
+            $('#updateButton').click(function () {
+
+                $('span.text-danger', $('#datasetElementSubEditForm')).remove();
+
+                var formValues = [];
+
+                $.each(formElements, function (index, value) {
+                    formValue = { "DatasetElementSubId": value, "Value": $('#' + value).val() };
+                    formValues.push(formValue);
+                });
+
+                var model = { DatasetElementId: datasetElementId, DatasetInstanceId: datasetInstanceId, SubValueContext: context, Values: formValues };
+
+                $.ajax({
+                    type: "POST",
+                    url: "../../Api/DatasetInstanceApi/SaveDatasetInstanceSubValues",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    context: $('#datasetElementSubEditForm'),
+                    dataType: "json",
+                }).done(function () {
+                    $('#editDatasetElementSubModal').modal('hide');
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    var errors = JSON.parse(jqXHR.responseText);
+                    $.each(errors, function (index, value) {
+                        var formElement = $('#datasetElementSubEditForm').find('#' + value.Id);
+
+                        // Bind to the change event for the failed element to clear validation errors on change.
+                        $(formElement).change(function () {
+                            $(this).parent().removeClass('has-error');
+                            $('span', $(this).parent()).remove();
+                        });
+
+                        var parent = formElement.parent('div');
+                        parent.addClass('has-error');
+                        $(parent).append('<span class="text-danger">' + value.Message + '</span>');
+                    });
+                });
+
+            });
+        })
+
+    </script>
+}

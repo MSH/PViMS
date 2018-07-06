@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_OfflineLayout.cshtml";
+}
+
+@*@section scripts {
+    @Scripts.Render("~/Scripts/knockout/patient.js")
+}*@
+
+<!-- widget grid -->
+<section id="patient-view" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Patients</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        <div class="widget-body">
+
+                            <table class="table table-bordered table-condensed table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Patient ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Date of Birth</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: patients">
+                                    <tr>
+                                        <td data-bind="text: PatientId"></td>
+                                        <td data-bind="text: PatientFirstName"></td>
+                                        <td data-bind="text: PatientLastName"></td>
+                                        <td data-bind="text: moment(PatientDateOfBirth).format('YYYY-MM-DD')"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="alert alert-danger" data-bind="visible: error">
+                                <p data-bind="text: error"></p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->

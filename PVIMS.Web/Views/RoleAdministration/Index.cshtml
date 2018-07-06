@@ -1,0 +1,133 @@
+﻿@model IEnumerable<PVIMS.Core.Models.RoleListItem>
+
+@{
+    ViewBag.Title = "Manage Roles";
+}
+
+@{
+	Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+	ViewBag.Icon = "fa-lock";
+	ViewBag.Heading = "Roles";
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+	<li>Administration</li>
+}
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Roles</h2>
+                        <div class="widget-toolbar">
+                            @*<div class="btn-group">
+                        <button type="button" class="btn btn-info btn-xs">Actions:</button>
+                        <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="@Url.Action("AddRole")">Add New Role</a></li>
+                        </ul>
+                    </div>*@
+                        </div>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <div class="widget-body">
+                                <div class="well well-sm bg-color-blueLight txt-color-white text-right">
+                                    <a href="@Url.Action("AddRole")" class="btn btn-primary btn-sm" style="display:none;">Add New Role</a>
+                                </div>
+
+                                <table class="table table-responsive table-striped table-bordered table-hover no-margin">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.RoleName)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.RoleKey)
+                                            </th>
+                                            <th>
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.RoleName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.RoleKey)
+                                                </td>
+                                                <td>
+                                                    @*<div class="btn-group">
+                                                <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle">
+                                                    Action
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li>
+                                                        <a href="@Url.Action("Edit", new { roleId = item.RoleId })">Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("ManagePermissions", new { roleId = item.RoleId })">Manage Permissions</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("ViewUsers", new { roleId = item.RoleId })">View Users</a>
+                                                    </li>
+                                                </ul>
+                                            </div>*@
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <!-- WIDGET END -->
+
+        </div>
+        <!-- end row -->
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->
+

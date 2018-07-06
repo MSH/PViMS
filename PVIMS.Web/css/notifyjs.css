@@ -1,0 +1,32 @@
+﻿.notifyjs-connection-base {
+  opacity: 0.85;
+  width: 300px;
+  background: #4394E9;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.notifyjs-connection-base .title {
+  width: 200px;
+  color: white;
+  font-weight: bold;
+  float: left;
+  margin: 10px 0 0 10px;
+  text-align: right;
+}
+
+.notifyjs-connection-base .buttons {
+  width: 70px;
+  float: right;
+  font-size: 9px;
+  padding: 5px;
+  margin: 2px;
+}
+
+.notifyjs-connection-base button {
+  font-size: 9px;
+  color: black;
+  padding: 5px;
+  margin: 2px;
+  width: 60px;
+}

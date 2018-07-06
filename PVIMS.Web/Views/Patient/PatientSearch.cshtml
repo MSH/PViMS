@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "Patient Search";
+    Layout = "~/Views/Shared/_OfflineLayout.cshtml";
+
+    ViewBag.Icon = "fa fa-home fa-fw";
+    ViewBag.Heading = "Patients";
+    ViewBag.SubHeading = "View";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li>Patient Search</li>
+}
+
+<div id="patient-searchresults" class="">
+
+    <div class="row">
+
+        <article class="col-sm-12 col-md-12 col-lg-12">
+
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-search"></i> </span>
+                    <h2>Patient Search</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        <div class="well well-sm">
+
+                            <form data-bind="submit: searchPatients">
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Patient Id:</span>
+                                            <input type="text" id="uniqueid" class="form-control" data-bind="value: searchParamUniqueId" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">First Name:</span>
+                                            <input type="text" id="firstname" class="form-control" data-bind="value: searchParamFirstname" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Surname:</span>
+                                            <input type="text" id="surname" class="form-control" data-bind="value: searchParamSurname" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-labeled btn-primary">
+                                        <span class="btn-label">
+                                            <i class="fa fa-search"></i>
+                                        </span>Search
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Date of Birth</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: patients">
+                                <tr>
+                                    <td data-bind="text: PatientId"></td>
+                                    <td data-bind="text: PatientFirstName"></td>
+                                    <td data-bind="text: PatientLastName"></td>
+                                    <td data-bind="text: moment(PatientDateOfBirth).format('YYYY-MM-DD')"></td>
+                                    <td>
+                                        <div class="btn-toolbar">
+                                            <a class="btn btn-default" data-bind="attr: { href:$parent.createURL('Patient','PatientView',PatientId)}">View Patient</a>
+                                            <span data-bind="ifnot:$parent.patientHasEncounterForToday(PatientId)">
+                                                <a class="btn btn-default" data-bind="attr: { href:$parent.createURL('Encounter','AddEncounterOffline',PatientId)}">
+                                                    CheckIn Patient
+                                                </a>
+                                            </span>
+                                            <span data-bind="if:$parent.patientHasEncounterForToday(PatientId)">
+                                                <a class="btn btn-default" data-bind="attr: { href:$parent.createURLParams('ViewEncounterOffline','Encounter',{'encounterId': getPatientEncounterForToday(PatientId), 'id': PatientId})}">View Encounter</a>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="alert alert-danger" data-bind="visible: error">
+                            <p data-bind="text: error"></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+

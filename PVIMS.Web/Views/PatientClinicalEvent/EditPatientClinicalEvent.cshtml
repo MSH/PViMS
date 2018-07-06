@@ -1,0 +1,393 @@
+﻿@model PVIMS.Web.Models.PatientClinicalEventEditModel
+@{
+    ViewBag.Title = "Edit Patient Clinical Event";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa-stethoscope";
+    ViewBag.Heading = "Adverse Event";
+    ViewBag.SubHeading = "Edit";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+@section breadcrumb
+{
+    <li><a href="~/Encounter/EncounterSearch.aspx">Encounters</a></li>
+    <li>Encounter (@Model.PatientFullName)</li>
+    <li>Edit Adverse Event</li>
+}
+
+<!-- widget grid -->
+<div id="widget-grid" class="">
+
+    <div class="row">
+
+        <article class="col-sm-12 col-md-12 col-lg-9">
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-pencil"></i> </span>
+                    <h2>Patient Adverse Event Information (@Model.PatientFullName)</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <div class="widget-body no-padding">
+
+                        @using (Html.BeginForm("EditPatientClinicalEvent", "PatientClinicalEvent", FormMethod.Post, new { @class = "smart-form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            if (!ViewData.ModelState.IsValid)
+                            {
+                                <p class="alert alert-danger">
+                                    Please review and correct the errors below.
+                                </p>
+                            }
+
+                            @Html.HiddenFor(model => model.PatientClinicalEventId)
+                            @Html.HiddenFor(model => model.PatientFullName)
+
+                            <header>
+                                Basic Details
+                            </header>
+
+                            <fieldset>
+                                <section style="background-color:lightblue; padding: 10px;">
+                                    <label class="label" style="font-weight: bold;">MedDRA Terminology <font color="red">(For fatal events, please ensure the event Outcome and all Conditions are updated)</font></label>
+                                    <section>
+                                        <label class="input">
+                                            @Html.DisplayFor(model => model.SourceTerminologyMedDRA, new { @class = "text-danger" })
+                                        </label>
+                                    </section>
+                                    @*<section>
+                                    <button type="button" id="btnMSearch" value="Change" onclick="ToggleMedDra();">Change</button>
+                                </section>*@
+                                </section>
+
+                                <section style="background-color:lightblue; padding: 10px; display:@Model.MeddraSearch" id="mSearch">
+                                    <label class="label" style="font-weight: bold;">Change MedDRA Terminology</label>
+                                    <section>
+                                        @Html.LabelFor(model => model.TermType, htmlAttributes: new { @class = "label" })
+                                        <label class="input">
+                                            @Html.DropDownListFor(model => model.TermType, (IEnumerable<SelectListItem>)ViewBag.TermTypes, new { @class = "form-control" })
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.TermType, "", new { @class = "text-danger" })
+                                    </section>
+                                    <section>
+                                        @Html.LabelFor(model => model.FindTerm, htmlAttributes: new { @class = "label" })
+                                        <label class="input">
+                                            @Html.EditorFor(model => model.FindTerm)
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.FindTerm, "", new { @class = "text-danger" })
+                                    </section>
+                                    <section>
+                                        <button type="submit" class="btn btn-primary" value="Search" name="button" style="height:30px; width:80px;">
+                                            Search
+                                        </button>
+                                    </section>
+                                    <section>
+                                        @Html.LabelFor(model => model.TermResults, htmlAttributes: new { @class = "label" })
+                                        <label class="input">
+                                            @Html.DropDownListFor(model => model.TermResult, (IEnumerable<SelectListItem>)ViewBag.TermResults, new { @style = "height: 150px;", @size = 10, @class = "form-control" })
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.TermResults, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessage("CustomError", new { @class = "text-danger" })
+                                    </section>
+                                </section>
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.SourceDescription)
+                                    <label class="textarea">
+                                        @Html.TextAreaFor(model => model.SourceDescription, new { @style = "height: 80px;", @class = "custom-scroll", @rows = "6", MaxLength = "500" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.SourceDescription, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.OnsetDate)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.OnsetDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd", onchange = "DateChanged(this);" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.OnsetDate, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.EventAgeGroup, htmlAttributes: new { @class = "label" })
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.EventAgeGroup, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.EventAgeGroup, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.ResolutionDate, htmlAttributes: new { @class = "label" })
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.ResolutionDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd", onchange = "DateChanged(this);" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.ResolutionDate, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.EventDuration, htmlAttributes: new { @class = "label" })
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.EventDuration, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.EventDuration, "", new { @class = "text-danger" })
+                                </section>
+
+                            </fieldset>
+
+                            if (Model.CustomAttributes != null && Model.CustomAttributes.Any())
+                            {
+                                <header>
+                                    Additional Details
+                                </header>
+
+                                <fieldset>
+                                    @for (int i = 0; i < Model.CustomAttributes.Length; i++)
+                                    {
+                                        <div id="@i" name="@i">
+                                            <section>
+                                                @Html.HiddenFor(m => m.CustomAttributes[i].Name)
+                                                @Html.HiddenFor(m => m.CustomAttributes[i].Type)
+                                                @Html.EditorFor(m => m.CustomAttributes[i].IsRequired)
+                                                @Html.EditorFor(m => m.CustomAttributes[i].StringMaxLength)
+                                                @Html.EditorFor(m => m.CustomAttributes[i].NumericMinValue)
+                                                @Html.EditorFor(m => m.CustomAttributes[i].NumericMaxValue)
+                                                @Html.EditorFor(m => m.CustomAttributes[i].PastDateOnly)
+                                                @Html.EditorFor(m => m.CustomAttributes[i].FutureDateOnly)
+
+                                                @if (Model.CustomAttributes[i].IsRequired)
+                                                {
+                                                    <label class="label"><em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>@Model.CustomAttributes[i].Name <font color="red">@Model.CustomAttributes[i].Detail</font></label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="label">@Model.CustomAttributes[i].Name <font color="red">@Model.CustomAttributes[i].Detail</font></label>
+                                                }
+
+                                                @switch (Model.CustomAttributes[i].Type)
+                                                {
+                                                    case "Numeric":
+                                                        <label class="input">
+                                                            @Html.EditorFor(model => model.CustomAttributes[i].Value, new { htmlAttributes = new { @type = "Number" } })
+                                                        </label>
+                                                        break;
+                                                    case "Selection":
+                                                    <label class="input">
+                                                        @{
+                                                        var selectedItems =(IEnumerable<SelectListItem>)ViewData[Model.CustomAttributes[i].Name];
+                                                        foreach(var selectedItem in selectedItems)
+                                                            {
+                                                       if (selectedItem.Value.Equals(Model.CustomAttributes[i].Value))
+                                                           {
+                                                           selectedItem.Selected =true;
+                                                           break;
+                                                       }
+                                                                }
+                                                        }
+                                                        @Html.DropDownListFor(model => model.CustomAttributes[i].Value, (IEnumerable<SelectListItem>)ViewData[Model.CustomAttributes[i].Name], new { @class = "form-control", onchange = "SelectedIndexChanged(this)" })
+
+
+                                                    </label>
+                                                        break;
+                                                    case "DateTime":
+                                                    <label class="input">
+                                                        @Html.EditorFor(model => model.CustomAttributes[i].Value, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
+                                                    </label>
+                                                        break;
+                                                    case "String":
+                                                    default:
+                                                    <label class="input">
+                                                        @Html.EditorFor(model => model.CustomAttributes[i].Value)
+                                                    </label>
+                                                        break;
+                                                }
+                                                @Html.ValidationMessageFor(model => model.CustomAttributes[i].Value, "", new { @class = "text-danger" })
+                                            </section>
+                                        </div>
+                                    }
+                                    <section>
+                                        @Html.ValidationMessage("GenericError", new { @class = "text-danger" })
+                                    </section>
+                                </fieldset>
+                            }
+
+                            <footer>
+                                <button type="submit" class="btn btn-primary" value="Submit" name="button">
+                                    Submit
+                                </button>
+                                <a href="@ViewBag.ReturnUrl" class="btn btn-default">Back</a>
+                            </footer>
+                        }
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+
+        <article class="col-sm-12 col-md-12 col-lg-3">
+
+            <div class="row">
+
+                <div id="analyticalReporting" class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="well" id="wid-id-0 ">
+                        <h5 class="margin-top-0">&nbsp;Analytical Reporting </h5>
+                        <div>
+                            <div class="widget-body padding">
+                                @foreach (var reportingItem in Model.ReportingItems)
+                                {
+                                    foreach (var activityItem in reportingItem.ActivityItems)
+                                    {
+                                        <div style="color:black; padding:5px; text-align:left; border:solid; border-color:white; border-width:1px;">
+                                            @activityItem.Display
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            @if (Model.ReportInstance != null)
+            {
+                <div class="row">
+
+                    <div id="terminology" class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="well" id="wid-id-0 ">
+                            <h5 class="margin-top-0">&nbsp;Terminology </h5>
+                            <div>
+                                <div class="widget-body padding">
+                                    @if (Model.ReportInstance.TerminologyMedDra != null)
+                                    {
+                                        <div style="color:black; padding:5px; text-align:left; border:solid; border-color:white; border-width:1px;">
+                                            MedDRA Term set to <b>@Model.ReportInstance.TerminologyMedDra.DisplayName</b>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="color:black; padding:5px; text-align:left; border:solid; border-color:white; border-width:1px;">
+                                            MedDRA Term <b>not set</b>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <br/>
+                            <h5 class="margin-top-0">&nbsp;Causality </h5>
+                            <div>
+                                <div class="widget-body padding">
+                                    @foreach (var medicationItem in Model.ReportInstance.Medications)
+                                    {
+                                        if (!String.IsNullOrWhiteSpace(medicationItem.WhoCausality) || (!String.IsNullOrWhiteSpace(medicationItem.NaranjoCausality)))
+                                        {
+                                            <div style="color:black; padding:5px; text-align:left; border:solid; border-color:black; border-width:1px;">
+                                                @medicationItem.MedicationIdentifier set to
+                                                @if (!String.IsNullOrWhiteSpace(medicationItem.WhoCausality))
+                                                {
+                                                    <b>@medicationItem.WhoCausality</b>
+                                                }
+                                                @if (!String.IsNullOrWhiteSpace(medicationItem.NaranjoCausality))
+                                                {
+                                                    <b>@medicationItem.NaranjoCausality</b>
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </article>
+
+    </div>
+    <!-- end row -->
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(".input-validation-error").removeClass("input-validation-error").parent().addClass("has-error");
+
+        // Seriousness (hospitalisation and death)
+        $("#8").hide();
+        $("#9").hide();
+        $("#10").hide();
+        $("#11").hide();
+
+        if ($("#CustomAttributes_7__Value").val() == "3") // death
+        {
+            $("#10").show();
+            $("#11").show();
+        }
+        if ($("#CustomAttributes_7__Value").val() == "4") // hospitalisation
+        {
+            $("#8").show();
+            $("#9").show();
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        function SelectedIndexChanged(sender)
+        {
+            if (sender.name == "CustomAttributes[7].Value") // Seriousness
+            {
+                // Seriousness (hospitalisation and death)
+                $("#8").hide();
+                $("#9").hide();
+                $("#10").hide();
+                $("#11").hide();
+
+                if (sender.value == "3") // death
+                {
+                    $("#10").show();
+                    $("#11").show();
+                }
+                if (sender.value == "4") // hospitalisation
+                {
+                    $("#8").show();
+                    $("#9").show();
+                }
+            }
+        }
+
+        function DateChanged(sender) {
+            CalculateDuration();
+        }
+
+        function CalculateDuration() {
+            var tempOnset = $("#OnsetDate").val();
+            var tempResolution = $("#ResolutionDate").val();
+
+            if (isDate(tempOnset) && isDate(tempResolution)) {
+                var dtOnset = new Date(tempOnset);
+                var dtResolution = new Date(tempResolution);
+
+                if (dtOnset > dtResolution) {
+                    $("#EventDuration").val("N/A");
+                }
+                else {
+                    var timeDiff = Math.abs(dtResolution.getTime() - dtOnset.getTime());
+                    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    $("#EventDuration").val(diffDays + " day(s)");
+                }
+            }
+        }
+
+        function isDate(val) {
+            var date = new Date(val);
+            return (date instanceof Date && !isNaN(date.valueOf()));
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        function ToggleMedDra() {
+            $('#mSearch').show();
+        }
+    </script>
+}

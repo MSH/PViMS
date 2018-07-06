@@ -1,0 +1,5 @@
+﻿** 1.1.0/20161227
+** Align attributes (Labs, conditions and encounters)
+
+** 1.2.0/20170106
+** Align with web interop v1.5.2

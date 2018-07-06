@@ -1,0 +1,7 @@
+.criteria-hint {
+	display: none;
+}
+
+.criteria-select:hover .criteria-hint {
+	display: inline;
+}

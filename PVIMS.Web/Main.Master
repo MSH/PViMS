@@ -1,0 +1,613 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="PVIMS.Web.Main" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<%@ Register Src="~/Menu.ascx" TagPrefix="uc1" TagName="Menu" %>
+<%@ Register Src="~/_KnockoutTemplates.ascx" TagPrefix="uc1" TagName="_KnockoutTemplates" %>
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head runat="server">
+    <meta charset="utf-8" />
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+	
+	<title><%= Page.Title %></title>
+   
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Basic Styles -->
+	<%: Styles.Render("~/css/bootstrap.min.css") %>
+	<%: Styles.Render("~/css/font-awesome.min.css") %>
+    <%: Styles.Render("~/css/notifyjs.css") %>
+	<%: Styles.Render("~/css/smartadmin-production.min.css") %>
+	<%: Styles.Render("~/css/smartadmin-skins.min.css") %>
+
+    <%: Scripts.Render("~/bundles/jquery")  %>
+
+    <script src="<%: Scripts.Url("~/js/libs/jquery-ui-1.10.3.min.js") %>"></script>
+
+    <!-- CUSTOM NOTIFICATION -->
+	<script src="<%: Scripts.Url("~/js/notification/SmartNotification.min.js")%>"></script>
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+
+</head>
+
+<body class="">
+    <!-- Header Start -->
+    <header id="header">
+
+        <div style="width:100%; margin: 0 auto;">
+            <div style="float:left; width:15%; border: 1px solid white;">
+            </div>
+
+            <div style="align-content:center; float:left; width:70%; border: 1px solid white;">
+                <img src="<%: Styles.Url("~/img/SIAPS_USAID_Small.jpg") %>" alt="Data Collection and Analysis Tool" style="display:block; margin-left:auto;margin-right:auto;" />
+            </div>
+
+            <!-- pulled right: nav area -->
+            <div style="float:left; width:15%; border: 1px solid white;" class="pull-right">
+
+                <!-- collapse menu button -->
+                <div id="hide-menu" class="btn-header pull-right">
+                    <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+                </div>
+                <!-- end collapse menu -->
+                <!-- logout button -->
+                <div id="logout" class="btn-header transparent pull-right">
+                    <span> <a href="<%: Styles.Url("~/Account/LogOff") %>" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+                </div>
+                <!-- end logout button -->
+                <!-- fullscreen button -->
+                <div id="fullscreen" class="btn-header transparent pull-right">
+                    <span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
+                </div>
+                <!-- end fullscreen button -->
+
+            </div>
+            <!-- end pulled right: nav area -->
+        </div>
+
+    </header>
+    <!-- Header End -->
+
+    <!-- Left panel : Navigation area -->
+    <!-- Note: This width of the aside area can be adjusted through LESS variables -->
+    <aside id="left-panel">
+
+        <div class="login-info text-center">
+            <div>
+                <a href="/SetContext.aspx?SetContext=oltp" id="hrefClinical" runat="server" style="padding:5px;"> <i class="fa fa-group fa-2x" title="Clinical Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=analytical" id="hrefAnalytical" runat="server" style="padding:5px;"> <i class="fa fa-dashboard fa-2x" title="Analytical Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=reporter" id="hrefReporting" runat="server" style="padding:5px;"> <i class="fa fa-bar-chart-o fa-2x" title="Reports Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=publisher" id="hrefPublisher" runat="server" style="padding:5px;"> <i class="fa fa-files-o fa-2x" title="Info Portal"></i> </a>
+            </div>
+        </div>
+        <!-- NAVIGATION : This navigation is also responsive
+
+        To make this navigation dynamic please make sure to link the node
+        (the reference to the nav > ul) after page load. Or the navigation
+        will not initialize.
+        -->
+        <div>
+           <uc1:Menu runat="server" ID="Menu" />
+        </div>
+
+    </aside>
+
+    <!-- END NAVIGATION -->
+	<form id="form1" runat="server" novalidate>
+    <!-- MAIN PANEL -->
+        <div id="main" role="main" data-mode="Online">
+
+        <!-- RIBBON -->
+        <div id="ribbon">
+
+            <span class="ribbon-button-alignment">
+                <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh" rel="tooltip" data-placement="bottom" data-original-title="
+                    <i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+                    <i class="fa fa-refresh"></i>
+                </span>
+            </span>
+
+            <!-- breadcrumb -->
+            <ol class="breadcrumb">
+	            <li><a href="/"><asp:Label ID="lblPortalName" runat="server"></asp:Label></a></li>
+				<asp:ContentPlaceHolder ID="breadcrumbcontainer" runat="server">
+			
+				</asp:ContentPlaceHolder>
+				<% if (!String.IsNullOrWhiteSpace(Page.Title))
+				   {
+						%><li><%= Page.Title %></li>	   
+							
+				   <%}%>
+            </ol>
+            <!-- end breadcrumb -->
+
+        </div>
+        <!-- END RIBBON -->
+        <!-- MAIN CONTENT -->
+          
+		<div id="content">
+			<div class="row">
+			    <div class="col-xs-12">
+			    <% if (!String.IsNullOrWhiteSpace(Request["backUrl"]))
+				    {
+				    %>
+				    <a href="<%= Request["backUrl"] %>">Back<%= String.IsNullOrWhiteSpace(Request["backtext"]) ? "": " to " + Request["Backtext"]%></a>
+					    <%
+			       } %>
+			    </div>
+			</div>
+
+	        <div class="row">
+		        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="well" style="padding-top:10px; padding-bottom:0px;">
+		                <div class="col-md-2 col-md-offset-10" id="divEdit" runat="server" visible="false">
+                            <div style="padding-top:0px; padding-bottom:10px;">
+                                <a class="btn btn-primary btn-sm" id="hrefEdit" runat="server">Configure</a>
+                                <a class="btn btn-primary btn-sm" id="hrefAdd" runat="server">Add Widget</a>
+                                <a class="btn btn-default btn-sm" id="hrefDelete" runat="server">Delete</a>
+    		                </div>
+		                </div>
+                        <span id="spnPageTitle" runat="server"></span>
+    		        </div>
+		        </div>
+	        </div>
+
+			<asp:ContentPlaceHolder ID="BodyContentPlaceHolder" runat="server">
+        
+			</asp:ContentPlaceHolder>
+		</div>
+        <!-- END MAIN CONTENT -->
+    </div>
+    </form>
+   
+    <!-- END MAIN PANEL -->
+    <!-- PAGE FOOTER -->
+    <div class="page-footer">
+        <div class="row">
+            <div class="text-center">
+                <span class="txt-color-white" style="color:white">Management Sciences For Health © 2016 | Logged in as <asp:PlaceHolder id="pnlLogin" runat="server"></asp:PlaceHolder> | version 1.16.0</span>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE FOOTER -->
+
+    <div class="modal" id="userModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="color:white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>User Profile
+							
+                </div>
+
+                <div class="modal-body smart-form">
+                    <fieldset>
+                        <legend>Facilities</legend>
+                        <div class="row">
+                            <section class="col col-1"></section> 
+                            <section class="col col-6">
+                                <span id="spnFacility" runat="server"></span>
+                            </section>
+                        </div>
+                        <legend>Roles</legend><br />
+                        <div class="row">
+                            <section class="col col-1"></section> 
+                            <section class="col col-6">
+                                <span id="spnRole" runat="server"></span>
+                            </section>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Close</button>
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+	<!-- END SHORTCUT AREA -->
+    <!--================================================== -->
+	
+	<asp:ContentPlaceHolder runat="server" ID="ModalsPlaceHolder"></asp:ContentPlaceHolder>
+
+<!-- IMPORTANT: APP CONFIG -->
+
+	<script src="<%: Scripts.Url("~/js/app.config.js") %>"></script>
+
+    <!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
+	<script src="<%: Scripts.Url("~/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js") %>"></script>
+
+    <!-- BOOTSTRAP JS -->
+	<script src="<%: Scripts.Url("~/Scripts/bootstrap.min.js")%>"></script>
+
+    <!-- JARVIS WIDGETS -->
+	<script src="<%:Scripts.Url("~/js/smartwidgets/jarvis.widget.min.js")%>"></script>
+
+    <!-- EASY PIE CHARTS -->
+	<script src="<%:Scripts.Url("~/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js") %>"></script>
+
+    <!-- SPARKLINES -->
+	<script src="<%:Scripts.Url("~/js/plugin/sparkline/jquery.sparkline.min.js") %>"></script>
+
+    <!-- JQUERY VALIDATE -->
+    <script src="<%:Scripts.Url("~/Scripts/jquery.validate.min.js") %>"></script>
+
+    <!-- JQUERY MASKED INPUT -->
+	<script src="<%:Scripts.Url("~/js/plugin/masked-input/jquery.maskedinput.min.js")%>"></script>
+
+    <!-- JQUERY SELECT2 INPUT -->
+	<script src="<%:Scripts.Url("~/js/plugin/select2/select2.min.js")%>"></script>
+
+    <!-- JQUERY UI + Bootstrap Slider -->
+	<script src="<%:Scripts.Url("~/js/plugin/bootstrap-slider/bootstrap-slider.min.js")%>"></script>
+
+    <!-- browser msie issue fix -->
+	<script src="<%:Scripts.Url("~/js/plugin/msie-fix/jquery.mb.browser.min.js")%>"></script>
+
+    <!-- FastClick: For mobile devices -->
+    <script src="<%:Scripts.Url("~/js/plugin/fastclick/fastclick.min.js") %>"></script>
+
+	<script src="<%:Scripts.Url("~/js/plugin/bootstraptree/bootstrap-tree.min.js")%>"></script>
+    <!--[if IE 8]>
+
+    <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+    <![endif]-->
+
+    <!-- MAIN APP JS FILE -->
+	<script src="<%: Scripts.Url("~/js/app.min.js")%>"></script>
+
+    <!-- ENHANCEMENT PLUGINS : NOT A REQUIREMENT -->
+    <!-- Voice command : plugin -->
+	<script src="<%: Scripts.Url("~/js/speech/voicecommand.min.js")%>"></script>
+
+    <!-- PAGE RELATED PLUGIN(S) -->
+	<script src="<%: Scripts.Url("~/Scripts/jquery.dataTables.js")%>"></script>
+	<script src="<%: Scripts.Url("~/js/plugin/datatables/dataTables.colVis.min.js")%>"></script>
+	<script src="<%: Scripts.Url("~/js/plugin/datatables/dataTables.tableTools.min.js")%>"></script>
+	<script src="<%: Scripts.Url("~/js/plugin/datatables/dataTables.bootstrap.min.js")%>"></script>
+	<script src="<%: Scripts.Url("~/js/plugin/datatable-responsive/datatables.responsive.min.js")%>"></script>
+	<script src="<%: Scripts.Url("~/js/plugin/x-editable/x-editable.min.js")%>"></script>
+    <script src="<%: Scripts.Url("~/js/plugin/summernote/summernote.min.js")%>"></script>
+	<script src="<%: Scripts.Url("~/js/plugin/markdown/markdown.min.js")%>"></script>
+	<script src="<%: Scripts.Url("~/js/plugin/markdown/to-markdown.min.js")%>"></script>
+	<script src="<%: Scripts.Url("~/js/plugin/markdown/bootstrap-markdown.min.js")%>"></script>
+    <script src="<%: Scripts.Url("~/Scripts/knockout-3.3.0.js")%>"></script>
+    <script src="<%: Scripts.Url("~/Scripts/knockout.dirtyFlag.js")%>"></script>
+    <script src="<%: Scripts.Url("~/Scripts/knockout.validation.js")%>"></script>
+    <script src="<%: Scripts.Url("~/Scripts/moment.js")%>"></script>
+    <script src="<%: Scripts.Url("~/Scripts/underscore-min.js")%>"></script>
+    <script src="<%: Scripts.Url("~/Scripts/Dexie.js")%>"></script>
+    <script src="<%: Scripts.Url("~/Scripts/require.js")%>"></script>
+    <script src="<%: Scripts.Url("~/Scripts/offline.js")%>"></script>
+    <script src="<%: Scripts.Url("~/Scripts/main.js")%>"></script>
+    <script src="<%: Scripts.Url("~/Scripts/site.js")%>"></script>
+
+    <%: Scripts.Render("~/bundles/jsapplibs")  %>
+  <%--  <script src="<%: Scripts.Url("~/Scripts/synchronisation.js")%>"></script>--%>
+
+
+<script type="text/javascript">
+
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+
+    $(document).ready(function () {
+
+        pageSetUp();
+
+        /*
+         * SUMMERNOTE EDITOR
+         */
+
+        //$('.summernote').summernote({
+        //    focus: true,
+        //    height: 150,
+        //    codemirror: {
+        //        theme: 'united'
+        //    }
+        //});
+
+        //// When the summernote instance loses focus, update the content of your <textarea>
+        //$(".summernote").on('summernote.blur', function () {
+        //    alert('here');
+        //    $('.summernote').html($('.summernote').summernote('code'));
+        //});
+
+        //$(document).on('blur', '.summernote', function () {
+        //    var value = $(this).val();
+        //    alert(value);
+        //    $('.summernote').html($('.summernote').summernote('code'));
+        //});
+
+        //$('#form1').submit(function (e) {
+        //    alert('here');
+        //    alert($('#ctl00$BodyContentPlaceHolder$content-1').summernote('code'));
+        //    $('#content-1').html($('#content-1').summernote('code'));
+        //});
+
+        /* BASIC ;*/
+        var responsiveHelper_dt_basic = undefined;
+        var responsiveHelper_dt_basic_2 = undefined;
+        var responsiveHelper_dt_basic_3 = undefined;
+        var responsiveHelper_dt_basic_8 = undefined;
+        var responsiveHelper_dt_basic_9 = undefined;
+        var responsiveHelper_dt_basic_10 = undefined;
+        var responsiveHelper_dt_basic_11 = undefined;
+        var responsiveHelper_datatable_fixed_column = undefined;
+        var responsiveHelper_datatable_col_reorder = undefined;
+        var responsiveHelper_datatable_tabletools = undefined;
+
+        var breakpointDefinition = {
+            tablet: 1024,
+            phone: 480
+        };
+
+        $('#dt_basic').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+				"t" +
+				"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic) {
+                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic.respond();
+            }
+        });
+
+        $('#dt_basic_2').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+				"t" +
+				"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic_2) {
+                    responsiveHelper_dt_basic_2 = new ResponsiveDatatablesHelper($('#dt_basic_2'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic_2.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic_2.respond();
+            }
+        });
+
+        $('#dt_basic_3').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+				"t" +
+				"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic_3) {
+                    responsiveHelper_dt_basic_3 = new ResponsiveDatatablesHelper($('#dt_basic_3'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic_3.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic_3.respond();
+            }
+        });
+
+        $('#dt_basic_8').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+				"t" +
+				"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic_8) {
+                    responsiveHelper_dt_basic_8 = new ResponsiveDatatablesHelper($('#dt_basic_8'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic_8.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic_8.respond();
+            }
+        });
+
+        $('#dt_basic_9').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+				"t" +
+				"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic_9) {
+                    responsiveHelper_dt_basic_9 = new ResponsiveDatatablesHelper($('#dt_basic_9'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic_9.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic_9.respond();
+            }
+        });
+
+        $('#dt_basic_10').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+				"t" +
+				"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic_10) {
+                    responsiveHelper_dt_basic_10 = new ResponsiveDatatablesHelper($('#dt_basic_10'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic_10.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic_10.respond();
+            }
+        });
+
+        $('#dt_basic_11').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+				"t" +
+				"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic_11) {
+                    responsiveHelper_dt_basic_11 = new ResponsiveDatatablesHelper($('#dt_basic_11'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic_11.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic_11.respond();
+            }
+        });
+
+        /* END BASIC */
+
+        /* COLUMN FILTER  */
+        var otable = $('#datatable_fixed_column').DataTable({
+            //"bFilter": false,
+            //"bInfo": false,
+            //"bLengthChange": false
+            //"bAutoWidth": false,
+            //"bPaginate": false,
+            //"bStateSave": true // saves sort state using localStorage
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>" +
+					"t" +
+					"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_datatable_fixed_column) {
+                    responsiveHelper_datatable_fixed_column = new ResponsiveDatatablesHelper($('#datatable_fixed_column'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_datatable_fixed_column.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_datatable_fixed_column.respond();
+            }
+
+        });
+
+        // custom toolbar
+        $("div.toolbar").html('<div class="text-right"><img src="../img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
+
+        // Apply the filter
+        $("#datatable_fixed_column thead th input[type=text]").on('keyup change', function () {
+
+            otable
+				.column($(this).parent().index() + ':visible')
+				.search(this.value)
+				.draw();
+
+        });
+        /* END COLUMN FILTER */
+
+        /* COLUMN SHOW - HIDE */
+        $('#datatable_col_reorder').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'C>r>" +
+					"t" +
+					"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_datatable_col_reorder) {
+                    responsiveHelper_datatable_col_reorder = new ResponsiveDatatablesHelper($('#datatable_col_reorder'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_datatable_col_reorder.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_datatable_col_reorder.respond();
+            }
+        });
+
+        /* END COLUMN SHOW - HIDE */
+
+        /* TABLETOOLS */
+        $('#datatable_tabletools').dataTable({
+
+            // Tabletools options:
+            //   https://datatables.net/extensions/tabletools/button_options
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>" +
+					"t" +
+					"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+            "oTableTools": {
+                "aButtons": [
+				"copy",
+				"csv",
+				"xls",
+					{
+					    "sExtends": "pdf",
+					    "sTitle": "SmartAdmin_PDF",
+					    "sPdfMessage": "SmartAdmin PDF Export",
+					    "sPdfSize": "letter"
+					},
+					{
+					    "sExtends": "print",
+					    "sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
+					}
+                ],
+                "sSwfPath": "js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+            },
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_datatable_tabletools) {
+                    responsiveHelper_datatable_tabletools = new ResponsiveDatatablesHelper($('#datatable_tabletools'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_datatable_tabletools.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_datatable_tabletools.respond();
+            }
+        });
+
+        /* END TABLETOOLS */
+
+    })
+
+    $('#userModal').on('show.bs.modal', function (e) {
+        //get data-id attribute of the clicked element
+        var facility = $(e.relatedTarget).data('facility');
+        var role = $(e.relatedTarget).data('role');
+
+        $('#spnFacility').html(facility);
+        $('#spnRole').html(role);
+    });
+
+    </script>
+	
+    <asp:ContentPlaceHolder runat="server" ID="scriptsPlaceholder"></asp:ContentPlaceHolder>
+    <uc1:_KnockoutTemplates runat="server" id="_KnockoutTemplates" />
+        
+</body>
+</html>

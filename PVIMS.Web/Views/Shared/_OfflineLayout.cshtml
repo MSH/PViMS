@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html lang="en-us" manifest="/resources/manifest">
+<head>
+    <meta charset="utf-8" />
+
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Styles -->
+    @Styles.Render("~/css/bootstrap.min.css", "~/css/font-awesome.min.css", "~/css/smartadmin-production.min.css", "~/css/smartadmin-skins.min.css", "~/css/demo.min.css", "~/css/notifyjs.css")
+
+    <!-- This should go to a css file-->
+    <style type="text/css">
+        /*#region Validation*/
+        /*.errorFill {
+            border: 1px solid red;
+            background-color: #fdd;
+        }*/
+
+        input:invalid, textarea:invalid {
+            border-width: 1px;
+        }
+
+        textarea:focus {
+            -moz-outline: none;
+            outline: none;
+        }
+
+        textarea {
+            padding: 5px;
+            width: 300px;
+        }
+
+        input, textarea {
+            border: 1px solid #aaa;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            -moz-transition: padding .25s;
+            -o-transition: padding .25s;
+            -webkit-transition: padding .25s;
+            transition: padding .25s;
+        }
+
+            input:focus, textarea:focus {
+                padding-right: 20px;
+            }
+
+
+        .validationMessage {
+            background: #d45252;
+            -moz-border-radius: 3px 3px 3px 3px;
+            -webkit-border-radius: 3px 3px 3px 3px;
+            border-radius: 3px 3px 3px 3px;
+            color: #FFFFFF;
+            margin-left: 8px;
+            padding: 0 6px;
+            z-index: 999; /* hints stay above all other elements */
+            position: absolute; /* allows proper formatting if hint is two lines */
+        }
+
+        .validationElement {
+            border: solid 1px #B03535;
+            background-color: #fdd;
+        }
+
+        /* #endregion */
+    </style>
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
+
+</head>
+<body class="">
+    <!-- Header Start -->
+    <header id="header">
+
+        <div style="width:100%; margin: 0 auto;">
+            <div style="float:left; width:15%; border: 1px solid white;">
+
+            </div>
+
+            <div style="align-content:center; float:left; width:70%; border: 1px solid white;">
+                <img src="~/img/SIAPS_USAID_Small.jpg" alt="Data Collection and Analysis Tool" style="display:block; margin-left:auto;margin-right:auto;" />
+            </div>
+
+            <div style="float:left; width:15%; border: 1px solid white;" class="pull-right">
+
+                <!-- collapse menu button -->
+                <div id="hide-menu" class="btn-header pull-right">
+                    <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+                </div>
+                <!-- end collapse menu -->
+                <!-- logout button -->
+                <div id="logout" class="btn-header transparent pull-right">
+                    <span>
+                        <a href="@Url.Action("LogOff", "Account")" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a>
+                    </span>
+                </div>
+                <!-- end logout button -->
+                <!-- fullscreen button -->
+                <div id="fullscreen" class="btn-header transparent pull-right">
+                    <span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-arrows-alt"></i></a> </span>
+                </div>
+                <!-- end fullscreen button -->
+
+            </div>
+        </div>
+
+    </header>
+    <!-- Header End -->
+    <!-- Left panel : Navigation area -->
+    <!-- Note: This width of the aside area can be adjusted through LESS variables -->
+    <aside id="left-panel">
+
+        <!-- User info -->
+        <div class="login-info text-center">
+        </div>
+        <div>
+            <nav>
+                <ul>
+                    <li id="mnu_patient">
+                        <a href="#" title="Patients"><i class="fa fa-lg fa-fw fa-group"></i><span class="menu-item-parent">Patients</span></a>
+                        <ul>
+                            <li id="mnu_patientsearch">
+                                <a href="/Patient/PatientSearch"><i class="fa fa-lg fa-fw fa-windows"></i><span class="menu-item-parent">Search</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="mnu_encounter">
+                        <a href="#" title="Encounters"><i class="fa fa-lg fa-fw fa-file-text-o"></i><span class="menu-item-parent">Encounters</span></a>
+                        <ul>
+                            <li id="mnu_encountersearch">
+                                <a href="/Encounter/EncounterSearch"><i class="fa fa-lg fa-fw fa-windows"></i><span class="menu-item-parent">Search</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+    </aside>
+    <!-- END NAVIGATION -->
+    <!-- MAIN PANEL -->
+    <div id="main" role="main" data-mode="Offline">
+
+        <!-- RIBBON -->
+        <div id="ribbon">
+            <!-- breadcrumb -->
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+
+                @RenderSection("breadcrumb", false)
+                @if (!(ViewBag.OverrideBreadcrumb ?? false))
+                {
+                    if (!String.IsNullOrWhiteSpace(ViewBag.Heading))
+                    {
+                        <li id="breadcrumb-heading">@ViewBag.Heading</li>
+                    }
+                    if (!String.IsNullOrWhiteSpace(ViewBag.SubHeading))
+                    {
+                        <li>@ViewBag.SubHeading</li>
+                    }
+                }
+            </ol>
+
+        </div>
+        <!-- END RIBBON -->
+        <!-- MAIN CONTENT -->
+        <div id="content">
+            <div class="row">
+                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+                    <h1 class="page-title">
+                        <i class="fa fa-fw @(ViewBag.Icon ?? "fa-desktop")"></i> <span id="title-heading">@(ViewBag.Heading ?? "Manage")</span>
+                        @if (!String.IsNullOrWhiteSpace(ViewBag.SubHeading))
+                        {
+                            <span>&gt; @ViewBag.SubHeading</span>
+                        }
+                    </h1>
+                </div>
+                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+                    <ul id="sparks" class="">
+                        <li class="sparks-info">
+                            <span id="onlinestatus" class="txt-color-green">Online</span>
+                        </li>
+                        <li class="sparks-info">
+                            <span id="synchronisationstatus" class="txt-color-blue" data-bind="text: $data.idleStatusIndicator">Idle</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            @RenderBody()
+        </div>
+        <!-- END MAIN CONTENT -->
+    </div>
+    <!-- END MAIN PANEL -->
+    <!-- PAGE FOOTER -->
+    <div class="page-footer">
+        <div class="row">
+            <div class="text-center">
+                <span class="txt-color-white">Management Sciences For Health © 2016 | Logged in as "@User.Identity.Name" | version 1.16.0</span>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE FOOTER -->
+    <!--================================================== -->
+    @Scripts.Render("~/bundles/jquery"
+                    , "~/js/libs/jquery-ui-1.10.3.min.js"
+                    , "~/js/app.config.js"
+                    , "~/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"
+                    , "~/Scripts/bootstrap.min.js"
+                    , "~/js/notification/SmartNotification.min.js"
+                    , "~/js/smartwidgets/jarvis.widget.min.js"
+                    , "~/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"
+                    , "~/js/plugin/sparkline/jquery.sparkline.min.js"
+                    , "~/Scripts/jquery.validate.min.js"
+                    , "~/js/plugin/masked-input/jquery.maskedinput.min.js"
+                    , "~/js/plugin/select2/select2.min.js"
+                    , "~/js/plugin/bootstrap-slider/bootstrap-slider.min.js"
+                    , "~/js/plugin/msie-fix/jquery.mb.browser.min.js"
+                    , "~/js/plugin/fastclick/fastclick.min.js"
+                    , "~/js/plugin/bootstraptree/bootstrap-tree.min.js"
+                    , "~/js/demo.min.js"
+                    , "~/js/app.min.js"
+                    , "~/js/speech/voicecommand.min.js"
+                    , "~/Scripts/jquery.dataTables.js"
+                    , "~/js/plugin/datatables/dataTables.colVis.min.js"
+                    , "~/js/plugin/datatables/dataTables.tableTools.min.js"
+                    , "~/js/plugin/datatables/dataTables.bootstrap.min.js"
+                    , "~/js/plugin/datatable-responsive/datatables.responsive.min.js"
+                    , "~/js/plugin/x-editable/x-editable.min.js"
+                    , "~/Scripts/ckeditor/ckeditor.js"
+                    , "~/Scripts/ckeditor/adapters/jquery.js"
+                    , "~/Scripts/knockout-3.3.0.js"
+                    , "~/Scripts/knockout.dirtyFlag.js"
+                    , "~/Scripts/knockout.validation.js"
+                    , "~/Scripts/moment.js"
+                    , "~/Scripts/uuid.js"
+                    , "~/Scripts/offline.js"
+                    , "~/Scripts/underscore-min.js"
+                    , "~/Scripts/require.js"
+                    //, "~/bundles/jsapplibs"
+                    , "~/Scripts/main.js"
+                    , "~/Scripts/site.js")
+
+    <script type="text/javascript">
+
+        // DO NOT REMOVE : GLOBAL FUNCTIONS!
+
+        $(document).ready(function () {
+
+            pageSetUp();
+
+            //localStorage.setItem("appMode", "OfflineMode");
+
+            // custom toolbar
+            $("div.toolbar").html('<div class="text-right"><img src="../img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
+
+            $("#divoption").hide();
+
+            if (!localStorage.getItem("User"))
+                localStorage.setItem("User", "@User.Identity.Name");
+
+        })
+
+    </script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

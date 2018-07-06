@@ -1,0 +1,230 @@
+﻿@model PVIMS.Core.Models.CustomAttributeConfigDetail
+
+@{
+    ViewBag.Title = "Configure Custom Attribute";
+}
+
+@{
+	Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+	ViewBag.Icon = "fa-windows";
+	ViewBag.Heading = "Edit Custom Attribute";
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+	<li>Administration</li>
+	<li>@Html.ActionLink("Custom Attributes", "ViewExtendableEntities", "CustomAttributeConfig")</li>
+	<li>@Html.ActionLink(Request["entityname"], "ViewCustomAttributes", "CustomAttributeConfig", new {entityName = Request["entityName"]},null)</li>
+}
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Configure @Model.AttributeName</h2>
+
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <p class="alert alert-danger">
+                                WARNING: Please ensure that all details are correct before saving. Modifying custom attributes, after they have been created, is not currently supported
+                            </p>
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal">
+                                    @Html.ValidationSummary(true)
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.EntityName, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.EntityName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            @Html.ValidationMessageFor(model => model.EntityName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AttributeName, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.AttributeName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AttributeName, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.CustomAttributeType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Category, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AttributeDetail, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.AttributeDetail, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.AttributeDetail, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Required, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Required, new { htmlAttributes = new { @class = "check-box" } })
+                                            @Html.ValidationMessageFor(model => model.Required, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="StringMaxLengthDiv">
+                                        @Html.LabelFor(model => model.StringMaxLength, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.StringMaxLength, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1" } })
+                                            @Html.ValidationMessageFor(model => model.StringMaxLength, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="NumericMinValueDiv">
+                                        @Html.LabelFor(model => model.NumericMinValue, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.NumericMinValue, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                                            @Html.ValidationMessageFor(model => model.NumericMinValue, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="NumericMaxValueDiv">
+                                        @Html.LabelFor(model => model.NumericMaxValue, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.NumericMaxValue, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                                            @Html.ValidationMessageFor(model => model.NumericMaxValue, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="FutureDateOnlyDiv">
+                                        @Html.LabelFor(model => model.FutureDateOnly, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.FutureDateOnly, new { htmlAttributes = new { @class = "check-box" } })
+                                            @Html.ValidationMessageFor(model => model.FutureDateOnly, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="PastDateOnlyDiv">
+                                        @Html.LabelFor(model => model.PastDateOnly, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.PastDateOnly, new { htmlAttributes = new { @class = "check-box" } })
+                                            @Html.ValidationMessageFor(model => model.PastDateOnly, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Searchable, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Searchable, new { htmlAttributes = new { @class = "check-box" } })
+                                            @Html.ValidationMessageFor(model => model.Searchable, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-10 col-md-2">
+                                            <input type="submit" value="Save" class="btn btn-primary" />
+                                            @Html.ActionLink("Cancel", "ViewCustomAttributes", new { entityName = Model.EntityName }, new { @class = "btn btn-default" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <!-- WIDGET END -->
+
+        </div>
+
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script language="javascript">
+        $(document).ready(function () {
+
+            function ToggleTypeSpecificSections(attributeType) {
+                switch (attributeType) {
+                    case "1": // Numeric
+                        $('#StringMaxLengthDiv').hide();
+                        $('#NumericMinValueDiv').show();
+                        $('#NumericMaxValueDiv').show();
+                        $('#FutureDateOnlyDiv').hide();
+                        $('#PastDateOnlyDiv').hide();
+                        break;
+                    case "2": // String
+                        $('#StringMaxLengthDiv').show();
+                        $('#NumericMinValueDiv').hide();
+                        $('#NumericMaxValueDiv').hide();
+                        $('#FutureDateOnlyDiv').hide();
+                        $('#PastDateOnlyDiv').hide();
+                        break;
+                    case "3": // Selection
+                        $('#StringMaxLengthDiv').hide();
+                        $('#NumericMinValueDiv').hide();
+                        $('#NumericMaxValueDiv').hide();
+                        $('#FutureDateOnlyDiv').hide();
+                        $('#PastDateOnlyDiv').hide();
+                        break;
+                    case "4": // DateTime
+                        $('#StringMaxLengthDiv').hide();
+                        $('#NumericMinValueDiv').hide();
+                        $('#NumericMaxValueDiv').hide();
+                        $('#FutureDateOnlyDiv').show();
+                        $('#PastDateOnlyDiv').show();
+                        break;
+                    default:
+                }
+            }
+
+            $('#CustomAttributeType').on('change', function () {
+                ToggleTypeSpecificSections(this.value);
+            })
+
+            ToggleTypeSpecificSections($('#CustomAttributeType').val());
+
+        });
+    </script>
+}

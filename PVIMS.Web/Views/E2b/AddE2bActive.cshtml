@@ -1,0 +1,267 @@
+﻿@model PVIMS.Web.Models.DatasetInstanceModel
+
+@{
+    ViewBag.Title = "E2B ICH Report";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa fa-stethoscope";
+    ViewBag.Heading = "E2B ICH Report (Active)";
+    ViewBag.SubHeading = "Add";
+    ViewBag.ClinicalCol = "white"; ViewBag.AnalyticalCol = "orange"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+<!-- widget grid -->
+<div id="widget-grid" class="">
+
+    <div class="row">
+
+        <article class="col-sm-12 col-md-12 col-lg-10">
+            <br /><br />
+
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-pencil"></i> </span>
+                    <h2>E2B ICH Report (Active)</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body padding">
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "Some fields have not been correctly populated. Please review all tabs for specific errors.", new { @class = "text-danger" })
+                            <ul class="nav nav-tabs bordered">
+                                @for (int i = 0; i <= Model.DatasetCategories.Length - 1; i++)
+                                {
+                                    if (i == 0)
+                                    {
+                                        <li class="active">
+                                            <a href="#@Model.DatasetCategories[i].DatasetCategoryId" data-toggle="tab" aria-expanded="true">@Model.DatasetCategories[i].DatasetCategoryDisplayName</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="#@Model.DatasetCategories[i].DatasetCategoryId" data-toggle="tab" aria-expanded="true">@Model.DatasetCategories[i].DatasetCategoryDisplayName</a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+
+                            <div class="tab-content">
+                                @Html.HiddenFor(model => model.DatasetInstanceId)
+                                @for (int i = 0; i <= Model.DatasetCategories.Length - 1; i++)
+                                {
+                                    var cssclass = "tab-pane smart-form";
+                                    if (i == 0)
+                                    {
+                                        cssclass = "tab-pane active smart-form";
+                                    }
+                                    <div id="@Model.DatasetCategories[i].DatasetCategoryId" class="@cssclass">
+                                        @Html.HiddenFor(model => model.DatasetCategories[i].DatasetCategoryId)
+                                        @Html.HiddenFor(model => model.DatasetCategories[i].DatasetCategoryDisplayName)
+                                        <div>
+                                            <fieldset>
+                                                @for (int j = 0; j <= Model.DatasetCategories[i].DatasetElements.Length - 1; j++)
+                                                {
+                                                    var element = Model.DatasetCategories[i].DatasetElements[j];
+
+                                                    if (element.DatasetElementDisplayed)
+                                                    {
+                                                        <div class="row">
+                                                            <section class="col col-md-10">
+                                                                @Html.HiddenFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementId)
+                                                                @Html.HiddenFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementName)
+                                                                @Html.HiddenFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementRequired)
+                                                                @Html.HiddenFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementType)
+
+                                                                @if (element.DatasetElementRequired)
+                                                                {
+                                                                    <label class="label"><em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>@element.DatasetElementDisplayName</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="label">@element.DatasetElementDisplayName</label>
+                                                                }
+                                                                @if (element.DatasetElementSystem)
+                                                                {
+                                                                    <label class="input">
+                                                                        <input class="form-control" id="@element.DatasetElementId" value="@element.DatasetElementValue" type="text" readonly="readonly" style="background-color:lightgray;">
+                                                                    </label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="input">
+                                                                        @switch (element.DatasetElementType)
+                                                                        {
+                                                                            case "Date":
+                                                                                @Html.EditorFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementValue, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
+                                                                                break;
+                                                                            case "Table":
+                                                                            <span class="form-control">
+                                                                                @element.DatasetElementDisplayName can only be managed in View Mode
+                                                                            </span>
+                                                                                break;
+                                                                            case "Listbox":
+                                                                            case "DropDownList":
+                                                                            case "YesNo":
+                                                                            @Html.DropDownListFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementValue, (IEnumerable<SelectListItem>)ViewData[element.DatasetElementName], new { @class = "form-control" })
+                                                                                break;
+                                                                            case "NumericTextbox":
+                                                                            @Html.EditorFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementValue, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+                                                                                break;
+                                                                            case "AlphaNumericTextbox":
+                                                                            default:
+                                                                            @Html.EditorFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementValue, new { htmlAttributes = new { @class = "form-control" } })
+                                                                                break;
+                                                                        }
+                                                                        @Html.ValidationMessageFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementValue, "", new { @class = "text-danger" })
+                                                                    </label>
+                                                                }
+
+                                                            </section>
+                                                        </div>
+                                                    }
+                                                }
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                            <br />
+                            <div class="smart-form">
+                                <footer>
+                                    <input type="submit" value="Save" class="btn btn-primary" />
+                                    <a href="/Analytical/ReportInstanceList.aspx?wuid=892F3305-7819-4F18-8A87-11CBA3AEE219" class="btn btn-default">Cancel</a>
+                                </footer>
+                            </div>
+                        }
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- Manage Table Modal -->
+            <div class="modal fade" id="manageTableModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                            <h4 class="modal-title" id="manageTableModalTitle">Manage Elements</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="tableDiv">
+                                <table id="elementTable" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr><th>Element</th><th>Value</th></tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: datasetElementSubs">
+                                        <tr>
+                                            <td data-bind="text: elementName"></td>
+                                            <td data-bind="text: elementValue"></td>
+                                        </tr>
+                                    <tbody>
+                                </table>
+                                @*<form class="form" role="form">
+                                        <div class="form-group">
+                                            <label for="elementvalue">Element:</label>
+                                            <input type="text" class="form-control" id="elementvalue">
+                                        </div>
+                                        <button class="btn btn-default" onclick="return false;">Add</button>
+                                    </form>*@
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+        </article>
+
+    </div>
+    <!-- end row -->
+</div>
+@section Scripts {
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/scripts/lib/bundle")
+
+    <script>
+
+        $(".input-validation-error").removeClass("input-validation-error").parent().addClass("has-error");
+
+        function DatasetElementSub(name, value) {
+            var self = this;
+            self.elementName = name;
+            self.elementValue = value;
+        }
+
+        function DatasetElementSubViewModel() {
+            var self = this;
+
+            self.datasetElementId = 0;
+            self.datasetInstanceValueId = 0;
+            self.datasetElementSubs = ko.observableArray();
+
+            self.reset = function () {
+                self.datasetElementId = 0;
+                self.datasetInstanceValueId = 0;
+                self.datasetElementSubs([]);
+            }
+
+            self.addElementSub = function (dataElementSub) {
+                self.datasetElementSubs.push(dataElementSub);
+            }
+
+            self.addElementSubs = function (dataElementSubs) {
+                $.each(dataElementSubs, function (index, value) {
+                    self.addElementSub(value);
+                });
+            }
+        }
+
+        var model = new DatasetElementSubViewModel();
+
+        ko.applyBindings(model);
+
+        $('#manageTableModal').on('show.bs.modal', function (e) {
+
+            var elementId = $(e.relatedTarget).data('id');
+
+            model.reset();
+
+            //jQuery.ajax({
+            //    type: "GET",
+            //    url: "../../Api/DatasetInstanceApi/GetDatasetInstanceSubValuesForDatasetElement",
+            //    data: { id: elementId },
+            //    contentType: "application/json; charset=utf-8",
+            //    dataType: "json",
+            //    success: function (data) {
+            //        $.each(data, function (index, value) {
+            //            model.addElementSub(new DatasetElementSub(value.ElementName, value.ElementValue));
+            //        });
+            //    }
+            //});
+
+        })
+
+    </script>
+}

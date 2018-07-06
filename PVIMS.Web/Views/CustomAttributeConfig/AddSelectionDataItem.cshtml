@@ -1,0 +1,115 @@
+﻿@model PVIMS.Core.Models.SelectionDataItemDetail
+
+@{
+    ViewBag.Title = "Add Selection Item";
+}
+
+@{
+	Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+	ViewBag.Icon = "fa-list-ul";
+	ViewBag.Heading = "Add New Item";
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+	<li>Administration</li>
+	<li>@Html.ActionLink("Custom Attributes", "ViewExtendableEntities", "CustomAttributeConfig")</li>
+	<li>@Html.ActionLink(Request["AttributeKey"], "ViewSelectionDataItems", "CustomAttributeConfig", new {attributeName = Request["AttributeKey"]}, null)</li>
+}
+
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Add Selection Item for @Model.AttributeKey</h2>
+
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal">
+                                    @Html.ValidationSummary(true)
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AttributeKey, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-5">
+                                            @Html.EditorFor(model => model.AttributeKey, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            @Html.ValidationMessageFor(model => model.AttributeKey, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SelectionKey, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-5">
+                                            @Html.EditorFor(model => model.SelectionKey, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.SelectionKey, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DataItemValue, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-5">
+                                            @Html.EditorFor(model => model.DataItemValue, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.DataItemValue, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Create" class="btn btn-success btn-sm" />
+                                            @Html.ActionLink("Cancel", "ViewSelectionDataItems", new { AttributeName = Model.AttributeKey }, new { @class = "btn btn-danger btn-sm" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+
+            </article>
+            <!-- WIDGET END -->
+
+        </div>
+
+        <!-- end row -->
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

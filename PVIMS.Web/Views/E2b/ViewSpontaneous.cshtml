@@ -1,0 +1,247 @@
+﻿@model PVIMS.Web.Models.DatasetInstanceModel
+@{
+    ViewBag.Title = "View Spontaneous Report";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa fa-stethoscope";
+    ViewBag.Heading = "Spontaneous Report";
+    ViewBag.SubHeading = "View";
+    ViewBag.ClinicalCol = "white"; ViewBag.AnalyticalCol = "orange"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+<!-- widget grid -->
+<div id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-folder-open"></i> </span>
+                    <h2>Spontaneous Report</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body padding" id="tabs">
+                        @using (Html.BeginForm())
+                        {
+                            <ul class="nav nav-tabs bordered">
+                                @for (int i = 0; i <= Model.DatasetCategories.Length - 1; i++)
+                                {
+                                    var cls = i == 0 ? "active" : "";
+                                    <li class="@cls">
+                                        <a href="#@Model.DatasetCategories[i].DatasetCategoryId" data-toggle="tab" aria-expanded="true">@Model.DatasetCategories[i].DatasetCategoryDisplayName</a>
+                                    </li>
+                                }
+                            </ul>
+
+                            <div class="tab-content">
+                                @for (int i = 0; i <= Model.DatasetCategories.Length - 1; i++)
+                                {
+                                    var cls = i == 0 ? "tab-pane active smart-form" : "tab-pane smart-form";
+                                    <div id="@Model.DatasetCategories[i].DatasetCategoryId" class="@cls">
+                                        <div>
+                                            <fieldset>
+                                                <!-- Category help--> 
+                                                @if (!String.IsNullOrEmpty(Model.DatasetCategories[i].DatasetCategoryHelp))
+                                                {
+                                                    <div class="well well-lg" style="padding-left:15px;padding-bottom:15px;padding-top:15px;">
+                                                        @Model.DatasetCategories[i].DatasetCategoryHelp
+                                                    </div><br />
+                                                }
+                                                @foreach (var element in Model.DatasetCategories[i].DatasetElements)
+                                                {
+                                                    if (element.DatasetElementDisplayed)
+                                                    {
+                                                        <div class="row">
+                                                            <section class="col col-10">
+                                                                @if (element.DatasetElementType != "Table")
+                                                                {
+                                                                    <label class="label">@element.DatasetElementDisplayName</label>
+                                                                }
+                                                                @if (element.DatasetElementSystem)
+                                                                {
+                                                                    <label class="input">
+                                                                        <input class="form-control" id="@element.DatasetElementId" value="@element.DatasetElementValue" type="text" readonly="readonly" style="background-color:lightgray;">
+                                                                    </label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="input">
+                                                                        @switch (element.DatasetElementType)
+                                                                        {
+                                                                            case "Date":
+                                                                                <input class="form-control datepicker" id="@element.DatasetElementId" type="text" value="@element.DatasetElementValue" readonly="readonly" placeholder="yyyy-mm-dd" />
+                                                                                break;
+                                                                            case "Table":
+                                                                                <table class="table table-bordered table-striped table-responsive">
+                                                                                    <tr>
+                                                                                        @foreach (var header in element.TableHeaderColumns)
+                                                                                        {
+                                                                                            <th>@header.DatasetElementSubName</th>
+                                                                                        }
+                                                                                        <th></th>
+                                                                                    </tr>
+
+                                                                                    @foreach (var item in element.InstanceSubValues)
+                                                                                    {
+                                                                                        <tr>
+                                                                                            @foreach (var headerColumn in element.TableHeaderColumns)
+                                                                                            {
+                                                                                                var matchingItem = item.Values.SingleOrDefault(v => v.DatasetElementSubId == headerColumn.DatasetElementSubId);
+
+                                                                                                if (matchingItem != null)
+                                                                                                {
+                                                                                                    <td>@matchingItem.InstanceValue</td>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <td></td>
+                                                                                                }
+                                                                                            }
+                                                                                            <td>
+                                                                                                <a class="btn btn-default" style="width:80px; height:30px; padding:5px;"
+                                                                                                    data-toggle="modal"
+                                                                                                    data-target="#viewDatasetElementSubModal"
+                                                                                                    data-id="@element.DatasetElementId"
+                                                                                                    data-context="@item.Context"
+                                                                                                    data-datasetinstance="@Model.DatasetInstanceId"
+                                                                                                    data-original-title="View @element.DatasetElementName item">
+                                                                                                    View
+                                                                                                </a>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    }
+
+                                                                                </table>
+
+                                                                                break;
+                                                                            case "Listbox":
+                                                                            case "DropDownList":
+                                                                            case "AlphaNumericTextbox":
+                                                                            case "NumericTextbox":
+                                                                            case "YesNo":
+                                                                            default:
+                                                                            <input class="form-control" id="@element.DatasetElementId" value="@element.DatasetElementValue" type="text" readonly="readonly" />
+                                                                                break;
+                                                                        }
+                                                                    </label>
+                                                                }
+                                                            </section>
+                                                        </div>
+                                                    }
+                                                }
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+                                }
+
+                            </div>
+                            <br />
+                            <div class="smart-form">
+                                <footer>
+                                    <a href="EditSpontaneous?DatasetInstanceId=@Model.DatasetInstanceId" class="btn btn-primary">Edit</a>
+                                    <a href="@ViewBag.ReturnUrl" class="btn btn-default">Back</a>
+                                    <a href="../FileDownload/DownloadDatasetInstanceSpreadsheet?datasetInstanceId=@Model.DatasetInstanceId" class="btn btn-default">Download Extract</a>
+                                </footer>
+                            </div>
+
+                        }
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+
+
+            </div>
+
+        </article>
+        <!-- VIEW DatasetElementSub Modal -->
+        <div class="modal fade" id="viewDatasetElementSubModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h4 class="modal-title" id="editDatasetElementSubModalTitle">View item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="tableDiv" style="overflow:scroll; height:600px; padding:10px;">
+                            <form class="form" role="form" id="datasetElementSubEditForm"></form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <script>
+
+        $('#viewDatasetElementSubModal').on('hidden.bs.modal', function (e) {
+            //window.location.reload(true);
+        })
+
+        $('#viewDatasetElementSubModal').on('show.bs.modal', function (e) {
+
+            var datasetElementId = $(e.relatedTarget).data('id');
+            var datasetInstanceId = $(e.relatedTarget).data('datasetinstance');
+            var context = $(e.relatedTarget).data('context');
+
+            var formElements = [];
+
+            jQuery.ajax({
+                type: "GET",
+                url: "../../Api/DatasetInstanceApi/GetDatasetInstanceSubValues",
+                data: { datasetInstanceId : datasetInstanceId, datasetElementId: datasetElementId, subValueContext: context },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var form = $('#datasetElementSubEditForm');
+                    form.empty();
+                    $.each(data, function (index, value) {
+
+                        formElements.push(value.DatasetElementSubId);
+
+                        var formField = "<div class='form-group'>";
+
+                        var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubName;
+
+                        formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+
+                        switch (value.DatasetElementSubType) {
+                            case "Date":
+                            case "Listbox":
+                            case "DropDownList":
+                            case "YesNo":
+                            case "NumericTextbox":
+                            case "AlphaNumericTextbox":
+                            default:
+                                formField += "<input type='text' class='form-control' readonly='readonly' style='background-color:#EBEBE4;' id='" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "'/>";
+                                break;
+
+                        }
+
+                        formField += "</div>"
+
+                        form.append(formField)
+
+                    });
+                }
+            });
+        })
+
+    </script>
+
+}

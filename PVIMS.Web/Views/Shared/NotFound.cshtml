@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "Item not Found";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa fa-exclamation";
+    ViewBag.Heading = "Not found";
+}
+
+<h1 class="text-danger">Oops!</h1>
+<h2 class="text-danger">The @(ViewBag.Entity != null ? ViewBag.Entity : "item") you are looking for has not been found.</h2>

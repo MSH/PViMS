@@ -1,0 +1,85 @@
+﻿@model PVIMS.Web.Models.MetaWidgetMoveModel
+@{
+    ViewBag.Title = "Move Widget";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa-windows";
+    ViewBag.Heading = "Widget";
+    ViewBag.SubHeading = "Move";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+@section breadcrumb
+{
+    <li>Widgets</li>
+}
+
+<!-- widget grid -->
+<div id="widget-grid" class="">
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-6">
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-cogs"></i> </span>
+                    <h2>Move Widget (@Model.WidgetName)</h2>
+                </header>
+                <!-- widget div-->
+                <div>
+                    <div class="widget-body no-padding">
+                        @using (Html.BeginForm("MoveMetaWidget", "Publisher", FormMethod.Post, new { @class = "smart-form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            if (!ViewData.ModelState.IsValid)
+                            {
+                                <p class="alert alert-danger">
+                                    Please review and correct the errors below.
+                                </p>
+                            }
+
+                            @Html.HiddenFor(model => model.MetaWidgetId)
+
+                            <header>
+                                Basic Details
+                            </header>
+
+                            <fieldset>
+                                <section>
+                                    @Html.LabelFor(model => model.WidgetName)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.WidgetName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                    </label>
+                                </section>
+                                <section>
+                                    @Html.LabelFor(model => model.CurrentPageName)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.CurrentPageName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                    </label>
+                                </section>
+                                <section>
+                                    @Html.LabelFor(model => model.DestinationPageId, htmlAttributes: new { @class = "label" })
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.DestinationPageId, (IEnumerable<SelectListItem>)ViewBag.DestinationPages, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.DestinationPageId, "", new { @class = "text-danger" })
+                                </section>
+                            </fieldset>
+
+                            <footer>
+                                <button type="submit" class="btn btn-primary" value="Submit" name="button">
+                                    Update
+                                </button>
+                                <a href="@ViewBag.ReturnUrl" class="btn btn-default">Back</a>
+                            </footer>
+                        }
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </article>
+    </div>
+    <!-- end row -->
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

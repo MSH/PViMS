@@ -1,0 +1,359 @@
+﻿@{
+    ViewBag.Title = "View Encounter";
+}
+
+@{
+    Layout = "~/Views/Shared/_OfflineLayout.cshtml";
+
+    ViewBag.Icon = "fa fa-stethoscope";
+    ViewBag.Heading = string.Format("Encounter ({0})", "John Doe");
+    ViewBag.SubHeading = "View";
+    ViewBag.OverrideBreadcrumb = true;
+}
+
+@section breadcrumb
+{
+    <li>Encounters</li>
+}
+
+
+<section id="view-encounter">
+
+
+    <!-- widget grid -->
+    <div id="widget-grid" class="">
+
+        <div class="row">
+
+            <article class="col-sm-12 col-md-12 col-lg-9">
+
+                <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-folder-open"></i> </span>
+                        <h2>Encounter Information</h2>
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+
+                        <div class="widget-body padding" id="tabs">
+                            <ul class="nav nav-tabs bordered">
+                                <li class="active">
+                                    <a href="#notesTab" data-toggle="tab" aria-expanded="true">Notes</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="notesTab" class="tab-pane active smart-form">
+                                    <textarea id="notesArea" data-bind="ckeditor: formNotes, enable: formMode() === 'Edit'"></textarea>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="smart-form">
+                                <footer>
+                                    <a data-bind="click: gotoPatient, visible: (formMode() === 'View')" class="btn btn-default">Go to Patient</a>
+                                    <button class="btn btn-primary" id="btnEdit" data-bind="click: edit, visible: (formMode() === 'View')">Edit</button>
+                                    <button class="btn btn-primary" id="btnSave" data-bind="click: save, visible: formMode() === 'Edit'">Save</button>
+                                    <button class="btn btn-default" id="btnCancel" data-bind="click: cancel, visible: formMode() === 'Edit'">Cancel</button>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+
+            </article>
+
+        </div>
+        <!-- end row -->
+
+        <div class="row">
+
+            <article class="col-sm-12 col-md-12 col-lg-9">
+
+                <div class="jarviswidget" id="wid-patientdata-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+                    <header>
+                        <span class="widget-icon"><i class="fa fa-folder-open"></i></span>
+                        <h2>Patient Information</h2>
+                        <div class="widget-toolbar">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-xs">Add:</button>
+                                <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a data-bind="attr: { href:createURL('PatientConditionView','PatientCondition',{'encounterId': encounter().EncounterId(), 'patientId': patient().PatientId()})}">
+                                            Patient Condition
+                                        </a>
+                                        <a data-bind="attr: { href:createURL('PatientClinicalEventOffline','PatientClinicalEvent',{'encounterId': encounter().EncounterId(), 'patientId': patient().PatientId()})}">
+                                            Adverse Event
+                                        </a>
+                                        <a data-bind="attr: { href:createURL('PatientMedicationView','PatientMedication',{'encounterId': encounter().EncounterId(), 'patientId': patient().PatientId()})}">
+                                            Patient Medication
+                                        </a>
+                                        <a data-bind="attr: { href:createURL('PatientLabTestOffline','PatientLabTest',{'encounterId': encounter().EncounterId(), 'patientId': patient().PatientId()})}">
+                                            Clinical Evaluation
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div>
+
+                        <div class="widget-body padding">
+
+                            <ul class="nav nav-tabs bordered">
+                                <li class="active">
+                                    <a href="#patientConditionsTab" data-toggle="tab" aria-expanded="true">Patient Conditions</a>
+                                </li>
+                                <li>
+                                    <a href="#patientClinicalEventsTab" data-toggle="tab" aria-expanded="true">Adverse Events</a>
+                                </li>
+                                <li>
+                                    <a href="#patientMedicationTab" data-toggle="tab" aria-expanded="true">Patient Medication</a>
+                                </li>
+                                <li>
+                                    <a href="#patientLabTestsTab" data-toggle="tab" aria-expanded="true">Clinical Evaluations</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div id="patientConditionsTab" class="tab-pane active">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayName("Condition Name")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Start Date")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("End Date")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Treatment Start Date")
+                                                </th>
+                                                <th>
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: patientConditions">
+                                            <tr>
+                                                @*<td data-bind="text: $parent.getConditionName(ConditionId())"></td>*@
+                                                <td data-bind="text: medDra().Description"></td>
+                                                <td data-bind="text: formattedStartDate"></td>
+                                                <td data-bind="text: formattedEndDate"></td>
+                                                <td data-bind="text: formattedTreatmentStartDate"></td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a data-bind="attr: { href:$parent.createURL('PatientConditionView','PatientCondition', {'encounterId': $parent.encounter().EncounterId(), 'patientConditionId': PatientConditionId(), 'patientId': PatientId()})}" class="btn btn-default btn-sm">
+                                                            <i class="fa fa-pencil fa-fw"></i>Edit
+                                                        </a>
+                                                        <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                            <span class="fa fa-caret-down"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a data-bind="click: function(){$root.removePatientCondition($data.PatientConditionIdentifier())}">
+                                                                    <i class="fa fa-trash-o fa-fw"></i>Delete
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="patientClinicalEventsTab" class="tab-pane">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayName("Description")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Onset Date")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Reported Date")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Resolution Date")
+                                                </th>
+                                                <th>
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: patientClinicalEvents">
+                                            <tr>
+                                                <td data-bind="text: medDra().Description"></td>
+                                                <td data-bind="text: formattedOnsetDate"></td>
+                                                <td data-bind="text: formattedReportedDate"></td>
+                                                <td data-bind="text: formattedResolutionDate"></td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a data-bind="attr: { href:$parent.createURL('PatientClinicalEventOffline','PatientClinicalEvent', {'encounterId': $parent.encounter().EncounterId(), 'patientClinicalEventId': PatientClinicalEventId(), 'patientId': PatientId()})}" class="btn btn-default btn-sm">
+                                                            <i class="fa fa-pencil fa-fw"></i>Edit
+                                                        </a>
+                                                        <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                            <span class="fa fa-caret-down"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a data-bind="click: function(){$root.removePatientClinicalEvent($data.PatientClinicalEventIdentifier())}">
+                                                                    <i class="fa fa-trash-o fa-fw"></i>Delete
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="patientMedicationTab" class="tab-pane">
+                                    <table class="table table-bordered table-striped">
+                                       <thead>
+                                           <tr>
+                                               <th>
+                                                   @Html.DisplayName("Drug Name")
+                                               </th>
+                                               <th>
+                                                   @Html.DisplayName("Start Date")
+                                               </th>
+                                               <th>
+                                                   @Html.DisplayName("End Date")
+                                               </th>
+                                               <th>
+                                                   @Html.DisplayName("Dose")
+                                               </th>
+                                               <th>
+                                                   @Html.DisplayName("Dose Frequency")
+                                               </th>
+                                               <th>
+                                                   @Html.DisplayName("Dose Unit")
+                                               </th>
+                                               <th>
+                                                   Actions
+                                               </th>
+                                           </tr>
+                                       </thead>
+                                        <tbody data-bind="foreach: patientMedications">
+                                            <tr>
+                                                <td data-bind="text: $parent.getMedicationName(MedicationId())"></td>
+                                                <td data-bind="text: formattedStartDate"></td>
+                                                <td data-bind="text: formattedEndDate"></td>
+                                                <td data-bind="text: Dose"></td>
+                                                <td data-bind="text: DoseFrequency"></td>
+                                                <td data-bind="text: DoseUnit"></td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a data-bind="attr: { href:$parent.createURL('PatientMedicationView','PatientMedication', {'encounterId': $parent.encounter().EncounterId(), 'patientMedicationId': PatientMedicationId(), 'patientId': PatientId()})}" class="btn btn-default btn-sm">
+                                                            <i class="fa fa-pencil fa-fw"></i>Edit
+                                                        </a>
+                                                        <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                            <span class="fa fa-caret-down"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a data-bind="click: function(){$root.removePatientMedication($data.PatientMedicationIdentifier())}">
+                                                                    <i class="fa fa-trash-o fa-fw"></i>Delete
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="patientLabTestsTab" class="tab-pane">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayName("Test Name")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Test Date")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Test Result")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Lab Value")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Lab Value Unit")
+                                                </th>
+                                                <th>
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: patientLabTests">
+                                            <tr>
+                                                <td data-bind="text: TestName"></td>
+                                                <td data-bind="text: formattedTestDate"></td>
+                                                <td data-bind="text: TestResult"></td>
+                                                <td data-bind="text: LabValue"></td>
+                                                <td data-bind="text: unitObject().Description"></td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a data-bind="attr: { href:$parent.createURL('PatientLabTestOffline','PatientLabTest', {'encounterId': $parent.encounter().EncounterId(), 'patientLabTestId': PatientLabTestId(), 'patientId': PatientId()})}" class="btn btn-default btn-sm">
+                                                            <i class="fa fa-pencil fa-fw"></i>Edit
+                                                        </a>
+                                                        <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                            <span class="fa fa-caret-down"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a data-bind="click: function(){$root.removePatientLabTest($data.PatientLabTestIdentifier())}">
+                                                                    <i class="fa fa-trash-o fa-fw"></i>Delete
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+</section>
+
+@*Scripts it's loaded by require js loader. Loading using HTML tag causes mismatch define module error*@
+@*@section scripts {
+    
+    @scripts.render("~/bundles/jqueryval")
+}*@

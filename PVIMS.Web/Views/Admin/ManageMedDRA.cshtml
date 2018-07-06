@@ -1,0 +1,181 @@
+﻿@model PVIMS.Web.Models.MedDRAListModel 
+
+@{
+    ViewBag.Title = "MedDRA Terms";
+}
+
+@{
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+    ViewBag.Icon = "fa-puzzle-piece";
+    ViewBag.Heading = "MedDRA Terms";
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li>MedDRA Terminology</li>
+}
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="well row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Terminology MedDRA</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        @using (Html.BeginForm("ManageMedDRA", "Admin", FormMethod.Post, new { @class = "smart-form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            @Html.LabelFor(model => model.TermType, htmlAttributes: new { @class = "label" })
+                                            @Html.DropDownListFor(model => model.TermType, (IEnumerable<SelectListItem>)ViewBag.TermTypes, new { @class = "form-control" })
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            @Html.LabelFor(model => model.FindTerm, htmlAttributes: new { @class = "label" })
+                                            @Html.EditorFor(model => model.FindTerm)
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.FindTerm, "", new { @class = "text-danger" })
+                                    </section>
+                                </div>
+
+                            </fieldset>
+                            <footer>
+                                <button type="submit" class="btn btn-primary" value="Search" name="button">
+                                    Search
+                                </button>
+                            </footer>
+                        }
+
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="dt_basic_8">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayName("Parent Term")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("Term")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("Code")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("Term Type")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("Version")
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ListItems)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ParentTerm)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Term)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Code)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TermType)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Version)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+
+            <div class="well">
+                <legend>Import MedDRA</legend>
+                    @using (Html.BeginForm("ManageMedDRA", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div>
+                            Please select the location of the MedDRA ZIP file (MedAscii.zip):
+                            <div class="well bg-color-darken txt-color-white text-left">
+                                <section>
+                                    <div class="input input-file">
+                                        @Html.TextBoxFor(model => model.InputFile, new { type = "file" })
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="smart-form">
+                                <footer>
+                                    <button type="submit" class="btn btn-primary" value="Import" name="button">
+                                        Import
+                                    </button>
+                                </footer>
+                            </div>
+                        </div>
+                    }
+                <div>
+                    <legend>Summary</legend>
+                    <span id="spnSummary">@Html.DisplayFor(model => model.Summary)</span>
+                </div>
+                <div class="smart-form">
+                    <footer>
+                        @Html.LabelFor(model => model.CurrentVersion, htmlAttributes: new { @class = "label" }) @Html.DisplayFor(model => model.CurrentVersion)
+                    </footer>
+                </div>
+            </div>
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->

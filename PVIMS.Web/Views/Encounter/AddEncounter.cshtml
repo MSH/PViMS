@@ -1,0 +1,123 @@
+﻿@model PVIMS.Web.Models.EncounterAddModel
+
+@{
+    ViewBag.Title = "Add Encounter";
+}
+
+@{
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+    ViewBag.Icon = "fa-puzzle-piece";
+    ViewBag.Heading = string.Format("Add Encounter ({0})", ViewBag.PatientName);
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li>Encounters</li>
+}
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Add New Encounter</h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body smart-form">
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <fieldset>
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.PatientId)
+                                @Html.HiddenFor(model => model.AppointmentId)
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.EncounterTypeId)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.EncounterTypeId, (IEnumerable<SelectListItem>)ViewBag.EncounterTypes, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.EncounterTypeId, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.PriorityId)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.PriorityId, (IEnumerable<SelectListItem>)ViewBag.Priorities, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.PriorityId, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.EncounterDate)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.EncounterDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd", @type = "text" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.EncounterDate, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.EncounterNotes)
+                                    <label class="textarea">
+                                        @Html.TextAreaFor(model => model.EncounterNotes, new { @class = "form-control", @rows = "6" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.EncounterNotes, "", new { @class = "text-danger" })
+                                </section>
+
+                            </fieldset>
+
+                            <footer>
+                                <button type="submit" class="btn btn-primary" value="Save">
+                                    Submit
+                                </button>
+                                <a href="@ViewBag.CancelRedirectUrl" class="btn btn-default">Cancel</a>
+                            </footer>
+
+                        }
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+
+    <!-- end row -->
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

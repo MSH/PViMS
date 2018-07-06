@@ -1,0 +1,248 @@
+﻿@model PVIMS.Web.Models.PatientConditionAddModel
+
+@{
+    ViewBag.Title = "Add Patient Condition";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa-stethoscope";
+    ViewBag.Heading = "Patient Condition";
+    ViewBag.SubHeading = "Add";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li><a href="~/Encounter/EncounterSearch.aspx">Encounters</a></li>
+    <li>Encounter (@Model.PatientFullName)</li>
+    <li>Add Patient Condition</li>
+}
+
+<!-- widget grid -->
+<div id="widget-grid" class="">
+
+    <div class="row">
+
+        <article class="col-sm-12 col-md-12 col-lg-9">
+
+            <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-pencil"></i> </span>
+                    <h2>Patient Condition Information (@Model.PatientFullName)</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <div class="widget-body no-padding">
+
+                        <div class="well bg-color-teal txt-color-white text-center">
+                            PLEASE NOTE: Ensure Condition Start and Condition Outcome Dates are captured timely and accurately as they are critical to determine the patient's contribution to analysis within the analytical portal.
+                        </div>
+
+                        @using (Html.BeginForm("AddPatientCondition", "PatientCondition", FormMethod.Post, new { @class = "smart-form", @id = "frmSubmit" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            if (!ViewData.ModelState.IsValid)
+                            {
+                                <p class="alert alert-danger">
+                                    Please review and correct the errors below.
+                                </p>
+                            }
+
+                            @Html.HiddenFor(model => model.PatientId)
+
+                            <header>
+                                Basic Details
+                            </header>
+
+                            <fieldset>
+
+                                <section style="background-color:lightblue; padding: 10px;">
+                                    <label class="label" style="font-weight: bold;">MedDRA Terminology</label>
+                                    <section>
+                                        @Html.LabelFor(model => model.TermType, htmlAttributes: new { @class = "label" })
+                                        <label class="input">
+                                            @Html.DropDownListFor(model => model.TermType, (IEnumerable<SelectListItem>)ViewBag.TermTypes, new { @class = "form-control" })
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.TermType, "", new { @class = "text-danger" })
+                                    </section>
+                                    <section>
+                                        @Html.LabelFor(model => model.FindTerm, htmlAttributes: new { @class = "label" })
+                                        <label class="input">
+                                            @Html.EditorFor(model => model.FindTerm)
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.FindTerm, "", new { @class = "text-danger" })
+                                    </section>
+                                    <section>
+                                        <button type="submit" class="btn btn-primary" value="Search" name="button" style="height:30px; width:80px;">
+                                            Search
+                                        </button>
+                                    </section>
+                                    <section>
+                                        @Html.LabelFor(model => model.TermResults, htmlAttributes: new { @class = "label" })
+                                        <label class="input">
+                                            @Html.DropDownListFor(model => model.TermResult, (IEnumerable<SelectListItem>)ViewBag.TermResults, new { @style = "height: 150px;", @size = 10, @class = "form-control" })
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.TermResults, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessage("CustomError", new { @class = "text-danger" })
+                                    </section>
+
+                                </section>
+
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.StartDate)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.OutcomeId)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.OutcomeId, (IEnumerable<SelectListItem>)ViewBag.Outcomes, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.OutcomeId, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "label" })
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.TreatmentOutcomeId)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.TreatmentOutcomeId, (IEnumerable<SelectListItem>)ViewBag.TreatmentOutcomes, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.TreatmentOutcomeId, "", new { @class = "text-danger" })
+                                </section>
+
+                                <section>
+                                    @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "label" })
+                                    <label class="textarea">
+                                        @Html.TextAreaFor(model => model.Comments, new { htmlAttributes = new { @class = "custom-scroll", @rows = "5" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                                </section>
+                            </fieldset>
+
+                            if (Model.CustomAttributes != null && Model.CustomAttributes.Any())
+                            {
+                                <header>
+                                    Additional Details
+                                </header>
+
+                                <fieldset>
+
+                                    @for (int i = 0; i < Model.CustomAttributes.Length; i++)
+                                    {
+                                        <section>
+                                            @Html.HiddenFor(m => m.CustomAttributes[i].Name)
+                                            @Html.HiddenFor(m => m.CustomAttributes[i].Type)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].IsRequired)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].StringMaxLength)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].NumericMinValue)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].NumericMaxValue)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].PastDateOnly)
+                                            @Html.EditorFor(m => m.CustomAttributes[i].FutureDateOnly)
+
+                                            @if (Model.CustomAttributes[i].IsRequired)
+                                            {
+                                                <label class="label"><em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>@Model.CustomAttributes[i].Name <font color="red">@Model.CustomAttributes[i].Detail</font></label>
+                                            }
+                                            else
+                                            {
+                                                <label class="label">@Model.CustomAttributes[i].Name <font color="red">@Model.CustomAttributes[i].Detail</font></label>
+                                            }
+
+                                            @switch (Model.CustomAttributes[i].Type)
+                                            {
+                                                case "Numeric":
+                                                    <label class="input">
+                                                        @Html.EditorFor(model => model.CustomAttributes[i].Value, new { htmlAttributes = new { @type = "Number" } })
+                                                    </label>
+                                                    break;
+                                                case "Selection":
+                                                <label class="input">
+                                                    @Html.DropDownListFor(model => model.CustomAttributes[i].Value, (IEnumerable<SelectListItem>)ViewData[Model.CustomAttributes[i].Name], new { @class = "form-control" })
+                                                </label>
+                                                    break;
+                                                case "DateTime":
+                                                <label class="input">
+                                                    @Html.EditorFor(model => model.CustomAttributes[i].Value, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
+                                                </label>
+                                                    break;
+                                                case "String":
+                                                default:
+                                                <label class="input">
+                                                    @Html.EditorFor(model => model.CustomAttributes[i].Value)
+                                                </label>
+                                                    break;
+                                            }
+                                            @Html.ValidationMessageFor(model => model.CustomAttributes[i].Value, "", new { @class = "text-danger" })
+                                        </section>
+                                        <section>
+                                            @Html.ValidationMessage("GenericError", new { @class = "text-danger" })
+                                        </section>
+                                    }
+                                </fieldset>
+                            }
+
+                            <footer>
+                                <a href="#" id="smart-mod-1" class="btn btn-primary"> Submit </a>
+                                <a href="@ViewBag.ReturnUrl" class="btn btn-default">Back</a>
+                            </footer>
+                        }
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+        </article>
+
+    </div>
+    <!-- end row -->
+</div>
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(".input-validation-error").removeClass("input-validation-error").parent().addClass("has-error");
+
+        /*
+        * SmartAlerts
+        */
+        // With Callback
+        $("#smart-mod-1").click(function (e) {
+            if ($("#OutcomeId").val() == "5")
+            {
+                $.SmartMessageBox({
+                    title: "Fatal Outcome!",
+                    content: "Are you sure you would like to confirm this patient is deceased?",
+                    buttons: '[No][Yes]'
+                }, function (ButtonPressed) {
+                    if (ButtonPressed === "Yes") {
+                        $("#frmSubmit").submit();
+                    }
+
+                });
+                e.preventDefault();
+            }
+            else
+            {
+                $("#frmSubmit").submit();
+            }
+        })
+
+    </script>
+}

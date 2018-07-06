@@ -1,0 +1,134 @@
+﻿@model PVIMS.Web.Models.FacilityAddModel
+
+@{
+    ViewBag.Title = "Add Facility";
+}
+
+@{
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+    ViewBag.Icon = "fa-windows";
+    ViewBag.Heading = "Add Facility";
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+@section breadcrumb
+{
+    <li>Facilities</li>
+}
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <!-- row -->
+    <div class="row">
+
+        <!-- NEW WIDGET START -->
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Facility</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <fieldset class="widget-body smart-form">
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <fieldset>
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <legend>Details</legend>
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.FacilityName)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.FacilityName, new { htmlAttributes = new { @class = "form-control" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.FacilityName, "", new { @class = "text-danger" })
+                                </section>
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.FacilityCode)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.FacilityCode, new { htmlAttributes = new { @class = "form-control" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.FacilityCode, "", new { @class = "text-danger" })
+                                </section>
+                                <section>
+                                    <label class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; line-height:29px;"></label>@Html.LabelFor(model => model.FacilityTypeId)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.FacilityTypeId, (IEnumerable<SelectListItem>)ViewBag.FacilityTypes, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.FacilityTypeId, "", new { @class = "text-danger" })
+                                </section>
+                                <section>
+                                    @Html.LabelFor(model => model.OrgUnitId)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.OrgUnitId, (IEnumerable<SelectListItem>)ViewBag.OrgUnits, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.OrgUnitId, "", new { @class = "text-danger" })
+                                </section>
+                                <legend>Contact Details</legend><br />
+                                <section>
+                                    @Html.LabelFor(model => model.TelNumber)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.TelNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.TelNumber, "", new { @class = "text-danger" })
+                                </section>
+                                <section>
+                                    @Html.LabelFor(model => model.MobileNumber)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.MobileNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+                                </section>
+                                <section>
+                                    @Html.LabelFor(model => model.FaxNumber)
+                                    <label class="input">
+                                        @Html.EditorFor(model => model.FaxNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.FaxNumber, "", new { @class = "text-danger" })
+                                </section>
+                            </fieldset>
+
+                            <footer>
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                                <a href="~/Admin/ManageFacility.aspx" class="btn btn-default">Cancel</a>
+                            </footer>
+                        }
+
+                </div>
+                <!-- end widget content -->
+
+            </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- WIDGET END -->
+
+    </div>
+
+    <!-- end row -->
+
+</section>
+<!-- end widget grid -->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

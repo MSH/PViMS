@@ -1,0 +1,39 @@
+﻿@{
+	Layout = "_Layout.cshtml";
+}
+
+<div id="content">
+	<div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="well" style="padding-top:10px; padding-bottom:0px;">
+                <ul id="sparks" class="">
+                    <li class="sparks-info">
+                        <span id="onlinestatus" class="txt-color-green">Online</span>
+                    </li>
+                    <li class="sparks-info">
+                        <span id="synchronisationstatus" class="txt-color-blue">Idle</span>
+                    </li>
+                </ul>
+                <h1 class="page-title">
+                    <i class="fa fa-fw @(ViewBag.Icon ?? "fa-desktop")"></i> @(ViewBag.Heading ?? "Manage")
+                    @if (!String.IsNullOrWhiteSpace(ViewBag.SubHeading))
+                    {
+                        <span>&gt; @ViewBag.SubHeading</span>
+                    }
+                </h1>
+            </div>
+        </div>
+
+	</div>
+
+	@RenderBody()
+</div>
+
+@section Scripts{
+	@RenderSection("Scripts", false)
+}
+
+@section breadcrumb
+{
+	@RenderSection("breadcrumb", false)
+}

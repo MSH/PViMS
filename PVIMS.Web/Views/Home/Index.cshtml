@@ -1,0 +1,215 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_OfflineLayout.cshtml";
+    ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
+}
+
+<h2>Preparing offline content</h2>
+
+<p>
+    <a id="manualUpdate" href="#">Check for an updated Cache</a>
+</p>
+
+<h2>
+    Application Cache Events
+</h2>
+
+<p>
+    Progress: <span id="cacheProgress">N/A</span>
+</p>
+
+<ul id="applicationEvents">
+    <!-- This will be populated dynamically. -->
+</ul>
+
+@section Scripts{
+
+<script>
+
+    var appEvents = $("#applicationEvents");
+    var manualUpdate = $("#manualUpdate");
+    var cacheProgress = $("#cacheProgress");
+
+    var appCache = window.applicationCache;
+
+    var cacheProperties = {
+        filesDownloaded: 0,
+        totalFiles: 0
+    };
+
+    // I log an event to the event list.
+    function logEvent(event) {
+        appEvents.prepend(
+            "<li>" +
+                (event + " ... " + (new Date()).toTimeString()) +
+            "</li>"
+        );
+    }
+
+    function getTotalFiles() {
+        // First, reset the total file count and download count.
+        cacheProperties.filesDownloaded = 0;
+        cacheProperties.totalFiles = 0;
+        // Now, grab the cache manifest file.
+        $.ajax({
+            type: "get",
+            url: "/resources/manifest",
+            dataType: "text",
+            cache: false,
+            success: function (content) {
+                // Strip out the non-cache sections.
+                // NOTE: The line break here is only to prevent
+                // wrapping in the BLOG.
+                content = content.replace(
+                    new RegExp(
+                        "(NETWORK|FALLBACK):" +
+                        "((?!(NETWORK|FALLBACK|CACHE):)[\\w\\W]*)",
+                        "gi"
+                    ),
+                    ""
+                );
+                // Strip out all comments.
+                content = content.replace(
+                    new RegExp("#[^\\r\\n]*(\\r\\n?|\\n)", "g"),
+                    ""
+                );
+                // Strip out the cache manifest header and
+                // trailing slashes.
+                content = content.replace(
+                    new RegExp("CACHE MANIFEST\\s*|\\s*$", "g"),
+                    ""
+                );
+                // Strip out extra line breaks and replace with
+                // a hash sign that we can break on.
+                content = content.replace(
+                    new RegExp("[\\r\\n]+", "g"),
+                    "#"
+                );
+                // Get the total number of files.
+                var totalFiles = content.split("#").length;
+                // Store the total number of files. Here, we are
+                // adding one for *THIS* file, which is cached
+                // implicitly as it points to the manifest.
+                cacheProperties.totalFiles = (totalFiles + 1);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
+    }
+
+    // I display the download progress.
+    function displayProgress() {
+        // Increment the running total.
+        cacheProperties.filesDownloaded++;
+        // Check to see if we have a total number of files.
+        if (cacheProperties.totalFiles) {
+            // We have the total number of files, so output the
+            // running total as a function of the known total.
+            cacheProgress.text(
+                cacheProperties.filesDownloaded +
+                " of " +
+                cacheProperties.totalFiles +
+                " files downloaded."
+            );
+        } else {
+            // We don't yet know the total number of files, so
+            // just output the running total.
+            cacheProgress.text(
+                cacheProperties.filesDownloaded +
+                " files downloaded."
+            );
+        }
+    }
+
+    // Bind the manual update link.
+    manualUpdate.click(
+        function (event) {
+            // Prevent the default event.
+            event.preventDefault();
+            // Manually ask the cache to update.
+            appCache.update();
+        }
+    );
+
+
+    // List for checking events. This gets fired when the browser
+    // is checking for an udpated manifest file or is attempting
+    // to download it for the first time.
+    $(appCache).bind(
+        "checking",
+        function (event) {
+            logEvent("Checking for manifest");
+        }
+    );
+
+    // This gets fired if there is no update to the manifest file
+    // that has just been checked.
+    $(appCache).bind(
+        "noupdate",
+        function (event) {
+            logEvent("No cache updates");
+            window.location = '/Patient/PatientSearch.aspx';
+        }
+    );
+
+    // This gets fired when the browser is downloading the files
+    // defined in the cache manifest.
+    $(appCache).bind(
+        "downloading",
+        function (event) {
+            logEvent("Downloading cache");
+            // Get the total number of files in our manifest.
+            getTotalFiles();
+        }
+    );
+
+    // This gets fired for every file that is downloaded by the
+    // cache update.
+    $(appCache).bind(
+        "progress",
+        function (event) {
+            logEvent("File downloaded");
+            // Show the download progress.
+            displayProgress();
+        }
+    );
+    // This gets fired when all cached files have been
+    // downloaded and are available to the application cache.
+    $(appCache).bind(
+        "cached",
+        function (event) {
+            logEvent("All files downloaded");
+            window.location = '/Patient/PatientSearch.aspx';
+        }
+    );
+    // This gets fired when new cache files have been downloaded
+    // and are ready to replace the *existing* cache. The old
+    // cache will need to be swapped out.
+    $(appCache).bind(
+        "updateready",
+        function (event) {
+            logEvent("New cache available");
+            // Swap out the old cache.
+            appCache.swapCache();
+            window.location = '/Patient/PatientSearch.aspx';
+        }
+    );
+    // This gets fired when the cache manifest cannot be found.
+    $(appCache).bind(
+        "obsolete",
+        function (event) {
+            logEvent("Manifest cannot be found");
+        }
+    );
+    // This gets fired when an error occurs
+    $(appCache).bind(
+        "error",
+        function (event) {
+            logEvent("An error occurred");
+        }
+    );
+
+</script>
+
+}

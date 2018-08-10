@@ -121,6 +121,7 @@ namespace PVIMS.Web
             LoadCustomCondition();
 
             txtEncounterDate.Value = DateTime.Today.ToString("yyyy-MM-dd");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Patient View " + (_patient != null ? "for " + _patient.FullName : ""), SubTitle = "", Icon = "fa fa-group fa-fw" });
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -158,7 +159,6 @@ namespace PVIMS.Web
             DropDownList ddl;
             TextBox txt;
             Label lbl;
-            SelectionDataItem tempSDI;
 
             string[] categories = { "Custom" };
 
@@ -508,9 +508,6 @@ namespace PVIMS.Web
             // Audit
             txtCreated.Value = _patient.GetCreatedStamp();
             txtUpdated.Value = _patient.GetLastUpdatedStamp();
-
-            // Header
-            hHead.InnerHtml = String.Format(@"<i class=""fa fa-group fa-fw""></i> Patient ({0}) <span>> View </span> ", _patient.FullName);
 
             RenderCustomVariables();
         }
@@ -1888,11 +1885,12 @@ namespace PVIMS.Web
                     break;
 
                 case FormMode.AddMode:
-                    divAudit.Visible = false;
-                    divIdentifier.Visible = false;
+                    divIdentifyAudit.Visible = false;
+                    divClinicalinfo.Visible = false;
+                    divRightPane.Visible = false;
+                    divAdditional.Visible = false;
 
                     divPatientCondition.Visible = true;
-                    divAdditional.Visible = false;
 
                     ddlFacility.Visible = true;
                     txtFacility.Visible = false;

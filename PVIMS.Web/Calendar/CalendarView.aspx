@@ -1,25 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="/Main.Master" CodeBehind="CalendarView.aspx.cs" Inherits="PVIMS.Web.CalendarView" Title="Appointment" %>
 
 <asp:Content runat="server" ID="Body" ContentPlaceHolderID="BodyContentPlaceHolder">
-
-	<div class="row">
-		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-			<h1 class="page-title txt-color-blueDark">
-				<i class="fa fa-home fa-fw "></i> 
-				Appointments
-			</h1>
-		</div>
-        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-            <ul id="sparks" class="">
-                <li class="sparks-info">
-                    <span id="onlinestatus" class="txt-color-green">Online</span>
-                </li>
-                <li class="sparks-info">
-                    <span id="synchronisationstatus" class="txt-color-blue" >Idle</span>
-                </li>
-            </ul>
-        </div>
-	</div>
 				
 	<!-- widget grid -->
 	<section id="widget-grid" class="">
@@ -30,7 +11,7 @@
 			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
 				
 				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget" id="wid-id-5"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+				<div class="jarviswidget well" id="wid-id-5"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
 					<header>
 						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
 						<h2>Appointments</h2>

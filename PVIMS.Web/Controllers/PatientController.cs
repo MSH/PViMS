@@ -21,7 +21,7 @@ namespace PVIMS.Web.Controllers
 {
     public class PatientController : BaseController
     {
-        private static string CurrentMenuItem = "Patient";
+        private static string CurrentMenuItem = "PatientView";
 
         private readonly IUnitOfWorkInt unitOfWork;
 

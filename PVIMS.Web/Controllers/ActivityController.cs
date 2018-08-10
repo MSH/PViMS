@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 using VPS.Common.Repositories;
 
-using PVIMS.Core;
 using PVIMS.Core.Entities;
 using PVIMS.Core.Services;
 using PVIMS.Web.Models;
@@ -16,7 +15,7 @@ namespace PVIMS.Web.Controllers
     [Authorize]
     public class ActivityController : BaseController
     {
-        private static string CurrentMenuItem = "Cohort";
+        private static string CurrentMenuItem = "ActiveReporting";
 
         private readonly IUnitOfWorkInt _unitOfWork;
         private readonly IWorkFlowService _workflowService;
@@ -31,7 +30,7 @@ namespace PVIMS.Web.Controllers
         {
             var reportInstance = _unitOfWork.Repository<ReportInstance>().Queryable().Single(ri => ri.Id == reportInstanceId);
 
-            ViewBag.MenuItem = CurrentMenuItem;
+            ViewBag.MenuItem = string.Equals(reportInstance.WorkFlow.WorkFlowGuid.ToString(), "892F3305-7819-4F18-8A87-11CBA3AEE219", StringComparison.InvariantCultureIgnoreCase) ? "ActiveReporting" : "SpontaneousReporting";
 
             var returnUrl = "/Analytical/ReportInstanceList.aspx?wuid=" + reportInstance.WorkFlow.WorkFlowGuid.ToString();
             TempData["returnUrl"] = returnUrl;
@@ -60,16 +59,17 @@ namespace PVIMS.Web.Controllers
         [HttpGet]
         public ActionResult AddActivity(int activityInstanceId, int activityExecutionStatusId)
         {
-            ViewBag.MenuItem = CurrentMenuItem;
-
             var returnUrl = (TempData["returnUrl"] ?? Request.UrlReferrer ?? (object)string.Empty).ToString();
             TempData["returnUrl"] = returnUrl;
 
             ViewBag.ReturnUrl = returnUrl;
 
-            var activityInstance = _unitOfWork.Repository<ActivityInstance>().Queryable().Single(ai => ai.Id == activityInstanceId);
+            var activityInstance = _unitOfWork.Repository<ActivityInstance>().Queryable()
+                .Include(ai => ai.ReportInstance.WorkFlow)
+                .Single(ai => ai.Id == activityInstanceId);
             var newExecutionStatus = _unitOfWork.Repository<ActivityExecutionStatus>().Queryable().Single(aes => aes.Id == activityExecutionStatusId).Description;
 
+            ViewBag.MenuItem = string.Equals(activityInstance.ReportInstance.WorkFlow.WorkFlowGuid.ToString(), "892F3305-7819-4F18-8A87-11CBA3AEE219", StringComparison.InvariantCultureIgnoreCase) ? "ActiveReporting" : "SpontaneousReporting";
             ViewBag.DisplayContext = newExecutionStatus == "E2BSUBMITTED";
 
             var model = new ActivityAddModel()
@@ -88,11 +88,14 @@ namespace PVIMS.Web.Controllers
         [HttpPost]
         public ActionResult AddActivity(ActivityAddModel model)
         {
-            ViewBag.MenuItem = CurrentMenuItem;
 
             var returnUrl = (TempData["returnUrl"] ?? string.Empty).ToString();
             ViewBag.ReturnUrl = returnUrl;
 
+            var activityInstance = _unitOfWork.Repository<ActivityInstance>().Queryable()
+                .Include(ai => ai.ReportInstance.WorkFlow)
+                .Single(ai => ai.Id == model.ActivityInstanceId);
+            ViewBag.MenuItem = string.Equals(activityInstance.ReportInstance.WorkFlow.WorkFlowGuid.ToString(), "892F3305-7819-4F18-8A87-11CBA3AEE219", StringComparison.InvariantCultureIgnoreCase) ? "ActiveReporting" : "SpontaneousReporting";
             ViewBag.DisplayContext = model.NewExecutionStatus == "E2BSUBMITTED";
 
             if (ModelState.IsValid)
@@ -119,7 +122,6 @@ namespace PVIMS.Web.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        var activityInstance = _unitOfWork.Repository<ActivityInstance>().Queryable().Include(ai => ai.ReportInstance.WorkFlow).Single(ai => ai.Id == model.ActivityInstanceId);
                         _workflowService.ExecuteActivity(activityInstance.ReportInstance.ContextGuid, model.NewExecutionStatus, encodedComments, model.ContextDate, encodedContextCode);
 
                         if(activityInstance.ReportInstance.WorkFlow.Description  == "New Active Surveilliance Report") { return Redirect("/Analytical/ReportInstanceList.aspx?wuid=892F3305-7819-4F18-8A87-11CBA3AEE219"); };

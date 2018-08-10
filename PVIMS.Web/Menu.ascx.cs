@@ -32,9 +32,9 @@ namespace PVIMS.Web
             navPublisher.Visible = false;
 
             mnu_calendarview.Visible = false;
-            mnu_patient.Visible = false;
-            mnu_encounter.Visible = false;
-            mnu_cohort.Visible = false;
+            mnu_patientview.Visible = false;
+            mnu_encounterview.Visible = false;
+            mnu_cohortview.Visible = false;
 
             SetContext();
 
@@ -45,10 +45,10 @@ namespace PVIMS.Web
                     navOLTP.Visible = true;
 
                     if (HttpContext.Current.User.IsInRole("Admin")) { navCommon.Visible = true; }
-                    if (HttpContext.Current.User.IsInRole("RegClerk") || HttpContext.Current.User.IsInRole("DataCap") || HttpContext.Current.User.IsInRole("Clinician")) { mnu_patient.Visible = true; }
+                    if (HttpContext.Current.User.IsInRole("RegClerk") || HttpContext.Current.User.IsInRole("DataCap") || HttpContext.Current.User.IsInRole("Clinician")) { mnu_patientview.Visible = true; }
                     if (HttpContext.Current.User.IsInRole("RegClerk")) { mnu_calendarview.Visible = true; }
-                    if (HttpContext.Current.User.IsInRole("DataCap") || HttpContext.Current.User.IsInRole("Clinician")) { mnu_encounter.Visible = true; }
-                    if (HttpContext.Current.User.IsInRole("Clinician")) { mnu_cohort.Visible = true; }
+                    if (HttpContext.Current.User.IsInRole("DataCap") || HttpContext.Current.User.IsInRole("Clinician")) { mnu_encounterview.Visible = true; }
+                    if (HttpContext.Current.User.IsInRole("Clinician")) { mnu_cohortview.Visible = true; }
 
                     break;
 

@@ -3,15 +3,6 @@
 <asp:Content runat="server" ID="Body" ContentPlaceHolderID="BodyContentPlaceHolder" ClientIDMode="Static">
     <asp:HiddenField runat="server" ID="hfPosition" Value="" />
 
-	<div class="row">
-		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-			<h1 class="page-title txt-color-blueDark">
-				<i class="fa fa-dashboard fa-fw "></i> 
-				WHO Causality Assessment
-			</h1>
-		</div>
-	</div>
-				
 	<!-- widget grid -->
 	<section id="widget-grid" class="">
 
@@ -416,7 +407,7 @@
                                             <table style="width:100%;">
                                                 <tbody>
                                                     <tr style="border: 1px solid black;">
-                                                        <th style="border: 1px solid black; background-color: #e4e1da; padding: 5px;" colspan="3">Conditional/Unclassifed</th>
+                                                        <th style="border: 1px solid black; background-color: #e4e1da; padding: 5px;" colspan="3">Conditional/Unclassified</th>
                                                     </tr>
                                                     <tr>
                                                         <td style="padding:5px; width: 15%">15.</td>
@@ -447,7 +438,7 @@
                                             <table style="width:100%;">
                                                 <tbody>
                                                     <tr style="border: 1px solid black;">
-                                                        <th style="border: 1px solid black; background-color: #e4e1da; padding: 5px;" colspan="3">Unassessable/Unclassifed</th>
+                                                        <th style="border: 1px solid black; background-color: #e4e1da; padding: 5px;" colspan="3">Unassessable/Unclassified</th>
                                                     </tr>
                                                     <tr>
                                                         <td style="padding:5px; width: 15%">17.</td>

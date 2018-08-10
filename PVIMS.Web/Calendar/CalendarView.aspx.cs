@@ -24,6 +24,7 @@ namespace PVIMS.Web
         {
             if (!Page.IsPostBack)
             {
+                Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Appointments", SubTitle = "", Icon = "fa fa-calendar fa-fw" });
                 Master.MainMenu.SetActive("CalendarView");
 
                 // reset context 

@@ -238,15 +238,6 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl navOLTP;
         
         /// <summary>
-        /// mnu_patient control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_patient;
-        
-        /// <summary>
         /// mnu_patientview control.
         /// </summary>
         /// <remarks>
@@ -254,15 +245,6 @@ namespace PVIMS.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_patientview;
-        
-        /// <summary>
-        /// mnu_encounter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_encounter;
         
         /// <summary>
         /// mnu_encounterview control.
@@ -274,13 +256,13 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_encounterview;
         
         /// <summary>
-        /// mnu_cohort control.
+        /// mnu_cohortview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_cohort;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_cohortview;
         
         /// <summary>
         /// mnu_calendarview control.

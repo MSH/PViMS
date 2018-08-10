@@ -9,11 +9,8 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-using VPS.Common.Repositories;
-
 using PVIMS.Core.Entities;
 using PVIMS.Core.Services;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -33,6 +30,8 @@ namespace PVIMS.Web
 
         protected void Page_Init(object sender, EventArgs e)
         {
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "MedDRA Terminology", SubTitle = "", Icon = "fa fa-dashboard fa-fw", MetaPageId = 0 });
+
             _clinicalEvent = null;
             _instance = null;
 
@@ -45,11 +44,15 @@ namespace PVIMS.Web
 
                     if(_reportInstance.WorkFlow.Description == "New Active Surveilliance Report")
                     {
+                        Master.MainMenu.SetActive("ActiveReporting");
+
                         _clinicalEvent = UnitOfWork.Repository<PatientClinicalEvent>().Queryable().Include(pce => pce.Patient).SingleOrDefault(pce => pce.PatientClinicalEventGuid == _reportInstance.ContextGuid);
                         _formMode = FormMode.ActiveMode;
                     }
                     else
                     {
+                        Master.MainMenu.SetActive("SpontaneousReporting");
+
                         _instance = UnitOfWork.Repository<DatasetInstance>().Queryable().SingleOrDefault(di => di.DatasetInstanceGuid == _reportInstance.ContextGuid);
                         _formMode = FormMode.SpontaneousMode;
                     }

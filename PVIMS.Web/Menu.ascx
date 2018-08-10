@@ -95,23 +95,13 @@
 				traditional href="" links. See documentation for details.
 				-->
 		<ul>
-			<li id="mnu_patient" runat="server">
-                <a href="#" title="Patients"><i class="fa fa-lg fa-fw fa-group"></i><span class="menu-item-parent">Patients</span></a>
-                <ul>
-                    <li id="mnu_patientview" runat="server">
-                        <a href="/Patient/PatientSearch.aspx"><span class="menu-item-parent">Search</span></a>
-                    </li>
-                </ul>
+			<li id="mnu_patientview" runat="server">
+                <a href="/Patient/PatientSearch.aspx" title="Patients"><i class="fa fa-lg fa-fw fa-group"></i><span class="menu-item-parent">Patients</span></a>
 			</li>
-			<li id="mnu_encounter" runat="server">
-                <a href="#" title="Encounters"><i class="fa fa-lg fa-fw fa-file-text-o"></i><span class="menu-item-parent">Encounters</span></a>
-                <ul>
-                    <li id="mnu_encounterview" runat="server">
-                        <a href="/Encounter/EncounterSearch.aspx"><span class="menu-item-parent">Search</span></a>
-                    </li>
-                </ul>
+			<li id="mnu_encounterview" runat="server">
+                <a href="/Encounter/EncounterSearch.aspx" title="Encounters"><i class="fa fa-lg fa-fw fa-file-text-o"></i><span class="menu-item-parent">Encounters</span></a>
 			</li>
-			<li id="mnu_cohort" runat="server">
+			<li id="mnu_cohortview" runat="server">
                 <a href="/Cohort/CohortSearch.aspx" title="Cohorts"><i class="fa fa-lg fa-fw fa-cogs"></i><span class="menu-item-parent">Cohorts</span></a>
 			</li>
 			<li id="mnu_calendarview" runat="server">

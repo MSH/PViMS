@@ -2,15 +2,6 @@
 
 <asp:Content runat="server" ID="Body" ContentPlaceHolderID="BodyContentPlaceHolder">
 
-	<div class="row">
-		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-			<h1 class="page-title txt-color-blueDark">
-				<i class="fa fa-cogs fa-fw "></i> 
-				Cohorts
-			</h1>
-		</div>
-	</div>
-				
 	<!-- widget grid -->
 	<section id="widget-grid" class="">
 
@@ -20,7 +11,7 @@
 			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				
 				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget" id="wid-id-5"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+				<div class="jarviswidget well" id="wid-id-5"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
 					<header>
 						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
 						<h2>Cohorts</h2>

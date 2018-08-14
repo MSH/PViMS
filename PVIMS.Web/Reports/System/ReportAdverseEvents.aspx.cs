@@ -38,7 +38,7 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("ReportAdverseEvent");
+            Master.SetMenuActive("ReportAdverseEvent");
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)

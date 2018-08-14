@@ -8,7 +8,7 @@ declare @c_pageid int
 HOME Page
 ************************************************/
 INSERT INTO MetaPage (metapage_guid, PageName, PageDefinition, MetaDefinition, Breadcrumb, IsSystem, IsVisible)
-	SELECT NEWID(), 'Home', 'Home', '*** NOT DEFINED ***', 'Home', 0, 1
+	SELECT 'a63e9f29-a22f-43df-87a0-d0c8dec50548', 'Home', 'Home', '*** NOT DEFINED ***', 'Home', 1, 1
 set @c_pageid = (SELECT @@IDENTITY)
 
 -- widget 1 (National Guidelines)
@@ -35,8 +35,8 @@ set @c_content =
 		</ListItem> 
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'National Guidelines', '', @c_content, Id, @c_pageid, 1
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'National Guidelines', '', @c_content, Id, @c_pageid, 1, 1
 		FROM MetaWidgetType WHERE [Description] = 'ItemList'
 		
 -- widget 2 (Pharmacovigilance Study)
@@ -51,15 +51,15 @@ set @c_content =
 		</ListItem> 
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'Pharmacovigilance Study', '', @c_content, Id, @c_pageid, 2
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'Pharmacovigilance Study', '', @c_content, Id, @c_pageid, 2, 1
 		FROM MetaWidgetType WHERE [Description] = 'ItemList'		
 		
 /************************************************
-WIKI Sub Page for FDA Drug Safety Communication
+REFERENCE Sub Page for FDA Drug Safety Communication
 ************************************************/
 INSERT INTO MetaPage (metapage_guid, PageName, PageDefinition, MetaDefinition, Breadcrumb, IsSystem, IsVisible)
-	SELECT NEWID(), 'Wiki Sub Page 1', 'Wiki Sub Page 1', '*** NOT DEFINED ***', 'Wiki/FDA Drug Safety Communication', 0, 0
+	SELECT NEWID(), 'Reference Page 1', 'Reference Page 1', '*** NOT DEFINED ***', 'Reference/FDA Drug Safety Communication', 0, 0
 declare @c_subpageid_1 int = (SELECT @@IDENTITY)
 
 -- widget 1
@@ -135,15 +135,15 @@ set @c_content =
 		</ListItem> 
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'FDA Drug Safety Communication', '', @c_content, Id, @c_subpageid_1, 1
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'FDA Drug Safety Communication', '', @c_content, Id, @c_subpageid_1, 1, 1
 		FROM MetaWidgetType WHERE [Description] = 'ItemList'
 
 /************************************************
-WIKI Sub Page for Standards
+REFERENCE Sub Page for Standards
 ************************************************/
 INSERT INTO MetaPage (metapage_guid, PageName, PageDefinition, MetaDefinition, Breadcrumb, IsSystem, IsVisible)
-	SELECT NEWID(), 'Wiki Sub Page 2', 'Wiki Sub Page 2', '*** NOT DEFINED ***', 'Wiki/Standards', 0, 0
+	SELECT NEWID(), 'Reference Page 2', 'Reference Page 2', '*** NOT DEFINED ***', 'Reference/Standards', 0, 0
 declare @c_subpageid_2 int = (SELECT @@IDENTITY)
 
 -- widget 1
@@ -197,15 +197,15 @@ set @c_content =
 		</ListItem> 		
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'PViMS Standards Used', '', @c_content, Id, @c_subpageid_2, 1
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'PViMS Standards Used', '', @c_content, Id, @c_subpageid_2, 1, 1
 		FROM MetaWidgetType WHERE [Description] = 'ItemList'	
 
 /************************************************
-WIKI Sub Page for Causality Scales
+REFERENCE Sub Page for Causality Scales
 ************************************************/
 INSERT INTO MetaPage (metapage_guid, PageName, PageDefinition, MetaDefinition, Breadcrumb, IsSystem, IsVisible)
-	SELECT NEWID(), 'Wiki Sub Page 3', 'Wiki Sub Page 3', '*** NOT DEFINED ***', 'Wiki/Causality Scales', 0, 0
+	SELECT NEWID(), 'Reference Page 3', 'Reference Page 3', '*** NOT DEFINED ***', 'Reference/Causality Scales', 0, 0
 declare @c_subpageid_3 int = (SELECT @@IDENTITY)
 
 -- widget 1
@@ -236,15 +236,15 @@ set @c_content =
 		</ListItem> 		
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'Causality Scales Used', '', @c_content, Id, @c_subpageid_3, 1 
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'Causality Scales Used', '', @c_content, Id, @c_subpageid_3, 1, 1
 		FROM MetaWidgetType WHERE [Description] = 'ItemList'	
 
 /************************************************
-WIKI Sub Page for Grading Scales
+REFERENCE Sub Page for Grading Scales
 ************************************************/
 INSERT INTO MetaPage (metapage_guid, PageName, PageDefinition, MetaDefinition, Breadcrumb, IsSystem, IsVisible)
-	SELECT NEWID(), 'Wiki Sub Page 4', 'Wiki Sub Page 4', '*** NOT DEFINED ***', 'Wiki/Grading Scales', 0, 0
+	SELECT NEWID(), 'Reference Page 4', 'Reference Page 4', '*** NOT DEFINED ***', 'Reference/Grading Scales', 0, 0
 declare @c_subpageid_4 int = (SELECT @@IDENTITY)
 
 -- widget 1
@@ -288,15 +288,15 @@ set @c_content =
 		</ListItem> 					
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'Grading Scales Used', '', @c_content, Id, @c_subpageid_4, 1 
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'Grading Scales Used', '', @c_content, Id, @c_subpageid_4, 1, 1
 		FROM MetaWidgetType WHERE [Description] = 'ItemList'	
 		
 /************************************************
-Wiki Page
+Reference Page
 ************************************************/
 INSERT INTO MetaPage (metapage_guid, PageName, PageDefinition, MetaDefinition, Breadcrumb, IsSystem, IsVisible)
-	SELECT NEWID(), 'Wiki', 'Wiki', '*** NOT DEFINED ***', 'Wiki', 0, 1
+	SELECT NEWID(), 'Reference', 'Reference', '*** NOT DEFINED ***', 'Reference', 0, 1
 set @c_pageid = (SELECT @@IDENTITY)
 
 -- widget 1 (Drug Safety)
@@ -310,8 +310,8 @@ set @c_content =
 		</ListItem> 
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'Drug Safety', '', @c_content, Id, @c_pageid, 1
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'Drug Safety', '', @c_content, Id, @c_pageid, 1, 1
 		FROM MetaWidgetType WHERE [Description] = 'Wiki'
 		
 -- widget 2 (Standards)
@@ -340,8 +340,8 @@ set @c_content =
 		</ListItem> 
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'Standards', '', @c_content, Id, @c_pageid, 3
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'Standards', '', @c_content, Id, @c_pageid, 3, 1
 		FROM MetaWidgetType WHERE [Description] = 'Wiki'
 		
 -- widget 3 (Causality Scales)
@@ -360,8 +360,8 @@ set @c_content =
 		</ListItem> 
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'Causality Scales', '', @c_content, Id, @c_pageid, 5
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'Causality Scales', '', @c_content, Id, @c_pageid, 5, 1
 		FROM MetaWidgetType WHERE [Description] = 'Wiki'
 		
 -- widget 4 (Grading Scales)
@@ -385,8 +385,8 @@ set @c_content =
 		</ListItem> 
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'Grading Scales', '', @c_content, Id, @c_pageid, 2
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'Grading Scales', '', @c_content, Id, @c_pageid, 2, 1
 		FROM MetaWidgetType WHERE [Description] = 'Wiki'
 		
 /************************************************
@@ -456,8 +456,8 @@ set @c_content =
 		</ListItem> 
 	</WidgetList>
 	'
-INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation)
-	SELECT NEWID(), 'Frequently Asked Questions on Bedaquiline', '', @c_content, Id, @c_pageid, 1
+INSERT INTO MetaWidget (metawidget_guid, WidgetName, WidgetDefinition, Content, WidgetType_Id, MetaPage_Id, WidgetLocation, WidgetStatus)
+	SELECT NEWID(), 'Frequently Asked Questions on Bedaquiline', '', @c_content, Id, @c_pageid, 1, 1
 		FROM MetaWidgetType WHERE [Description] = 'ItemList'
 		
 SELECT * FROM MetaPage 

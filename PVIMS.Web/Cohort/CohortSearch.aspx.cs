@@ -19,7 +19,7 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Cohorts", SubTitle = "", Icon = "fa fa-cogs fa-fw" });
-            Master.MainMenu.SetActive("CohortView");
+            Master.SetMenuActive("CohortView");
 
             if (!Page.IsPostBack) 
             {

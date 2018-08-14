@@ -23,7 +23,7 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("AdminDataset");
+            Master.SetMenuActive("AdminDataset");
 
             if (!Page.IsPostBack)
             {

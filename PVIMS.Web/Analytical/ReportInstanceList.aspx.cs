@@ -55,12 +55,12 @@ namespace PVIMS.Web
         {
             if (_workFlow.Description == "New Active Surveilliance Report")
             {
-                Master.MainMenu.SetActive("ActiveReporting");
+                Master.SetMenuActive("ActiveReporting");
                 Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Active Reports", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw", MetaPageId = 0 });
             }
             else
             {
-                Master.MainMenu.SetActive("SpontaneousReporting");
+                Master.SetMenuActive("SpontaneousReporting");
                 Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Spontaneous Reports", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw", MetaPageId = 0 });
             }
 

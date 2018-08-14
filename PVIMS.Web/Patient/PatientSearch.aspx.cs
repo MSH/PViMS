@@ -53,7 +53,7 @@ namespace PVIMS.Web
             _user = UnitOfWork.Repository<User>().Queryable().Include(u => u.Facilities).SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
             //EnsureBookmarkableUri();
 
-            Master.MainMenu.SetActive("PatientView");
+            Master.SetMenuActive("PatientView");
 
             if (Page.IsPostBack)
             {

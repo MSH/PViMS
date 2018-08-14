@@ -55,7 +55,7 @@ namespace PVIMS.Web
 
                     if (_reportInstance.WorkFlow.Description == "New Active Surveilliance Report")
                     {
-                        Master.MainMenu.SetActive("ActiveReporting");
+                        Master.SetMenuActive("ActiveReporting");
 
                         _formMode = FormMode.ActiveMode;
                         _clinicalEvent = UnitOfWork.Repository<PatientClinicalEvent>().Queryable().Include(pce => pce.Patient).SingleOrDefault(pce => pce.PatientClinicalEventGuid == _reportInstance.ContextGuid);
@@ -64,7 +64,7 @@ namespace PVIMS.Web
                     }
                     else
                     {
-                        Master.MainMenu.SetActive("SpontaneousReporting");
+                        Master.SetMenuActive("SpontaneousReporting");
 
                         _formMode = FormMode.SpontaneousMode;
                         _instance = UnitOfWork.Repository<DatasetInstance>().Queryable().SingleOrDefault(di => di.DatasetInstanceGuid == _reportInstance.ContextGuid);

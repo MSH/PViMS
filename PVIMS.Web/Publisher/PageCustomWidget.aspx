@@ -140,7 +140,7 @@
                                             </label>
                                         </section>
                                         <section class="col col-3">
-										    <label class="input" id="Label1" runat="server">Widget Status
+										    <label class="input" id="lblWidgetStatus" runat="server">Widget Status
                                                 <asp:DropDownList ID="ddlWidgetStatus" runat="server" CssClass="input-sm form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlWidgetStatus_SelectedIndexChanged">
                                                     <asp:ListItem Value="1" Text="Published" selected="True"></asp:ListItem>
                                                     <asp:ListItem Value="2" Text="Unpublished"></asp:ListItem>

@@ -828,3 +828,6 @@ SL-0061 - Ability to detect duplicate conditions
 
 ** 1.16.0/20180706
 ** Renaming of all namespaces to PVIMS
+
+** 1.16.1/20180812
+** Alignment with manuals (user interface refactoring)

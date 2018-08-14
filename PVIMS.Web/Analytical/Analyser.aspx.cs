@@ -70,7 +70,7 @@ namespace PVIMS.Web
                 RenderFactors();
             };
 
-            Master.MainMenu.SetActive("AnalyserView");
+            Master.SetMenuActive("AnalyserView");
         }
 
         protected void btnView_Click(object sender, EventArgs e)

@@ -68,7 +68,7 @@ namespace PVIMS.Web
 
             if (!Page.IsPostBack)
             {
-                Master.MainMenu.SetActive("PublishAdmin");
+                Master.SetMenuActive("PublishAdmin");
 
                 if (_metaPage != null)
                 {

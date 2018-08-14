@@ -67,7 +67,7 @@ namespace PVIMS.Web
 
             if (!Page.IsPostBack)
             {
-                Master.MainMenu.SetActive("AdminCondition");
+                Master.SetMenuActive("AdminCondition");
 
                 if (_condition != null)
                 {

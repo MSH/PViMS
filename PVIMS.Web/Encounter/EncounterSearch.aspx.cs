@@ -41,7 +41,7 @@ namespace PVIMS.Web
 
             //EnsureBookmarkableUri();
 
-            Master.MainMenu.SetActive("EncounterView");
+            Master.SetMenuActive("EncounterView");
 
             if (!Page.IsPostBack)
             {

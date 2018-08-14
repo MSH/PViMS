@@ -43,7 +43,7 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("ReportPxOnStudy");
+            Master.SetMenuActive("ReportPxOnStudy");
 
             if (!Page.IsPostBack)
             {

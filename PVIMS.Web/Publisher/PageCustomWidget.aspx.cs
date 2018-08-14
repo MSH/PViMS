@@ -41,7 +41,7 @@ namespace PVIMS.Web
                         action = Request.QueryString["action"];
                         switch (action)
                         {
-                            case "35EF6F4A-1CF6-4F94-B92A-145AC57D1135":
+                            case "edit":
                                 _formMode = FormMode.EditMode;
                                 Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Edit Widget", SubTitle = "", Icon = "fa fa-windows fa-fw" });
 
@@ -93,7 +93,7 @@ namespace PVIMS.Web
         {
             if (!Page.IsPostBack)
             {
-                Master.MainMenu.SetActive("PublishAdmin");
+                Master.SetMenuActive("PublishAdmin");
             };
         }
 
@@ -543,6 +543,8 @@ namespace PVIMS.Web
             lblName.Attributes.Add("class", "input");
             lblWidgetType.Attributes.Remove("class");
             lblWidgetType.Attributes.Add("class", "input");
+            lblWidgetLocation.Attributes.Remove("class");
+            lblWidgetLocation.Attributes.Add("class", "input");
 
             var err = false;
 
@@ -583,11 +585,39 @@ namespace PVIMS.Web
 
                 err = true;
             }
+            if (_formMode == FormMode.AddMode)
+            {
+                if (ddlWidgetStatus.SelectedValue == "1")
+                {
+                    lblWidgetStatus.Attributes.Remove("class");
+                    lblWidgetStatus.Attributes.Add("class", "input state-error");
+                    var errorMessageDiv = new HtmlGenericControl("div");
+                    errorMessageDiv.Attributes.Add("class", "note note-error");
+                    errorMessageDiv.InnerText = "Widget Status must be unpublished for new widgets";
+                    lblWidgetStatus.Controls.Add(errorMessageDiv);
+
+                    err = true;
+                }
+            }
+            else
+            {
+                if (ddlWidgetStatus.SelectedValue == "1" && _metaWidget.WidgetLocation == MetaWidgetLocation.Unassigned && ddlWidgetLocation.SelectedValue == "0")
+                {
+                    lblWidgetLocation.Attributes.Remove("class");
+                    lblWidgetLocation.Attributes.Add("class", "input state-error");
+                    var errorMessageDiv = new HtmlGenericControl("div");
+                    errorMessageDiv.Attributes.Add("class", "note note-error");
+                    errorMessageDiv.InnerText = "Widget Location is required";
+                    lblWidgetLocation.Controls.Add(errorMessageDiv);
+
+                    err = true;
+                }
+            }
 
             if (err) { return; };
 
             string url = string.Empty;
-            if (_formMode == FormMode.AddMode )
+            if (_formMode == FormMode.AddMode)
             {
                 var encodedName = AntiXssEncoder.HtmlEncode(txtName.Value, false);
                 var encodedDefinition = AntiXssEncoder.HtmlEncode(txtDefinition.Value, false);
@@ -623,7 +653,7 @@ namespace PVIMS.Web
                     Icon = txtIcon.Value
             };
                 UnitOfWork.Repository<MetaWidget>().Save(_metaWidget);
-                url = "PageCustomWidget.aspx?id=" + _metaWidget.Id + "&action=F7E7BBE8-E28C-4837-B80E-AF3D06E6EBFF";
+                url = "PageCustomWidget.aspx?id=" + _metaWidget.Id + "&action=edit";
             }
 
             if (_formMode == FormMode.EditMode)

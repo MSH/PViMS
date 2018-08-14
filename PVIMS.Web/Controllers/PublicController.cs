@@ -796,29 +796,5 @@ namespace PVIMS.Web.Controllers
 
             return View(instanceSubValues);
         }
-
-        [MvcUnitOfWork]
-        public ActionResult DeleteDatasetInstanceSubValuesForDatasetElement(int id, int datasetInstanceId, int encounterId, Guid context)
-        {
-            var datasetInstanceSubValueRepository = _unitOfWork.Repository<DatasetInstanceSubValue>();
-            var datasetElement = _unitOfWork.Repository<DatasetElement>().Get(id);
-
-            var datasetInstance = _unitOfWork.Repository<DatasetInstance>()
-                .Queryable()
-                .Include(i => i.DatasetInstanceValues.Select(i2 => i2.DatasetInstanceSubValues.Select(i3 => i3.DatasetElementSub)))
-                .Where(di => di.Id == datasetInstanceId)
-                .SingleOrDefault();
-
-            var instanceSubValues = datasetInstance.GetInstanceSubValues(datasetElement, context);
-
-            foreach (var instanceSubValue in instanceSubValues)
-            {
-                datasetInstanceSubValueRepository.Delete(instanceSubValue);
-            }
-
-            _unitOfWork.Complete();
-
-            return RedirectToAction("ViewDatasetElementTable", new { id, encounterId = encounterId, datasetInstanceId = datasetInstanceId });
-        }
     }
 }

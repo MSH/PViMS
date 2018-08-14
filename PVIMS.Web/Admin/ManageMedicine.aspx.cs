@@ -21,7 +21,7 @@ namespace PVIMS.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("AdminMedicine");
+            Master.SetMenuActive("AdminMedicine");
 
             if (!Page.IsPostBack) 
             {

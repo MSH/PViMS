@@ -55,6 +55,10 @@ namespace PVIMS.Web
                     }
                     if (div.Controls.Count > 0) { spnUnpublished.Controls.Add(div); };
                 }
+                else
+                {
+                    spnUnpublished.Visible = false;
+                }
 
                 // Render top widgets
                 var widget = _metaPage.Widgets.FirstOrDefault(w => w.WidgetStatus == MetaWidgetStatus.Published && w.WidgetLocation == MetaWidgetLocation.TopLeft);
@@ -97,7 +101,7 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Master.MainMenu.SetActive("ReportOutstandingVisit");
+            Master.SetMenuActive("Info" + _metaPage.Id.ToString());
         }
 
         #region "Rendering"
@@ -263,7 +267,7 @@ namespace PVIMS.Web
 
             var hyp = new HyperLink()
             {
-                NavigateUrl = "PageCustomWidget.aspx?Id=" + metaWidget.Id + "&action=35EF6F4A-1CF6-4F94-B92A-145AC57D1135",
+                NavigateUrl = "PageCustomWidget.aspx?Id=" + metaWidget.Id + "&action=edit",
                 CssClass = "btn btn-primary btn-sm",
                 Text = "Configure"
             };

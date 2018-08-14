@@ -66,7 +66,7 @@ namespace PVIMS.Web
 
             if (!Page.IsPostBack)
             {
-                Master.MainMenu.SetActive("AdminWorkPlan");
+                Master.SetMenuActive("AdminWorkPlan");
 
                 LoadDatasetDropDownList();
                 if (_workPlan != null)

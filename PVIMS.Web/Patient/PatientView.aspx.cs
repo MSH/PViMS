@@ -129,7 +129,7 @@ namespace PVIMS.Web
             hidLastTab.Value = Request.Form[hidLastTab.UniqueID];
             if (!Page.IsPostBack)
             {
-                Master.MainMenu.SetActive("PatientView");
+                Master.SetMenuActive("PatientView");
 
                 LoadDropDownList();
                 LoadStatusDropDownList();

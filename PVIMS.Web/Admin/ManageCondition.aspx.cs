@@ -24,7 +24,7 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("AdminCondition");
+            Master.SetMenuActive("AdminCondition");
 
             if (!Page.IsPostBack)
             {

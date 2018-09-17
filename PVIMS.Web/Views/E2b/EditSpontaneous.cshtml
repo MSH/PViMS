@@ -50,7 +50,7 @@
                                         @Html.HiddenFor(model => model.DatasetCategories[i].DatasetCategoryDisplayName)
                                         <div>
                                             <fieldset>
-                                                <!-- Category help--> 
+                                                <!-- Category help-->
                                                 @if (!String.IsNullOrEmpty(Model.DatasetCategories[i].DatasetCategoryHelp))
                                                 {
                                                     <div class="well well-lg" style="padding-left:15px;padding-bottom:15px;padding-top:15px;">
@@ -76,12 +76,12 @@
                                                                         {
                                                                             <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:100%; vertical-align:top;"></em>
                                                                         }
-                                                                        @element.DatasetElementDisplayName<br/>
+                                                                        @element.DatasetElementDisplayName<br />
                                                                         if (!String.IsNullOrEmpty(element.DatasetElementHelp))
                                                                         {
-                                                                        <small>
-                                                                            @element.DatasetElementHelp
-                                                                        </small>
+                                                                            <small>
+                                                                                @element.DatasetElementHelp
+                                                                            </small>
                                                                         }
                                                                     }
                                                                 </label>
@@ -101,31 +101,31 @@
                                                                             </label>
                                                                             break;
                                                                         case "Table":
-                                                                            <table class="table table-bordered table-striped table-responsive" style="width:100%;">
-                                                                            <tr>
-                                                                                @foreach (var header in element.TableHeaderColumns)
-                                                                                {
-                                                                                <th>@header.DatasetElementSubName</th>
-                                                                                }
-                                                                                <th></th>
-                                                                            </tr>
-
-                                                                            @foreach (var item in element.InstanceSubValues)
-                                                                            {
-                                                                            <tr>
-                                                                                @foreach (var headerColumn in element.TableHeaderColumns)
-                                                                                {
-                                                                                    var matchingItem = item.Values.SingleOrDefault(v => v.DatasetElementSubId == headerColumn.DatasetElementSubId);
-
-                                                                                    if (matchingItem != null)
+                                                                            <table class="table table-bordered table-striped table-responsive" style="width:100%;" id="@Model.DatasetCategories[i].DatasetElements[j].DatasetElementId">
+                                                                                <tr>
+                                                                                    @foreach (var header in element.TableHeaderColumns)
                                                                                     {
-                                                                                        <td>@matchingItem.InstanceValue</td>
+                                                                                        <th>@header.DatasetElementSubName</th>
                                                                                     }
-                                                                                    else
-                                                                                    {
-                                                                                        <td></td>
-                                                                                    }
-                                                                                }
+                                                                                    <th></th>
+                                                                                </tr>
+
+                                                                                @foreach (var item in element.InstanceSubValues)
+                                                                                {
+                                                                                    <tr>
+                                                                                        @foreach (var headerColumn in element.TableHeaderColumns)
+                                                                                        {
+                                                                                            var matchingItem = item.Values.SingleOrDefault(v => v.DatasetElementSubId == headerColumn.DatasetElementSubId);
+
+                                                                                            if (matchingItem != null)
+                                                                                            {
+                                                                                                <td>@matchingItem.InstanceValue</td>
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                <td></td>
+                                                                                            }
+                                                                                        }
                                                                                         <td>
                                                                                             <div class="btn-group">
                                                                                                 <button data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">
@@ -135,25 +135,32 @@
                                                                                                 <ul class="dropdown-menu pull-right">
                                                                                                     <li>
                                                                                                         <a data-toggle="modal"
-                                                                                                            data-target="#editDatasetElementSubModal"
-                                                                                                            data-id="@element.DatasetElementId"
-                                                                                                            data-context="@item.Context"
-                                                                                                            data-datasetinstance="@Model.DatasetInstanceId"
-                                                                                                            data-original-title="Edit @element.DatasetElementName item">
+                                                                                                           data-target="#editDatasetElementSubModal"
+                                                                                                           data-id="@element.DatasetElementId"
+                                                                                                           data-context="@item.Context"
+                                                                                                           data-datasetinstance="@Model.DatasetInstanceId"
+                                                                                                           data-original-title="Edit @element.DatasetElementName item">
                                                                                                             Edit @element.DatasetElementName item
                                                                                                         </a>
                                                                                                     </li>
                                                                                                     <li>
-                                                                                                        <a href="@Url.Action("DeleteDatasetInstanceSubValuesForDatasetElement", new { id = element.DatasetElementId, datasetInstanceId = Model.DatasetInstanceId, context = item.Context })">Delete @element.DatasetElementName item</a>
+                                                                                                        <a data-toggle="modal"
+                                                                                                           data-target="#deleteDatasetElementSubModal"
+                                                                                                           data-id="@element.DatasetElementId"
+                                                                                                           data-context="@item.Context"
+                                                                                                           data-datasetinstance="@Model.DatasetInstanceId"
+                                                                                                           data-original-title="Delete @element.DatasetElementName item">
+                                                                                                            Delete @element.DatasetElementName item
+                                                                                                        </a>
                                                                                                     </li>
                                                                                                 </ul>
                                                                                             </div>
                                                                                         </td>
-                                                                            </tr>
-                                                                            }
+                                                                                    </tr>
+                                                                                }
 
                                                                             </table>
-                                                                             <a class="btn btn-default pull-right" data-toggle="modal" data-target="#addDatasetElementSubModal" data-id="@element.DatasetElementId" data-datasetinstance="@Model.DatasetInstanceId" data-original-title="Add @element.DatasetElementName item"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add @element.DatasetElementName item</a>
+                                                                            <a class="btn btn-default pull-right" data-toggle="modal" data-target="#addDatasetElementSubModal" data-id="@element.DatasetElementId" data-datasetinstance="@Model.DatasetInstanceId" data-original-title="Add @element.DatasetElementName item"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add @element.DatasetElementName item</a>
                                                                             break;
                                                                         case "Listbox":
                                                                         case "DropDownList":
@@ -173,10 +180,16 @@
                                                                                 @Html.EditorFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementValue, new { htmlAttributes = new { @class = "form-control" } })
                                                                             </label>
                                                                             break;
-                                                                            }
-                                                                        @Html.ValidationMessageFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementValue, "", new { @class = "text-danger" })
                                                                     }
+                                                                    @Html.ValidationMessageFor(model => model.DatasetCategories[i].DatasetElements[j].DatasetElementValue, "", new { @class = "text-danger" })
+                                                                }
                                                             </section>
+                                                            @if (element.DatasetElementType == "Table")
+                                                            {
+                                                                <section class="col col-md-12">
+                                                                    <div id="Response_@Model.DatasetCategories[i].DatasetElements[j].DatasetElementId" class="alert alert-success fade in" style="display:none; height:auto;"></div>
+                                                                </section>
+                                                            }
                                                         </div>
                                                     }
                                                 }
@@ -215,22 +228,20 @@
                     </div>
                     <div class="modal-body">
                         <div id="tableDiv" style="overflow:scroll; height:600px; padding:10px;">
-                            <form class="form" role="form" id="datasetElementSubAddForm">
-                            </form>
+                            <form class="form" role="form" id="datasetElementSubAddForm"></form>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             Close
                         </button>
-                        <button type="button" id="submitButton" class="btn btn-default">
+                        <button type="button" id="submitButton" class="btn btn-primary">
                             Save
                         </button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-
         <!-- EDIT DatasetElementSub Modal -->
         <div class="modal fade" id="editDatasetElementSubModal">
             <div class="modal-dialog">
@@ -248,8 +259,32 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             Close
                         </button>
-                        <button type="button" id="updateButton" class="btn btn-default">
+                        <button type="button" id="updateButton" class="btn btn-primary">
                             Save
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- DELETE DatasetElementSub Modal -->
+        <div class="modal fade" id="deleteDatasetElementSubModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h4 class="modal-title" id="deleteDatasetElementSubModalTitle">Delete @ViewBag.DatasetElementName item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="tableDeleteDiv" style="overflow:scroll; height:600px; padding:10px;">
+                            <form class="form" role="form" id="datasetElementSubDeleteForm"></form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" id="deleteButton" class="btn btn-primary">
+                            Delete
                         </button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -266,247 +301,332 @@
 
 <script>
 
-        $('#addDatasetElementSubModal').on('hidden.bs.modal', function (e) {
-            //window.location.reload(true);
-        })
+    $('#addDatasetElementSubModal').on('show.bs.modal', function (e) {
 
-        $('#editDatasetElementSubModal').on('hidden.bs.modal', function (e) {
-            //window.location.reload(true);
-        })
+        var datasetElementId = $(e.relatedTarget).data('id');
+        var datasetInstanceId = $(e.relatedTarget).data('datasetinstance');
+        var formElements = [];
 
-        $('#addDatasetElementSubModal').on('show.bs.modal', function (e) {
+        jQuery.ajax({
+            type: "GET",
+            url: "../../Api/DatasetInstanceApi/GetDatasetElementSubsForDatasetElementId",
+            data: { id: datasetElementId },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var form = $('#datasetElementSubAddForm');
+                form.empty();
+                $.each(data, function (index, value) {
 
-            var datasetElementId = $(e.relatedTarget).data('id');
-            var datasetInstanceId = $(e.relatedTarget).data('datasetinstance');
-            var formElements = [];
+                    formElements.push(value.DatasetElementSubId);
 
-            jQuery.ajax({
-                type: "GET",
-                url: "../../Api/DatasetInstanceApi/GetDatasetElementSubsForDatasetElementId",
-                data: { id: datasetElementId },
+                    var formField = "<div class='form-group'>";
+
+                    var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubDisplayName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubDisplayName;
+                    var helpValue = "";
+                    if (value.DatasetElementSubHelp != null) {
+                        helpValue += "<br/><small>" + value.DatasetElementSubHelp + "</small>";
+                    }
+
+                    formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+                    if (helpValue != "") { formField += helpValue; };
+
+                    switch (value.DatasetElementSubType) {
+                        case "Date":
+                            formField += "<input type='text' class='form-control datepicker' placeholder='yyyy-mm-dd' id='a" + value.DatasetElementSubId + "'/>";
+                            break;
+                        case "Listbox":
+                        case "DropDownList":
+                            formField += "<select class='form-control' id='a" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubName + "'>";
+
+                            formField += "<option value=''></option>";
+
+                            $.each(value.FieldValues, function (innerIndex, innerValue) {
+                                formField += "<option value='" + innerValue.FieldValueId + "'>" + innerValue.FieldValueName + "</option>";
+                            });
+
+                            formField += "</select>";
+                            break;
+                        case "YesNo":
+                            formField += "<select class='form-control' id='a" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubId + "'>";
+                            formField += "<option value=''></option>";
+                            formField += "<option value='Yes'>Yes</option>";
+                            formField += "<option value='No'>No</option>";
+                            formField += "</select>";
+                            break;
+                        case "NumericTextbox":
+                            formField += "<input type='number' class='form-control' id='a" + value.DatasetElementSubId + "'/>";
+                            break;
+                        case "AlphaNumericTextbox":
+                        default:
+                            formField += "<input type='text' class='form-control' id='a" + value.DatasetElementSubId + "'/>";
+                            break;
+
+                    }
+
+                    formField += "</div>"
+
+                    form.append(formField)
+                });
+            }
+        });
+
+        $('#submitButton').unbind('click').click(function () {
+
+            $('span.text-danger', $('#datasetElementSubAddForm')).remove();
+
+            var formValues = [];
+
+            $.each(formElements, function (index, value) {
+                formValue = { "DatasetElementSubId": value, "Value": $('#a' + value).val() };
+                formValues.push(formValue);
+            });
+
+            var model = { DatasetElementId: datasetElementId, DatasetInstanceId: datasetInstanceId, Values: formValues };
+
+            $.ajax({
+                type: "POST",
+                url: "../../Api/DatasetInstanceApi/SaveDatasetInstanceSubValues",
+                data: JSON.stringify(model),
                 contentType: "application/json; charset=utf-8",
+                context: $('#datasetElementSubAddForm'),
                 dataType: "json",
-                success: function (data) {
-                    var form = $('#datasetElementSubAddForm');
-                    form.empty();
-                    $.each(data, function (index, value) {
+            }).done(function (html) {
+                $('#addDatasetElementSubModal').modal('hide');
+                $('#' + datasetElementId).html(html);
+                $('#Response_' + datasetElementId).css("display", "block").html("<span class='txt-color-green'>Row added successfully</span>");
+                $('#Response_' + datasetElementId).delay(5000).fadeOut(400);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                var errors = JSON.parse(jqXHR.responseText);
+                $.each(errors, function (index, value) {
+                    var formElement = $('#datasetElementSubAddForm').find('#' + value.Id);
 
-                        formElements.push(value.DatasetElementSubId);
-
-                        var formField = "<div class='form-group'>";
-
-                        var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubDisplayName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubDisplayName;
-                        var helpValue = "";
-                        if (value.DatasetElementSubHelp != null) {
-                            helpValue += "<br/><small>" + value.DatasetElementSubHelp + "</small>";
-                        }
-
-                        formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
-                        if (helpValue != "") { formField += helpValue; };
-
-                        switch (value.DatasetElementSubType) {
-                            case "Date":
-                                formField += "<input type='text' class='form-control datepicker' placeholder='yyyy-mm-dd' id='" + value.DatasetElementSubId + "'/>";
-                                break;
-                            case "Listbox":
-                            case "DropDownList":
-                                formField += "<select class='form-control' id='" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubName + "'>";
-
-                                formField += "<option value=''></option>";
-
-                                $.each(value.FieldValues, function (innerIndex, innerValue) {
-                                    formField += "<option value='" + innerValue.FieldValueId + "'>" + innerValue.FieldValueName + "</option>";
-                                });
-
-                                formField += "</select>";
-                                break;
-                            case "YesNo":
-                                formField += "<select class='form-control' id='" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubId + "'>";
-                                formField += "<option value=''></option>";
-                                formField += "<option value='Yes'>Yes</option>";
-                                formField += "<option value='No'>No</option>";
-                                formField += "</select>";
-                                break;
-                            case "NumericTextbox":
-                                formField += "<input type='number' class='form-control' id='" + value.DatasetElementSubId + "'/>";
-                                break;
-                            case "AlphaNumericTextbox":
-                            default:
-                                formField += "<input type='text' class='form-control' id='" + value.DatasetElementSubId + "'/>";
-                                break;
-
-                        }
-
-                        formField += "</div>"
-
-                        form.append(formField)
+                    // Bind to the change event for the failed element to clear validation errors on change.
+                    $(formElement).change(function () {
+                        $(this).parent().removeClass('has-error');
+                        $('span', $(this).parent()).remove();
                     });
-                }
+
+                    var parent = formElement.parent('div');
+                    parent.addClass('has-error');
+                    $(parent).append('<span class="text-danger">' + value.Message + '</span>');
+                });
             });
 
-            $('#submitButton').unbind('click').click(function () {
+        });
 
-                $('span.text-danger', $('#datasetElementSubAddForm')).remove();
+    })
 
-                var formValues = [];
+    $('#editDatasetElementSubModal').on('show.bs.modal', function (e) {
 
-                $.each(formElements, function (index, value) {
-                    formValue = { "DatasetElementSubId": value, "Value": $('#' + value).val() };
-                    formValues.push(formValue);
+        var datasetElementId = $(e.relatedTarget).data('id');
+        var datasetInstanceId = $(e.relatedTarget).data('datasetinstance');
+        var context = $(e.relatedTarget).data('context');
+
+        var formElements = [];
+
+        jQuery.ajax({
+            type: "GET",
+            url: "../../Api/DatasetInstanceApi/GetDatasetInstanceSubValues",
+            data: { datasetInstanceId : datasetInstanceId, datasetElementId: datasetElementId, subValueContext: context },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var form = $('#datasetElementSubEditForm');
+                form.empty();
+                $.each(data, function (index, value) {
+
+                    formElements.push(value.DatasetElementSubId);
+
+                    var formField = "<div class='form-group'>";
+
+                    var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubDisplayName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubDisplayName;
+                    var helpValue = "";
+                    if (value.DatasetElementSubHelp != null) {
+                        helpValue += "<br/><small>" + value.DatasetElementSubHelp + "</small>";
+                    }
+
+                    formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+                    if (helpValue != "") { formField += helpValue; };
+
+                    switch (value.DatasetElementSubType) {
+                        case "Date":
+                            formField += "<input type='text' class='form-control datepicker' id='e" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "'/>";
+                            break;
+                        case "Listbox":
+                        case "DropDownList":
+                            formField += "<select class='form-control' id='e" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubName + "'>";
+
+                            formField += "<option value=''></option>";
+
+                            $.each(value.FieldValues, function (innerIndex, innerValue) {
+                                var isSelected = (value.DatasetInstanceSubValue == innerValue.FieldValueName) ? "selected" : "";
+                                formField += "<option value='" + innerValue.FieldValueId + "' " + isSelected + ">" + innerValue.FieldValueName + "</option>";
+                            });
+
+                            formField += "</select>";
+                            break;
+                        case "YesNo":
+
+                            var nothingSelected = (value.DatasetInstanceSubValue == "") ? "selected" : "";
+                            var yesSelected = (value.DatasetInstanceSubValue == "Yes") ? "selected" : "";
+                            var noSelected = (value.DatasetInstanceSubValue == "No") ? "selected" : "";
+
+                            formField += "<select class='form-control' id='e" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubId + "'>";
+                            formField += "<option value='' " + nothingSelected + "></option>";
+                            formField += "<option value='Yes' " + yesSelected + ">Yes</option>";
+                            formField += "<option value='No' " + noSelected + ">No</option>";
+                            formField += "</select>";
+                            break;
+                        case "NumericTextbox":
+                            formField += "<input type='number' class='form-control' id='e" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "'/>";
+                            break;
+                        case "AlphaNumericTextbox":
+                        default:
+                            formField += "<input type='text' class='form-control' id='e" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "'/>";
+                            break;
+
+                    }
+
+                    formField += "</div>"
+
+                    form.append(formField)
+
                 });
+            }
+        });
 
-                var model = { DatasetElementId: datasetElementId, DatasetInstanceId: datasetInstanceId, Values: formValues };
+        $('#updateButton').unbind('click').click(function () {
 
-                $.ajax({
-                    type: "POST",
-                    url: "../../Api/DatasetInstanceApi/SaveDatasetInstanceSubValues",
-                    data: JSON.stringify(model),
-                    contentType: "application/json; charset=utf-8",
-                    context: $('#datasetElementSubAddForm'),
-                    dataType: "json",
-                }).done(function () {
-                    $('#addDatasetElementSubModal').modal('hide');
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    var errors = JSON.parse(jqXHR.responseText);
-                    $.each(errors, function (index, value) {
-                        var formElement = $('#datasetElementSubAddForm').find('#' + value.Id);
+            $('span.text-danger', $('#datasetElementSubEditForm')).remove();
 
-                        // Bind to the change event for the failed element to clear validation errors on change.
-                        $(formElement).change(function () {
-                            $(this).parent().removeClass('has-error');
-                            $('span', $(this).parent()).remove();
-                        });
+            var formValues = [];
 
-                        var parent = formElement.parent('div');
-                        parent.addClass('has-error');
-                        $(parent).append('<span class="text-danger">' + value.Message + '</span>');
-                    });
-                });
-
+            $.each(formElements, function (index, value) {
+                formValue = { "DatasetElementSubId": value, "Value": $('#e' + value).val() };
+                formValues.push(formValue);
             });
 
-        })
+            var model = { DatasetElementId: datasetElementId, DatasetInstanceId: datasetInstanceId, SubValueContext: context, Values: formValues };
 
-        $('#editDatasetElementSubModal').on('show.bs.modal', function (e) {
-
-            var datasetElementId = $(e.relatedTarget).data('id');
-            var datasetInstanceId = $(e.relatedTarget).data('datasetinstance');
-            var context = $(e.relatedTarget).data('context');
-
-            var formElements = [];
-
-            jQuery.ajax({
-                type: "GET",
-                url: "../../Api/DatasetInstanceApi/GetDatasetInstanceSubValues",
-                data: { datasetInstanceId : datasetInstanceId, datasetElementId: datasetElementId, subValueContext: context },
+            $.ajax({
+                type: "POST",
+                url: "../../Api/DatasetInstanceApi/SaveDatasetInstanceSubValues",
+                data: JSON.stringify(model),
                 contentType: "application/json; charset=utf-8",
+                context: $('#datasetElementSubEditForm'),
                 dataType: "json",
-                success: function (data) {
-                    var form = $('#datasetElementSubEditForm');
-                    form.empty();
-                    $.each(data, function (index, value) {
+            }).done(function (html) {
+                $('#editDatasetElementSubModal').modal('hide');
+                $('#' + datasetElementId).html(html);
+                $('#Response_' + datasetElementId).css("display", "block").html("<span class='txt-color-green'>Row updated successfully</span>");
+                $('#Response_' + datasetElementId).delay(5000).fadeOut(400);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                var errors = JSON.parse(jqXHR.responseText);
+                $.each(errors, function (index, value) {
+                    var formElement = $('#datasetElementSubEditForm').find('#' + value.Id);
 
-                        formElements.push(value.DatasetElementSubId);
-
-                        var formField = "<div class='form-group'>";
-
-                        var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubDisplayName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubDisplayName;
-                        var helpValue = "";
-                        if (value.DatasetElementSubHelp != null) {
-                            helpValue += "<br/><small>" + value.DatasetElementSubHelp + "</small>";
-                        }
-
-                        formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
-                        if (helpValue != "") { formField += helpValue; };
-
-                        switch (value.DatasetElementSubType) {
-                            case "Date":
-                                formField += "<input type='text' class='form-control datepicker' id='" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "'/>";
-                                break;
-                            case "Listbox":
-                            case "DropDownList":
-                                formField += "<select class='form-control' id='" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubName + "'>";
-
-                                formField += "<option value=''></option>";
-
-                                $.each(value.FieldValues, function (innerIndex, innerValue) {
-                                    var isSelected = (value.DatasetInstanceSubValue == innerValue.FieldValueName) ? "selected" : "";
-                                    formField += "<option value='" + innerValue.FieldValueId + "' " + isSelected + ">" + innerValue.FieldValueName + "</option>";
-                                });
-
-                                formField += "</select>";
-                                break;
-                            case "YesNo":
-
-                                var nothingSelected = (value.DatasetInstanceSubValue == "") ? "selected" : "";
-                                var yesSelected = (value.DatasetInstanceSubValue == "Yes") ? "selected" : "";
-                                var noSelected = (value.DatasetInstanceSubValue == "No") ? "selected" : "";
-
-                                formField += "<select class='form-control' id='" + value.DatasetElementSubId + "' name='" + value.DatasetElementSubId + "'>";
-                                formField += "<option value='' " + nothingSelected + "></option>";
-                                formField += "<option value='Yes' " + yesSelected + ">Yes</option>";
-                                formField += "<option value='No' " + noSelected + ">No</option>";
-                                formField += "</select>";
-                                break;
-                            case "NumericTextbox":
-                                formField += "<input type='number' class='form-control' id='" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "'/>";
-                                break;
-                            case "AlphaNumericTextbox":
-                            default:
-                                formField += "<input type='text' class='form-control' id='" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "'/>";
-                                break;
-
-                        }
-
-                        formField += "</div>"
-
-                        form.append(formField)
-
+                    // Bind to the change event for the failed element to clear validation errors on change.
+                    $(formElement).change(function () {
+                        $(this).parent().removeClass('has-error');
+                        $('span', $(this).parent()).remove();
                     });
-                }
+
+                    var parent = formElement.parent('div');
+                    parent.addClass('has-error');
+                    $(parent).append('<span class="text-danger">' + value.Message + '</span>');
+                });
             });
 
-            $('#updateButton').unbind('click').click(function () {
+        });
+    })
 
-                $('span.text-danger', $('#datasetElementSubEditForm')).remove();
+    $('#deleteDatasetElementSubModal').on('show.bs.modal', function (e) {
 
-                var formValues = [];
+        var datasetElementId = $(e.relatedTarget).data('id');
+        var datasetInstanceId = $(e.relatedTarget).data('datasetinstance');
+        var context = $(e.relatedTarget).data('context');
 
-                $.each(formElements, function (index, value) {
-                    formValue = { "DatasetElementSubId": value, "Value": $('#' + value).val() };
-                    formValues.push(formValue);
+        var formElements = [];
+
+        jQuery.ajax({
+            type: "GET",
+            url: "../../Api/DatasetInstanceApi/GetDatasetInstanceSubValues",
+            data: { datasetInstanceId: datasetInstanceId, datasetElementId: datasetElementId, subValueContext: context },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var form = $('#datasetElementSubDeleteForm');
+                form.empty();
+                $.each(data, function (index, value) {
+
+                    formElements.push(value.DatasetElementSubId);
+
+                    var formField = "<div class='form-group'>";
+
+                    var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubDisplayName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubDisplayName;
+                    var helpValue = "";
+                    if (value.DatasetElementSubHelp != null) {
+                        helpValue += "<br/><small>" + value.DatasetElementSubHelp + "</small>";
+                    }
+
+                    formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+                    if (helpValue != "") { formField += helpValue; };
+
+                    formField += "<input type='text' class='form-control' id='d" + value.DatasetElementSubId + "' value='" + value.DatasetInstanceSubValue + "' disabled='disabled'/>";
+
+                    formField += "</div>"
+
+                    form.append(formField)
+
                 });
+            }
+        });
 
-                var model = { DatasetElementId: datasetElementId, DatasetInstanceId: datasetInstanceId, SubValueContext: context, Values: formValues };
+        $('#deleteButton').unbind('click').click(function () {
 
-                $.ajax({
-                    type: "POST",
-                    url: "../../Api/DatasetInstanceApi/SaveDatasetInstanceSubValues",
-                    data: JSON.stringify(model),
-                    contentType: "application/json; charset=utf-8",
-                    context: $('#datasetElementSubEditForm'),
-                    dataType: "json",
-                }).done(function () {
-                    $('#editDatasetElementSubModal').modal('hide');
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    var errors = JSON.parse(jqXHR.responseText);
-                    $.each(errors, function (index, value) {
-                        var formElement = $('#datasetElementSubEditForm').find('#' + value.Id);
+            $('span.text-danger', $('#datasetElementSubDeleteForm')).remove();
 
-                        // Bind to the change event for the failed element to clear validation errors on change.
-                        $(formElement).change(function () {
-                            $(this).parent().removeClass('has-error');
-                            $('span', $(this).parent()).remove();
-                        });
+            var formValues = [];
 
-                        var parent = formElement.parent('div');
-                        parent.addClass('has-error');
-                        $(parent).append('<span class="text-danger">' + value.Message + '</span>');
-                    });
-                });
-
+            $.each(formElements, function (index, value) {
+                formValue = { "DatasetElementSubId": value, "Value": $('#d' + value).val() };
+                formValues.push(formValue);
             });
-        })
+
+            var model = { DatasetElementId: datasetElementId, DatasetInstanceId: datasetInstanceId, SubValueContext: context, Values: formValues };
+
+            $.ajax({
+                type: "POST",
+                url: "../../Api/DatasetInstanceApi/DeleteDatasetInstanceSubValues",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                context: $('#datasetElementSubDeleteForm'),
+                dataType: "json",
+            }).done(function (html) {
+                $('#deleteDatasetElementSubModal').modal('hide');
+                $('#' + datasetElementId).html(html);
+                $('#Response_' + datasetElementId).css("display", "block").html("<span class='txt-color-green'>Row deleted successfully</span>");
+                $('#Response_' + datasetElementId).delay(5000).fadeOut(400);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                var errors = JSON.parse(jqXHR.responseText);
+                $.each(errors, function (index, value) {
+                    var formElement = $('#datasetElementSubDeleteForm').find('#' + value.Id);
+
+                    // Bind to the change event for the failed element to clear validation errors on change.
+                    $(formElement).change(function () {
+                        $(this).parent().removeClass('has-error');
+                        $('span', $(this).parent()).remove();
+                    });
+
+                    var parent = formElement.parent('div');
+                    parent.addClass('has-error');
+                    $(parent).append('<span class="text-danger">' + value.Message + '</span>');
+                });
+            });
+
+        });
+    })
 
     </script>
 }

@@ -21,7 +21,7 @@ namespace PVIMS.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("AdminHoliday");
+            Master.SetMenuActive("AdminHoliday");
 
             if (!Page.IsPostBack) {
                 LoadDropDownList();

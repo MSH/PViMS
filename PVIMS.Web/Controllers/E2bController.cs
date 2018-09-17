@@ -1109,41 +1109,6 @@ namespace PVIMS.Web.Controllers
             return View(instanceSubValues);
         }
 
-        [MvcUnitOfWork]
-        public ActionResult DeleteDatasetInstanceSubValuesForDatasetElement(int id, int datasetInstanceId, Guid context)
-        {
-            ViewBag.MenuItem = ActiveCurrentMenuItem;
-
-            var returnUrl = (TempData["returnUrl"] ?? Request.UrlReferrer ?? (object)string.Empty).ToString();
-            ViewBag.ReturnUrl = returnUrl;
-
-            var datasetInstanceSubValueRepository = unitOfWork.Repository<DatasetInstanceSubValue>();
-            var datasetElement = unitOfWork.Repository<DatasetElement>().Get(id);
-
-            var datasetInstance = unitOfWork.Repository<DatasetInstance>()
-                .Queryable()
-                .Include(i => i.DatasetInstanceValues.Select(i2 => i2.DatasetInstanceSubValues.Select(i3 => i3.DatasetElementSub)))
-                .Where(di => di.Id == datasetInstanceId)
-                .SingleOrDefault();
-
-            var instanceSubValues = datasetInstance.GetInstanceSubValues(datasetElement, context);
-
-            foreach (var instanceSubValue in instanceSubValues)
-            {
-                datasetInstanceSubValueRepository.Delete(instanceSubValue);
-            }
-
-            unitOfWork.Complete();
-
-            HttpCookie cookie = new HttpCookie("PopUpMessage");
-            cookie.Value = "Record deleted successfully";
-            Response.Cookies.Add(cookie);
-
-            if (String.IsNullOrEmpty(returnUrl)) { RedirectToAction("Index", "Home"); };
-
-            return Redirect(returnUrl);
-        }
-
         private void SetInstanceValuesForSpontaneousRelease2(DatasetInstance datasetInstance, DatasetInstance sourceInstance, User currentUser)
         {
             // ************************************* ichicsrmessageheader

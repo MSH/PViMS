@@ -25,7 +25,7 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Menu.SetActive("AuditTrail");
+            Master.SetMenuActive("AuditTrail");
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)

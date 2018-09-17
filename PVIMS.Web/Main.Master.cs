@@ -235,5 +235,15 @@ namespace PVIMS.Web
 
             ShouldPopUpBeDisplayed();
         }
+
+        public void SetMenuActive(string itemname)
+        {
+            if (itemname == null) { itemname = ""; };
+
+            var name = "Menu_" + itemname.ToLower();
+
+            var script = string.Format("$('#{0}').attr('class', 'active');", name);
+            this.Page.ClientScript.RegisterStartupScript(typeof(string), "script1", script, true);
+        }
     }
 }

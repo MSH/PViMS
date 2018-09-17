@@ -103,13 +103,13 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.WebControls.DropDownList ddlWidgetType;
         
         /// <summary>
-        /// Label1 control.
+        /// lblWidgetStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Label1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblWidgetStatus;
         
         /// <summary>
         /// ddlWidgetStatus control.

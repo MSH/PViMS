@@ -21,7 +21,7 @@ namespace PVIMS.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("AdminLabTest");
+            Master.SetMenuActive("AdminLabTest");
 
             if (!Page.IsPostBack) {
                 RenderItems();

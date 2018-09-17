@@ -41,6 +41,8 @@ namespace PVIMS.Web
 
         protected void Page_Init(object sender, EventArgs e)
         {
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "WHO Causality Assessment", SubTitle = "", Icon = "fa fa-dashboard fa-fw", MetaPageId = 0 });
+
             _context = formContext.View;
             divCausality.Visible = false;
 
@@ -53,6 +55,8 @@ namespace PVIMS.Web
 
                     if (_reportInstance.WorkFlow.Description == "New Active Surveilliance Report")
                     {
+                        Master.SetMenuActive("ActiveReporting");
+
                         _formMode = FormMode.ActiveMode;
                         _clinicalEvent = UnitOfWork.Repository<PatientClinicalEvent>().Queryable().Include(pce => pce.Patient).SingleOrDefault(pce => pce.PatientClinicalEventGuid == _reportInstance.ContextGuid);
 
@@ -60,6 +64,8 @@ namespace PVIMS.Web
                     }
                     else
                     {
+                        Master.SetMenuActive("SpontaneousReporting");
+
                         _formMode = FormMode.SpontaneousMode;
                         _instance = UnitOfWork.Repository<DatasetInstance>().Queryable().SingleOrDefault(di => di.DatasetInstanceGuid == _reportInstance.ContextGuid);
 

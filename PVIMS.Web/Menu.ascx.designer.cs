@@ -31,94 +31,94 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnCustomReportList;
         
         /// <summary>
-        /// mnu_reportsystem control.
+        /// reportsystem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_reportsystem;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportsystem;
         
         /// <summary>
-        /// mnu_reportpxonstudy control.
+        /// reportpxonstudy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_reportpxonstudy;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportpxonstudy;
         
         /// <summary>
-        /// mnu_reportadverseevent control.
+        /// reportadverseevent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_reportadverseevent;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportadverseevent;
         
         /// <summary>
-        /// mnu_reportadverseeventq control.
+        /// reportadverseeventq control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_reportadverseeventq;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportadverseeventq;
         
         /// <summary>
-        /// mnu_reportadverseeventa control.
+        /// reportadverseeventa control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_reportadverseeventa;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportadverseeventa;
         
         /// <summary>
-        /// mnu_reportcausalitynotset control.
+        /// reportcausalitynotset control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_reportcausalitynotset;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportcausalitynotset;
         
         /// <summary>
-        /// mnu_reportdrug control.
+        /// reportdrug control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_reportdrug;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportdrug;
         
         /// <summary>
-        /// mnu_reportoutstandingvisit control.
+        /// reportoutstandingvisit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_reportoutstandingvisit;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportoutstandingvisit;
         
         /// <summary>
-        /// mnu_reportsae control.
+        /// reportsae control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_reportsae;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportsae;
         
         /// <summary>
-        /// mnu_reportlist control.
+        /// reportlist control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_reportlist;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportlist;
         
         /// <summary>
         /// navAnalytical control.
@@ -130,22 +130,22 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl navAnalytical;
         
         /// <summary>
-        /// mnu_spontaneous control.
+        /// spontaneous control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_spontaneous;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spontaneous;
         
         /// <summary>
-        /// mnu_spontaneousreporting control.
+        /// spontaneousreporting control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_spontaneousreporting;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spontaneousreporting;
         
         /// <summary>
         /// spnSpontaneousCount control.
@@ -157,31 +157,31 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnSpontaneousCount;
         
         /// <summary>
-        /// mnu_spontaneousanalyserview control.
+        /// spontaneousanalyserview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_spontaneousanalyserview;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spontaneousanalyserview;
         
         /// <summary>
-        /// mnu_active control.
+        /// active control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_active;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl active;
         
         /// <summary>
-        /// mnu_activereporting control.
+        /// activereporting control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_activereporting;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl activereporting;
         
         /// <summary>
         /// spnActiveCount control.
@@ -193,13 +193,13 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnActiveCount;
         
         /// <summary>
-        /// mnu_analyserview control.
+        /// analyserview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_analyserview;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl analyserview;
         
         /// <summary>
         /// navPublisher control.
@@ -220,13 +220,13 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnCustomPublisherList;
         
         /// <summary>
-        /// mnu_publishadmin control.
+        /// publishadmin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_publishadmin;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl publishadmin;
         
         /// <summary>
         /// navOLTP control.
@@ -238,58 +238,40 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl navOLTP;
         
         /// <summary>
-        /// mnu_patient control.
+        /// patientview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_patient;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl patientview;
         
         /// <summary>
-        /// mnu_patientview control.
+        /// encounterview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_patientview;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl encounterview;
         
         /// <summary>
-        /// mnu_encounter control.
+        /// cohortview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_encounter;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl cohortview;
         
         /// <summary>
-        /// mnu_encounterview control.
+        /// calendarview control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_encounterview;
-        
-        /// <summary>
-        /// mnu_cohort control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_cohort;
-        
-        /// <summary>
-        /// mnu_calendarview control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_calendarview;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl calendarview;
         
         /// <summary>
         /// navCommon control.
@@ -301,183 +283,183 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl navCommon;
         
         /// <summary>
-        /// mnu_audittrail control.
+        /// audittrail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_audittrail;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl audittrail;
         
         /// <summary>
-        /// mnu_admincondition control.
+        /// admincondition control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_admincondition;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl admincondition;
         
         /// <summary>
-        /// mnu_admingrading control.
+        /// admingrading control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_admingrading;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl admingrading;
         
         /// <summary>
-        /// mnu_adminlabresult control.
+        /// adminlabresult control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminlabresult;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminlabresult;
         
         /// <summary>
-        /// mnu_adminlabtest control.
+        /// adminlabtest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminlabtest;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminlabtest;
         
         /// <summary>
-        /// mnu_adminmedicine control.
+        /// adminmedicine control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminmedicine;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminmedicine;
         
         /// <summary>
-        /// mnu_adminmeddra control.
+        /// adminmeddra control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminmeddra;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminmeddra;
         
         /// <summary>
-        /// mnu_adminconfig control.
+        /// adminconfig control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminconfig;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminconfig;
         
         /// <summary>
-        /// mnu_admincontact control.
+        /// admincontact control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_admincontact;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl admincontact;
         
         /// <summary>
-        /// mnu_adminfacility control.
+        /// adminfacility control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminfacility;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminfacility;
         
         /// <summary>
-        /// mnu_adminholiday control.
+        /// adminholiday control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminholiday;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminholiday;
         
         /// <summary>
-        /// mnu_adminreport control.
+        /// adminreport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminreport;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminreport;
         
         /// <summary>
-        /// mnu_adminuser control.
+        /// adminuser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminuser;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminuser;
         
         /// <summary>
-        /// mnu_adminrole control.
+        /// adminrole control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminrole;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminrole;
         
         /// <summary>
-        /// mnu_admincustom control.
+        /// admincustom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_admincustom;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl admincustom;
         
         /// <summary>
-        /// mnu_admindataset control.
+        /// admindataset control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_admindataset;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl admindataset;
         
         /// <summary>
-        /// mnu_admindatasetelement control.
+        /// admindatasetelement control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_admindatasetelement;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl admindatasetelement;
         
         /// <summary>
-        /// mnu_admincareevent control.
+        /// admincareevent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_admincareevent;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl admincareevent;
         
         /// <summary>
-        /// mnu_adminencountertype control.
+        /// adminencountertype control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminencountertype;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminencountertype;
         
         /// <summary>
-        /// mnu_adminworkplan control.
+        /// adminworkplan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mnu_adminworkplan;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl adminworkplan;
     }
 }

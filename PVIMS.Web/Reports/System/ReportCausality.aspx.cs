@@ -66,7 +66,7 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("ReportCausalityNotSet");
+            Master.SetMenuActive("ReportCausalityNotSet");
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)

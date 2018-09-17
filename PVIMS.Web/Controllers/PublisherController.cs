@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security.AntiXss;
 
 using VPS.Common.Repositories;
 
@@ -18,7 +15,7 @@ namespace PVIMS.Web.Controllers
     [Authorize]
     public class PublisherController : BaseController
     {
-        private static string CurrentMenuItem = "Cohort";
+        private static string CurrentMenuItem = "PublishAdmin";
 
         private readonly IUnitOfWorkInt _unitOfWork;
 

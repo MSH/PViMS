@@ -71,7 +71,7 @@ namespace PVIMS.Web
 
             if (!Page.IsPostBack)
             {
-                Master.MainMenu.SetActive("AdminDataset");
+                Master.SetMenuActive("AdminDataset");
 
                 LoadCategoryDropDownList();
                 LoadElementDropDownList();

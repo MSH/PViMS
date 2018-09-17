@@ -22,7 +22,7 @@ namespace PVIMS.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("AdminGrading");
+            Master.SetMenuActive("AdminGrading");
 
             if (!Page.IsPostBack)
             {

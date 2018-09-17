@@ -13,7 +13,7 @@ namespace PVIMS.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("AdminConfig");
+            Master.SetMenuActive("AdminConfig");
             Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Configurations", SubTitle = "", Icon = "fa fa-windows fa-fw" });
 
             if (!Page.IsPostBack)

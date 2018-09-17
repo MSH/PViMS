@@ -31,10 +31,10 @@ namespace PVIMS.Web
             navReporter.Visible = false;
             navPublisher.Visible = false;
 
-            mnu_calendarview.Visible = false;
-            mnu_patient.Visible = false;
-            mnu_encounter.Visible = false;
-            mnu_cohort.Visible = false;
+            calendarview.Visible = false;
+            patientview.Visible = false;
+            encounterview.Visible = false;
+            cohortview.Visible = false;
 
             SetContext();
 
@@ -45,10 +45,10 @@ namespace PVIMS.Web
                     navOLTP.Visible = true;
 
                     if (HttpContext.Current.User.IsInRole("Admin")) { navCommon.Visible = true; }
-                    if (HttpContext.Current.User.IsInRole("RegClerk") || HttpContext.Current.User.IsInRole("DataCap") || HttpContext.Current.User.IsInRole("Clinician")) { mnu_patient.Visible = true; }
-                    if (HttpContext.Current.User.IsInRole("RegClerk")) { mnu_calendarview.Visible = true; }
-                    if (HttpContext.Current.User.IsInRole("DataCap") || HttpContext.Current.User.IsInRole("Clinician")) { mnu_encounter.Visible = true; }
-                    if (HttpContext.Current.User.IsInRole("Clinician")) { mnu_cohort.Visible = true; }
+                    if (HttpContext.Current.User.IsInRole("RegClerk") || HttpContext.Current.User.IsInRole("DataCap") || HttpContext.Current.User.IsInRole("Clinician")) { patientview.Visible = true; }
+                    if (HttpContext.Current.User.IsInRole("RegClerk")) { calendarview.Visible = true; }
+                    if (HttpContext.Current.User.IsInRole("DataCap") || HttpContext.Current.User.IsInRole("Clinician")) { encounterview.Visible = true; }
+                    if (HttpContext.Current.User.IsInRole("Clinician")) { cohortview.Visible = true; }
 
                     break;
 
@@ -81,7 +81,7 @@ namespace PVIMS.Web
                     navReporter.Visible = true;
 
                     //SetCustomMenus();
-                    if (HttpContext.Current.User.IsInRole("ReporterAdmin")) { mnu_reportlist.Visible = true; }
+                    if (HttpContext.Current.User.IsInRole("ReporterAdmin")) { reportlist.Visible = true; }
 
                     break;
 
@@ -89,7 +89,7 @@ namespace PVIMS.Web
                     navPublisher.Visible = true;
 
                     SetCustomPublicationMenus();
-                    if (HttpContext.Current.User.IsInRole("PublisherAdmin")) { mnu_publishadmin.Visible = true; }
+                    if (HttpContext.Current.User.IsInRole("PublisherAdmin")) { publishadmin.Visible = true; }
 
                     break;
             }
@@ -133,29 +133,6 @@ namespace PVIMS.Web
             }
         }
 
-        public void SetActive(string itemname)
-        {
-            if (itemname == null) { itemname = ""; };
-
-            var name = "mnu_" + itemname.ToLower();
-
-            InitActive();
-
-            var mnu = (HtmlGenericControl)FindControl(name);
-            mnu.Attributes.Add("class", "active");
-        }
-
-        private void InitActive()
-        {
-            foreach(HtmlGenericControl control in Controls.OfType<HtmlGenericControl>())
-            {
-                if (control.ID.Contains("mnu"))
-                {
-                    control.Attributes.Add("class", "");
-                }
-            }
-        }
-
         private void SetCustomReportMenus()
         {
             // Generate list of custom menus
@@ -193,7 +170,7 @@ namespace PVIMS.Web
             foreach (MetaPage page in db.MetaPages.Where(mp => mp.IsVisible).OrderBy(mp => mp.Id))
             {
                 HtmlGenericControl li = new HtmlGenericControl("li");
-                li.Attributes.Add("id", "mnu_info" + page.Id.ToString());
+                li.Attributes.Add("id", "Menu_info" + page.Id.ToString());
 
                 HyperLink hyp = new HyperLink() { NavigateUrl = "/Publisher/PageViewer.aspx?guid=" + page.metapage_guid.ToString() };
                 HtmlGenericControl i = new HtmlGenericControl("i");
@@ -209,6 +186,17 @@ namespace PVIMS.Web
             db = null;
 
             spnCustomPublisherList.Controls.Add(ul);
+        }
+
+        public void SetActive(string itemname)
+        {
+            // MVC - set menu
+            if (itemname == null) { itemname = ""; };
+
+            var name = itemname.ToLower();
+
+            var mnu = (HtmlGenericControl)FindControl(name);
+            mnu.Attributes.Add("class", "active");
         }
 
     }

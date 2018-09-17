@@ -104,7 +104,7 @@ namespace PVIMS.Web
 
             if (!Page.IsPostBack)
             {
-                Master.MainMenu.SetActive("AdminDatasetElement");
+                Master.SetMenuActive("AdminDatasetElement");
 
                 divAlpha.Visible = false;
                 divNumeric.Visible = false;

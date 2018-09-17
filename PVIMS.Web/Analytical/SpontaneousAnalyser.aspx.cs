@@ -24,7 +24,7 @@ namespace PVIMS.Web
                 divDownload.Visible = user.AllowDatasetDownload;
             }
 
-            Master.MainMenu.SetActive("SpontaneousAnalyserView");
+            Master.SetMenuActive("SpontaneousAnalyserView");
         }
 
     }

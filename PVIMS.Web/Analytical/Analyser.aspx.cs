@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Data;
-using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Web;
 using System.Web.UI;
@@ -12,12 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Xml;
 
-using VPS.Common.Repositories;
-using VPS.CustomAttributes;
-
-using PVIMS.Core;
 using PVIMS.Core.Entities;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -33,6 +25,8 @@ namespace PVIMS.Web
 
         protected void Page_Init(object sender, EventArgs e)
         {
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Analyser", SubTitle = "", Icon = "fa fa-dashboard fa-fw", MetaPageId = 0 });
+
             var dt = new DataTable();
             dt.Columns.Add(new DataColumn() { ColumnName = "Factor" });
             dt.Columns.Add(new DataColumn() { ColumnName = "Option" });
@@ -76,7 +70,7 @@ namespace PVIMS.Web
                 RenderFactors();
             };
 
-            Master.MainMenu.SetActive("AnalyserView");
+            Master.SetMenuActive("AnalyserView");
         }
 
         protected void btnView_Click(object sender, EventArgs e)

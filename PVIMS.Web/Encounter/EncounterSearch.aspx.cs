@@ -27,6 +27,8 @@ namespace PVIMS.Web
 
         protected void Page_Init(object sender, EventArgs e)
         {
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Encounter Search", SubTitle = "", Icon = "fa fa-file-text-o fa-fw" });
+
             txtSearchFrom.Value = DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd");
             txtSearchTo.Value = DateTime.Today.ToString("yyyy-MM-dd");
             
@@ -39,7 +41,7 @@ namespace PVIMS.Web
 
             //EnsureBookmarkableUri();
 
-            Master.MainMenu.SetActive("EncounterView");
+            Master.SetMenuActive("EncounterView");
 
             if (!Page.IsPostBack)
             {

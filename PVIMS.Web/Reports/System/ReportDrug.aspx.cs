@@ -35,7 +35,7 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.MainMenu.SetActive("ReportDrug");
+            Master.SetMenuActive("ReportDrug");
 
             if (!Page.IsPostBack)
             {

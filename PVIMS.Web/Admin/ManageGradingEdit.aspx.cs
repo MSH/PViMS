@@ -51,7 +51,7 @@ namespace PVIMS.Web
 
             if (!Page.IsPostBack)
             {
-                Master.MainMenu.SetActive("AdminGrading");
+                Master.SetMenuActive("AdminGrading");
 
                 if (_scale != null) {
                     RenderScale();

@@ -180,6 +180,7 @@ $(document).ready(function(){
             $($wizard).find('.btn-finish').show();
 
             $("#tblPreview").find("tr:gt(1)").remove();
+            // Display individual elements in preview
             $('#form').find("input[name*='DatasetElementName'], input[name*='DatasetElementValue'], select[name*='DatasetElementName'], select[name*='DatasetElementValue'], textarea[name*='DatasetElementName'], textarea[name*='DatasetElementValue']").each(function () {
                 if ($(this).attr('name').indexOf('DatasetElementName') != -1) {
                     name = $(this).attr('value');
@@ -192,6 +193,15 @@ $(document).ready(function(){
                     }
                 };
             });
+            // Display individual tables in preview
+            //$('#form').find("input[name*='DatasetElementName']").each(function () {
+            //    if ($(this).attr('name').indexOf('DatasetElementName') != -1) {
+            //        name = $(this).attr('value');
+            //    };
+            //    var table = $('table[id^=6192]');
+            //    $('#tblPreview tr:last').after('<tr><th>' + name + '</th><td class="text-left">' + table.html() + '</td></tr>');
+            //});
+
             previewShown = true;
             event.preventDefault();
         }
@@ -208,7 +218,6 @@ $(document).ready(function(){
         $wizard = $(this);
         index = $wizard.bootstrapWizard('currentIndex');
         refreshAnimation($wizard, index);
-
         $('.moving-tab').css({
             'transition': 'transform 0s'
         });
@@ -220,7 +229,6 @@ function refreshAnimation($wizard, index){
     move_distance = $wizard.width() / total_steps;
     step_width = move_distance;
     move_distance *= index;
-
     $wizard.find('.moving-tab').css('width', step_width);
     $('.moving-tab').css({
         'transform':'translate3d(' + move_distance + 'px, 0, 0)',

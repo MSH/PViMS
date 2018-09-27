@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-using PVIMS.Core;
 using PVIMS.Core.Entities;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -26,6 +20,7 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("AuditTrail");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Audit Trail", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)

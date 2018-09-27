@@ -7,7 +7,7 @@
 @{
 	Layout = "~/Views/Shared/_StandardLayout.cshtml";
 
-	ViewBag.Icon = "fa-user";
+	ViewBag.Icon = "fa-windows";
 	ViewBag.Heading = "Users";
     ViewBag.ClinicalCol = "orange"; ViewBag.AnalyticalCol = "white"; ViewBag.ReportingCol = "white"; ViewBag.PublisherCol = "white";
 }
@@ -28,7 +28,12 @@
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
 
                 <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                <div class="jarviswidget well" id="wid-id-0" 
+                     data-widget-editbutton="false" 
+                     data-widget-custombutton="false" 
+                     data-widget-deletebutton="false" 
+                     data-widget-colorbutton="false">
+
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                         <h2>Users</h2>

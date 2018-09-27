@@ -6,28 +6,20 @@ using System.Collections;
 using System.Collections.Generic;
 
 using System.Data;
-using System.Data.SqlClient;
-using System.Data.Objects;
 using System.Data.Common;
-using System.Data.Entity;
 
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 
 using System.Text;
 using System.Text.RegularExpressions;
 
-using System.Web;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 
 using System.Xml;
 
-using VPS.CustomAttributes;
-
-using PVIMS.Core;
 using PVIMS.Core.Entities;
 using PVIMS.Core.ValueTypes;
 using PVIMS.Entities.EF;
@@ -93,8 +85,9 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("ReportList");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Custom Reports", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
 
-            if(!Page.IsPostBack)
+            if (!Page.IsPostBack)
             {
                 LoadEntities();
             }

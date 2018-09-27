@@ -16,7 +16,12 @@
 			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 				
 				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget" id="wid-id-0"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+				<div class="jarviswidget well" id="wid-id-0" 
+                    data-widget-editbutton="false" 
+                    data-widget-custombutton="false" 
+                    data-widget-deletebutton="false" 
+                    data-widget-colorbutton="false">
+
 					<header>
 						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
 						<h2>Configurations</h2>

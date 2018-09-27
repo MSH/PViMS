@@ -7,17 +7,6 @@
 <asp:Content runat="server" ID="Body" ClientIDMode="Static" ContentPlaceHolderID="BodyContentPlaceHolder">
 
     <asp:HiddenField runat="server" ID="hfPosition" Value="" />
-    <div class="row">
-		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-			<h1 class="page-title txt-color-blueDark">
-				<i class="fa fa-windows fa-fw "></i> 
-					Administration 
-				<span>> 
-					Datasets
-				</span>
-			</h1>
-		</div>
-	</div>
 
 	<!-- widget grid -->
 	<section id="widget-grid" class="">

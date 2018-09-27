@@ -2,23 +2,17 @@
 using System.Collections.Generic;
 
 using System.Data;
-using System.Data.Common;
 using System.Data.Entity;
-using System.Data.Objects;
 using System.Data.SqlClient;
 
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 using PVIMS.Core.Entities;
-using PVIMS.Core.ValueTypes;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -31,6 +25,7 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("AdminReport");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report Meta Data", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
 
             if (!Page.IsPostBack)
             {

@@ -49,10 +49,11 @@ namespace PVIMS.Web
             divError.Visible = false;
             spnErrors.InnerHtml = "";
 
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Scale Gradings", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
+            Master.SetMenuActive("AdminGrading");
+
             if (!Page.IsPostBack)
             {
-                Master.SetMenuActive("AdminGrading");
-
                 if (_scale != null) {
                     RenderScale();
                 }

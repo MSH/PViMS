@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Data;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-using VPS.Common.Repositories;
-
-using PVIMS.Core;
 using PVIMS.Core.Entities;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -22,6 +13,7 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("ReportList");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Custom Reports", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
 
             if (!Page.IsPostBack) {
                 RenderItems();
@@ -35,9 +27,6 @@ namespace PVIMS.Web
 
             HyperLink hyp;
             Panel pnl;
-
-            string created;
-            string updated;
 
             // Loop through and render table
             foreach (var rep in UnitOfWork.Repository<MetaReport>().Queryable().OrderBy(mr => mr.ReportName))

@@ -835,3 +835,6 @@ SL-0061 - Ability to detect duplicate conditions
 ** 1.16.2/20181010
 ** Alignment with manuals (admin interface refactoring)
 ** Fixed password reset issue
+
+** 1.17.0/20181010
+** Move admin menu to admin portal

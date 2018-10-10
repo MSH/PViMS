@@ -42,6 +42,11 @@ namespace PVIMS.Web.Controllers
             _infrastuctureService = infrastuctureService;
         }
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         // GET: MedDRA
         [HttpGet]
         public ActionResult ManageMedDRA()

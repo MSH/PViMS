@@ -80,10 +80,11 @@
 
         <div class="login-info text-center">
             <div>
-                <a href="/SetContext.aspx?SetContext=oltp" id="hrefClinical" runat="server" style="padding:5px;"> <i class="fa fa-group fa-2x" title="Clinical Portal"></i> </a>
-                <a href="/SetContext.aspx?SetContext=analytical" id="hrefAnalytical" runat="server" style="padding:5px;"> <i class="fa fa-dashboard fa-2x" title="Analytical Portal"></i> </a>
-                <a href="/SetContext.aspx?SetContext=reporter" id="hrefReporting" runat="server" style="padding:5px;"> <i class="fa fa-bar-chart-o fa-2x" title="Reports Portal"></i> </a>
-                <a href="/SetContext.aspx?SetContext=publisher" id="hrefPublisher" runat="server" style="padding:5px;"> <i class="fa fa-files-o fa-2x" title="Info Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=0" id="hrefClinical" runat="server" style="padding:5px; color:white;"> <i class="fa fa-group fa-2x" title="Clinical Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=1" id="hrefAnalytical" runat="server" style="padding:5px; color:white;"> <i class="fa fa-dashboard fa-2x" title="Analytical Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=2" id="hrefReporting" runat="server" style="padding:5px; color:white;"> <i class="fa fa-bar-chart-o fa-2x" title="Reports Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=3" id="hrefPublisher" runat="server" style="padding:5px; color:white;"> <i class="fa fa-files-o fa-2x" title="Info Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=4" id="hrefAdmin" runat="server" style="padding:5px; color:white;"> <i class="fa fa-windows fa-2x" title="Administration"></i> </a>
             </div>
         </div>
         <!-- NAVIGATION : This navigation is also responsive
@@ -171,7 +172,7 @@
     <div class="page-footer">
         <div class="row">
             <div class="text-center">
-                <span class="txt-color-white" style="color:white">Management Scisences For Health © 2018 | Logged in as <asp:PlaceHolder id="pnlLogin" runat="server"></asp:PlaceHolder> | version 1.16.2</span>
+                <span class="txt-color-white" style="color:white">Management Scisences For Health © 2018 | Logged in as <asp:PlaceHolder id="pnlLogin" runat="server"></asp:PlaceHolder> | version 1.17.0</span>
             </div>
         </div>
     </div>

@@ -831,3 +831,7 @@ SL-0061 - Ability to detect duplicate conditions
 
 ** 1.16.1/20180812
 ** Alignment with manuals (user interface refactoring)
+
+** 1.16.2/20181010
+** Alignment with manuals (admin interface refactoring)
+** Fixed password reset issue

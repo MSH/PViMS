@@ -465,19 +465,18 @@ namespace PVIMS.Web.Controllers
                 
                 try
                 {
-                    var code = await userManager.GeneratePasswordResetTokenAsync(user.Id);
-                    IdentityResult result = await userManager.ResetPasswordAsync(user.Id, code, model.Password);
-                    if (result.Succeeded)
-                    {
-                        model.ResetComplete = true;
-                        return View(model);
-                    }
-                    else
-                    {
-                        model.ResetComplete = false;
-                        AddErrors(result);
-                        return View(model);
-                    }
+                    String hashedNewPassword = userManager.PasswordHasher.HashPassword(model.Password);
+                    var userTemp = unitOfWork.Repository<User>().Queryable().SingleOrDefault(u => u.Id == user.Id);
+                    userTemp.PasswordHash = hashedNewPassword;
+                    unitOfWork.Repository<User>().Update(userTemp);
+
+                    HttpCookie cookie = new HttpCookie("PopUpMessage");
+                    cookie.Value = "Password reset successfully";
+                    Response.Cookies.Add(cookie);
+
+                    unitOfWork.Complete();
+
+                    return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {

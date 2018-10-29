@@ -67,6 +67,7 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("ReportCausalityNotSet");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report - Causality", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw" });
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)

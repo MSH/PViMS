@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -11,6 +10,8 @@ using VPS.Common.Repositories;
 
 using PVIMS.Core;
 using PVIMS.Core.Entities;
+using PVIMS.Core.Utilities;
+
 using PVIMS.Entities.EF;
 using PVIMS.Web.Models;
 
@@ -139,30 +140,29 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            hrefClinical.Style["color"] = "white";
-            hrefAnalytical.Style["color"] = "white";
-            hrefReporting.Style["color"] = "white";
-            hrefPublisher.Style["color"] = "white";
-
             if (User != null)
             {
                 // Highlight selected portal
                 switch (User.CurrentContext)
                 {
-                    case "Clinical":
+                    case "0":
                         hrefClinical.Style["color"] = "orange";
                         break;
 
-                    case "Analytical":
+                    case "1":
                         hrefAnalytical.Style["color"] = "orange";
                         break;
 
-                    case "Reports":
+                    case "2":
                         hrefReporting.Style["color"] = "orange";
                         break;
 
-                    case "Info":
+                    case "3":
                         hrefPublisher.Style["color"] = "orange";
+                        break;
+
+                    case "4":
+                        hrefAdmin.Style["color"] = "orange";
                         break;
 
                     default:
@@ -172,9 +172,10 @@ namespace PVIMS.Web
                 lblPortalName.Style["color"] = "orange";
 
                 // Portal roles
-                hrefAnalytical.Visible = HttpContext.Current.User.IsInRole("Analyst");
-                hrefReporting.Visible = HttpContext.Current.User.IsInRole("Reporter");
-                hrefPublisher.Visible = HttpContext.Current.User.IsInRole("Publisher");
+                hrefAnalytical.Visible = HttpContext.Current.User.IsInRole(Constants.Role.PVSpecialist);
+                hrefReporting.Visible = HttpContext.Current.User.IsInRole(Constants.Role.Reporter);
+                hrefPublisher.Visible = HttpContext.Current.User.IsInRole(Constants.Role.Publisher);
+                hrefAdmin.Visible = HttpContext.Current.User.IsInRole(Constants.Role.Administrator);
 
                 PVIMSDbContext db = new PVIMSDbContext();
 

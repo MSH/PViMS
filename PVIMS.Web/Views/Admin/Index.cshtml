@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "Administration";
+}
+
+@{
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+
+    ViewBag.Icon = "fa-windows";
+    ViewBag.Heading = "Administration";
+    ViewBag.ClinicalColour = "white"; ViewBag.AnalyticalColour = "white"; ViewBag.ReportingColour = "white"; ViewBag.PublisherColour = "white"; ViewBag.AdminColour = "orange";
+    ViewBag.MenuItem = "AdminView";
+}
+
+@section breadcrumb
+{
+    <li>Activities</li>
+}
+
+<!-- widget grid -->
+    <article id="widget-grid" class="">
+
+        <div class="row">
+
+            <article class="col-sm-12 col-md-12 col-lg-3">
+                <div class="well" style="height:220px;">
+                    <h2><i class="fa  text-muted"></i>&nbsp;&nbsp;General</h2>
+                    <div class="row">
+                        <ul>
+                            <li id="audittrail" runat="server">
+                                <a href="/Admin/AuditTrail.aspx">Audit Trail</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+            <article class="col-sm-12 col-md-12 col-lg-3">
+                <div class="well" style="height:220px;">
+                    <h2><i class="fa  text-muted"></i>&nbsp;&nbsp;Reference Data</h2>
+                    <div class="row">
+                        <ul>
+                            <li id="admincondition" runat="server">
+                                <a href="/Admin/ManageCondition.aspx" title="Condition Groups"><span class="menu-item-parent">Condition Groups</span></a>
+                            </li>
+                            <li id="admingrading" runat="server">
+                                <a href="/Admin/ManageGrading.aspx" title="Gradings"><span class="menu-item-parent">Scale Gradings</span></a>
+                            </li>
+                            <li id="adminlabresult" runat="server">
+                                <a href="/Admin/ManageLabResult.aspx" title="Test Results"><span class="menu-item-parent">Test Results</span></a>
+                            </li>
+                            <li id="adminlabtest" runat="server">
+                                <a href="/Admin/ManageLabTest.aspx" title="Tests and Procedures"><span class="menu-item-parent">Tests and Procedures</span></a>
+                            </li>
+                            <li id="adminmedicine" runat="server">
+                                <a href="/Admin/ManageMedicine.aspx" title="Medicines"><span class="menu-item-parent">Medicines</span></a>
+                            </li>
+                            <li id="adminmeddra" runat="server">
+                                <a href="/Admin/ManageMedDRA" title="Terminology MedDRA"><span class="menu-item-parent">MedDRA</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+            <article class="col-sm-12 col-md-12 col-lg-3">
+                <div class="well" style="height:220px;">
+                    <h2><i class="fa  text-muted"></i>&nbsp;&nbsp;System Configuration</h2>
+                    <div class="row">
+                        <ul>
+                            <li id="adminconfig" runat="server">
+                                <a href="/Admin/ManageConfig.aspx" title="Configurations"><span class="menu-item-parent">Configurations</span></a>
+                            </li>
+                            <li id="admincontact" runat="server">
+                                <a href="/Admin/ManageContactDetail.aspx" title="Contact Details"><span class="menu-item-parent">Contact Details</span></a>
+                            </li>
+                            <li id="adminfacility" runat="server">
+                                <a href="/Facility/Index" title="Facilities"><span class="menu-item-parent">Facilities</span></a>
+                            </li>
+                            <li id="adminholiday" runat="server">
+                                <a href="/Admin/ManageHoliday.aspx" title="Holidays"><span class="menu-item-parent">Public Holidays</span></a>
+                            </li>
+                            <li id="adminreport" runat="server">
+                                <a href="/Admin/ReportMeta.aspx" title="Holidays"><span class="menu-item-parent">Report Meta Data</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <div class="row">
+
+            <article class="col-sm-12 col-md-12 col-lg-3">
+                <div class="well" style="height:220px;">
+                    <h2><i class="fa  text-muted"></i>&nbsp;&nbsp;User Configuration</h2>
+                    <div class="row">
+                        <ul>
+                            <li id="adminuser" runat="server" visible="true">
+                                <a href="/UserAdministration" title="User Administration"><span class="menu-item-parent">Users</span></a>
+                            </li>
+                            <li id="adminrole" runat="server" visible="true">
+                                <a href="/RoleAdministration" title="Role Administration"><span class="menu-item-parent">Roles</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+            <article class="col-sm-12 col-md-12 col-lg-3">
+                <div class="well" style="height:220px;">
+                    <h2><i class="fa  text-muted"></i>&nbsp;&nbsp;Work Configuration</h2>
+                    <div class="row">
+                        <ul>
+                            <li id="admincustom" runat="server">
+                                <a href="/CustomAttributeConfig" title="Custom Attribute Administration"><span class="menu-item-parent">Custom Attributes</span></a>
+                            </li>
+                            <li id="admindataset" runat="server" visible="true">
+                                <a href="/Admin/ManageDataset.aspx" title="Work Plans"><span class="menu-item-parent">Datasets</span></a>
+                            </li>
+                            <li id="admindatasetelement" runat="server" visible="true">
+                                <a href="/Admin/ManageDatasetElement.aspx" title="Work Plans"><span class="menu-item-parent">Dataset Elements</span></a>
+                            </li>
+                            <li id="admincareevent" runat="server" visible="true">
+                                <a href="/Admin/ManageCareEvent.aspx" title="Care Events"><span class="menu-item-parent">Care Events</span></a>
+                            </li>
+                            <li id="adminencountertype" runat="server" visible="true">
+                                <a href="/Admin/ManageEncounterType.aspx" title="Encounter Types"><span class="menu-item-parent">Encounter Types</span></a>
+                            </li>
+                            <li id="adminworkplan" runat="server" visible="true">
+                                <a href="/Admin/ManageWorkPlan.aspx" title="Work Plans"><span class="menu-item-parent">Work Plans</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+    </article>
+<!-- end widget grid -->

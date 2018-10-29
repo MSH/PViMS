@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Security.AntiXss;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 using PVIMS.Core.Entities;
-using PVIMS.Core.ValueTypes;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -65,9 +60,11 @@ namespace PVIMS.Web
             divMError.Visible = false;
             spnMError.InnerHtml = "";
 
+            Master.SetMenuActive("AdminCondition");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Condition Groups", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
+
             if (!Page.IsPostBack)
             {
-                Master.SetMenuActive("AdminCondition");
 
                 if (_condition != null)
                 {

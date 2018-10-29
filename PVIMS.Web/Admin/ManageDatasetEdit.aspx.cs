@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 using System.Web;
-using System.Web.Security.AntiXss;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 using PVIMS.Core.Entities;
-using PVIMS.Core.ValueTypes;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -69,20 +65,21 @@ namespace PVIMS.Web
             divError.Visible = false;
             spnErrors.InnerHtml = "";
 
+            Master.SetMenuActive("AdminDataset");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Datasets", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
+
             if (!Page.IsPostBack)
             {
-                Master.SetMenuActive("AdminDataset");
-
-                LoadCategoryDropDownList();
-                LoadElementDropDownList();
-                LoadConditionListBox();
-
                 if (_dataset != null)
                 {
+                    LoadCategoryDropDownList();
+                    LoadElementDropDownList();
+                    LoadConditionListBox();
+
                     RenderDataset();
+                    RenderGrids();
                 }
             };
-            RenderGrids();
         }
 
         #region "Rendering"

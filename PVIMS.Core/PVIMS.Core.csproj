@@ -76,6 +76,7 @@
     <Compile Include="Services\IArtefactService.cs" />
     <Compile Include="Services\IReportService.cs" />
     <Compile Include="Services\IWorkFlowService.cs" />
+    <Compile Include="Utilities\Constants.cs" />
     <Compile Include="ValueTypes\ActivityType.cs" />
     <Compile Include="Entities\AdverseEventAnnualList.cs" />
     <Compile Include="Entities\AdverseEventQuarterlyList.cs" />

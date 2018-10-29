@@ -19,17 +19,18 @@ namespace PVIMS.Web
             ccClinical,
             ccAnalytical,
             ccReporting,
-            ccPublication
+            ccPublication,
+            ccAdmin
         }
         private CurrentContext _currentContext = CurrentContext.ccClinical;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            navCommon.Visible = false;
             navAnalytical.Visible = false;
             navOLTP.Visible = false;
             navReporter.Visible = false;
             navPublisher.Visible = false;
+            navAdmin.Visible = false;
 
             calendarview.Visible = false;
             patientview.Visible = false;
@@ -44,7 +45,6 @@ namespace PVIMS.Web
                     // Permissions
                     navOLTP.Visible = true;
 
-                    if (HttpContext.Current.User.IsInRole("Admin")) { navCommon.Visible = true; }
                     if (HttpContext.Current.User.IsInRole("RegClerk") || HttpContext.Current.User.IsInRole("DataCap") || HttpContext.Current.User.IsInRole("Clinician")) { patientview.Visible = true; }
                     if (HttpContext.Current.User.IsInRole("RegClerk")) { calendarview.Visible = true; }
                     if (HttpContext.Current.User.IsInRole("DataCap") || HttpContext.Current.User.IsInRole("Clinician")) { encounterview.Visible = true; }
@@ -92,45 +92,28 @@ namespace PVIMS.Web
                     if (HttpContext.Current.User.IsInRole("PublisherAdmin")) { publishadmin.Visible = true; }
 
                     break;
+
+                case CurrentContext.ccAdmin:
+                    navAdmin.Visible = true;
+
+                    break;
             }
         }
 
         private void SetContext()
         {
-            var currentContext = "";
-            if(Session["CurrentContext"] == null)
+            _currentContext = CurrentContext.ccClinical;
+            PVIMSDbContext db = new PVIMSDbContext();
+
+            var user = db.Users.SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
+            if (user != null)
             {
-                PVIMSDbContext db = new PVIMSDbContext();
-
-                var user = db.Users.SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
-                if (user != null) {
-                    currentContext = user.CurrentContext;
+                if(!String.IsNullOrWhiteSpace(user.CurrentContext))
+                {
+                    _currentContext = (CurrentContext)Convert.ToInt32(user.CurrentContext);
                 }
-                else {
-                    currentContext = string.Empty;
-                }
-
-                db = null;
             }
-
-            switch (currentContext)
-            {
-                case "Clinical":
-                    _currentContext = CurrentContext.ccClinical;
-                    break;
-                case "Analytical":
-                    _currentContext = CurrentContext.ccAnalytical;
-                    break;
-                case "Info":
-                    _currentContext = CurrentContext.ccPublication;
-                    break;
-                case "Reports":
-                    _currentContext = CurrentContext.ccReporting;
-                    break;
-                case "":
-                    _currentContext = CurrentContext.ccClinical;
-                    break;
-            }
+            db = null;
         }
 
         private void SetCustomReportMenus()

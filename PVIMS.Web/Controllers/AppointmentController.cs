@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using VPS.Common.Repositories;
-using PVIMS.Core;
+
 using PVIMS.Core.Entities;
 using PVIMS.Web.Models;
-using PVIMS.Core.ValueTypes;
 using PVIMS.Web.ActionFilters;
-using System.Data.Entity.Validation;
-using PVIMS.Core.Exceptions;
+
+using VPS.Common.Repositories;
 
 namespace PVIMS.Web.Controllers
 {

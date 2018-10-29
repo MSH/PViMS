@@ -36,6 +36,7 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("ReportDrug");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report - Patients by Drug", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw" });
 
             if (!Page.IsPostBack)
             {

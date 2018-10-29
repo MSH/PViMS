@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Data;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-using VPS.Common.Repositories;
-
-using PVIMS.Core;
 using PVIMS.Core.Entities;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -22,6 +14,7 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("AdminContact");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Contact Details", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
 
             if (!Page.IsPostBack) {
                 RenderItems();
@@ -36,12 +29,7 @@ namespace PVIMS.Web
             TableRow row;
             TableCell cell;
 
-            HyperLink hyp;
             HyperLink storeHyp;
-            Panel pnl;
-            Label lbl;
-            HtmlGenericControl ul;
-            HtmlGenericControl li;
 
             // Loop through and render table
             foreach (var c in UnitOfWork.Repository<SiteContactDetail>().Queryable().OrderBy(c => c.ContactType))

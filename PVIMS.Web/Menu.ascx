@@ -110,9 +110,9 @@
 		</ul>
 	</nav>
 
-    <nav id="navCommon" runat="server">
+    <nav id="navAdmin" runat="server">
         <ul>
-			<li>
+			<li id="adminview" runat="server">
 				<a href="#" title="Administration"><i class="fa fa-lg fa-fw fa-windows"></i><span class="menu-item-parent">Administration</span></a>
 				<ul>
 					<li id="audittrail" runat="server">

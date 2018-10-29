@@ -65,10 +65,11 @@
 
         <div class="login-info text-center">
             <div>
-                <a href="/SetContext.aspx?SetContext=oltp" id="hrefClinical" style="padding:5px; color:@ViewBag.ClinicalCol;"> <i class="fa fa-group fa-2x" title="Clinical Portal"></i> </a>
-                <a href="/SetContext.aspx?SetContext=analytical" id="hrefAnalytical" style="padding:5px; color:@ViewBag.AnalyticalCol;"> <i class="fa fa-dashboard fa-2x" title="Analytical Portal"></i> </a>
-                <a href="/SetContext.aspx?SetContext=reporter" id="hrefReporting" style="padding:5px; color:@ViewBag.ReportingCol;"> <i class="fa fa-bar-chart-o fa-2x" title="Reports Portal"></i> </a>
-                <a href="/SetContext.aspx?SetContext=publisher" id="hrefPublisher" style="padding:5px; color:@ViewBag.PublisherCol;"> <i class="fa fa-files-o fa-2x" title="Info Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=0" id="hrefClinical" style="padding:5px; color: @ViewBag.ClinicalColour;"> <i class="fa fa-group fa-2x" title="Clinical Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=1" id="hrefAnalytical" style="padding:5px; color:@ViewBag.AnalyticalColour;"> <i class="fa fa-dashboard fa-2x" title="Analytical Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=2" id="hrefReporting" style="padding:5px; color:@ViewBag.ReportingColour;"> <i class="fa fa-bar-chart-o fa-2x" title="Reports Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=3" id="hrefPublisher" style="padding:5px; color:@ViewBag.PublisherColour;"> <i class="fa fa-files-o fa-2x" title="Info Portal"></i> </a>
+                <a href="/SetContext.aspx?SetContext=4" id="hrefPublisher" style="padding:5px; color:@ViewBag.AdminColour;"> <i class="fa fa-windows fa-2x" title="Administration"></i> </a>
             </div>
         </div>
         <div>
@@ -92,19 +93,19 @@
 
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                @if (ViewBag.ClinicalCol == "orange")
+                @if (ViewBag.ClinicalColour == "orange")
                 {
                     <li><a href="/"><span style="color:orange;">Clinical Portal</span></a></li>
                 }
-                @if (ViewBag.AnalyticalCol == "orange")
+                @if (ViewBag.AnalyticalColour == "orange")
                 {
                     <li><a href="/"><span style="color:orange;">Analytical Portal</span></a></li>
                 }
-                @if (ViewBag.ReportingCol == "orange")
+                @if (ViewBag.ReportingColour == "orange")
                 {
                     <li><a href="/"><span style="color:orange;">Reporting Portal</span></a></li>
                 }
-                @if (ViewBag.PublisherCol == "orange")
+                @if (ViewBag.PublisherColour == "orange")
                 {
                     <li><a href="/"><span style="color:orange;">Info Portal</span></a></li>
                 }
@@ -137,7 +138,7 @@
             <div class="text-center">
                 <span class="txt-color-white" >
                     Management Sciences For Health © 2018 | Logged in as
-                    <a class="txt-color-white" href="#" data-toggle="modal" data-target="#userModal">"@User.Identity.Name"</a> | version 1.16.1
+                    <a class="txt-color-white" href="#" data-toggle="modal" data-target="#userModal">"@User.Identity.Name"</a> | version 1.17.0
                 </span>
             </div>
         </div>

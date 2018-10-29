@@ -102,10 +102,11 @@ namespace PVIMS.Web
             divError.Visible = false;
             spnErrors.InnerHtml = "";
 
+            Master.SetMenuActive("AdminDatasetElement");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Dataset Elements", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
+
             if (!Page.IsPostBack)
             {
-                Master.SetMenuActive("AdminDatasetElement");
-
                 divAlpha.Visible = false;
                 divNumeric.Visible = false;
             };

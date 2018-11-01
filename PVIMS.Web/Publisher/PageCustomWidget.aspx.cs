@@ -516,7 +516,7 @@ namespace PVIMS.Web
             }
 
             var metaPage = (_metaPage == null) ? _metaWidget.MetaPage : _metaPage;
-            ddlWidgetLocation.Items.Add(new ListItem() { Text = "-- Do not modify --", Value = "0" });
+            ddlWidgetLocation.Items.Add(new ListItem() { Text = "-- No change --", Value = "0" });
             if (!metaPage.Widgets.Any(w => w.WidgetLocation == MetaWidgetLocation.TopLeft)) { ddlWidgetLocation.Items.Add(new ListItem() { Text = "Top Left", Value = "1" }); };
             if (!metaPage.Widgets.Any(w => w.WidgetLocation == MetaWidgetLocation.TopRight)) { ddlWidgetLocation.Items.Add(new ListItem() { Text = "Top Right", Value = "2" }); };
             if (!metaPage.Widgets.Any(w => w.WidgetLocation == MetaWidgetLocation.MiddleLeft)) { ddlWidgetLocation.Items.Add(new ListItem() { Text = "Middle Left", Value = "3" }); };

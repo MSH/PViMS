@@ -838,3 +838,6 @@ SL-0061 - Ability to detect duplicate conditions
 
 ** 1.17.0/20181010
 ** Move admin menu to admin portal
+
+** 1.17.1/20181101
+** Information portal - rename text for widget location drop down list

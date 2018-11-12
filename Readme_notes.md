@@ -844,3 +844,4 @@ SL-0061 - Ability to detect duplicate conditions
 
 ** 1.17.2/20181106
 ** Bypass application cache for non-https implementations
+** Fixed spelling of Management Sciences

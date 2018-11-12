@@ -841,3 +841,6 @@ SL-0061 - Ability to detect duplicate conditions
 
 ** 1.17.1/20181101
 ** Information portal - rename text for widget location drop down list
+
+** 1.17.2/20181106
+** Bypass application cache for non-https implementations

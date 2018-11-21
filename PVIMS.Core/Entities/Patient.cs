@@ -243,7 +243,7 @@ namespace PVIMS.Core.Entities
                 return null;
             }
             else {
-                return CohortEnrolments.SingleOrDefault(ce => ce.CohortGroup.Id == cohort.Id && !ce.Archived );
+                return CohortEnrolments.FirstOrDefault(ce => ce.CohortGroup.Id == cohort.Id && !ce.Archived );
             }
         }
 
@@ -269,7 +269,6 @@ namespace PVIMS.Core.Entities
                 }
                 return false;
             }
-            return false;
         }
 
         public PatientCondition GetConditionForGroupAndDate(Condition group, DateTime date)
@@ -280,7 +279,11 @@ namespace PVIMS.Core.Entities
             }
             else
             {
-                return PatientConditions.Where(pc => pc.Archived == false && pc.DateStart <= date && pc.TerminologyMedDra.ConditionMedDras.Any(cm => cm.Condition.Id == group.Id)).OrderByDescending(pc => pc.DateStart).FirstOrDefault();
+                return PatientConditions.Where(pc => pc.Archived == false 
+                        && pc.DateStart <= date 
+                        && pc.TerminologyMedDra.ConditionMedDras.Any(cm => cm.Condition.Id == group.Id))
+                    .OrderByDescending(pc => pc.DateStart)
+                    .FirstOrDefault();
             }
         }
 

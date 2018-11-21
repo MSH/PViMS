@@ -11,7 +11,12 @@
 			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				
 				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget well" id="wid-id-5"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+				<div class="jarviswidget well" id="wid-id-5" 
+                    data-widget-editbutton="false" 
+                    data-widget-custombutton="false" 
+                    data-widget-deletebutton="false" 
+                    data-widget-colorbutton="false">
+
 					<header>
 						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
 						<h2>Cohorts</h2>
@@ -33,7 +38,7 @@
                             <div class="alert alert-success fade in" runat="server" id="divstatus" name="divstatus" visible="false">
                                 <strong>Success</strong> Cohort saved successfully!&nbsp&nbsp&nbsp
                             </div>		
-							<div class="well well-sm bg-color-blueLight txt-color-white text-right">
+							<div class="well well-sm text-right">
                                 <span id="spnbuttons" runat="server" >
 
                                 </span>
@@ -44,13 +49,14 @@
 
                             <asp:Table id="dt_basic" runat="server" ClientIDMode="Static" class="table table-striped table-bordered table-hover"  width="100%">
                                 <asp:TableHeaderRow TableSection="TableHeader">
-                                    <asp:TableHeaderCell width="5%">ID</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="25%">Cohort Name</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%">Cohort Code</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="10%"># Patients</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%">Start Date</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%">Finish Date</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%">Action</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>ID</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Cohort Name</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Cohort Code</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Primary Condition</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell># Patients</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Start Date</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Finish Date</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Action</asp:TableHeaderCell> 
                                 </asp:TableHeaderRow>
                             </asp:Table>
 

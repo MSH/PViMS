@@ -31,7 +31,6 @@
     var cacheProgress = $("#cacheProgress");
 
     // This is implemented to bypass deprecation of app cache for non https sites
-    alert(location.protocol);
     if (location.protocol != 'https:') {
         logEvent("Application cache not available for non https implementations...");
         setTimeout(

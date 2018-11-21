@@ -187,7 +187,7 @@ namespace PVIMS.Web
 
                     break;
 
-                case MetaWidgetTypes.Wiki:
+                case MetaWidgetTypes.SubItem:
                     divContentWiki.Visible = true;
 
                     var tabsWiki = PrepareTabsForWidget();
@@ -632,7 +632,7 @@ namespace PVIMS.Web
                         content = "** PLEASE ENTER YOUR CONTENT HERE **";
                         break;
 
-                    case MetaWidgetTypes.Wiki:
+                    case MetaWidgetTypes.SubItem:
                     case MetaWidgetTypes.ItemList:
                         content = GetBaseTemplate(widgetTypeE);
                         break;
@@ -672,7 +672,7 @@ namespace PVIMS.Web
                         content = CKEditor1.Text;
                         break;
 
-                    case MetaWidgetTypes.Wiki:
+                    case MetaWidgetTypes.SubItem:
                     case MetaWidgetTypes.ItemList:
                         content = GetContentFromWidget(widgetTypeE);
                         break;
@@ -734,7 +734,7 @@ namespace PVIMS.Web
                         }
                     }
                 }
-                if (widgetTypeE == MetaWidgetTypes.Wiki)
+                if (widgetTypeE == MetaWidgetTypes.SubItem)
                 {
                     var title = tab.Controls.All().OfType<HtmlInputText>().First(h => h.ID != null && (h.ID.StartsWith("title-")));
                     var subTitle = tab.Controls.All().OfType<HtmlInputText>().First(h => h.ID != null && (h.ID.StartsWith("subtitle-")));
@@ -785,7 +785,7 @@ namespace PVIMS.Web
                 childNode.AppendChild(contentNode);
                 parentNode.AppendChild(childNode);
             }
-            if (widgetTypeE == MetaWidgetTypes.Wiki)
+            if (widgetTypeE == MetaWidgetTypes.SubItem)
             {
                 XmlNode titleNode = xmlDoc.CreateElement("Title", "");
                 titleNode.InnerText = "** PLEASE ADD TITLE HERE **";

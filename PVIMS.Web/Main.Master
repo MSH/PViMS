@@ -172,7 +172,7 @@
     <div class="page-footer">
         <div class="row">
             <div class="text-center">
-                <span class="txt-color-white" style="color:white">Management Sciences For Health © 2018 | Logged in as <asp:PlaceHolder id="pnlLogin" runat="server"></asp:PlaceHolder> | version 1.17.2</span>
+                <span class="txt-color-white" style="color:white">Management Sciences For Health © 2018 | Logged in as <asp:PlaceHolder id="pnlLogin" runat="server"></asp:PlaceHolder> | version 1.17.3</span>
             </div>
         </div>
     </div>

@@ -89,7 +89,11 @@ namespace PVIMS.Web
                     navPublisher.Visible = true;
 
                     SetCustomPublicationMenus();
-                    if (HttpContext.Current.User.IsInRole("PublisherAdmin")) { publishadmin.Visible = true; }
+                    if (HttpContext.Current.User.IsInRole("PublisherAdmin"))
+                    {
+                        publishadmin.Visible = true;
+                        publishadminlist.Visible = true;
+                    }
 
                     break;
 

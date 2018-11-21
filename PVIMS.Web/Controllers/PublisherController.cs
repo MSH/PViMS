@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security.AntiXss;
 
 using VPS.Common.Repositories;
 
@@ -247,6 +249,35 @@ namespace PVIMS.Web.Controllers
             ViewBag.DestinationPages = pages;
 
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult AddMetaPage(string pageName, string widgetName)
+        {
+            var success = "OK";
+            var message = "";
+
+            try
+            {
+                if(String.IsNullOrWhiteSpace(pageName))
+                {
+                    pageName = "** New Page For Widget **";
+                }
+
+                var encodedName = AntiXssEncoder.HtmlEncode(pageName, false);
+
+                var metaPage = new MetaPage { Breadcrumb = string.Empty, IsSystem = false, MetaDefinition = "", PageDefinition = widgetName, PageName = encodedName, metapage_guid = Guid.NewGuid(), IsVisible = false };
+                _unitOfWork.Repository<MetaPage>().Save(metaPage);
+
+            }
+            catch (Exception ex)
+            {
+                success = "FAILED";
+                message = ex.Message;
+            }
+
+            var result = new { Success = success, Message = message };
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
     }

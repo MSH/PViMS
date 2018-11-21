@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Data;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-using VPS.Common.Repositories;
-
-using PVIMS.Core;
 using PVIMS.Core.Entities;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -21,7 +12,8 @@ namespace PVIMS.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Master.SetMenuActive("PublishAdmin");
+            Master.SetMenuActive("PublishAdminList");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Page List", SubTitle = "", Icon = "fa fa-windows fa-fw" });
 
             if (!Page.IsPostBack)
             {
@@ -38,16 +30,16 @@ namespace PVIMS.Web
             Panel pnl;
 
             // Loop through and render table
-            foreach (var pg in UnitOfWork.Repository<MetaPage>().Queryable().OrderBy(mp => mp.PageName))
+            foreach (var pg in UnitOfWork.Repository<MetaPage>().Queryable().Where(mp => mp.IsVisible == false).OrderBy(mp => mp.PageName))
             {
                 row = new TableRow();
 
                 cell = new TableCell();
-                cell.Text = pg.metapage_guid.ToString();
+                cell.Text = pg.PageName;
                 row.Cells.Add(cell);
 
                 cell = new TableCell();
-                cell.Text = pg.PageName;
+                cell.Text = pg.metapage_guid.ToString();
                 row.Cells.Add(cell);
 
                 cell = new TableCell();
@@ -74,7 +66,7 @@ namespace PVIMS.Web
                     pnl = new Panel() { CssClass = "btn-group" };
                     hyp = new HyperLink()
                     {
-                        NavigateUrl = "PageCustom.aspx?id=" + pg.Id.ToString(),
+                        NavigateUrl = "PageViewer.aspx?guid=" + pg.metapage_guid.ToString(),
                         CssClass = "btn btn-default",
                         Text = "Customise"
                     };
@@ -86,15 +78,6 @@ namespace PVIMS.Web
                 dt_basic.Rows.Add(row);
             }
 
-            // Add button
-            hyp = new HyperLink()
-            {
-                ID = "btnAdd",
-                NavigateUrl = "PageCustom.aspx?Id=0",
-                CssClass = "btn btn-primary",
-                Text = "Add Page"
-            };
-            spnbuttons.Controls.Add(hyp);
         }
 
     }

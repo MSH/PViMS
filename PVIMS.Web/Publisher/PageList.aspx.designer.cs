@@ -13,15 +13,6 @@ namespace PVIMS.Web {
     public partial class PageList {
         
         /// <summary>
-        /// spnbuttons control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnbuttons;
-        
-        /// <summary>
         /// dt_basic control.
         /// </summary>
         /// <remarks>

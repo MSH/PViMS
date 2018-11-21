@@ -86,6 +86,9 @@
 			<li id="publishadmin" runat="server" visible="false">
                 <a href="/Publisher/PageCustom.aspx?id=0" title="Add new page"><i class="fa fa-lg fa-fw fa-windows"></i><span class="menu-item-parent">Add new page</span></a>
 			</li>
+			<li id="publishadminlist" runat="server" visible="false">
+                <a href="/Publisher/PageList.aspx" title="List Pages"><i class="fa fa-lg fa-fw fa-windows"></i><span class="menu-item-parent">List Non-Visible Pages</span></a>
+			</li>
 		</ul>
 	</nav>
 

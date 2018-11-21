@@ -313,7 +313,7 @@ namespace PVIMS.Web
 
             List<ListItem> items = new List<ListItem>();
             //items.Add(new ListItem() { Value = "", Text = "-- PLEASE SELECT A PAGE --" });
-            foreach (var metaPage in UnitOfWork.Repository<MetaPage>().Queryable().Where(mp => mp.Id != _metaWidget.MetaPage.Id))
+            foreach (var metaPage in UnitOfWork.Repository<MetaPage>().Queryable().Where(mp => mp.Id != _metaWidget.MetaPage.Id).OrderByDescending(mp => mp.Id))
             {
                 items.Add(new ListItem() { Value = metaPage.Id.ToString(), Text = metaPage.PageName, Selected = (contentPage == metaPage.Id.ToString()) });
             }
@@ -443,8 +443,12 @@ namespace PVIMS.Web
                 select.Style.Add("background-color", "#EBEBE4");
             }
             label.Controls.Add(select);
-            section.Controls.Add(label);
 
+            var button = new HtmlButton() { InnerText = "Add New Page" };
+            button.Attributes.Add("class", "btn btn-secondary btn-sm btn-add-page");
+            label.Controls.Add(button);
+
+            section.Controls.Add(label);
             rowDiv.Controls.Add(section);
 
             return rowDiv;

@@ -185,48 +185,64 @@ namespace PVIMS.Web
                 spnNoRows.Visible = false;
             }
 
-            TableRow row;
-            TableCell cell;
+            TableRow row = null;
+            TableCell cell = null;
 
             if (results.Count > 0)
             {
+                int? storeYear = 0;
+                var storeFacilityName = string.Empty;
+                var storeMeddra = string.Empty;
+
                 foreach (AdverseEventAnnualList item in results)
                 {
-                    row = new TableRow();
+                    if (storeYear != item.PeriodYear || storeFacilityName != item.FacilityName || storeMeddra != item.MedDraTerm)
+                    {
+                        row = new TableRow();
 
-                    cell = new TableCell();
-                    cell.Text = item.MedDraTerm;
-                    row.Cells.Add(cell);
+                        storeYear = item.PeriodYear;
+                        storeFacilityName = item.FacilityName;
+                        storeMeddra = item.MedDraTerm;
 
-                    cell = new TableCell();
-                    cell.Text = item.PeriodYear != null ? String.Format("Year {0}", item.PeriodYear) : "";
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = item.MedDraTerm;
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
-                    cell.Text = item.FacilityName;
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = item.PeriodYear != null ? String.Format("Year {0}", item.PeriodYear) : "";
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
-                    cell.Text = "0";
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = item.FacilityName;
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
-                    cell.Text = "0";
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = "0";
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
-                    cell.Text = item.PatientCount != null ? item.PatientCount.ToString() : "0";
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = "0";
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
-                    cell.Text = "0";
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = "0";
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
+                        cell = new TableCell();
+                        cell.Text = "0";
+                        row.Cells.Add(cell);
+
+                        cell = new TableCell();
+                        cell.Text = item.PatientCount.ToString();
+                        row.Cells.Add(cell);
+
+                        dt_basic.Rows.Add(row);
+                    }
+
+                    var i = GetColumnCount(item.SeverityGrade);
+                    cell = row.Cells[i];
                     cell.Text = item.PatientCount.ToString();
-                    row.Cells.Add(cell);
 
-                    dt_basic.Rows.Add(row);
                 }
             }
         }
@@ -654,5 +670,28 @@ namespace PVIMS.Web
 
         #endregion
 
+        private int GetColumnCount(string grade)
+        {
+            switch (grade)
+            {
+                case "Grade 1":
+                    return 2;
+
+                case "Grade 2":
+                    return 3;
+
+                case "Grade 3":
+                    return 4;
+
+                case "Grade 4":
+                    return 5;
+
+                case "Grade 5":
+                    return 6;
+
+                default:
+                    return 7;
+            }
+        }
     }
 }

@@ -185,48 +185,69 @@ namespace PVIMS.Web
                 spnNoRows.Visible = false;
             }
 
-            TableRow row;
-            TableCell cell;
+            TableRow row = null;
+            TableCell cell = null;
 
             if (results.Count > 0)
             {
+                int? storeYear = 0;
+                var storeQuarter = string.Empty;
+                var storeFacilityName = string.Empty;
+                var storeMeddra = string.Empty;
+
                 foreach (AdverseEventQuarterlyList item in results)
                 {
-                    row = new TableRow();
+                    if(storeYear != item.PeriodYear || storeQuarter != item.PeriodQuarter.ToString() || storeFacilityName != item.FacilityName || storeMeddra != item.MedDraTerm)
+                    {
+                        row = new TableRow();
 
-                    cell = new TableCell();
-                    cell.Text = item.MedDraTerm;
-                    row.Cells.Add(cell);
+                        storeYear = item.PeriodYear;
+                        storeQuarter = item.PeriodQuarter.ToString();
+                        storeFacilityName = item.FacilityName;
+                        storeMeddra = item.MedDraTerm;
 
-                    cell = new TableCell();
-                    cell.Text = item.PeriodQuarter != null ? String.Format("Quarter {0} ({1})", item.PeriodQuarter.ToString(), item.PeriodYear) : "";
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = item.MedDraTerm;
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
-                    cell.Text = item.FacilityName;
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = item.PeriodQuarter != null ? String.Format("Quarter {0} ({1})", item.PeriodQuarter.ToString(), item.PeriodYear) : "";
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
-                    cell.Text = "0";
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = item.FacilityName;
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
-                    cell.Text = "0";
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = "0";
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
-                    cell.Text = item.PatientCount != null ? item.PatientCount.ToString() : "0";
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = "0";
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
-                    cell.Text = "0";
-                    row.Cells.Add(cell);
+                        cell = new TableCell();
+                        cell.Text = "0";
+                        row.Cells.Add(cell);
 
-                    cell = new TableCell();
+                        cell = new TableCell();
+                        cell.Text = "0";
+                        row.Cells.Add(cell);
+
+                        cell = new TableCell();
+                        cell.Text = "0";
+                        row.Cells.Add(cell);
+
+                        cell = new TableCell();
+                        cell.Text = "0";
+                        row.Cells.Add(cell);
+
+                        dt_basic.Rows.Add(row);
+                    }
+
+                    var i = GetColumnCount(item.SeverityGrade);
+                    cell = row.Cells[i];
                     cell.Text = item.PatientCount.ToString();
-                    row.Cells.Add(cell);
-
-                    dt_basic.Rows.Add(row);
                 }
             }
         }
@@ -653,6 +674,30 @@ namespace PVIMS.Web
         #region "EF"
 
         #endregion
+
+        private int GetColumnCount(string grade)
+        {
+            switch(grade)
+            {
+                case "Grade 1":
+                    return 3;
+
+                case "Grade 2":
+                    return 4;
+
+                case "Grade 3":
+                    return 5;
+
+                case "Grade 4":
+                    return 6;
+
+                case "Grade 5":
+                    return 7;
+
+                default:
+                    return 8;
+            }
+        }
 
     }
 }

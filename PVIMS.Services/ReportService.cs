@@ -162,14 +162,16 @@ namespace PVIMS.Services
             string sql = "";
 
             sql = string.Format(@"
-                    SELECT b.PeriodYear, b.PeriodQuarter, b.FacilityName, tm1.MedDraTerm, b.PatientCount
+                    SELECT b.PeriodYear, b.PeriodQuarter, b.FacilityName, tm1.MedDraTerm, b.SeverityGrade, b.PatientCount
 	                    FROM TerminologyMedDra tm1 
 		                    LEFT JOIN 
 	                    (SELECT DATEPART(YEAR, pce.OnsetDate) as [PeriodYear], DATEPART(QUARTER, pce.OnsetDate) as [PeriodQuarter],
 		                    f.FacilityName,
 		                    t5.MedDraTerm AS 'Description', 
-			                    COUNT(*) AS PatientCount
+                            mpce.SeverityGrade,
+			                COUNT(*) AS PatientCount
 	                    FROM PatientClinicalEvent pce 
+                            INNER JOIN MetaPatientClinicalEvent mpce on pce.PatientClinicalEventGuid = mpce.PatientClinicalEventGuid 
 		                    INNER JOIN Patient p ON pce.Patient_Id = p.Id
 		                    INNER JOIN TerminologyMedDra t ON pce.SourceTerminologyMedDra_Id = t.Id
 		                    INNER JOIN TerminologyMedDra t2 ON t.Parent_Id = t2.Id
@@ -179,9 +181,9 @@ namespace PVIMS.Services
 		                    INNER JOIN PatientFacility pf ON pf.Id = (select top 1 Id from PatientFacility ipf where ipf.Patient_Id = p.Id and ipf.EnrolledDate <= GETDATE() order by ipf.EnrolledDate desc, ipf.Id desc)
 		                    INNER JOIN Facility f on pf.Facility_Id = f.Id
 	                    WHERE pce.OnsetDate BETWEEN '{0}' AND '{1}' and pce.Archived = 0 and p.Archived = 0 
-	                    GROUP BY DATEPART(YEAR, pce.OnsetDate), DATEPART(QUARTER, pce.OnsetDate), f.FacilityName, t5.MedDraTerm) as b on tm1.MedDraTerm = b.[Description] 
+	                    GROUP BY DATEPART(YEAR, pce.OnsetDate), DATEPART(QUARTER, pce.OnsetDate), f.FacilityName, t5.MedDraTerm, mpce.SeverityGrade) as b on tm1.MedDraTerm = b.[Description] 
 	                    WHERE tm1.MedDraTermType = 'SOC'
-	                    ORDER BY tm1.MedDraTerm, b.PeriodYear, b.PeriodQuarter, b.FacilityName
+	                    ORDER BY tm1.MedDraTerm, b.PeriodYear, b.PeriodQuarter, b.FacilityName, b.SeverityGrade
                     ", searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
 
             SqlParameter[] parameters = new SqlParameter[0];
@@ -193,14 +195,16 @@ namespace PVIMS.Services
             string sql = "";
 
             sql = string.Format(@"
-                SELECT b.PeriodYear, b.FacilityName, tm1.MedDraTerm, b.PatientCount
+                SELECT b.PeriodYear, b.FacilityName, tm1.MedDraTerm, b.SeverityGrade, b.PatientCount
 	            FROM TerminologyMedDra tm1 
 		            LEFT JOIN 
 	            (SELECT DATEPART(YEAR, pce.OnsetDate) as [PeriodYear], 
 		            f.FacilityName,
-		            t5.MedDraTerm AS 'Description', 
-			            COUNT(*) AS PatientCount
+		            t5.MedDraTerm AS 'Description',
+                    mpce.SeverityGrade, 
+			        COUNT(*) AS PatientCount
 	            FROM PatientClinicalEvent pce 
+                    INNER JOIN MetaPatientClinicalEvent mpce on pce.PatientClinicalEventGuid = mpce.PatientClinicalEventGuid 
 		            INNER JOIN Patient p ON pce.Patient_Id = p.Id
 		            INNER JOIN TerminologyMedDra t ON pce.SourceTerminologyMedDra_Id = t.Id
 		            INNER JOIN TerminologyMedDra t2 ON t.Parent_Id = t2.Id
@@ -210,9 +214,9 @@ namespace PVIMS.Services
 		            INNER JOIN PatientFacility pf ON pf.Id = (select top 1 Id from PatientFacility ipf where ipf.Patient_Id = p.Id and ipf.EnrolledDate <= GETDATE() order by ipf.EnrolledDate desc, ipf.Id desc)
 		            INNER JOIN Facility f on pf.Facility_Id = f.Id
 	            WHERE pce.OnsetDate BETWEEN '{0}' AND '{1}' and pce.Archived = 0 and p.Archived = 0 
-	            GROUP BY DATEPART(YEAR, pce.OnsetDate), f.FacilityName, t5.MedDraTerm) as b on tm1.MedDraTerm = b.[Description] 
+	            GROUP BY DATEPART(YEAR, pce.OnsetDate), f.FacilityName, t5.MedDraTerm, mpce.SeverityGrade) as b on tm1.MedDraTerm = b.[Description] 
 	            WHERE tm1.MedDraTermType = 'SOC'
-	            ORDER BY tm1.MedDraTerm, b.PeriodYear, b.FacilityName
+	            ORDER BY tm1.MedDraTerm, b.PeriodYear, b.FacilityName, b.SeverityGrade
                     ", searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
 
             SqlParameter[] parameters = new SqlParameter[0];

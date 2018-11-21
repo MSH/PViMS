@@ -856,3 +856,4 @@ SL-0061 - Ability to detect duplicate conditions
 ** Display alert if an appointment is being generated on a holiday
 ** Correcct auto population of custom attributes
 ** Include serious into causality report
+** Include grade 5 and grade unknown into quarterly and annual adverse event reports

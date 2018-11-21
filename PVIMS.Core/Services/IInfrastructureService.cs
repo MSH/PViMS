@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using VPS.Common.Collections;
-using VPS.CustomAttributes;
-
-using PVIMS.Core.Entities;
-using PVIMS.Core.Models;
+﻿using PVIMS.Core.Entities;
 
 namespace PVIMS.Core.Services
 {
@@ -16,5 +6,6 @@ namespace PVIMS.Core.Services
     {
         bool HasAssociatedData(DatasetElement element);
         DatasetElement GetTerminologyMedDra();
+        Config GetOrCreateConfig(ConfigType configType);
     }
 }

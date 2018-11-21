@@ -849,3 +849,4 @@ SL-0061 - Ability to detect duplicate conditions
 ** 1.17.3/20181113
 ** Patient Condition start date should be earlier than the Cohort enrollment date
 ** Rename meta widget type from wiki to subitems
+** Error checking added on all datepicker (regex check on format)

@@ -595,7 +595,27 @@
 		        dataType: "json",
 		        success: ShowUserDetails,
 		    });
-		});
+        });
+
+        $(function () {
+            $('.datepicker').datepicker({
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+            }).on("change", function (e) {
+                var value = $('#' + e.target.id).val();
+                $('#' + e.target.id).next().remove();
+
+                // regular expression to match required date format
+                re = /^\d{4}-\d{2}-\d{2}$/;
+
+                if (value != '' && !value.match(re)) {
+                    $('#' + e.target.id).val('');
+                    $('#' + e.target.id).after("<div class=\"note note-error\">Invalid format specified</div>");
+                }
+            });
+            $('.datepicker').datepicker('option', 'maxDate', new Date());
+        });
+
 	})
 
     </script>

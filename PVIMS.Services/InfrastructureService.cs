@@ -80,6 +80,29 @@ namespace PVIMS.Services
             return config;
         }
 
+        public void SetConfigValue(ConfigType configType, string configValue)
+        {
+            var config = _unitOfWork.Repository<Config>().Queryable().
+                FirstOrDefault(c => c.ConfigType == configType);
+
+            if (config == null)
+            {
+                config = new Config()
+                {
+                    // Prepare new config
+                    ConfigType = configType,
+                    ConfigValue = configValue
+                };
+                _unitOfWork.Repository<Config>().Save(config);
+            }
+            else
+            {
+                config.ConfigValue = configValue;
+                _unitOfWork.Repository<Config>().Update(config);
+            }
+            _unitOfWork.Complete();
+        }
+
         #endregion
 
         #region "Private"

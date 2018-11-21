@@ -15,6 +15,7 @@ namespace PVIMS.Core.Entities
         [Description("Age Group")]
         AgeGroup = 1,
         Facility = 2,
-        Drug = 3
+        Drug = 3,
+        Cohort = 4
     }
 }

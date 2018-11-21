@@ -13,6 +13,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using PVIMS.Core.Entities;
+using PVIMS.Core.Services;
 
 namespace PVIMS.Web
 {
@@ -21,6 +22,8 @@ namespace PVIMS.Web
         private string _summary = "<ul>";
 
         List<String> _entities = new List<String>() { "Patient", "PatientClinicalEvent", "PatientCondition", "PatientFacility", "PatientLabTest", "PatientMedication", "Encounter", "CohortGroupEnrolment" };
+
+        public IInfrastructureService _infrastructureService { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -58,6 +61,8 @@ namespace PVIMS.Web
                 // Rerender page
                 RenderSummary();
                 RenderItems();
+
+                _infrastructureService.SetConfigValue(ConfigType.MetaDataLastUpdated, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
             //}
             //catch (Exception ex)
            // {

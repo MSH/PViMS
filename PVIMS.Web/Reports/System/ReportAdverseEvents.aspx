@@ -53,6 +53,7 @@
 					                            <asp:ListItem Value="1" Selected="True">Age Group</asp:ListItem>
 					                            <asp:ListItem Value="2">Facility</asp:ListItem>
 					                            <asp:ListItem Value="3">Drug</asp:ListItem>
+                                                <asp:ListItem Value="4">Cohort</asp:ListItem>
 				                            </asp:DropDownList>
                                         </section>
                                         <section class="col col-2">
@@ -88,9 +89,10 @@
                             </div>
                             <asp:Table id="dt_basic" runat="server" ClientIDMode="Static" class="table table-striped table-bordered table-hover"  width="100%">
                                 <asp:TableHeaderRow TableSection="TableHeader">
-                                    <asp:TableHeaderCell width="40%">Adverse Event</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="30%">Criteria</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="30%">Patient Count</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Adverse Event</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Criteria</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Serious</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Patient Count</asp:TableHeaderCell> 
                                 </asp:TableHeaderRow>
                             </asp:Table>
 

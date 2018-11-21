@@ -38,6 +38,7 @@ namespace PVIMS.Services
 				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 12785 AND 16436 THEN 'Between 36 and 45'
 				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 16437 AND 20089 THEN 'Between 46 and 55'
 				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) > 20089 THEN '>55' END AS 'Criteria',
+                                    [Istheadverseeventserious?] AS 'Serious',
 		                            COUNT(*) AS PatientCount
                             FROM MetaPatientClinicalEvent mpce 
 	                            INNER JOIN MetaPatient mp ON mpce.Patient_Id = mp.Id
@@ -49,7 +50,8 @@ namespace PVIMS.Services
 				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 12785 AND 16436 THEN 'Between 36 and 45'
 				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 16437 AND 20089 THEN 'Between 46 and 55'
 				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) > 20089 THEN '>55' END
-                            ORDER BY mpce.SourceTerminologyMedDra asc, Criteria asc"
+                                        , [Istheadverseeventserious?]
+                            ORDER BY mpce.SourceTerminologyMedDra asc, Criteria asc, [Istheadverseeventserious?] asc"
                                 , searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
                         break;
 
@@ -57,13 +59,14 @@ namespace PVIMS.Services
                         sql = string.Format(@"
                             SELECT mpce.SourceTerminologyMedDra AS 'Description',
 			                            mpf.Facility AS Criteria,
+                                    [Istheadverseeventserious?] AS 'Serious',
 		                            COUNT(*) AS PatientCount
                             FROM MetaPatientClinicalEvent mpce 
 	                            INNER JOIN MetaPatient mp ON mpce.Patient_Id = mp.Id
 	                            INNER JOIN MetaPatientFacility mpf ON mp.Id = mpf.Patient_Id AND mpf.EnrolledDate = (SELECT MAX(EnrolledDate) FROM MetaPatientFacility impf WHERE impf.Patient_Id = mp.Id)
                             WHERE mpce.OnsetDate BETWEEN '{0}' AND '{1}'
-                            GROUP BY mpce.SourceTerminologyMedDra, mpf.Facility
-                            ORDER BY mpce.SourceTerminologyMedDra asc, mpf.Facility asc"
+                            GROUP BY mpce.SourceTerminologyMedDra, mpf.Facility, [Istheadverseeventserious?]
+                            ORDER BY mpce.SourceTerminologyMedDra asc, mpf.Facility asc, [Istheadverseeventserious?] asc"
                                 , searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
                         break;
 
@@ -71,6 +74,7 @@ namespace PVIMS.Services
                         sql = string.Format(@"
                             SELECT mpce.SourceTerminologyMedDra AS 'Description',
 			                            mpm.Medication AS Criteria,
+                                    [Istheadverseeventserious?] AS 'Serious',
 		                            COUNT(*) AS PatientCount
                             FROM MetaPatientClinicalEvent mpce 
 	                            INNER JOIN MetaPatient mp ON mpce.Patient_Id = mp.Id
@@ -78,8 +82,24 @@ namespace PVIMS.Services
                                 INNER JOIN ReportInstanceMedication rim ON ri.Id = rim.ReportInstance_Id
                                 INNER JOIN MetaPatientMedication mpm ON rim.ReportInstanceMedicationGuid = mpm.PatientMedicationGuid
                             WHERE mpce.OnsetDate BETWEEN '{0}' AND '{1}' 
-                            GROUP BY mpce.SourceTerminologyMedDra, mpm.Medication 
-                            ORDER BY mpce.SourceTerminologyMedDra asc, mpm.Medication asc"
+                            GROUP BY mpce.SourceTerminologyMedDra, mpm.Medication, [Istheadverseeventserious?] 
+                            ORDER BY mpce.SourceTerminologyMedDra asc, mpm.Medication asc, [Istheadverseeventserious?] asc"
+                                , searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
+                        break;
+
+                    case AdverseEventStratifyCriteria.Cohort:
+                        sql = string.Format(@"
+                            SELECT mpce.SourceTerminologyMedDra AS 'Description',
+			                            cg.CohortName AS Criteria,
+                                    [Istheadverseeventserious?] AS 'Serious',
+		                            COUNT(*) AS PatientCount
+                            FROM MetaPatientClinicalEvent mpce 
+	                            INNER JOIN MetaPatient mp ON mpce.Patient_Id = mp.Id
+                                INNER JOIN CohortGroupEnrolment cge ON mp.Id = cge.Patient_Id
+                                INNER JOIN CohortGroup cg ON cge.CohortGroup_Id = cg.Id
+                            WHERE mpce.OnsetDate BETWEEN '{0}' AND '{1}' 
+                            GROUP BY mpce.SourceTerminologyMedDra, cg.CohortName, [Istheadverseeventserious?] 
+                            ORDER BY mpce.SourceTerminologyMedDra asc, cg.CohortName asc, [Istheadverseeventserious?] asc"
                                 , searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
                         break;
 
@@ -94,58 +114,80 @@ namespace PVIMS.Services
                     case AdverseEventStratifyCriteria.AgeGroup:
                         sql = string.Format(@"
                             SELECT t.MedDraTerm AS 'Description', 
-			                            CASE WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) < 5844 THEN '<16'
-				                            WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) BETWEEN 5844 AND 9131 THEN 'Between 16 and 25'
-				                            WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) BETWEEN 9132 AND 12784 THEN 'Between 26 and 35'
-				                            WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) BETWEEN 12785 AND 16436 THEN 'Between 36 and 45'
-				                            WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) BETWEEN 16437 AND 20089 THEN 'Between 46 and 55'
-				                            WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) > 20089 THEN '>55' END AS 'Criteria',
+			                            CASE WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) < 5844 THEN '<16'
+				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 5844 AND 9131 THEN 'Between 16 and 25'
+				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 9132 AND 12784 THEN 'Between 26 and 35'
+				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 12785 AND 16436 THEN 'Between 36 and 45'
+				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 16437 AND 20089 THEN 'Between 46 and 55'
+				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) > 20089 THEN '>55' END AS 'Criteria',
+                                    [Istheadverseeventserious?] AS 'Serious',
 		                            COUNT(*) AS PatientCount
-                            FROM PatientClinicalEvent pce 
-	                            INNER JOIN Patient p ON pce.Patient_Id = p.Id
-	                            INNER JOIN TerminologyMedDra t ON pce.TerminologyMedDra_Id1 = t.Id
-                            WHERE pce.OnsetDate BETWEEN '{0}' AND '{1}' and pce.Archived = 0 and p.Archived = 0
+                            FROM MetaPatientClinicalEvent mpce 
+	                            INNER JOIN MetaPatient mp ON mpce.Patient_Id = mp.Id
+                                INNER JOIN ReportInstance ri ON ri.ContextGuid = mpce.PatientClinicalEventGuid
+	                            INNER JOIN TerminologyMedDra t ON ri.TerminologyMedDra_Id = t.Id
+                            WHERE mpce.OnsetDate BETWEEN '{0}' AND '{1}'
                             GROUP BY t.MedDraTerm, 
-			                            CASE WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) < 5844 THEN '<16'
-				                            WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) BETWEEN 5844 AND 9131 THEN 'Between 16 and 25'
-				                            WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) BETWEEN 9132 AND 12784 THEN 'Between 26 and 35'
-				                            WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) BETWEEN 12785 AND 16436 THEN 'Between 36 and 45'
-				                            WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) BETWEEN 16437 AND 20089 THEN 'Between 46 and 55'
-				                            WHEN DATEDIFF(dd, p.DateOfBirth, GETDATE()) > 20089 THEN '>55' END
-                            ORDER BY t.MedDraTerm asc, Criteria asc"
+			                            CASE WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) < 5844 THEN '<16'
+				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 5844 AND 9131 THEN 'Between 16 and 25'
+				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 9132 AND 12784 THEN 'Between 26 and 35'
+				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 12785 AND 16436 THEN 'Between 36 and 45'
+				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) BETWEEN 16437 AND 20089 THEN 'Between 46 and 55'
+				                            WHEN DATEDIFF(dd, mp.DateOfBirth, GETDATE()) > 20089 THEN '>55' END
+                                        , [Istheadverseeventserious?]
+                            ORDER BY t.MedDraTerm asc, Criteria asc, [Istheadverseeventserious?] asc"
                                 , searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
                         break;
 
                     case AdverseEventStratifyCriteria.Facility:
                         sql = string.Format(@"
                             SELECT t.MedDraTerm AS 'Description',
-			                            f.FacilityName AS Criteria,
+			                            mpf.Facility AS Criteria,
+                                    [Istheadverseeventserious?] AS 'Serious',
 		                            COUNT(*) AS PatientCount
-                            FROM PatientClinicalEvent pce 
-	                            INNER JOIN Patient p ON pce.Patient_Id = p.Id
-	                            INNER JOIN PatientFacility pf ON p.Id = pf.Patient_Id AND pf.EnrolledDate = (SELECT MAX(EnrolledDate) FROM PatientFacility ipf WHERE ipf.Patient_Id = p.Id)
-	                            INNER JOIN Facility f ON pf.Facility_Id = f.Id
-	                            INNER JOIN TerminologyMedDra t ON pce.TerminologyMedDra_Id1 = t.Id
-                            WHERE pce.OnsetDate BETWEEN '{0}' AND '{1}' and pce.Archived = 0 and p.Archived = 0
-                            GROUP BY t.MedDraTerm, f.FacilityName
-                            ORDER BY t.MedDraTerm asc, f.FacilityName asc", searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
+                            FROM MetaPatientClinicalEvent mpce 
+	                            INNER JOIN MetaPatient mp ON mpce.Patient_Id = mp.Id
+                                INNER JOIN ReportInstance ri ON ri.ContextGuid = mpce.PatientClinicalEventGuid
+	                            INNER JOIN TerminologyMedDra t ON ri.TerminologyMedDra_Id = t.Id
+	                            INNER JOIN MetaPatientFacility mpf ON mp.Id = mpf.Patient_Id AND mpf.EnrolledDate = (SELECT MAX(EnrolledDate) FROM MetaPatientFacility impf WHERE impf.Patient_Id = mp.Id)
+                            WHERE mpce.OnsetDate BETWEEN '{0}' AND '{1}'
+                            GROUP BY t.MedDraTerm, mpf.Facility, [Istheadverseeventserious?]
+                            ORDER BY t.MedDraTerm asc, mpf.Facility asc, [Istheadverseeventserious?] asc", searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
                         break;
 
                     case AdverseEventStratifyCriteria.Drug:
                         sql = string.Format(@"
                             SELECT t.MedDraTerm AS 'Description',
-			                            m.DrugName AS Criteria,
+			                            mpm.Medication AS Criteria,
+                                    [Istheadverseeventserious?] AS 'Serious',
 		                            COUNT(*) AS PatientCount
-                            FROM PatientClinicalEvent pce 
-	                            INNER JOIN Patient p ON pce.Patient_Id = p.Id
-                                INNER JOIN ReportInstance ri ON ri.ContextGuid = pce.PatientClinicalEventGuid
+                            FROM MetaPatientClinicalEvent mpce 
+	                            INNER JOIN MetaPatient mp ON mpce.Patient_Id = mp.Id
+                                INNER JOIN ReportInstance ri ON ri.ContextGuid = mpce.PatientClinicalEventGuid
+	                            INNER JOIN TerminologyMedDra t ON ri.TerminologyMedDra_Id = t.Id
                                 INNER JOIN ReportInstanceMedication rim ON ri.Id = rim.ReportInstance_Id
-                                INNER JOIN PatientMedication pm ON rim.ReportInstanceMedicationGuid = pm.PatientMedicationGuid
-	                            INNER JOIN Medication m ON pm.Medication_Id = m.Id
-	                            INNER JOIN TerminologyMedDra t ON pce.TerminologyMedDra_Id1 = t.Id
-                            WHERE pce.OnsetDate BETWEEN '{0}' AND '{1}' and pce.Archived = 0 and p.Archived = 0 and pm.Archived = 0
-                            GROUP BY t.MedDraTerm, m.DrugName
-                            ORDER BY t.MedDraTerm asc, m.DrugName asc", searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
+                                INNER JOIN MetaPatientMedication mpm ON rim.ReportInstanceMedicationGuid = mpm.PatientMedicationGuid
+                            WHERE mpce.OnsetDate BETWEEN '{0}' AND '{1}'
+                            GROUP BY t.MedDraTerm, mpm.Medication, [Istheadverseeventserious?]
+                            ORDER BY t.MedDraTerm asc, mpm.Medication asc, [Istheadverseeventserious?] asc", searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
+                        break;
+
+                    case AdverseEventStratifyCriteria.Cohort:
+                        sql = string.Format(@"
+                            SELECT t.MedDraTerm AS 'Description',
+			                            cg.CohortName AS Criteria,
+                                    [Istheadverseeventserious?] AS 'Serious',
+		                            COUNT(*) AS PatientCount
+                            FROM MetaPatientClinicalEvent mpce 
+	                            INNER JOIN MetaPatient mp ON mpce.Patient_Id = mp.Id
+                                INNER JOIN ReportInstance ri ON ri.ContextGuid = mpce.PatientClinicalEventGuid
+	                            INNER JOIN TerminologyMedDra t ON ri.TerminologyMedDra_Id = t.Id
+                                INNER JOIN CohortGroupEnrolment cge ON mp.Id = cge.Patient_Id
+                                INNER JOIN CohortGroup cg ON cge.CohortGroup_Id = cg.Id
+                            WHERE mpce.OnsetDate BETWEEN '{0}' AND '{1}' 
+                            GROUP BY t.MedDraTerm, cg.CohortName, [Istheadverseeventserious?] 
+                            ORDER BY t.MedDraTerm asc, cg.CohortName asc, [Istheadverseeventserious?] asc"
+                                , searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
                         break;
 
                     default:
@@ -242,7 +284,7 @@ namespace PVIMS.Services
             }
 
             string sql = string.Format(@"
-                SELECT p.Id AS Patient_Id, p.FirstName, p.Surname, pce.SourceTerminologyMedDra AS AdverseEvent, pce.OnsetDate, rim.NaranjoCausality, rim.WhoCausality, rim.MedicationIdentifier, pce.[Istheadverseeventserious?] AS Serious 
+                SELECT p.Id AS Patient_Id, p.FirstName, p.Surname, pce.SourceTerminologyMedDra AS AdverseEvent, pce.OnsetDate, rim.NaranjoCausality, rim.WhoCausality, rim.MedicationIdentifier, pce.[[Istheadverseeventserious?]] AS Serious 
                     FROM ReportInstance ri
 		                INNER JOIN MetaPatientClinicalEvent pce ON ri.ContextGuid = pce.PatientClinicalEventGuid 
 		                INNER JOIN Patient p on pce.Patient_Id = p.Id

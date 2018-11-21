@@ -7,5 +7,6 @@ namespace PVIMS.Core.Services
         bool HasAssociatedData(DatasetElement element);
         DatasetElement GetTerminologyMedDra();
         Config GetOrCreateConfig(ConfigType configType);
+        void SetConfigValue(ConfigType configType, string configValue);
     }
 }

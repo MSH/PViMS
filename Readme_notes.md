@@ -854,3 +854,5 @@ SL-0061 - Ability to detect duplicate conditions
 ** 1.18.0/20181114
 ** Ability to add page from within subitem widget
 ** Display alert if an appointment is being generated on a holiday
+** Correcct auto population of custom attributes
+** Include serious into causality report

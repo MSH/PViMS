@@ -52,6 +52,7 @@ namespace PVIMS.Web
 
                 // Populate meta tables
                 PopulateMetaTables();
+                UpdateCustomAttributes();
                 CreateMetaDependencies();
 
                 // Rerender page
@@ -469,7 +470,7 @@ namespace PVIMS.Web
         {
             Type type = obj.GetType();
             PropertyInfo[] properties = type.GetProperties();
-            var invalidProperties = new[] { "CustomAttributesXmlSerialised", "Archived", "ArchivedReason", "ArchivedDate", "AuditUser", "Age", "FullName" };
+            var invalidProperties = new[] { "CustomAttributesXmlSerialised", "Archived", "ArchivedReason", "ArchivedDate", "AuditUser", "Age", "FullName", "DisplayName" };
 
             var metaTable = UnitOfWork.Repository<MetaTable>().Queryable().Single(mt => mt.TableName == entityName);
             var attributes = UnitOfWork.Repository<CustomAttributeConfiguration>().Queryable().Where(c => c.ExtendableTypeName == entityName).OrderBy(c => c.Id).ToList();
@@ -573,7 +574,7 @@ namespace PVIMS.Web
             // Now process attributes
             foreach (CustomAttributeConfiguration attribute in attributes)
             {
-                metaColumn = UnitOfWork.Repository<MetaColumn>().Queryable().SingleOrDefault(mc => mc.Table.TableName == entityName && mc.ColumnName == attribute.AttributeKey.Replace(" ", ""));
+                metaColumn = UnitOfWork.Repository<MetaColumn>().Queryable().SingleOrDefault(mc => mc.Table.TableName == entityName && mc.ColumnName == attribute.AttributeKey.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("&", ""));
                 if (metaColumn == null)
                 {
                     metaColumnType = null;
@@ -593,7 +594,7 @@ namespace PVIMS.Web
                     {
                         metaColumn = new MetaColumn()
                         {
-                            ColumnName = attribute.AttributeKey.Replace(" ", "").Trim().Length > 100 ? attribute.AttributeKey.Replace(" ", "").Trim().Substring(0, 100) : attribute.AttributeKey.Replace(" ", "").Trim(),
+                            ColumnName = attribute.AttributeKey.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("&", "").Trim().Length > 100 ? attribute.AttributeKey.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("&", "").Trim().Substring(0, 100) : attribute.AttributeKey.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("&", "").Trim(),
                             ColumnType = metaColumnType,
                             IsIdentity = false,
                             IsNullable = true,
@@ -611,7 +612,7 @@ namespace PVIMS.Web
             {
                 foreach (DatasetCategoryElement dce in elements)
                 {
-                    metaColumn = UnitOfWork.Repository<MetaColumn>().Queryable().SingleOrDefault(mc => mc.Table.TableName == entityName && mc.ColumnName == dce.DatasetElement.ElementName.Replace(" ", ""));
+                    metaColumn = UnitOfWork.Repository<MetaColumn>().Queryable().SingleOrDefault(mc => mc.Table.TableName == entityName && mc.ColumnName == dce.DatasetElement.ElementName.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("&", ""));
                     if (metaColumn == null)
                     {
                         metaColumnType = null;
@@ -637,7 +638,7 @@ namespace PVIMS.Web
                         {
                             metaColumn = new MetaColumn()
                             {
-                                ColumnName = dce.DatasetElement.ElementName.Replace(" ", ""),
+                                ColumnName = dce.DatasetElement.ElementName.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("&", ""),
                                 ColumnType = metaColumnType,
                                 IsIdentity = false,
                                 IsNullable = true,
@@ -752,14 +753,31 @@ namespace PVIMS.Web
             ProcessInsertEntity(patientFacility, "PatientFacility");
             patientFacility = null;
 
-            _summary += String.Format("<li>INFO: All meta data populated...</li>");
+            _summary += String.Format("<li>INFO: All meta data seeded...</li>");
+        }
+
+        private void UpdateCustomAttributes()
+        {
+            ProcessUpdateAttribute("Patient", "mp");
+            ProcessUpdateAttribute("PatientMedication", "mpm");
+            ProcessUpdateAttribute("PatientClinicalEvent", "mpce");
+            ProcessUpdateAttribute("PatientCondition", "mpc");
+            ProcessUpdateAttribute("PatientLabTest", "mplt");
+
+            ProcessUpdateSelection("Patient", "mp");
+            ProcessUpdateSelection("PatientMedication", "mpm");
+            ProcessUpdateSelection("PatientClinicalEvent", "mpce");
+            ProcessUpdateSelection("PatientCondition", "mpc");
+            ProcessUpdateSelection("PatientLabTest", "mplt");
+
+            _summary += String.Format("<li>INFO: All meta data attributes populated...</li>");
         }
 
         private void ProcessInsertEntity(Object obj, string entityName)
         {
             Type type = obj.GetType();
             PropertyInfo[] properties = type.GetProperties();
-            var invalidProperties = new[] { "CustomAttributesXmlSerialised", "Archived", "ArchivedReason", "ArchivedDate", "AuditUser", "Age", "FullName", "AgeGroup" };
+            var invalidProperties = new[] { "CustomAttributesXmlSerialised", "Archived", "ArchivedReason", "ArchivedDate", "AuditUser", "Age", "FullName", "AgeGroup", "DisplayName" };
 
             var metaTable = UnitOfWork.Repository<MetaTable>().Queryable().Single(mt => mt.TableName == entityName);
 
@@ -853,6 +871,56 @@ namespace PVIMS.Web
 
             sbMain.AppendFormat("{0}) SELECT {1} FROM {2} tbl {3} WHERE Archived = 0", sbIntoFields.ToString(), sbSelectFields.ToString(), metaTable.TableName, sbJoins.ToString());
             UnitOfWork.Repository<Patient>().ExecuteSqlCommand(sbMain.ToString());
+        }
+
+        private void ProcessUpdateAttribute(string entityName, string alias)
+        {
+            StringBuilder sbMain = new StringBuilder();
+
+            var attributes = UnitOfWork.Repository<CustomAttributeConfiguration>().Queryable()
+                .Where(c => c.ExtendableTypeName == entityName)
+                .OrderBy(c => c.Id).ToList();
+            var attributeType = "";
+
+            foreach (CustomAttributeConfiguration attribute in attributes)
+            {
+                sbMain.Clear();
+
+                switch (attribute.CustomAttributeType)
+                {
+                    case VPS.CustomAttributes.CustomAttributeType.Numeric:
+                    case VPS.CustomAttributes.CustomAttributeType.String:
+                        attributeType = "CustomStringAttribute";
+                        break;
+
+                    case VPS.CustomAttributes.CustomAttributeType.Selection:
+                    case VPS.CustomAttributes.CustomAttributeType.DateTime:
+                        attributeType = "CustomSelectionAttribute";
+                        break;
+                }
+
+                if(!String.IsNullOrWhiteSpace(attributeType))
+                {
+                    sbMain.AppendFormat(@"UPDATE {0} SET {0}.[{1}] = CustomAttributesXmlSerialised.value('(/CustomAttributeSet/{2}[Key=""{3}"" ]/Value)[1]', 'nvarchar(max)') from {4} as h inner join Meta{4} as {0} on h.Id = {0}.Id", alias, attribute.AttributeKey.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("&", ""), attributeType, attribute.AttributeKey.Replace("&", "&amp;"), entityName);
+                    UnitOfWork.Repository<Patient>().ExecuteSqlCommand(sbMain.ToString());
+                }
+            }
+        }
+
+        private void ProcessUpdateSelection(string entityName, string alias)
+        {
+            StringBuilder sbMain = new StringBuilder();
+
+            var attributes = UnitOfWork.Repository<CustomAttributeConfiguration>().Queryable()
+                .Where(c => c.ExtendableTypeName == entityName)
+                .OrderBy(c => c.Id).ToList();
+
+            foreach (CustomAttributeConfiguration attribute in attributes.Where(ca => ca.CustomAttributeType == VPS.CustomAttributes.CustomAttributeType.Selection))
+            {
+                sbMain.Clear();
+                sbMain.AppendFormat(@"UPDATE {0} SET {0}.[{1}] = sdi.Value from Meta{2} as {0} inner join SelectionDataItem as sdi on sdi.AttributeKey = '{3}' and SelectionKey collate Latin1_General_CI_AS = {0}.[{1}] collate Latin1_General_CI_AS", alias, attribute.AttributeKey.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("&", ""), entityName, attribute.AttributeKey);
+                UnitOfWork.Repository<Patient>().ExecuteSqlCommand(sbMain.ToString());
+            }
         }
 
         #endregion

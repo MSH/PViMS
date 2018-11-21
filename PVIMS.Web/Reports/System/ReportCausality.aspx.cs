@@ -243,6 +243,10 @@ namespace PVIMS.Web
                     row.Cells.Add(cell);
 
                     cell = new TableCell();
+                    cell.Text = item.Serious;
+                    row.Cells.Add(cell);
+
+                    cell = new TableCell();
                     cell.Text = item.OnsetDate.ToString("yyyy-MM-dd");
                     row.Cells.Add(cell);
 

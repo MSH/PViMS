@@ -238,15 +238,14 @@ namespace PVIMS.Services
             }
 
             string sql = string.Format(@"
-                SELECT p.Id AS Patient_Id, p.FirstName, p.Surname, t.MedDraTerm AS AdverseEvent, pce.OnsetDate, rim.NaranjoCausality, rim.WhoCausality, rim.MedicationIdentifier 
+                SELECT p.Id AS Patient_Id, p.FirstName, p.Surname, pce.SourceTerminologyMedDra AS AdverseEvent, pce.OnsetDate, rim.NaranjoCausality, rim.WhoCausality, rim.MedicationIdentifier, pce.[Istheadverseeventserious?] AS Serious 
                     FROM ReportInstance ri
-		                INNER JOIN PatientClinicalEvent pce ON ri.ContextGuid = pce.PatientClinicalEventGuid 
-                        INNER JOIN TerminologyMedDra t ON pce.SourceTerminologyMedDra_Id = t.Id
+		                INNER JOIN MetaPatientClinicalEvent pce ON ri.ContextGuid = pce.PatientClinicalEventGuid 
 		                INNER JOIN Patient p on pce.Patient_Id = p.Id
                         INNER JOIN PatientFacility pf ON pf.Id = (select top 1 Id from PatientFacility ipf where ipf.Patient_Id = p.Id and ipf.EnrolledDate <= GETDATE() order by ipf.EnrolledDate desc, ipf.Id desc)
                         INNER JOIN ReportInstanceMedication rim ON ri.Id = rim.ReportInstance_Id 
                 WHERE pce.OnsetDate BETWEEN '{0}' AND '{1}' 
-	                AND pce.Archived = 0 AND p.Archived = 0 {2} 
+	                AND p.Archived = 0 {2} 
                 ORDER BY pce.OnsetDate asc ", searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"), where);
 
             SqlParameter[] parameters = new SqlParameter[0];

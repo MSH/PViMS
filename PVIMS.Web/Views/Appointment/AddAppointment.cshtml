@@ -24,10 +24,15 @@
     <div class="row">
 
         <!-- NEW WIDGET START -->
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
 
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+            <div class="jarviswidget well" id="wid-id-0"
+                 data-widget-editbutton="false"
+                 data-widget-custombutton="false"
+                 data-widget-deletebutton="false"
+                 data-widget-colorbutton="false">
+
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>Add New Appointment</h2>
@@ -91,42 +96,23 @@
         </article>
         <!-- WIDGET END -->
 
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
+            <div id="divAppointmentResponse" class="well alert alert-success fade in">
+
+            </div>
+        </article>
+
     </div>
 
-    <!-- end row -->
     <!-- end row -->
 
 </section>
 <!-- end widget grid -->
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-        $(document).ready(function () {
-            $("#State").prop("disabled", true);
-            $("#Country").change(function () {
-                if ($("#Country").val() != "Select") {
-                    var CountryOptions = {};
-                    CountryOptions.url = "/Sample/states";
-                    CountryOptions.type = "POST";
-                    CountryOptions.data = JSON.stringify({ Country: $("#Country").val() });
-                    CountryOptions.datatype = "json";
-                    CountryOptions.contentType = "application/json";
-                    CountryOptions.success = function (StatesList) {
-                        $("#State").empty();
-                        for (var i = 0; i < StatesList.length; i++) {
-                            $("#State").append("<option>" + StatesList[i] + "</option>");
-                        }
-                        $("#State").prop("disabled", false);
-                    };
-                    CountryOptions.error = function () { alert("Error in Getting States!!"); };
-                    $.ajax(CountryOptions);
-                }
-                else {
-                    $("#State").empty();
-                    $("#State").prop("disabled", true);
-                }
-            });
-        });
+
     </script>
 }

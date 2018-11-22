@@ -34,6 +34,42 @@
     <link rel="shortcut icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
 
+    <style>
+
+        /*  Page loading animation
+            Start by setting display:none to make this hidden.
+            Then we position it in relation to the viewport window
+            with position:fixed. Width, height, top and left speak
+            for themselves. Background we set to 80% white with
+            our animation centered, and no-repeating */
+        body.loading .animationmodal {
+            display:    none;
+            position:   fixed;
+            z-index:    1000;
+            top:        0;
+            left:       0;
+            height:     100%;
+            width:      100%;
+            background: rgba( 255, 255, 255, .8 ) 
+                        url('/img/ajax-loader.gif') 
+                        50% 50% 
+                        no-repeat;
+        }
+
+        /* When the body has the loading class, we turn
+            the scrollbar off with overflow:hidden */
+        body.loading .animationmodal {
+            overflow: hidden;   
+        }
+
+        /* Anytime the body has the loading class, our
+            modal element will be visible */
+        body.loading .animationmodal {
+            display: block;
+        }
+
+    </style>
+
 </head>
 
 <body class="">
@@ -172,7 +208,7 @@
     <div class="page-footer">
         <div class="row">
             <div class="text-center">
-                <span class="txt-color-white" style="color:white">Management Scisences For Health © 2018 | Logged in as <asp:PlaceHolder id="pnlLogin" runat="server"></asp:PlaceHolder> | version 1.17.0</span>
+                <span class="txt-color-white" style="color:white">Management Sciences For Health © 2018 | Logged in as <asp:PlaceHolder id="pnlLogin" runat="server"></asp:PlaceHolder> | version 1.18.0</span>
             </div>
         </div>
     </div>
@@ -605,8 +641,34 @@
         $('#spnRole').html(role);
     });
 
+    $(function () {
+        $('.datepicker').datepicker({
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>',
+            dateFormat: "yy-mm-dd",
+        }).on("change", function (e) {
+            var value = $('#' + e.target.id).val();
+            $('#' + e.target.id).next().remove();
+
+            // regular expression to match required date format
+            re = /^\d{4}-\d{2}-\d{2}$/;
+
+            if (value != '' && !value.match(re)) {
+                $('#' + e.target.id).val('');
+                $('#' + e.target.id).after("<div class=\"note note-error\">Invalid format specified</div>");
+            }
+        });
+    });
+
     </script>
 	
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+
+    </script>
+
     <asp:ContentPlaceHolder runat="server" ID="scriptsPlaceholder"></asp:ContentPlaceHolder>
     <uc1:_KnockoutTemplates runat="server" id="_KnockoutTemplates" />
         

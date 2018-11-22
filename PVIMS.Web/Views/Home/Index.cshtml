@@ -30,6 +30,15 @@
     var manualUpdate = $("#manualUpdate");
     var cacheProgress = $("#cacheProgress");
 
+    // This is implemented to bypass deprecation of app cache for non https sites
+    if (location.protocol != 'https:') {
+        logEvent("Application cache not available for non https implementations...");
+        setTimeout(
+            function () {
+                window.location = '/Patient/PatientSearch.aspx';
+            }, 3000);
+    }
+
     var appCache = window.applicationCache;
 
     var cacheProperties = {

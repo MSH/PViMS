@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-using VPS.Common.Repositories;
-using VPS.CustomAttributes;
-
 using PVIMS.Core.Entities;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -38,7 +33,6 @@ namespace PVIMS.Web
 
             HyperLink hyp;
             Panel pnl;
-            Label lbl;
             HtmlGenericControl btn;
             HtmlGenericControl ul;
             HtmlGenericControl li;
@@ -58,6 +52,10 @@ namespace PVIMS.Web
 
                 cell = new TableCell();
                 cell.Text = coh.CohortCode;
+                row.Cells.Add(cell);
+
+                cell = new TableCell();
+                cell.Text = coh.Condition != null ? coh.Condition.Description : "";
                 row.Cells.Add(cell);
 
                 cell = new TableCell();

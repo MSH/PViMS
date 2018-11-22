@@ -838,3 +838,24 @@ SL-0061 - Ability to detect duplicate conditions
 
 ** 1.17.0/20181010
 ** Move admin menu to admin portal
+
+** 1.17.1/20181101
+** Information portal - rename text for widget location drop down list
+
+** 1.17.2/20181106
+** Bypass application cache for non-https implementations
+** Fixed spelling of Management Sciences
+
+** 1.17.3/20181113
+** Patient Condition start date should be earlier than the Cohort enrollment date
+** Rename meta widget type from wiki to subitems
+** Error checking added on all datepicker (regex check on format)
+
+** 1.18.0/20181114
+** Ability to add page from within subitem widget
+** Display alert if an appointment is being generated on a holiday
+** Correcct auto population of custom attributes
+** Include serious into causality report
+** Include grade 5 and grade unknown into quarterly and annual adverse event reports
+** Adverse event report stratified by seriousness and include cohort as criteria
+** Store MetaDataLastUpdated time when refreshing

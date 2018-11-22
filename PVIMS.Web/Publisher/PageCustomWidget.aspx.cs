@@ -187,7 +187,7 @@ namespace PVIMS.Web
 
                     break;
 
-                case MetaWidgetTypes.Wiki:
+                case MetaWidgetTypes.SubItem:
                     divContentWiki.Visible = true;
 
                     var tabsWiki = PrepareTabsForWidget();
@@ -313,7 +313,7 @@ namespace PVIMS.Web
 
             List<ListItem> items = new List<ListItem>();
             //items.Add(new ListItem() { Value = "", Text = "-- PLEASE SELECT A PAGE --" });
-            foreach (var metaPage in UnitOfWork.Repository<MetaPage>().Queryable().Where(mp => mp.Id != _metaWidget.MetaPage.Id))
+            foreach (var metaPage in UnitOfWork.Repository<MetaPage>().Queryable().Where(mp => mp.Id != _metaWidget.MetaPage.Id).OrderByDescending(mp => mp.Id))
             {
                 items.Add(new ListItem() { Value = metaPage.Id.ToString(), Text = metaPage.PageName, Selected = (contentPage == metaPage.Id.ToString()) });
             }
@@ -443,8 +443,12 @@ namespace PVIMS.Web
                 select.Style.Add("background-color", "#EBEBE4");
             }
             label.Controls.Add(select);
-            section.Controls.Add(label);
 
+            var button = new HtmlButton() { InnerText = "Add New Page" };
+            button.Attributes.Add("class", "btn btn-secondary btn-sm btn-add-page");
+            label.Controls.Add(button);
+
+            section.Controls.Add(label);
             rowDiv.Controls.Add(section);
 
             return rowDiv;
@@ -516,7 +520,7 @@ namespace PVIMS.Web
             }
 
             var metaPage = (_metaPage == null) ? _metaWidget.MetaPage : _metaPage;
-            ddlWidgetLocation.Items.Add(new ListItem() { Text = "-- Do not modify --", Value = "0" });
+            ddlWidgetLocation.Items.Add(new ListItem() { Text = "-- No change --", Value = "0" });
             if (!metaPage.Widgets.Any(w => w.WidgetLocation == MetaWidgetLocation.TopLeft)) { ddlWidgetLocation.Items.Add(new ListItem() { Text = "Top Left", Value = "1" }); };
             if (!metaPage.Widgets.Any(w => w.WidgetLocation == MetaWidgetLocation.TopRight)) { ddlWidgetLocation.Items.Add(new ListItem() { Text = "Top Right", Value = "2" }); };
             if (!metaPage.Widgets.Any(w => w.WidgetLocation == MetaWidgetLocation.MiddleLeft)) { ddlWidgetLocation.Items.Add(new ListItem() { Text = "Middle Left", Value = "3" }); };
@@ -632,7 +636,7 @@ namespace PVIMS.Web
                         content = "** PLEASE ENTER YOUR CONTENT HERE **";
                         break;
 
-                    case MetaWidgetTypes.Wiki:
+                    case MetaWidgetTypes.SubItem:
                     case MetaWidgetTypes.ItemList:
                         content = GetBaseTemplate(widgetTypeE);
                         break;
@@ -672,7 +676,7 @@ namespace PVIMS.Web
                         content = CKEditor1.Text;
                         break;
 
-                    case MetaWidgetTypes.Wiki:
+                    case MetaWidgetTypes.SubItem:
                     case MetaWidgetTypes.ItemList:
                         content = GetContentFromWidget(widgetTypeE);
                         break;
@@ -734,7 +738,7 @@ namespace PVIMS.Web
                         }
                     }
                 }
-                if (widgetTypeE == MetaWidgetTypes.Wiki)
+                if (widgetTypeE == MetaWidgetTypes.SubItem)
                 {
                     var title = tab.Controls.All().OfType<HtmlInputText>().First(h => h.ID != null && (h.ID.StartsWith("title-")));
                     var subTitle = tab.Controls.All().OfType<HtmlInputText>().First(h => h.ID != null && (h.ID.StartsWith("subtitle-")));
@@ -785,7 +789,7 @@ namespace PVIMS.Web
                 childNode.AppendChild(contentNode);
                 parentNode.AppendChild(childNode);
             }
-            if (widgetTypeE == MetaWidgetTypes.Wiki)
+            if (widgetTypeE == MetaWidgetTypes.SubItem)
             {
                 XmlNode titleNode = xmlDoc.CreateElement("Title", "");
                 titleNode.InnerText = "** PLEASE ADD TITLE HERE **";

@@ -138,7 +138,7 @@
             <div class="text-center">
                 <span class="txt-color-white" >
                     Management Sciences For Health © 2018 | Logged in as
-                    <a class="txt-color-white" href="#" data-toggle="modal" data-target="#userModal">"@User.Identity.Name"</a> | version 1.17.0
+                    <a class="txt-color-white" href="#" data-toggle="modal" data-target="#userModal">"@User.Identity.Name"</a> | version 1.18.0
                 </span>
             </div>
         </div>
@@ -595,8 +595,50 @@
 		        dataType: "json",
 		        success: ShowUserDetails,
 		    });
-		});
+        });
+
 	})
+    $('.datepicker').datepicker({
+        prevText: '<i class="fa fa-chevron-left"></i>',
+        nextText: '<i class="fa fa-chevron-right"></i>',
+        dateFormat: "yy-mm-dd",
+    }).on("change", function (e) {
+        var value = $('#' + e.target.id).val();
+        $('#' + e.target.id).next().remove();
+
+        // regular expression to match required date format
+        re = /^\d{4}-\d{2}-\d{2}$/;
+
+        if (value != '' && !value.match(re)) {
+            $('#' + e.target.id).val('');
+            $('#' + e.target.id).after("<div class=\"note note-error\">Invalid format specified</div>");
+        }
+        if (e.target.id == "AppointmentDate") {
+            $.ajax({
+                url: "/Appointment/CheckHoliday",
+                data: { appointmentDate: value },
+                cache: false,
+                type: "POST",
+                dataType: "html",
+                beforeSend: function () {
+                    $("#divAppointmentResponse").html("");
+                },
+                success: function (data, textStatus, XMLHttpRequest) {
+                    var response = JSON.parse(data);
+                    if (response.Success == "OK") {
+                        $("#divAppointmentResponse").html("<b>" + response.Message + "</b>"); // HTML DOM replace
+                    }
+                    else {
+                        $("#divAppointmentResponse").html("<span class='message' style='font-weight: bold'> ERROR checking for holidays</span>"); // HTML DOM replace
+                    }
+                },
+                error: function () {
+                    $("#divAppointmentResponse").html("<span class='message' style='font-weight: bold'> ERROR checking for holidays</span>"); // HTML DOM replace
+                }
+            });
+        }
+
+    });
 
     </script>
     @RenderSection("scripts", required: false)

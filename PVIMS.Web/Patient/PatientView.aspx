@@ -748,7 +748,7 @@
                                                 <legend>Cohort Details</legend>
                                                 <input class="form-control" id="txtCohortUID" type="hidden" runat="server" value="0">
                                                 <div class="row">
-                                                    <section class="col col-6">
+                                                    <section class="col col-10">
                                                         <label class="input">
                                                             Cohort
                                                    
@@ -758,11 +758,20 @@
                                                 </div>
                                                 <div class="row">
                                                     <section class="col col-6">
+                                                        <label class="input">
+                                                            Condition Start Date
+                                                   
+                                                            <input class="form-control" id="txtConditionStartDate" readonly="readonly" runat="server" style="background-color: #EBEBE4;" type="text" value="">
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-6">
                                                         <label class="input" id="lblCohortDateEnrolment">
                                                             <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>Enrollment Date
                                                    
                                                             <input type="text" id="txtCohortDateEnrolment" name="txtCohortDateEnrolment" style="color: black" placeholder="yyyy-mm-dd" runat="server" class="form-control datepicker" width="250px" />
-                                                            <div class="note note-error hidden" id="divCohortDateEnrolmentErrorMessage">Cohort Enrollment Date should be entered and before current date</div>
+                                                            <div class="note note-error hidden" id="divCohortDateEnrolmentErrorMessage">Cohort Enrollment Date should be entered and before current date and condition start date</div>
                                                         </label>
                                                     </section>
                                                 </div>
@@ -797,7 +806,7 @@
                                                 <legend>Cohort Details</legend>
                                                 <input class="form-control" id="txtCohortUIDDeenrol" type="hidden" runat="server" value="0">
                                                 <div class="row">
-                                                    <section class="col col-6">
+                                                    <section class="col col-10">
                                                         <label class="input">
                                                             Cohort
                                                    
@@ -851,7 +860,7 @@
                                                 <legend>Cohort Details</legend>
                                                 <input class="form-control" id="txtCohortUIDRemove" type="hidden" runat="server" value="0">
                                                 <div class="row">
-                                                    <section class="col col-6">
+                                                    <section class="col col-10">
                                                         <label class="input">
                                                             Cohort
                                                    
@@ -1247,9 +1256,11 @@
             //get data-id attribute of the clicked element
             var id = $(e.relatedTarget).data('id');
             var cohort = $(e.relatedTarget).data('cohort');
+            var conditionStartDate = $(e.relatedTarget).data('conditionstartdate');
 
             //populate modal form
             $('#txtCohortUID').val(id);
+            $('#txtConditionStartDate').val(conditionStartDate);
             $('#txtCohortName').val(cohort);
         });
 
@@ -1433,6 +1444,7 @@
 
         function validateCohortEnrol() {
             var enrolmentDateValue = $.trim($(txtCohortDateEnrolment).val());
+            var conditionStartDateValue = $.trim($(txtConditionStartDate).val());
 
             if (enrolmentDateValue == "") {
                 $('#divCohortDateEnrolmentErrorMessage').removeClass('hidden');
@@ -1441,18 +1453,25 @@
             }
             else
             {
-                if(new Date(enrolmentDateValue) > new Date())
-                {
+                if (new Date(enrolmentDateValue) > new Date()) {
                     $('#divCohortDateEnrolmentErrorMessage').removeClass('hidden');
                     $('#divCohortDateEnrolmentErrorMessage').addClass('show');
                     $('#lblCohortDateEnrolment').addClass('state-error');
                 }
                 else
                 {
-                    $('#lblCohortDateEnrolment').removeClass('state-error');
-                    $('#divCohortDateEnrolmentErrorMessage').removeClass('show');
-                    $('#divCohortDateEnrolmentErrorMessage').addClass('hidden');
-                    $('#btnEnrolCohort').click();
+                    if (new Date(enrolmentDateValue) < new Date(conditionStartDateValue)) {
+                        $('#divCohortDateEnrolmentErrorMessage').removeClass('hidden');
+                        $('#divCohortDateEnrolmentErrorMessage').addClass('show');
+                        $('#lblCohortDateEnrolment').addClass('state-error');
+                    }
+                    else
+                    {
+                        $('#lblCohortDateEnrolment').removeClass('state-error');
+                        $('#divCohortDateEnrolmentErrorMessage').removeClass('show');
+                        $('#divCohortDateEnrolmentErrorMessage').addClass('hidden');
+                        $('#btnEnrolCohort').click();
+                    }
                 }
             }
         }

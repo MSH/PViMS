@@ -1,7 +1,4 @@
-﻿using System;
-
-using System.Linq;
-
+﻿using System.Linq;
 
 using VPS.Common.Repositories;
 using VPS.Common.Utilities;
@@ -63,6 +60,47 @@ namespace PVIMS.Services
                 _unitOfWork.Repository<DatasetElement>().Save(meddraElement);
             }
             return meddraElement;
+        }
+
+        public Config GetOrCreateConfig(ConfigType configType)
+        {
+            var config = _unitOfWork.Repository<Config>().Queryable().
+                FirstOrDefault(c => c.ConfigType == configType);
+
+            if (config == null)
+            {
+                config = new Config()
+                {
+                    // Prepare new config
+                    ConfigType = configType,
+                    ConfigValue = ""
+                };
+                _unitOfWork.Repository<Config>().Save(config);
+            }
+            return config;
+        }
+
+        public void SetConfigValue(ConfigType configType, string configValue)
+        {
+            var config = _unitOfWork.Repository<Config>().Queryable().
+                FirstOrDefault(c => c.ConfigType == configType);
+
+            if (config == null)
+            {
+                config = new Config()
+                {
+                    // Prepare new config
+                    ConfigType = configType,
+                    ConfigValue = configValue
+                };
+                _unitOfWork.Repository<Config>().Save(config);
+            }
+            else
+            {
+                config.ConfigValue = configValue;
+                _unitOfWork.Repository<Config>().Update(config);
+            }
+            _unitOfWork.Complete();
         }
 
         #endregion

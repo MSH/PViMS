@@ -66,7 +66,12 @@
 			<article class="col-sm-12 col-md-12 col-lg-9">
 				
 				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget" id="wid-id-1"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+				<div class="jarviswidget well" id="wid-id-1" 
+                    data-widget-editbutton="false" 
+                    data-widget-custombutton="false" 
+                    data-widget-deletebutton="false" 
+                    data-widget-colorbutton="false">
+
 					<header>
 						<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
 						<h2>Manage Page Widgets </h2>
@@ -323,7 +328,30 @@
 	    </p>
     </div>
 
-    <!-- end widget grid -->
+    <!-- use this modal to add a new page to the system -->
+    <div id="dialog-add-new-page" title="Dialog Simple Title">
+	    <p>
+		    Please specify the main details for the new page...
+	    </p>
+		<div class="form-group">
+			<label for="txtNewPageName">Page Name:</label>
+            <input type="text" id="txtNewPageName" class="form-control" />
+		</div>
+
+	    <div class="hr hr-12 hr-double"></div>
+    </div>
+    
+    <div id="dialog_page_info_success">
+	    <p><br />
+            Page has been added successfully ...
+	    </p>
+    </div>
+    <div id="dialog_page_info_error">
+	    <p><br />
+            Page has NOT been added successfully ...
+	    </p>
+    </div>
+
 </asp:Content>
 
 <asp:Content runat="server" ID="Scripts" ContentPlaceHolderID="scriptsPlaceholder">
@@ -440,6 +468,87 @@
 
         $(".bs-icons li").click(function () {
             $("#txtIcon").val(this.id);
+        });
+
+         $('.btn-add-page').click(function(e){
+             e.preventDefault();
+             $('#dialog-add-new-page').dialog('open');
+        });
+
+        $('#dialog_page_info_error').dialog({
+            autoOpen: false,
+            width: 600,
+            resizable: false,
+            modal: true,
+            dialogClass: "no-titlebar",
+            buttons: [{
+                html: "Close",
+                "class": "btn btn-primary",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }]
+        });
+
+        $('#dialog_page_info_success').dialog({
+            autoOpen: false,
+            width: 600,
+            resizable: false,
+            modal: true,
+            dialogClass: "no-titlebar",
+            buttons: [{
+                html: "Close",
+                "class": "btn btn-primary",
+                click: function () {
+                    $(this).dialog("close");
+                    location.reload();
+                }
+            }]
+        });
+        $(".ui-dialog-titlebar").hide();
+
+        $("#dialog-add-new-page").dialog({
+            autoOpen: false,
+            modal: true,
+            title: "Confirm",
+            buttons: [{
+                html: "Cancel",
+                "class": "btn btn-default",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }, {
+                html: "<i class='fa fa-check'></i>&nbsp; OK",
+                "class": "btn btn-primary",
+                click: function () {
+                    $(this).dialog("close");
+
+                    var link = "Linked to widget on page " + $("#txtPageName").val();
+
+                    $.ajax({
+                        url: "/Publisher/AddMetaPage",
+                        data: { pageName: $("#txtNewPageName").val(), widgetName: link },
+                        cache: false, 
+                        type: "POST",
+                        dataType: "html",
+                        beforeSend: function () {
+                        },
+                        success: function (data, textStatus, XMLHttpRequest) {
+                            var response = JSON.parse(data);
+
+                            if (response.Success == "OK") {
+                                $('#dialog_page_info_success').dialog('open');
+                            }
+                            else {
+                                $('#dialog_page_info_error').dialog('open');
+                            }
+                        },
+                        error: function () {
+                            $('#dialog_page_info_error').dialog('open');
+                        }
+                    });
+                }
+            }]
         });
     </script>
 

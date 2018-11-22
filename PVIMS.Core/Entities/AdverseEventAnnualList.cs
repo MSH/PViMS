@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using VPS.Common.Domain;
+﻿using VPS.Common.Domain;
 
 namespace PVIMS.Core.Entities
 {
@@ -13,6 +7,7 @@ namespace PVIMS.Core.Entities
         public int? PeriodYear { get; set; }
         public string FacilityName { get; set; }
         public string MedDraTerm { get; set; }
+        public string SeverityGrade { get; set; }
         public int? PatientCount { get; set; }
     }
 }

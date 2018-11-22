@@ -174,7 +174,7 @@ namespace PVIMS.Web
             var widgetTypeE = (MetaWidgetTypes)metaWidget.WidgetType.Id;
 
             // Header
-            if(widgetTypeE != MetaWidgetTypes.Wiki)
+            if(widgetTypeE != MetaWidgetTypes.SubItem)
             {
                 var header = new HtmlGenericControl("h2");
                 header.InnerHtml = String.Format(@"<i class=""fa {0} text-muted""></i>&nbsp;&nbsp;{1}", metaWidget.Icon, metaWidget.WidgetName);
@@ -190,7 +190,7 @@ namespace PVIMS.Web
 
                     break;
 
-                case MetaWidgetTypes.Wiki:
+                case MetaWidgetTypes.SubItem:
                     var tableDiv = new HtmlGenericControl("table");
                     tableDiv.Attributes.Add("class", "table table-striped table-forum");
 

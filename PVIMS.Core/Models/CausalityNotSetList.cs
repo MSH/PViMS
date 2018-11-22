@@ -14,6 +14,7 @@ namespace PVIMS.Core.Entities
         public string FirstName { get; set; }
         public string Surname { get; set; }
         public string AdverseEvent { get; set; }
+        public string Serious { get; set; }
         public DateTime OnsetDate { get; set; }
         public string NaranjoCausality { get; set; }
         public string WhoCausality { get; set; }

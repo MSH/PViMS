@@ -171,7 +171,7 @@ namespace PVIMS.Web
                 return;
             };
 
-            var results = _reportService.GetAdverseEventItems(Convert.ToDateTime(searchfrom), Convert.ToDateTime(searchto), ddlCriteria.SelectedValue == "1" ? AdverseEventCriteria.ReportSource : AdverseEventCriteria.MedDRATerminology, ddlStratify.SelectedValue == "1" ? AdverseEventStratifyCriteria.AgeGroup : ddlStratify.SelectedValue == "2" ? AdverseEventStratifyCriteria.Facility : AdverseEventStratifyCriteria.Drug);
+            var results = _reportService.GetAdverseEventItems(Convert.ToDateTime(searchfrom), Convert.ToDateTime(searchto), ddlCriteria.SelectedValue == "1" ? AdverseEventCriteria.ReportSource : AdverseEventCriteria.MedDRATerminology, ddlStratify.SelectedValue == "1" ? AdverseEventStratifyCriteria.AgeGroup : ddlStratify.SelectedValue == "2" ? AdverseEventStratifyCriteria.Facility : ddlStratify.SelectedValue == "3" ? AdverseEventStratifyCriteria.Drug : AdverseEventStratifyCriteria.Cohort);
 
             if (results.Count == 0)
             {
@@ -201,6 +201,10 @@ namespace PVIMS.Web
 
                     cell = new TableCell();
                     cell.Text = item.Criteria;
+                    row.Cells.Add(cell);
+
+                    cell = new TableCell();
+                    cell.Text = item.Serious;
                     row.Cells.Add(cell);
 
                     cell = new TableCell();

@@ -310,5 +310,26 @@ namespace PVIMS.Web.Controllers
             return unitOfWork.Repository<User>().Queryable().SingleOrDefault(u => u.UserName == HttpContext.User.Identity.Name);
         }
 
+        [HttpPost]
+        public JsonResult CheckHoliday(DateTime appointmentDate)
+        {
+            var success = "OK";
+            var message = "";
+
+            try
+            {
+                var holiday = unitOfWork.Repository<Holiday>().Queryable().
+                    FirstOrDefault(h => h.HolidayDate == appointmentDate);
+                message = holiday == null ? String.Format("No holiday found for {0}", appointmentDate.ToString("yyyy-MM-dd")) : String.Format("Holiday found for {0}: {1}", appointmentDate.ToString("yyyy-MM-dd"), holiday.Description);
+            }
+            catch (Exception ex)
+            {
+                success = "FAILED";
+                message = ex.Message;
+            }
+
+            var result = new { Success = success, Message = message };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

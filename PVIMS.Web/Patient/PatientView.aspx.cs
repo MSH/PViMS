@@ -830,6 +830,7 @@ namespace PVIMS.Web
                             hyp.Attributes.Add("data-target", "#cohortModal");
                             hyp.Attributes.Add("data-id", cohort.Id.ToString());
                             hyp.Attributes.Add("data-cohort", cohort.DisplayName);
+                            hyp.Attributes.Add("data-conditionstartdate", _patient.GetConditionForGroupAndDate(cohort.Condition, DateTime.Today).DateStart.ToString("yyyy-MM-dd"));
                             cell.Controls.Add(hyp);
 
                         }

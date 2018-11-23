@@ -1,4 +1,6 @@
-﻿namespace PVIMS.Web.Models
+﻿using System;
+
+namespace PVIMS.Web.Models
 {
     public class PageHeaderDetail
     {
@@ -11,5 +13,7 @@
         public string Title { get; set; }
         public string SubTitle { get; set; }
         public int MetaPageId { get; set; }
+
+        public string MetaDataLastUpdated { get; set; }
     }
 }

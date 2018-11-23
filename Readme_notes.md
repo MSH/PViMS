@@ -860,3 +860,4 @@ SL-0061 - Ability to detect duplicate conditions
 ** Adverse event report stratified by seriousness and include cohort as criteria
 ** Store MetaDataLastUpdated time when refreshing
 ** Patients on treatment report fixed to reflect serious events
+** Display last meta refresh data on each system report and admin page for meta refresh

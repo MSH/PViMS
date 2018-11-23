@@ -27,6 +27,7 @@ namespace PVIMS.Web
     public partial class ReportAdverseEventQuarterly : MainPageBase
     {
         public IReportService _reportService { get; set; }
+        public IInfrastructureService _infrastructureService { get; set; }
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -37,7 +38,9 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("ReportAdverseEventq");
-            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report - Quarterly Adverse Events", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw" });
+
+            var config = _infrastructureService.GetOrCreateConfig(ConfigType.MetaDataLastUpdated);
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report - Quarterly Adverse Events", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw", MetaDataLastUpdated = config.ConfigValue });
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)

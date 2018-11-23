@@ -31,11 +31,12 @@ namespace PVIMS.Web
         CausalityConfigType _configValue = CausalityConfigType.BothScales;
 
         public IReportService _reportService { get; set; }
+        public IInfrastructureService _infrastructureService { get; set; }
 
         protected void Page_Init(object sender, EventArgs e)
         {
-            var configValue = UnitOfWork.Repository<Config>().Queryable().Single(c => c.ConfigType == ConfigType.AssessmentScale).ConfigValue;
-            _configValue = (CausalityConfigType)Enum.Parse(typeof(CausalityConfigType), configValue.Replace(" ", ""));
+            var config = _infrastructureService.GetOrCreateConfig(ConfigType.AssessmentScale);
+            var _configValue = (CausalityConfigType)Enum.Parse(typeof(CausalityConfigType), config.ConfigValue.Replace(" ", ""));
 
             switch (_configValue)
             {
@@ -67,7 +68,10 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("ReportCausalityNotSet");
-            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report - Causality", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw" });
+
+            var config = _infrastructureService.GetOrCreateConfig(ConfigType.MetaDataLastUpdated);
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report - Causality", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw", MetaDataLastUpdated = config.ConfigValue });
+
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)

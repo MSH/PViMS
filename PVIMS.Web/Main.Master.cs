@@ -77,13 +77,21 @@ namespace PVIMS.Web
         public void SetPageHeader(PageHeaderDetail detail)
         {
             divEdit.Visible = false;
+            divMetaDataLastUpdated.Visible = false;
+
             spnPageTitle.InnerHtml = String.Format(@"<h1 class=""page-title txt-color-blueDark""><i class=""{0}""></i>{1}</h1>", detail.Icon, detail.Title);
-            if(detail.MetaPageId > 0)
+
+            if (detail.MetaPageId > 0)
             {
                 divEdit.Visible = true;
                 hrefEdit.HRef = "/Publisher/PageCustom.aspx?id=" + detail.MetaPageId;
                 hrefDelete.HRef = "/Publisher/DeleteMetaPage?metaPageId=" + detail.MetaPageId;
                 hrefAdd.HRef = "/Publisher/PageCustomWidget.aspx?Id=0&pid=" + detail.MetaPageId;
+            }
+            if(!String.IsNullOrWhiteSpace(detail.MetaDataLastUpdated))
+            {
+                divMetaDataLastUpdated.Visible = true;
+                spnMetaDataLastUpdated.InnerHtml = detail.MetaDataLastUpdated;
             }
         }
 

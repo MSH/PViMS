@@ -182,15 +182,23 @@
 
 	        <div class="row">
 		        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="well" style="padding-top:10px; padding-bottom:0px;">
-		                <div class="col-md-2 col-md-offset-10" id="divEdit" runat="server" visible="false">
+                    <div class="well" style="padding-top:10px; padding-bottom:10px; height:85px;">
+                        <div class="col-md-6">
+                            <span id="spnPageTitle" runat="server"></span>
+                        </div>
+		                <div class="col-md-2 col-md-offset-4" id="divEdit" runat="server" visible="false">
                             <div style="padding-top:0px; padding-bottom:10px;">
                                 <a class="btn btn-primary btn-sm" id="hrefEdit" runat="server">Configure</a>
                                 <a class="btn btn-primary btn-sm" id="hrefAdd" runat="server">Add Widget</a>
                                 <a class="btn btn-default btn-sm" id="hrefDelete" runat="server">Delete</a>
     		                </div>
 		                </div>
-                        <span id="spnPageTitle" runat="server"></span>
+		                <div class="col-md-2 col-md-offset-4" id="divMetaDataLastUpdated" runat="server" visible="false">
+                            <div class="jumbotron" style="padding-top:10px; padding-bottom:10px;">
+                                <h4>Meta data last refreshed: <br /><span id="spnMetaDataLastUpdated" runat="server" style="font:bold;"></span></h4>
+    		                </div>
+		                </div>
+                        
     		        </div>
 		        </div>
 	        </div>

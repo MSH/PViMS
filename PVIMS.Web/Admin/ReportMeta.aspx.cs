@@ -28,7 +28,9 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("AdminReport");
-            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report Meta Data", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
+
+            var config = _infrastructureService.GetOrCreateConfig(ConfigType.MetaDataLastUpdated);
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report Meta Data", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaDataLastUpdated = config.ConfigValue });
 
             if (!Page.IsPostBack)
             {

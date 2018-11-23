@@ -27,13 +27,15 @@ namespace PVIMS.Web
     public partial class ReportAdverseEvents : MainPageBase
     {
         public IReportService _reportService { get; set; }
+        public IInfrastructureService _infrastructureService { get; set; }
 
         protected void Page_Init(object sender, EventArgs e)
         {
             txtSearchFrom.Value = DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd");
             txtSearchTo.Value = DateTime.Today.ToString("yyyy-MM-dd");
 
-            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report - Adverse Events", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw" });
+            var config = _infrastructureService.GetOrCreateConfig(ConfigType.MetaDataLastUpdated);
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report - Adverse Events", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw", MetaDataLastUpdated = config.ConfigValue });
         }
 
         protected void Page_Load(object sender, EventArgs e)

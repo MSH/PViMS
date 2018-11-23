@@ -232,11 +232,11 @@ namespace PVIMS.Web
                     row.Cells.Add(cell);
 
                     cell = new TableCell();
-                    cell.Text = "0";
+                    cell.Text = item.PatientWithSeriousEventCount.ToString();
                     row.Cells.Add(cell);
 
                     cell = new TableCell();
-                    cell.Text = item.PatientWithEventCount.ToString();
+                    cell.Text = item.PatientWithNonSeriousEventCount.ToString();
                     row.Cells.Add(cell);
 
                     cell = new TableCell();

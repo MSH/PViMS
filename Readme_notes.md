@@ -859,3 +859,4 @@ SL-0061 - Ability to detect duplicate conditions
 ** Include grade 5 and grade unknown into quarterly and annual adverse event reports
 ** Adverse event report stratified by seriousness and include cohort as criteria
 ** Store MetaDataLastUpdated time when refreshing
+** Patients on treatment report fixed to reflect serious events

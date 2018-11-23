@@ -325,27 +325,53 @@ namespace PVIMS.Services
                 case PatientOnStudyCriteria.HasEncounterinDateRange:
                     sql = string.Format(@"
                         SELECT f.FacilityName, f.Id as FacilityId
-	                        ,	(
-			                        select count(distinct(ip.Id))
-			                        from Encounter ie 
-				                        inner join Patient ip on ie.Patient_Id = ip.Id
-				                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
-				                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
-                                    where ie.Archived = 0 and ip.Archived = 0 
-			                            and ie.EncounterDate between '{0}' and '{1}'
-				                        and ifa.Id = f.Id
-		                        ) AS PatientCount
-	                        ,	(
-			                        select count(distinct(ip.Id))
-			                        from Encounter ie 
-				                        inner join Patient ip on ie.Patient_Id = ip.Id
-				                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
-				                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
-				                        inner join PatientClinicalEvent ipce on ip.Id = ipce.Patient_Id 
-			                        where ie.Archived = 0 and ip.Archived = 0 and ipce.Archived = 0
+                            ,	(
+                                    select count(distinct(ip.Id))
+                                    from Encounter ie 
+                                        inner join Patient ip on ie.Patient_Id = ip.Id
+                                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
+                                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
+                                    where ie.Archived = 0 and ip.Archived = 0 and ie.Archived = 0
                                         and ie.EncounterDate between '{0}' and '{1}'
-				                        and ifa.Id = f.Id
-		                        ) AS PatientWithEventCount
+                                        and ifa.Id = f.Id
+                                ) AS PatientCount
+                            ,	(
+                                    select count(distinct(ip.Id))
+                                    from Encounter ie 
+                                        inner join Patient ip on ie.Patient_Id = ip.Id
+                                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
+                                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
+                                        inner join PatientClinicalEvent ipce on ip.Id = ipce.Patient_Id 
+                                        inner join MetaPatientClinicalEvent impce on ipce.PatientClinicalEventGuid = impce.PatientClinicalEventGuid 
+                                    where ie.Archived = 0 and ip.Archived = 0 and ipce.Archived = 0
+                                        and ie.EncounterDate between '{0}' and '{1}'
+                                        and ifa.Id = f.Id
+                                        and (impce.[Istheadverseeventserious?] <> 'Yes' or impce.[Istheadverseeventserious?] is null)
+                                ) AS PatientWithNonSeriousEventCount
+                            ,	(
+                                    select count(distinct(ip.Id))
+                                    from Encounter ie 
+                                        inner join Patient ip on ie.Patient_Id = ip.Id
+                                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
+                                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
+                                        inner join PatientClinicalEvent ipce on ip.Id = ipce.Patient_Id 
+                                        inner join MetaPatientClinicalEvent impce on ipce.PatientClinicalEventGuid = impce.PatientClinicalEventGuid 
+                                    where ie.Archived = 0 and ip.Archived = 0 and ipce.Archived = 0
+                                        and ie.EncounterDate between '{0}' and '{1}'
+                                        and ifa.Id = f.Id
+                                        and impce.[Istheadverseeventserious?] = 'Yes'
+                                ) AS PatientWithSeriousEventCount
+                            ,	(
+                                    select count(distinct(ip.Id))
+                                    from Encounter ie 
+                                        inner join Patient ip on ie.Patient_Id = ip.Id
+                                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
+                                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
+                                        inner join PatientClinicalEvent ipce on ip.Id = ipce.Patient_Id 
+                                    where ie.Archived = 0 and ip.Archived = 0 and ipce.Archived = 0
+                                        and ie.EncounterDate between '{0}' and '{1}'
+                                        and ifa.Id = f.Id
+                                ) AS PatientWithEventCount        
                         FROM Facility f
                         ORDER BY f.FacilityName 
                         ", searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));
@@ -354,25 +380,49 @@ namespace PVIMS.Services
                 case PatientOnStudyCriteria.PatientRegisteredinFacilityinDateRange:
                     sql = string.Format(@"
                         SELECT f.FacilityName, f.Id as FacilityId
-	                        ,	(
-			                        select count(distinct(ip.Id))
-			                        from Patient ip 
-				                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
-				                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
-			                        where ip.Archived = 0
-                                        and ip.Created between '{0}' and '{1}'
-				                        and ifa.Id = f.Id
-		                        ) AS PatientCount
-	                        ,	(
-			                        select count(distinct(ip.Id))
-			                        from Patient ip
-				                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
-				                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
-				                        inner join PatientClinicalEvent ipce on ip.Id = ipce.Patient_Id 
-			                        where ip.Archived = 0 and ipce.Archived = 0
-                                        and ip.Created between '{0}' and '{1}'
-				                        and ifa.Id = f.Id
-		                        ) AS PatientWithEventCount
+                            ,	(
+                                    select count(distinct(ip.Id))
+                                    from Patient ip 
+                                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
+                                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
+                                    where ip.Archived = 0 and ipf.Archived = 0
+                                        and ipf.EnrolledDate between '{0}' and '{1}'
+                                        and ifa.Id = f.Id
+                                ) AS PatientCount
+                            ,	(
+                                    select count(distinct(ip.Id))
+                                    from Patient ip
+                                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
+                                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
+                                        inner join PatientClinicalEvent ipce on ip.Id = ipce.Patient_Id 
+                                        inner join MetaPatientClinicalEvent impce on ipce.PatientClinicalEventGuid = impce.PatientClinicalEventGuid 
+                                    where ip.Archived = 0 and ipf.Archived = 0 and ipce.Archived = 0
+                                        and ipf.EnrolledDate between '{0}' and '{1}'
+                                        and ifa.Id = f.Id
+                                        and (impce.[Istheadverseeventserious?] <> 'Yes' or impce.[Istheadverseeventserious?] is null)
+                                ) AS PatientWithNonSeriousEventCount
+                            ,	(
+                                    select count(distinct(ip.Id))
+                                    from Patient ip
+                                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
+                                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
+                                        inner join PatientClinicalEvent ipce on ip.Id = ipce.Patient_Id 
+                                        inner join MetaPatientClinicalEvent impce on ipce.PatientClinicalEventGuid = impce.PatientClinicalEventGuid 
+                                    where ip.Archived = 0 and ipf.Archived = 0 and ipce.Archived = 0
+                                        and ipf.EnrolledDate between '{0}' and '{1}'
+                                        and ifa.Id = f.Id
+                                        and impce.[Istheadverseeventserious?] = 'Yes'
+                                ) AS PatientWithSeriousEventCount
+                            ,	(
+                                    select count(distinct(ip.Id))
+                                    from Patient ip
+                                        inner join PatientFacility ipf on ip.Id = ipf.Patient_Id AND ipf.EnrolledDate = (select MAX(EnrolledDate) FROM PatientFacility iipf WHERE iipf.Patient_Id = ip.Id)
+                                        inner join Facility ifa on ipf.Facility_Id = ifa.Id
+                                        inner join PatientClinicalEvent ipce on ip.Id = ipce.Patient_Id 
+                                    where ip.Archived = 0 and ipf.Archived = 0 and ipce.Archived = 0
+                                        and ipf.EnrolledDate between '{0}' and '{1}'
+                                        and ifa.Id = f.Id
+                                ) AS PatientWithEventCount
                         FROM Facility f
                         ORDER BY f.FacilityName 
                         ", searchFrom.ToString("yyyy-MM-dd"), searchTo.ToString("yyyy-MM-dd"));

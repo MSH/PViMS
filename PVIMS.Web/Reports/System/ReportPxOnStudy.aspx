@@ -84,9 +84,9 @@
                                 <asp:TableHeaderRow TableSection="TableHeader">
                                     <asp:TableHeaderCell width="30%">Facility</asp:TableHeaderCell> 
                                     <asp:TableHeaderCell width="10%"># Patients</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%"># Patients with <br />Serious Events</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%"># Patients with <br />Non-Serious Events</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%">% Patient <br />With Events</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="15%"># Patients with at least one <br />Serious Event</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="15%"># Patients with at least one <br />Non-Serious Event</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="15%">% Patient with at least one <br />Event</asp:TableHeaderCell> 
                                     <asp:TableHeaderCell width="15%">Action</asp:TableHeaderCell> 
                                 </asp:TableHeaderRow>
                             </asp:Table>
@@ -110,7 +110,12 @@
 			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
 				
 				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget" id="wid-id-2"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+				<div class="jarviswidget" id="wid-id-2" 
+                    data-widget-editbutton="false" 
+                    data-widget-custombutton="false" 
+                    data-widget-deletebutton="false" 
+                    data-widget-colorbutton="false">
+
 					<header>
 						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
 						<h2>Patient List</h2>

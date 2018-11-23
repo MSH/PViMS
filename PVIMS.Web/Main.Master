@@ -193,7 +193,7 @@
                                 <a class="btn btn-default btn-sm" id="hrefDelete" runat="server">Delete</a>
     		                </div>
 		                </div>
-		                <div class="col-md-2 col-md-offset-4" id="divMetaDataLastUpdated" runat="server" visible="false">
+		                <div class="col-md-3 col-md-offset-3" id="divMetaDataLastUpdated" runat="server" visible="false">
                             <div class="jumbotron" style="padding-top:10px; padding-bottom:10px;">
                                 <h4>Meta data last refreshed: <br /><span id="spnMetaDataLastUpdated" runat="server" style="font:bold;"></span></h4>
     		                </div>

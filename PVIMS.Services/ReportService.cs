@@ -284,7 +284,7 @@ namespace PVIMS.Services
             }
 
             string sql = string.Format(@"
-                SELECT p.Id AS Patient_Id, p.FirstName, p.Surname, pce.SourceTerminologyMedDra AS AdverseEvent, pce.OnsetDate, rim.NaranjoCausality, rim.WhoCausality, rim.MedicationIdentifier, pce.[[Istheadverseeventserious?]] AS Serious 
+                SELECT p.Id AS Patient_Id, p.FirstName, p.Surname, pce.SourceTerminologyMedDra AS AdverseEvent, pce.OnsetDate, rim.NaranjoCausality, rim.WhoCausality, rim.MedicationIdentifier, pce.[Istheadverseeventserious?] AS Serious 
                     FROM ReportInstance ri
 		                INNER JOIN MetaPatientClinicalEvent pce ON ri.ContextGuid = pce.PatientClinicalEventGuid 
 		                INNER JOIN Patient p on pce.Patient_Id = p.Id

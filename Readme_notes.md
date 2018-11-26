@@ -863,3 +863,4 @@ SL-0061 - Ability to detect duplicate conditions
 ** Display last meta refresh data on each system report and admin page for meta refresh
 ** Cohort view modified to display serious and non serious patient counts (total and per patient)
 ** Include in progress waiting screen for active dataset download, analyser, E2B creation
+** All system reports to include date and time of extract when extracting to XLSX

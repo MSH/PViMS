@@ -82,11 +82,11 @@
                             </div>
                             <asp:Table id="dt_basic" runat="server" ClientIDMode="Static" class="table table-striped table-bordered table-hover"  width="100%">
                                 <asp:TableHeaderRow TableSection="TableHeader">
-                                    <asp:TableHeaderCell width="30%">Facility</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="10%"># Patients</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%"># Patients with at least one <br />Serious Event</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%"># Patients with at least one <br />Non-Serious Event</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%">% Patient with at least one <br />Event</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="25%">Facility</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="15%">Patients</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="15%">Patients with serious event</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="15%">Patients with non-serious event</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="15%">% Patient with event</asp:TableHeaderCell> 
                                     <asp:TableHeaderCell width="15%">Action</asp:TableHeaderCell> 
                                 </asp:TableHeaderRow>
                             </asp:Table>

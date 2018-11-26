@@ -681,7 +681,7 @@ namespace PVIMS.Web
             string destName = string.Format("ROV_{0}.pdf", DateTime.Now.ToString("yyyyMMddhhmmsss"));
             string destFile = string.Format("{0}{1}", documentDirectory, destName);
 
-            string logoName = string.Format("SIAPS_USAID_Horiz.png");
+            string logoName = string.Format("SIAPS_USAID_Horiz.jpg");
             string logoFile = string.Format("{0}{1}", logoDirectory, logoName);
 
             string fontFile = string.Format("{0}\\arial.ttf", System.AppDomain.CurrentDomain.BaseDirectory);
@@ -691,13 +691,6 @@ namespace PVIMS.Web
 
             // Create document
             PdfDocument pdfDoc = new PdfDocument();
-            XmlNode rootNode;
-            XmlNode filterNode;
-            XmlNode contentHeadNode;
-            XmlNode contentNode;
-            XmlNode contentValueNode;
-            XmlAttribute attrib;
-            XmlComment comment;
 
             // Create a new page
             PdfPage page = pdfDoc.AddPage();
@@ -726,8 +719,8 @@ namespace PVIMS.Web
             XFont fontr = new XFont("Calibri", 10, XFontStyle.Regular);
 
             // Write header
-            pdfDoc.Info.Title = "Outstanding Visit Report for " + DateTime.Now.ToString("yyyy-MM-dd hh:MM");
-            gfx.DrawString("Outstanding Visit Report for " + DateTime.Now.ToString("yyyy-MM-dd hh:MM"), fontb, XBrushes.Black, new XRect(columnPosition, linePosition, page.Width.Point, 20), XStringFormats.TopLeft);
+            pdfDoc.Info.Title = "Outstanding Visit Report for " + DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+            gfx.DrawString("Outstanding Visit Report for " + DateTime.Now.ToString("yyyy-MM-dd HH:mm"), fontb, XBrushes.Black, new XRect(columnPosition, linePosition, page.Width.Point, 20), XStringFormats.TopLeft);
 
             // Write filter
             linePosition += 24;
@@ -846,14 +839,13 @@ namespace PVIMS.Web
             XmlNode contentNode;
             XmlNode contentValueNode;
             XmlAttribute attrib;
-            XmlComment comment;
 
             XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
             xmlDoc.AppendChild(xmlDeclaration);
 
             rootNode = xmlDoc.CreateElement("PViMS_OutstandingVisitReport", ns);
             attrib = xmlDoc.CreateAttribute("CreatedDate");
-            attrib.InnerText = DateTime.Now.ToString("yyyy-MM-dd hh:MM");
+            attrib.InnerText = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             rootNode.Attributes.Append(attrib);
 
             // Write filter

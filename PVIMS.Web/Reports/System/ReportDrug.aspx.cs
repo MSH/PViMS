@@ -149,10 +149,10 @@ namespace PVIMS.Web
             var documentDirectory = String.Format("{0}\\Temp\\", System.AppDomain.CurrentDomain.BaseDirectory);
             var logoDirectory = String.Format("{0}\\img\\", System.AppDomain.CurrentDomain.BaseDirectory);
 
-            string destName = string.Format("RD_{0}.pdf", DateTime.Now.ToString("yyyyMMddhhmmsss"));
+            string destName = string.Format("ReportDrug_{0}.pdf", DateTime.Now.ToString("yyyyMMddhhmmsss"));
             string destFile = string.Format("{0}{1}", documentDirectory, destName);
 
-            string logoName = string.Format("SIAPS_USAID_Horiz.png");
+            string logoName = string.Format("SIAPS_USAID_Horiz.jpg");
             string logoFile = string.Format("{0}{1}", logoDirectory, logoName);
 
             string fontFile = string.Format("{0}\\arial.ttf", System.AppDomain.CurrentDomain.BaseDirectory);
@@ -190,8 +190,8 @@ namespace PVIMS.Web
             XFont fontr = new XFont("Arial", 10, XFontStyle.Regular);
 
             // Write header
-            pdfDoc.Info.Title = "Drug Report for " + DateTime.Now.ToString("yyyy-MM-dd hh:MM");
-            gfx.DrawString("Drug Report for " + DateTime.Now.ToString("yyyy-MM-dd hh:MM"), fontb, XBrushes.Black, new XRect(columnPosition, linePosition, page.Width.Point, 20), XStringFormats.TopLeft);
+            pdfDoc.Info.Title = "Drug Report for " + DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+            gfx.DrawString("Drug Report for " + DateTime.Now.ToString("yyyy-MM-dd HH:mm"), fontb, XBrushes.Black, new XRect(columnPosition, linePosition, page.Width.Point, 20), XStringFormats.TopLeft);
 
             // Write filter
             linePosition += 24;
@@ -257,11 +257,11 @@ namespace PVIMS.Web
 
                         if (rowCount == 1)
                         {
-                            widthArray.Add((int)cell.Width.Value * 5);
+                            widthArray.Add((int)cell.Width.Value * 8);
                             headerArray.Add(cell.Text);
 
-                            gfx.DrawString(cell.Text, fontb, XBrushes.Black, new XRect(columnPosition, linePosition, cell.Width.Value * 5, 20), XStringFormats.TopLeft);
-                            columnPosition += (int)cell.Width.Value * 5;
+                            gfx.DrawString(cell.Text, fontb, XBrushes.Black, new XRect(columnPosition, linePosition, cell.Width.Value * 8, 20), XStringFormats.TopLeft);
+                            columnPosition += (int)cell.Width.Value * 8;
                         }
                         else
                         {
@@ -297,7 +297,7 @@ namespace PVIMS.Web
             var ns = ""; // urn:pvims-org:v3
 
             string contentXml = string.Empty;
-            string destName = string.Format("RD_{0}.xml", DateTime.Now.ToString("yyyyMMddhhmmsss"));
+            string destName = string.Format("ReportDrug_{0}.xml", DateTime.Now.ToString("yyyyMMddhhmmsss"));
             string destFile = string.Format("{0}{1}", documentDirectory, destName);
 
             // Create document
@@ -308,14 +308,13 @@ namespace PVIMS.Web
             XmlNode contentNode;
             XmlNode contentValueNode;
             XmlAttribute attrib;
-            XmlComment comment;
 
             XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
             xmlDoc.AppendChild(xmlDeclaration);
 
             rootNode = xmlDoc.CreateElement("PViMS_DrugReport", ns);
             attrib = xmlDoc.CreateAttribute("CreatedDate");
-            attrib.InnerText = DateTime.Now.ToString("yyyy-MM-dd hh:MM");
+            attrib.InnerText = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             rootNode.Attributes.Append(attrib);
 
             // Write filter
@@ -393,8 +392,10 @@ namespace PVIMS.Web
             ws.View.ShowGridLines = true;
 
             // Write content
-            var rowCount = 0;
+            var rowCount = 1;
             var cellCount = 0;
+
+            ws.Cells["A1"].Value = "Drug Report for " + DateTime.Now.ToString("yyyy-MM-dd HH:mm");
 
             foreach (TableRow row in dt_basic.Rows)
             {
@@ -418,7 +419,6 @@ namespace PVIMS.Web
             {
                 r.Style.Font.SetFromFont(new Font("Calibri", 10, FontStyle.Regular));
                 r.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                r.AutoFitColumns();
             }
             //Lock cells
             using (var r = ws.Cells["A1:" + GetExcelColumnName(cellCount) + rowCount])
@@ -428,7 +428,13 @@ namespace PVIMS.Web
             FormatAsBorder(ref ws, "A1:" + GetExcelColumnName(cellCount) + rowCount);
 
             // Format header
-            FormatAsHeader(ref ws, "A1:" + GetExcelColumnName(cellCount) + "1", false, ExcelHorizontalAlignment.Left);
+            FormatAsHeader(ref ws, "A1:" + GetExcelColumnName(cellCount) + "2", false, ExcelHorizontalAlignment.Left);
+
+            // Autofit
+            using (var r = ws.Cells["A1:" + GetExcelColumnName(cellCount) + rowCount])
+            {
+                r.AutoFitColumns();
+            }
 
             ws.Protection.IsProtected = true;
             ws.Protection.AllowAutoFilter = false;

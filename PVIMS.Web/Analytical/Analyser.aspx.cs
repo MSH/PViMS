@@ -387,29 +387,6 @@ namespace PVIMS.Web
             }
         }
 
-        protected void ddlCohort_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            divCohort.Visible = false;
-
-            if (ddlCohort.SelectedValue == "0") { return; };
-
-            var id = Convert.ToInt32(ddlCohort.SelectedValue);
-            var cohort = UnitOfWork.Repository<CohortGroup>().Queryable().SingleOrDefault(cg => cg.Id == id);
-            if (cohort == null) { return; };
-
-            divCohort.Visible = true;
-            string cohortDetail = "<ul>";
-
-            cohortDetail += String.Format("<li>Primary Condition Group: <b>{0}</b></li>", cohort.Condition != null ? cohort.Condition.Description : "Not defined");
-            cohortDetail += String.Format("<li>Date Range: <b>{0} - {1}</b></li>", cohort.StartDate.ToString("yyyy-MM-dd"), cohort.FinishDate != null ? Convert.ToDateTime(cohort.FinishDate).ToString("yyyy-MM-dd") : "No End Date");
-            cohortDetail += String.Format("<li>Number Patients: <b>{0}</b></li>", cohort.CohortGroupEnrolments.Count.ToString());
-
-            cohortDetail += "</ul>";
-            spnCohort.InnerHtml = cohortDetail;
-
-            SetActiveCriteria("tab0");
-        }
-
         protected void ddlReactions_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlReactions.SelectedValue == "0") { return; };

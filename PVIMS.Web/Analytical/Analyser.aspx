@@ -6,6 +6,35 @@
 <asp:Content runat="server" ID="Breadcrumbcontainer" ContentPlaceHolderID="breadcrumbcontainer"></asp:Content>
 
 <asp:Content runat="server" ID="Body" ClientIDMode="Static" ContentPlaceHolderID="BodyContentPlaceHolder">
+
+    <style>
+
+        .Waiting {
+          display: block;
+          visibility: visible;
+          position: absolute;
+          z-index: 999;
+          top: 0px;
+          left: 0px;
+          width: 105%;
+          height: 105%;
+          background-color:white;
+          vertical-align:bottom;
+          padding-top: 20%;
+          filter: alpha(opacity=75);
+          opacity: 0.75;
+          font-size:large;
+          color:blue;
+          font-style:italic;
+          font-weight:400;
+          background-image: url("/img/loading-red.gif");
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-position: center;
+          }
+
+    </style>
+
     <asp:HiddenField runat="server" ID="hfPosition" Value="" />
 
     <section novalidate>
@@ -19,7 +48,6 @@
 
                     <div class="jarviswidget" id="wid-id-1"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
 						<header>
-							<span class="widget-icon"> <i class="fa fa-comments"></i> </span>
 							<h2>Analysis Criteria for Active Reporting  </h2>
 						</header>
 								
@@ -79,15 +107,15 @@
 									            <div class="row">
                                                     <section class="col col-6">
 										                <label runat="server" id="lblCohort" class="input">Cohort
-				                                            <asp:DropDownList ID="ddlCohort" name="ddlCohort" runat="server" Style="color: black" CssClass="form-control" OnSelectedIndexChanged="ddlCohort_SelectedIndexChanged" AutoPostBack="true">
+				                                            <asp:DropDownList ID="ddlCohort" name="ddlCohort" runat="server" Style="color: black" CssClass="form-control">
                                                                 <asp:ListItem Selected="True" Text="" Value="0"></asp:ListItem>
 				                                            </asp:DropDownList>
                                                         </label>
                                                     </section>
 									            </div>
-									            <div class="row" style="padding:10px;" id="divCohort" runat="server" visible ="false">
+									            <div class="row" style="padding:10px;" id="divCohort">
                                                     <section class="col col-6">
-                                                        <span id="spnCohort" runat="server">
+                                                        <span id="spnCohort" id="spnCohort">
                                                         </span>
                                                     </section>
 									            </div>
@@ -268,7 +296,7 @@
                                     </div>
                                     <div class="smart-form">
 								        <footer>
-                                            <a href="../FileDownload/DownloadActiveDataset" class="btn btn-primary">Download Dataset</a>
+                                            <a href="javascript:void(0);" class="btn btn-primary" id="downloadDataset">Download Dataset</a>
 								        </footer>
                                     </div>
                                 </div>
@@ -393,7 +421,6 @@
 
                     <div class="jarviswidget" id="wid-id-5"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
 						<header>
-							<span class="widget-icon"> <i class="fa fa-comments"></i> </span>
 							<h2>Results</h2>
 						</header>
 								
@@ -453,7 +480,6 @@
                     <div class="jarviswidget" id="wid-id-6"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
 
 						<header>
-							<span class="widget-icon"> <i class="fa fa-comments"></i> </span>
 							<h2>Patient List</h2>
 						</header>
 								
@@ -507,6 +533,8 @@
 
     </section>
 
+    <div id="waitingScreen"  class="Waiting"></div>.
+
 </asp:Content>
 
 <asp:Content runat="server" ID="Scripts" ContentPlaceHolderID="scriptsPlaceholder">
@@ -525,6 +553,59 @@
                 f.val(position);
             };
         });
+    </script>
+
+    <script>
+
+        $(window).on('load', function () {
+            $("#waitingScreen").hide();
+            });
+
+        $("#btnAnalyse").click(function () {
+            $("#waitingScreen").show();
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        $("#downloadDataset").click(function () {
+
+            var url = "";
+            var geturl = "";
+
+            url = "../FileDownload/DownloadActiveDataset";
+            geturl = "../FileDownload/DownloadExcelFile?fileName=";
+
+            $.ajax({
+                url: url,
+                cache: false, 
+                type: "POST",
+                dataType: "html",
+                beforeSend: function () {
+                    $("#waitingScreen").show();
+                },
+                success: function (data) {
+                    var response = JSON.parse(data);
+                    $("#waitingScreen").hide();
+                    window.location = geturl + response.FileName;
+                },
+                error: function () {
+
+                }
+            });
+        });
+
+        $("#ddlCohort").change(function () {
+            $("#spnCohort").empty();
+            var cohortId = $(this).val();
+            if (cohortId > 0) {
+            $.getJSON("../../Api/AnalyserApi/GetCohortDetails", { id: cohortId },
+                function (data) {
+                    $("#spnCohort").html(data);
+                });
+            }
+        });
+
     </script>
 
 </asp:Content>

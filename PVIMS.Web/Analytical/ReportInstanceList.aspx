@@ -1,6 +1,34 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ReportInstanceList.aspx.cs" MasterPageFile="/Main.Master" Inherits="PVIMS.Web.ReportInstanceList" Title="Adverse Event List" %>
 
 <asp:Content runat="server" ID="Body" ContentPlaceHolderID="BodyContentPlaceHolder">
+
+    <style>
+
+        .Waiting {
+          display: block;
+          visibility: visible;
+          position: absolute;
+          z-index: 999;
+          top: 0px;
+          left: 0px;
+          width: 105%;
+          height: 105%;
+          background-color:white;
+          vertical-align:bottom;
+          padding-top: 20%;
+          filter: alpha(opacity=75);
+          opacity: 0.75;
+          font-size:large;
+          color:blue;
+          font-style:italic;
+          font-weight:400;
+          background-image: url("/img/loading-red.gif");
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-position: center;
+          }
+
+    </style>
 				
 	<!-- widget grid -->
 	<section id="widget-grid" class="">
@@ -90,14 +118,24 @@
 		<!-- end row -->
 			
 	</section>
-	<!-- end widget grid -->
+
+    <div id="waitingScreen"  class="Waiting"></div>.
 
 </asp:Content>
 
 <asp:Content runat="server" ID="Scripts" ContentPlaceHolderID="scriptsPlaceholder">
+
     <script>
 
-	</script>
+        $(window).on('load', function () {
+            $("#waitingScreen").hide();
+            });
+
+        $(".LoadWaitingScreen").click(function () {
+            $("#waitingScreen").show();
+        });
+
+    </script>
 
 </asp:Content>
 

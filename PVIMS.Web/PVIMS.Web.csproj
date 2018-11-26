@@ -463,6 +463,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
+    <Compile Include="Controllers\AnalyserApiController.cs" />
     <Compile Include="Controllers\PublisherController.cs" />
     <Compile Include="Controllers\CohortController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />

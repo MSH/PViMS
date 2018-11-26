@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
-using PVIMS.Core.Models;
+using PVIMS.Core.Dto;
 
 namespace PVIMS.Web.Models
 {
@@ -23,7 +19,7 @@ namespace PVIMS.Web.Models
         [Display(Name = "Notes")]
         public string EncounterNotes { get; set; }
 
-        public DatasetInstanceValueList InstanceValue { get; set; }
+        public DatasetInstanceValueListDto InstanceValue { get; set; }
 
         public DatasetCategoryViewModel[] DatasetCategories { get; set; }
         public PatientConditionListItemModel[] PatientConditions { get; set; }

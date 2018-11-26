@@ -31,6 +31,42 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtCohortCode;
         
         /// <summary>
+        /// txtCohortCondition control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtCohortCondition;
+        
+        /// <summary>
+        /// txtPatientCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtPatientCount;
+        
+        /// <summary>
+        /// txtNonSeriousCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtNonSeriousCount;
+        
+        /// <summary>
+        /// txtSeriousCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtSeriousCount;
+        
+        /// <summary>
         /// dt_basic control.
         /// </summary>
         /// <remarks>

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 using PVIMS.Core.Entities;
+using PVIMS.Core.Models;
 using PVIMS.Core.Services;
 
 namespace PVIMS.Web
@@ -13,8 +13,9 @@ namespace PVIMS.Web
     {
         private int _id;
         private CohortGroup _cohort;
+        private CohortSummary _cohortSummary;
 
-        public IWorkFlowService _workFlowService { get; set; }
+        public IPatientService _patientService { get; set; }
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -23,8 +24,14 @@ namespace PVIMS.Web
                 _id = Convert.ToInt32(Request.QueryString["id"]);
                 _cohort = GetCohortGroup(_id);
 
+                _cohortSummary = new CohortSummary()
+                {
+                    CohortGroupId = _id
+                };
+
                 txtCohortName.Value = _cohort.CohortName;
                 txtCohortCode.Value = _cohort.CohortCode;
+                txtCohortCondition.Value = _cohort.Condition != null ? _cohort.Condition.Description : "";
             }
             else {
                 throw new Exception("id not passed as parameter");
@@ -49,7 +56,7 @@ namespace PVIMS.Web
             HyperLink hyp;
 
             // Loop through and render table
-            foreach (var enrollment in _cohort.CohortGroupEnrolments.Where( x=>!x.Archived || !x.Patient.Archived))
+            foreach (var enrollment in _cohort.CohortGroupEnrolments.Where( x=>!x.Archived && !x.Patient.Archived))
             {
                 row = new TableRow();
 
@@ -57,68 +64,31 @@ namespace PVIMS.Web
                 cell.Text = enrollment.Patient.FullName;
                 row.Cells.Add(cell);
 
-                var facility = enrollment.Patient.GetCurrentFacility();
-                if(facility != null)
-                {
-                    cell = new TableCell();
-                    cell.Text = facility.Facility.FacilityName + " " + facility.Facility.FacilityCode;
-                    row.Cells.Add(cell);
-                }
-                else
-                {
-                    cell = new TableCell();
-                    cell.Text = @"<span class=""label label-warning"">Not Set</span>";
-                    row.Cells.Add(cell);
-                }
-
                 cell = new TableCell();
-                if (enrollment.Patient.Age < 19) {
-                    cell.Text = String.Format(@"{0} <span class=""badge bg-color-blueLight"">{1}</span>", enrollment.Patient.DateOfBirth != null ? Convert.ToDateTime(enrollment.Patient.DateOfBirth).ToString("yyyy-MM-dd") : "", enrollment.Patient.Age.ToString());
-                }
-                else
-                {
-                    cell.Text = String.Format(@"{0} <span class=""badge bg-color-blueDark"">{1}</span>", Convert.ToDateTime(enrollment.Patient.DateOfBirth).ToString("yyyy-MM-dd"), enrollment.Patient.Age.ToString());
-                }
+                cell.Text = enrollment.Patient.CurrentFacilityName;
                 row.Cells.Add(cell);
 
-                var lastEncounter = enrollment.Patient.LastEncounterDate();
                 cell = new TableCell();
-                if (lastEncounter != null) {
-                    cell.Text = Convert.ToDateTime(lastEncounter).ToString("yyyy-MM-dd");
-                }
-                else {
-                    cell.Text = @"<span class=""label label-info"">No Encounters</span>";
-                }
+                cell.Text = String.Format(@"{0} <span class=""{2}"">{1}</span>", enrollment.Patient.DateOfBirth != null ? Convert.ToDateTime(enrollment.Patient.DateOfBirth).ToString("yyyy-MM-dd") : "", enrollment.Patient.Age.ToString(), enrollment.Patient.Age < 19 ? "badge bg-color-blueLight" : "badge bg-color-blueDark");
                 row.Cells.Add(cell);
 
+                cell = new TableCell();
+                cell.Text = enrollment.Patient.LatestEncounterDate.HasValue ? Convert.ToDateTime(enrollment.Patient.LatestEncounterDate).ToString("yyyy-MM-dd") : "";
+                row.Cells.Add(cell);
 
-                var element = GetDatasetElement("Weight (kg)");
-                if(element != null)
-                {
-                    cell = new TableCell();
-                    cell.Text = GetCurrentValue(enrollment.Patient, element);
-                    row.Cells.Add(cell);
-                }
-                else
-                {
-                    cell = new TableCell();
-                    cell.Text = "";
-                    row.Cells.Add(cell);
-                }
+                cell = new TableCell();
+                cell.Text = _patientService.GetCurrentElementValueForPatient(enrollment.Patient.Id, "Chronic Treatment", "Weight (kg)").Value;
+                row.Cells.Add(cell);
 
-                var adverse = _workFlowService.GetCurrentAdverseReaction(enrollment.Patient);
-                if(adverse != null)
-                {
-                    cell = new TableCell();
-                    cell.Text = adverse.MedDraTerm;
-                    row.Cells.Add(cell);
-                }
-                else
-                {
-                    cell = new TableCell();
-                    cell.Text = "NO CONFIRMED REACTIONS";
-                    row.Cells.Add(cell);
-                }
+                var patientEventSummary = enrollment.Patient.GetEventSummary();
+
+                cell = new TableCell();
+                cell.Text = patientEventSummary.NonSeriesEventCount.ToString();
+                row.Cells.Add(cell);
+
+                cell = new TableCell();
+                cell.Text = patientEventSummary.SeriesEventCount.ToString();
+                row.Cells.Add(cell);
 
                 cell = new TableCell();
                 hyp = new HyperLink()
@@ -130,30 +100,16 @@ namespace PVIMS.Web
                 cell.Controls.Add(hyp);
                 row.Cells.Add(cell);
 
+                _cohortSummary.PatientCount += 1;
+                _cohortSummary.SeriesEventCount += patientEventSummary.SeriesEventCount;
+                _cohortSummary.NonSeriesEventCount += patientEventSummary.NonSeriesEventCount;
+
                 dt_basic.Rows.Add(row);
             }
-        }
 
-        private string GetCurrentValue(Patient patient, DatasetElement element)
-        {
-            if (patient.Encounters.Count == 0) {
-                return "NO VALUE";
-            }
-            else
-            {
-                var encounter = patient.GetCurrentEncounter();
-
-                // Get Dataset Instance for encounter
-                var instance = GetDatasetInstance(encounter.Id);
-                if (instance != null)
-                {
-                    var value = instance.GetInstanceValue(element);
-                    return value;
-                }
-                else {
-                    return "NO VALUE";
-                }
-            }
+            txtNonSeriousCount.Value = _cohortSummary.NonSeriesEventCount.ToString();
+            txtSeriousCount.Value = _cohortSummary.SeriesEventCount.ToString();
+            txtPatientCount.Value = _cohortSummary.PatientCount.ToString();
         }
 
         #region "EF"
@@ -161,11 +117,6 @@ namespace PVIMS.Web
         private CohortGroup GetCohortGroup(int id)
         {
             return UnitOfWork.Repository<CohortGroup>().Queryable().SingleOrDefault(cg => cg.Id == id);
-        }
-
-        private DatasetInstance GetDatasetInstance(int contextId)
-        {
-            return UnitOfWork.Repository<DatasetInstance>().Queryable().SingleOrDefault(di => di.ContextID == contextId && di.Dataset.ContextType.Description == "Encounter");
         }
 
         private DatasetElement GetDatasetElement(string element)

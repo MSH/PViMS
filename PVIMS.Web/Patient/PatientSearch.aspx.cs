@@ -384,16 +384,8 @@ namespace PVIMS.Web
                 }
                 row.Cells.Add(cell);
 
-                lastEncounter = p.LastEncounterDate();
                 cell = new TableCell();
-                if (lastEncounter != null)
-                {
-                    cell.Text = Convert.ToDateTime(lastEncounter).ToString("yyyy-MM-dd");
-                }
-                else
-                {
-                    cell.Text = @"<span class=""label label-warning"">No Encounters</span>";
-                }
+                cell.Text = p.LatestEncounterDate.HasValue ? Convert.ToDateTime(p.LatestEncounterDate).ToString("yyyy-MM-dd") : "";
                 row.Cells.Add(cell);
 
                 action = @"<div class=""btn-group""><a class=""btn btn-default"" href=""" + href + @""">View Patient</a></div><!-- /btn-group -->";

@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 
 using PVIMS.Core.Entities;
 
-namespace PVIMS.Core.Models
+namespace PVIMS.Core.Dto
 {
-    public class DatasetInstanceValueList
+    public class DatasetInstanceValueListDto
     {
-        public DatasetInstanceValueList()
+        public DatasetInstanceValueListDto()
         {
             Values = new HashSet<DatasetInstanceValueListItem>();
         }
 
-        [Required]
         public DatasetElement DatasetElement { get; set; }
 
         public virtual ICollection<DatasetInstanceValueListItem> Values { get; set; }

@@ -1320,26 +1320,22 @@ namespace PVIMS.Services
 
             table.AppendChild<TableRow>(tr);
 
-            var weightElement = _unitOfWork.Repository<DatasetElement>().Queryable().SingleOrDefault(de => de.ElementName == "Weight (kg)" && de.DatasetCategoryElements.Any(dce => dce.DatasetCategory.Dataset.DatasetName == "Chronic Treatment"));
-            if (weightElement != null)
+            var weightModel = _patientService.GetElementValuesForPatient(patientEvent.Patient.Id, "Chronic Treatment", "Weight(kg)", 10);
+
+            foreach (var weight in weightModel.Values.Where(v => v.Value != "NO VALUE"))
             {
-                var weightModel = _patientService.GetElementValuesForPatient(patientEvent.Patient, weightElement, 10);
+                // Row 2
+                tr = new TableRow();
+                rprops = new TableRowProperties(
+                    new TableRowHeight() { Val = rowHeight }
+                    );
+                tr.AppendChild<TableRowProperties>(rprops);
 
-                foreach (var weight in weightModel.Values.Where(v => v.Value != "NO VALUE"))
-                {
-                    // Row 2
-                    tr = new TableRow();
-                    rprops = new TableRowProperties(
-                        new TableRowHeight() { Val = rowHeight }
-                        );
-                    tr.AppendChild<TableRowProperties>(rprops);
+                tr.Append(PrepareCell(weight.ValueDate.ToString("yyyy-MM-dd"), 2500, false));
+                tr.Append(PrepareCell(weight.Value, 6352));
 
-                    tr.Append(PrepareCell(weight.ValueDate.ToString("yyyy-MM-dd"), 2500, false));
-                    tr.Append(PrepareCell(weight.Value, 6352));
-
-                    table.AppendChild<TableRow>(tr);
-                }
-            };
+                table.AppendChild<TableRow>(tr);
+            }
 
             return table;
         }

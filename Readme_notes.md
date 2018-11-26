@@ -861,3 +861,4 @@ SL-0061 - Ability to detect duplicate conditions
 ** Store MetaDataLastUpdated time when refreshing
 ** Patients on treatment report fixed to reflect serious events
 ** Display last meta refresh data on each system report and admin page for meta refresh
+** Cohort view modified to display serious and non serious patient counts (total and per patient)

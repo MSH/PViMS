@@ -1,11 +1,11 @@
 ﻿using PVIMS.Core.Entities;
-using PVIMS.Core.Models;
+using PVIMS.Core.Dto;
 
 namespace PVIMS.Core.Services
 {
     public interface IPatientService
     {
-        DatasetInstanceValueList GetElementValuesForPatient(Patient patient, DatasetElement element, int records);
-
+        DatasetInstanceValueDto GetCurrentElementValueForPatient(long patientId, string datasetName, string elementName);
+        DatasetInstanceValueListDto GetElementValuesForPatient(long patientId, string datasetName, string elementName, int records);
     }
 }

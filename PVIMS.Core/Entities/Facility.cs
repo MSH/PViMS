@@ -34,5 +34,13 @@ namespace PVIMS.Core.Entities
 
 		public virtual ICollection<PatientFacility> PatientFacilities { get; set; }
         public virtual ICollection<UserFacility> UserFacilities { get; set; }
-	}
+
+        public string DisplayName
+        {
+            get
+            {
+                return string.Format("{0} ({1})", FacilityName, FacilityCode);
+            }
+        }
+    }
 }

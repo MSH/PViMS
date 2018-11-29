@@ -165,8 +165,8 @@ namespace PVIMS.Web
             if (_metaWidget != null)
             {
                 txtUID.Value = _metaWidget.metawidget_guid.ToString();
-                txtName.Value = _metaWidget.WidgetName;
-                txtDefinition.Value = _metaWidget.WidgetDefinition;
+                txtName.Value = Server.HtmlDecode(_metaWidget.WidgetName);
+                txtDefinition.Value = Server.HtmlDecode(_metaWidget.WidgetDefinition);
                 ddlWidgetType.SelectedValue = _metaWidget.WidgetType.Id.ToString();
                 ddlWidgetStatus.SelectedValue = Convert.ToInt32(_metaWidget.WidgetStatus).ToString();
                 txtWidgetStatus.Value = _metaWidget.WidgetStatus.ToString();
@@ -593,7 +593,7 @@ namespace PVIMS.Web
                     lblName.Attributes.Add("class", "input state-error");
                     var errorMessageDiv = new HtmlGenericControl("div");
                     errorMessageDiv.Attributes.Add("class", "note note-error");
-                    errorMessageDiv.InnerText = "Widget Name contains invalid characters (Enter A-Z, a-z, space)";
+                    errorMessageDiv.InnerText = "Widget Name contains invalid characters (Enter A-Z, a-z, space, apostrophe)";
                     lblName.Controls.Add(errorMessageDiv);
 
                     err = true;

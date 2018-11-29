@@ -56,7 +56,7 @@ namespace PVIMS.Web.Controllers
             var model = new MetaPageDeleteModel
             {
                 MetaPageId = metaPage.Id,
-                PageName = metaPage.PageName
+                PageName = Server.HtmlDecode(metaPage.PageName)
             };
 
             return View(model);
@@ -126,8 +126,8 @@ namespace PVIMS.Web.Controllers
             var model = new MetaWidgetDeleteModel
             {
                 MetaWidgetId = metaWidget.Id,
-                PageName = metaWidget.MetaPage.PageName,
-                WidgetName = metaWidget.WidgetName,
+                PageName = Server.HtmlDecode(metaWidget.MetaPage.PageName),
+                WidgetName = Server.HtmlDecode(metaWidget.WidgetName),
                 WidgetType = metaWidget.WidgetType.Description
             };
 
@@ -186,8 +186,8 @@ namespace PVIMS.Web.Controllers
             var model = new MetaWidgetMoveModel
             {
                 MetaWidgetId = metaWidget.Id,
-                WidgetName = metaWidget.WidgetName,
-                CurrentPageName = metaWidget.MetaPage.PageName
+                WidgetName = Server.HtmlDecode(metaWidget.WidgetName),
+                CurrentPageName = Server.HtmlDecode(metaWidget.MetaPage.PageName)
             };
 
             var pages = new List<SelectListItem>();

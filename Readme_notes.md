@@ -865,3 +865,4 @@ SL-0061 - Ability to detect duplicate conditions
 ** Include in progress waiting screen for active dataset download, analyser, E2B creation
 ** All system reports to include date and time of extract when extracting to XLSX
 ** Display grading scales when selecting severity grade scale in adverse event (add and edit)
+** Microsoft.Data.Odata updated to version 5.8.4 in line with OData Denial of Service Vulnerability

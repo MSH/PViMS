@@ -26,9 +26,9 @@ namespace PVIMS.Web.Controllers
             _artefactService = artefactService;
         }
 
-        public ActionResult DownloadActiveDataset()
+        public ActionResult DownloadActiveDataset(long cohortGroupId)
         {
-            var model = _artefactService.CreateActiveDatasetForDownload(0);
+            var model = _artefactService.CreateActiveDatasetForDownload(0, cohortGroupId);
             return Json(new { success = true, model.FileName }, JsonRequestBehavior.AllowGet);
         }
 

@@ -54,7 +54,7 @@ namespace PVIMS.Services
             _patientService = patientService;
         }
 
-        public ArtefactInfoModel CreateActiveDatasetForDownload(long patientId)
+        public ArtefactInfoModel CreateActiveDatasetForDownload(long patientId, long cohortGroupId)
         {
             var model = new ArtefactInfoModel();
             var generatedDate = DateTime.Now;
@@ -78,6 +78,11 @@ namespace PVIMS.Services
                 {
                     patientquery = patientquery.Where(p => p.Id == patientId);
                 }
+                if (cohortGroupId > 0)
+                {
+                    patientquery = patientquery.Where(p => p.CohortEnrolments.Any(cge => cge.CohortGroup.Id == cohortGroupId));
+                }
+
                 var patients = patientquery.OrderBy(p => p.Id).ToList();
                 foreach (Patient patient in patients)
                 {
@@ -104,6 +109,10 @@ namespace PVIMS.Services
                 if (patientId > 0)
                 {
                     medicationquery = medicationquery.Where(pm => pm.Patient.Id == patientId);
+                }
+                if (cohortGroupId > 0)
+                {
+                    medicationquery = medicationquery.Where(pm => pm.Patient.CohortEnrolments.Any(cge => cge.CohortGroup.Id == cohortGroupId));
                 }
                 var medications = medicationquery.OrderBy(pm => pm.Id).ToList();
                 foreach (PatientMedication medication in medications)
@@ -132,6 +141,10 @@ namespace PVIMS.Services
                 {
                     eventquery = eventquery.Where(pc => pc.Patient.Id == patientId);
                 }
+                if (cohortGroupId > 0)
+                {
+                    eventquery = eventquery.Where(pc => pc.Patient.CohortEnrolments.Any(cge => cge.CohortGroup.Id == cohortGroupId));
+                }
                 var events = eventquery.OrderBy(pc => pc.Id).ToList();
                 foreach (PatientClinicalEvent clinicalEvent in events)
                 {
@@ -158,6 +171,10 @@ namespace PVIMS.Services
                 if (patientId > 0)
                 {
                     conditionquery = conditionquery.Where(pc => pc.Patient.Id == patientId);
+                }
+                if (cohortGroupId > 0)
+                {
+                    conditionquery = conditionquery.Where(pc => pc.Patient.CohortEnrolments.Any(cge => cge.CohortGroup.Id == cohortGroupId));
                 }
                 var conditions = conditionquery.OrderBy(pc => pc.Id).ToList();
                 foreach (PatientCondition condition in conditions)
@@ -186,6 +203,10 @@ namespace PVIMS.Services
                 {
                     labtestquery = labtestquery.Where(pl => pl.Patient.Id == patientId);
                 }
+                if (cohortGroupId > 0)
+                {
+                    labtestquery = labtestquery.Where(pl => pl.Patient.CohortEnrolments.Any(cge => cge.CohortGroup.Id == cohortGroupId));
+                }
                 var labTests = labtestquery.OrderBy(pl => pl.Id).ToList();
                 foreach (PatientLabTest labTest in labTests)
                 {
@@ -212,6 +233,10 @@ namespace PVIMS.Services
                 if (patientId > 0)
                 {
                     encounterquery = encounterquery.Where(e => e.Patient.Id == patientId);
+                }
+                if (cohortGroupId > 0)
+                {
+                    encounterquery = encounterquery.Where(e => e.Patient.CohortEnrolments.Any(cge => cge.CohortGroup.Id == cohortGroupId));
                 }
                 var encounters = encounterquery.OrderBy(e => e.Id).ToList();
                 foreach (Encounter encounter in encounters)
@@ -240,6 +265,10 @@ namespace PVIMS.Services
                 {
                     enrolmentquery = enrolmentquery.Where(e => e.Patient.Id == patientId);
                 }
+                if (cohortGroupId > 0)
+                {
+                    enrolmentquery = enrolmentquery.Where(e => e.Patient.CohortEnrolments.Any(cge => cge.CohortGroup.Id == cohortGroupId));
+                }
                 var enrolments = enrolmentquery.OrderBy(e => e.Id).ToList();
                 foreach (CohortGroupEnrolment enrolment in enrolments)
                 {
@@ -266,6 +295,10 @@ namespace PVIMS.Services
                 if (patientId > 0)
                 {
                     facilityquery = facilityquery.Where(pf => pf.Patient.Id == patientId);
+                }
+                if (cohortGroupId > 0)
+                {
+                    facilityquery = facilityquery.Where(pf => pf.Patient.CohortEnrolments.Any(cge => cge.CohortGroup.Id == cohortGroupId));
                 }
                 var facilities = facilityquery.OrderBy(pf => pf.Id).ToList();
                 foreach (PatientFacility facility in facilities)

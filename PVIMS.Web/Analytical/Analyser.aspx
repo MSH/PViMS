@@ -296,7 +296,7 @@
                                     </div>
                                     <div class="smart-form">
 								        <footer>
-                                            <a href="javascript:void(0);" class="btn btn-primary" id="downloadDataset">Download Dataset</a>
+                                            <a href="javascript:void(0);" class="btn btn-primary" id="modal-download">Download Dataset</a>
 								        </footer>
                                     </div>
                                 </div>
@@ -533,6 +533,21 @@
 
     </section>
 
+    <!-- use this modal to run the dataset download -->
+    <div id="dialog-message-download" title="Dialog Simple Title">
+	    <p>
+		    Please select a cohort that you would like to download the extract for ...
+	    </p>
+		<div class="form-group">
+			<label for="CohortGroupId">Cohort Group:</label>
+			<select class="input-sm" id="CohortGroupId" name="CohortGroupId">
+			</select>
+		</div>
+
+	    <div class="hr hr-12 hr-double"></div>
+	
+    </div><!-- #dialog-message -->
+
     <div id="waitingScreen"  class="Waiting"></div>.
 
 </asp:Content>
@@ -568,32 +583,66 @@
     </script>
 
     <script type="text/javascript">
-        $("#downloadDataset").click(function () {
 
-            var url = "";
-            var geturl = "";
+		$(function () {
+			$.ajax({
+				type: "GET",
+				url: "../Api/CohortApi/GetCohortGroups",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				async: false,
+				success: function (data) {
+					$('#CohortGroupId').empty();
 
-            url = "../FileDownload/DownloadActiveDataset";
-            geturl = "../FileDownload/DownloadExcelFile?fileName=";
-
-            $.ajax({
-                url: url,
-                cache: false, 
-                type: "POST",
-                dataType: "html",
-                beforeSend: function () {
-                    $("#waitingScreen").show();
-                },
-                success: function (data) {
-                    var response = JSON.parse(data);
-                    $("#waitingScreen").hide();
-                    window.location = geturl + response.FileName;
-                },
-                error: function () {
-
-                }
+                    $('#CohortGroupId').append('<option value="0">-- All Cohorts --</option>');
+					$.each(data, function (index, item) {
+                        $('#CohortGroupId').append('<option value="' + item.Id + '">' + item.CohortName + '</option>');
+					});
+				}
             });
-        });
+
+            $('#modal-download').click(function () {
+                $('#dialog-message-download').dialog('open');
+                return false;
+            });            $("#dialog-message-download").dialog({
+                autoOpen: false,
+                modal: true,
+                title: "Confirm",
+                buttons: [{
+                    html: "Cancel",
+                    "class": "btn btn-default",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }, {
+                    html: "<i class='fa fa-check'></i>&nbsp; OK",
+                    "class": "btn btn-primary",
+                    click: function () {
+                        $(this).dialog("close");
+
+                        $.ajax({
+                            url: "../FileDownload/DownloadActiveDataset",
+                            data: { cohortGroupId: $('#CohortGroupId').val() },
+                            cache: false, 
+                            type: "POST",
+                            dataType: "html",
+                            beforeSend: function () {
+                                $("#waitingScreen").show();
+                            },
+                            success: function (data, textStatus, XMLHttpRequest) {
+                                var response = JSON.parse(data);
+
+                                var response = JSON.parse(data);
+                                $("#waitingScreen").hide();
+                                window.location = "../FileDownload/DownloadExcelFile?fileName=" + response.FileName;
+                            },
+                            error: function () {
+                            }
+                        });
+                    }
+                }]
+            });
+		});
 
         $("#ddlCohort").change(function () {
             $("#spnCohort").empty();

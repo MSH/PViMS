@@ -869,3 +869,4 @@ SL-0061 - Ability to detect duplicate conditions
 ** When adding a new widget in the info portal, ensure the widget is set to an unpublished status and location on change to be based off jquery and not postback
 ** Decode widget name and definition when rendering in widget admin
 ** Fix customisation of existing custom reports
+** Ability to downlaod analytical dataset for specific cohorts only

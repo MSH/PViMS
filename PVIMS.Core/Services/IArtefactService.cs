@@ -6,7 +6,7 @@ namespace PVIMS.Core.Services
 {
     public interface IArtefactService
     {
-        ArtefactInfoModel CreateActiveDatasetForDownload(long patientId);
+        ArtefactInfoModel CreateActiveDatasetForDownload(long patientId, long cohortGroupId);
 
         ArtefactInfoModel CreateDatasetInstanceForDownload(long datasetInstanceId);
 

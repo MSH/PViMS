@@ -57,7 +57,7 @@ namespace PVIMS.Web
                     pnl = new Panel() { CssClass = "btn-group" };
                     hyp = new HyperLink()
                     {
-                        NavigateUrl = "ManageDatasetEdit.aspx?id=" + rep.Id.ToString(),
+                        NavigateUrl = "ReportCustom.aspx?id=" + rep.Id.ToString(),
                         CssClass = "btn btn-default",
                         Text = "Customise"
                     };
@@ -68,17 +68,6 @@ namespace PVIMS.Web
 
                 dt_basic.Rows.Add(row);
             }
-
-            // Add button
-            hyp = new HyperLink()
-            {
-                ID = "btnAdd",
-                NavigateUrl = "ReportCustom.aspx?id=0",
-                CssClass = "btn btn-primary",
-                Text = "Add Report"
-            };
-            spnbuttons.Controls.Add(hyp);
         }
-
     }
 }

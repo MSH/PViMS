@@ -80,7 +80,7 @@ namespace PVIMS.Web
                 case CurrentContext.ccReporting:
                     navReporter.Visible = true;
 
-                    //SetCustomMenus();
+                    SetCustomReportMenus();
                     if (HttpContext.Current.User.IsInRole("ReporterAdmin")) { reportlist.Visible = true; }
 
                     break;

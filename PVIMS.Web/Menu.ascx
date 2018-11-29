@@ -8,9 +8,8 @@
 				Please note that these links work a bit different than
 				traditional href="" links. See documentation for details.
 				-->
-        <span id="spnCustomReportList" runat="server"></span>
 		<ul>
-			<li id="reportsystem" runat="server" visible="true">
+			<li id="reportadmin" runat="server" visible="true">
                 <a href="#" title="System Reports"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i><span class="menu-item-parent">Standard Reports</span></a>
                 <ul>
 			        <li id="reportpxonstudy" runat="server">
@@ -43,6 +42,7 @@
                 <a href="/Reports/ReportList.aspx"><span class="menu-item-parent"><i class="fa fa-lg fa-fw fa-windows"></i>Report List</span></a>
 			</li>
 		</ul>
+        <span id="spnCustomReportList" runat="server"></span>
 	</nav>
 
 	<nav id="navAnalytical" runat="server">

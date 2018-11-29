@@ -868,3 +868,4 @@ SL-0061 - Ability to detect duplicate conditions
 ** Microsoft.Data.Odata updated to version 5.8.4 in line with OData Denial of Service Vulnerability
 ** When adding a new widget in the info portal, ensure the widget is set to an unpublished status and location on change to be based off jquery and not postback
 ** Decode widget name and definition when rendering in widget admin
+** Fix customisation of existing custom reports

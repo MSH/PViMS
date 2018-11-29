@@ -22,22 +22,13 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl navReporter;
         
         /// <summary>
-        /// spnCustomReportList control.
+        /// reportadmin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnCustomReportList;
-        
-        /// <summary>
-        /// reportsystem control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportsystem;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportadmin;
         
         /// <summary>
         /// reportpxonstudy control.
@@ -119,6 +110,15 @@ namespace PVIMS.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl reportlist;
+        
+        /// <summary>
+        /// spnCustomReportList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnCustomReportList;
         
         /// <summary>
         /// navAnalytical control.

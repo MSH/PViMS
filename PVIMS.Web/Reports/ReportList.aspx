@@ -13,7 +13,7 @@
 		<div class="row">
 				
 			<!-- NEW WIDGET START -->
-			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 				
 				<!-- Widget ID (each widget will need unique ID)-->
 				<div class="jarviswidget well" id="wid-id-0" 
@@ -39,11 +39,6 @@
 				
 						<!-- widget content -->
 						<div class="widget-body no-padding">
-							<div class="well well-sm bg-color-blueLight txt-color-white text-right" visible="false">
-                                <span id="spnbuttons" runat="server">
-
-                                </span>
-							</div>                                        
                             <asp:Table id="dt_basic" runat="server" class="table table-striped table-bordered table-hover"  width="100%">
                                 <asp:TableHeaderRow TableSection="TableHeader">
                                     <asp:TableHeaderCell Width="30%">GUID</asp:TableHeaderCell> 
@@ -64,6 +59,19 @@
 				
 			</article>
 			<!-- WIDGET END -->
+
+            <article class="col-sm-12 col-md-12 col-lg-3">
+                <div class="well no-padding" style="height:auto;">
+                    <h2 style="font-weight:bold; text-align:center;">Quick Links</h2>
+                    <fieldset>
+                        <div class="smart-form">
+                            <section class="col col-6">
+                                <a href="ReportCustom.aspx?id=0" class="btn btn-default btn-sm">Add Report</a>
+                            </section>
+                        </div>
+                    </fieldset>
+                </div>
+            </article>
 				
 		</div>
 				

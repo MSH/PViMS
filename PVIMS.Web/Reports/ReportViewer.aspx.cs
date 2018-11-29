@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using System.Data;
-using System.Data.Common;
-using System.Data.Entity;
-using System.Data.Objects;
 using System.Data.SqlClient;
 
 using System.IO;
@@ -15,8 +12,6 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Xml;
@@ -28,9 +23,6 @@ using PdfSharp;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
-
-using VPS.Common.Repositories;
-using VPS.CustomAttributes;
 
 using PVIMS.Core.Entities;
 using PVIMS.Core.ValueTypes;
@@ -69,7 +61,6 @@ namespace PVIMS.Web
                     // Prepare report
                     PrepareStructures();
 
-                    RenderHeader();
                     RenderFilters();
                     RenderColumns();
                 }
@@ -96,7 +87,8 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Master.SetMenuActive("ReportOutstandingVisit");
+            Master.MainMenu.SetActive("ReportAdmin");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Custom Reports", SubTitle = _metaReport.ReportName, Icon = "fa fa-file-text-o fa-fw" });
         }
 
         #region "Preparation"
@@ -113,12 +105,12 @@ namespace PVIMS.Web
             XmlAttribute attr = rootNode.Attributes["Type"];
             XmlNode mainNode;
 
-            if(attr.Value == "Summary")
+            if (attr.Value == "Summary")
             {
                 _reportType = ReportType.Summary;
 
                 mainNode = rootNode.SelectSingleNode("//Summary");
-                foreach(XmlNode subNode in mainNode.ChildNodes)
+                foreach (XmlNode subNode in mainNode.ChildNodes)
                 {
                     StratifyStructure strat = new StratifyStructure();
                     strat.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
@@ -156,17 +148,9 @@ namespace PVIMS.Web
             }
         }
 
-        private void RenderHeader()
-        {
-            HtmlGenericControl h1 = new HtmlGenericControl("h1");
-            h1.Attributes.Add("class", "page-title txt-color-blueDark");
-            h1.InnerHtml = @"<i class=""fa fa-bar-chart-o fa-fw""></i> " + _metaReport.ReportName;
-            spnFormHeader.Controls.Add(h1);
-        }
-
         private void RenderFilters()
         {
-            if(_filters.Count == 0)
+            if (_filters.Count == 0)
             {
                 HtmlGenericControl span = new HtmlGenericControl("span");
                 span.Attributes.Add("class", "label");
@@ -183,9 +167,9 @@ namespace PVIMS.Web
                 foreach (FilterStructure filter in _filters)
                 {
                     secCount += 1;
-                    if(secCount > 5)
+                    if (secCount > 5)
                     {
-                        if(row != null) { spnFilter.Controls.Add(row); }
+                        if (row != null) { spnFilter.Controls.Add(row); }
                         secCount = 0;
                         row = new HtmlGenericControl("div");
                         row.Attributes.Add("class", "row");
@@ -199,7 +183,7 @@ namespace PVIMS.Web
                         HtmlGenericControl sec = new HtmlGenericControl("section");
                         sec.Attributes.Add("class", "col col-2");
 
-                        Label lbl = new Label() { CssClass="input" };
+                        Label lbl = new Label() { CssClass = "input" };
                         Label lblFriendlyName = new Label() { CssClass = "label", Text = filter.AttributeName };
                         lbl.Controls.Add(lblFriendlyName);
 
@@ -270,61 +254,11 @@ namespace PVIMS.Web
                                         var sources = metaColumn.Range.Replace("SOURCE:", "").Split('.');
                                         switch (sources[0])
                                         {
-                                            case "EncounterType":
-                                                values = _db.EncounterTypes.OrderBy(et => et.Description).Select(s => new ListItem
+                                            case "OrgUnit":
+                                                values = _db.OrgUnits.OrderBy(f => f.Name).Select(s => new ListItem
                                                 {
-                                                    Value = s.Description,
-                                                    Text = s.Description
-                                                })
-                                                .ToArray();
-
-                                                break;
-
-                                            case "Facility":
-                                                values = _db.Facilities.OrderBy(f => f.FacilityName).Select(s => new ListItem
-                                                {
-                                                    Value = s.FacilityName,
-                                                    Text = s.FacilityName
-                                                })
-                                                .ToArray();
-
-                                                break;
-
-                                            case "CohortGroup":
-                                                values = _db.CohortGroups.OrderBy(cg => cg.CohortName).Select(s => new ListItem
-                                                {
-                                                    Value = s.CohortName,
-                                                    Text = s.CohortName
-                                                })
-                                                .ToArray();
-
-                                                break;
-
-                                            case "LabTestUnit":
-                                                values = _db.LabTestUnits.OrderBy(ltu => ltu.Description).Select(s => new ListItem
-                                                {
-                                                    Value = s.Description,
-                                                    Text = s.Description
-                                                })
-                                                .ToArray();
-
-                                                break;
-
-                                            case "LabTest":
-                                                values = _db.LabTests.OrderBy(lt => lt.Description).Select(s => new ListItem
-                                                {
-                                                    Value = s.Description,
-                                                    Text = s.Description
-                                                })
-                                                .ToArray();
-
-                                                break;
-
-                                            case "Outcome":
-                                                values = _db.Outcomes.OrderBy(o => o.Description).Select(s => new ListItem
-                                                {
-                                                    Value = s.Description,
-                                                    Text = s.Description
+                                                    Value = s.Name,
+                                                    Text = s.Name
                                                 })
                                                 .ToArray();
 
@@ -357,10 +291,10 @@ namespace PVIMS.Web
                                     else
                                     {
                                         values = metaColumn.Range.Split(',').Select(s => new ListItem
-                                            {
-                                                Value = s,
-                                                Text = s
-                                            })
+                                        {
+                                            Value = s,
+                                            Text = s
+                                        })
                                             .ToArray();
                                     }
 
@@ -435,7 +369,7 @@ namespace PVIMS.Web
 
                     } // if (metaColumn != null)
                 } // foreach (FilterStructure filter in _filters)
-                
+
                 if (row.Controls.Count > 0) { spnFilter.Controls.Add(row); }
             }
         }
@@ -472,7 +406,7 @@ namespace PVIMS.Web
                     dt_basic.HideColumn(x);
                 }
             }
-            
+
         }
 
         #endregion
@@ -621,9 +555,9 @@ namespace PVIMS.Web
             var fc = 0;
             foreach (FilterStructure filter in _filters)
             {
-                fc+=1;
+                fc += 1;
 
-                sql = sql.Replace("%" + fc.ToString(), "1");
+                sql = sql.Replace("%" + fc.ToString(), filter.FilterValue);
             }
 
             SqlParameter[] parameters = new SqlParameter[0];
@@ -650,15 +584,151 @@ namespace PVIMS.Web
                 foreach (CustomReportList item in results)
                 {
                     row = new TableRow();
-                    
-                    Type myType = item.GetType();
-                    PropertyInfo[] myProperties = myType.GetProperties();
-
-                    for (int x = 0; x <= 20; x++)
+                    var i = 0;
+                    if (_reportType == ReportType.Listing)
                     {
+                        foreach (ListStructure list in _lists)
+                        {
+                            cell = new TableCell();
+
+                            i++;
+                            if (i == 1)
+                            {
+                                cell.Text = item.Col1;
+                            }
+                            if (i == 2)
+                            {
+                                cell.Text = item.Col2;
+                            }
+                            if (i == 3)
+                            {
+                                cell.Text = item.Col3;
+                            }
+                            if (i == 4)
+                            {
+                                cell.Text = item.Col4;
+                            }
+                            if (i == 5)
+                            {
+                                cell.Text = item.Col5;
+                            }
+                            if (i == 6)
+                            {
+                                cell.Text = item.Col6;
+                            }
+                            if (i == 7)
+                            {
+                                cell.Text = item.Col7;
+                            }
+                            if (i == 8)
+                            {
+                                cell.Text = item.Col8;
+                            }
+                            if (i == 9)
+                            {
+                                cell.Text = item.Col9;
+                            }
+                            if (i == 10)
+                            {
+                                cell.Text = item.Col10;
+                            }
+                            row.Cells.Add(cell);
+                        }
+                    }
+                    else
+                    {
+                        foreach (StratifyStructure strat in _strats)
+                        {
+                            cell = new TableCell();
+
+                            i++;
+                            if (i == 1)
+                            {
+                                cell.Text = item.Col1;
+                            }
+                            if (i == 2)
+                            {
+                                cell.Text = item.Col2;
+                            }
+                            if (i == 3)
+                            {
+                                cell.Text = item.Col3;
+                            }
+                            if (i == 4)
+                            {
+                                cell.Text = item.Col4;
+                            }
+                            if (i == 5)
+                            {
+                                cell.Text = item.Col5;
+                            }
+                            if (i == 6)
+                            {
+                                cell.Text = item.Col6;
+                            }
+                            if (i == 7)
+                            {
+                                cell.Text = item.Col7;
+                            }
+                            if (i == 8)
+                            {
+                                cell.Text = item.Col8;
+                            }
+                            if (i == 9)
+                            {
+                                cell.Text = item.Col9;
+                            }
+                            if (i == 10)
+                            {
+                                cell.Text = item.Col10;
+                            }
+                            row.Cells.Add(cell);
+                        }
                         cell = new TableCell();
-                        cell.Text = myProperties.GetValue(x).ToString();
+
+                        i++;
+                        if (i == 1)
+                        {
+                            cell.Text = item.Col1;
+                        }
+                        if (i == 2)
+                        {
+                            cell.Text = item.Col2;
+                        }
+                        if (i == 3)
+                        {
+                            cell.Text = item.Col3;
+                        }
+                        if (i == 4)
+                        {
+                            cell.Text = item.Col4;
+                        }
+                        if (i == 5)
+                        {
+                            cell.Text = item.Col5;
+                        }
+                        if (i == 6)
+                        {
+                            cell.Text = item.Col6;
+                        }
+                        if (i == 7)
+                        {
+                            cell.Text = item.Col7;
+                        }
+                        if (i == 8)
+                        {
+                            cell.Text = item.Col8;
+                        }
+                        if (i == 9)
+                        {
+                            cell.Text = item.Col9;
+                        }
+                        if (i == 10)
+                        {
+                            cell.Text = item.Col10;
+                        }
                         row.Cells.Add(cell);
+
                     }
 
                     dt_basic.Rows.Add(row);

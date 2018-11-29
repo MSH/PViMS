@@ -26,6 +26,7 @@ using PVIMS.Entities.EF;
 
 using CustomAttributeConfiguration = PVIMS.Core.Entities.CustomAttributeConfiguration;
 using SelectionDataItem = PVIMS.Core.Entities.SelectionDataItem;
+using System.Web;
 
 namespace PVIMS.Web
 {
@@ -54,6 +55,28 @@ namespace PVIMS.Web
 
         protected void Page_Init(object sender, EventArgs e)
         {
+            if (Request.QueryString["id"] != null)
+            {
+                _id = Convert.ToInt32(Request.QueryString["id"]);
+                if (_id > 0)
+                {
+                    _metaReport = _db.MetaReports.Single(mr => mr.Id == _id);
+
+                    PrepareStructures();
+
+                    Session["filters"] = _filters;
+                    Session["strats"] = _strats;
+                    Session["lists"] = _lists;
+
+                    ddlEntity.SelectedIndex = 1;
+
+                    txtDefinition.Value = _metaReport.ReportDefinition;
+                    txtReportName.Value = _metaReport.ReportName;
+
+                    RenderButtons();
+                }
+            }
+
             if (Session["strats"] != null)
             {
                 _strats = (List<StratifyStructure>)Session["strats"];
@@ -70,16 +93,6 @@ namespace PVIMS.Web
                 RenderLists();
             }
 
-            if (Request.QueryString["id"] != null)
-            {
-                _id = Convert.ToInt32(Request.QueryString["id"]);
-                if (_id > 0)
-                {
-                    _metaReport = _db.MetaReports.Single(mr => mr.Id == _id);
-
-                    RenderButtons();
-                }
-            }
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -102,6 +115,61 @@ namespace PVIMS.Web
         }
 
         #region "Preparation"
+
+        private void PrepareStructures()
+        {
+            var ns = ""; // urn:pvims-org:v3
+
+            XmlDocument meta = new XmlDocument();
+            meta.LoadXml(_metaReport.MetaDefinition);
+
+            // Unpack structures
+            XmlNode rootNode = meta.SelectSingleNode("//MetaReport");
+            XmlAttribute attr = rootNode.Attributes["Type"];
+            XmlNode mainNode;
+
+            if (attr.Value == "Summary")
+            {
+                _reportType = ReportType.Summary;
+
+                mainNode = rootNode.SelectSingleNode("//Summary");
+                foreach (XmlNode subNode in mainNode.ChildNodes)
+                {
+                    StratifyStructure strat = new StratifyStructure();
+                    strat.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
+                    strat.AttributeName = subNode.Attributes["AttributeName"].Value;
+                    strat.DisplayName = subNode.Attributes["DisplayName"].Value;
+                    _strats.Add(strat);
+                }
+            }
+            else
+            {
+                _reportType = ReportType.Listing;
+
+                mainNode = rootNode.SelectSingleNode("//List");
+                foreach (XmlNode subNode in mainNode.ChildNodes)
+                {
+                    ListStructure list = new ListStructure();
+                    list.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
+                    list.AttributeName = subNode.Attributes.GetNamedItem("AttributeName").Value;
+                    list.DisplayName = subNode.Attributes.GetNamedItem("DisplayName").Value;
+                    _lists.Add(list);
+                }
+            }
+
+            // filter
+            mainNode = rootNode.SelectSingleNode("//Filter");
+            foreach (XmlNode subNode in mainNode.ChildNodes)
+            {
+                FilterStructure filter = new FilterStructure();
+                filter.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
+                filter.AttributeName = subNode.Attributes.GetNamedItem("AttributeName").Value;
+                filter.Operator = subNode.Attributes.GetNamedItem("Operator").Value;
+                filter.Relation = subNode.Attributes.GetNamedItem("Relation").Value;
+                filter.FilterValue = subNode.Attributes.GetNamedItem("Value").Value;
+                _filters.Add(filter);
+            }
+        }
 
         private void LoadEntities()
         {
@@ -163,7 +231,7 @@ namespace PVIMS.Web
                         .Select(s => new ListItem
                         {
                             Value = s.Id.ToString(),
-                            Text = "P." + s.ColumnName,
+                            Text = "P.[" + s.ColumnName + "]",
                             Selected = false
                         })
                         .ToArray();
@@ -185,7 +253,7 @@ namespace PVIMS.Web
                         .Select(s => new ListItem
                         {
                             Value = s.Id.ToString(),
-                            Text = "P." + s.ColumnName,
+                            Text = "P.[" + s.ColumnName + "]",
                             Selected = false
                         })
                         .ToArray();
@@ -197,7 +265,7 @@ namespace PVIMS.Web
                         .Select(s => new ListItem
                         {
                             Value = s.Id.ToString(),
-                            Text = "C." + s.ColumnName,
+                            Text = "C.[" + s.ColumnName + "]",
                             Selected = false
                         })
                         .ToArray();
@@ -224,7 +292,7 @@ namespace PVIMS.Web
                         .Select(s => new ListItem
                         {
                             Value = s.Id.ToString(),
-                            Text = "P." + s.ColumnName,
+                            Text = "P.[" + s.ColumnName + "]",
                             Selected = false
                         })
                         .ToArray();
@@ -248,7 +316,7 @@ namespace PVIMS.Web
                     break;
 
                 default:
-                     break;
+                    break;
             }
         }
 
@@ -457,7 +525,7 @@ namespace PVIMS.Web
                 {
                     summary += String.Format("<li>INFO: SUCCESSFUL. {0} row(s) returned...</li>", gvOutput.Rows.Count.ToString());
                 }
-                            
+
             }
             summary += "</ul>";
             spnSummary.InnerHtml = summary;
@@ -590,7 +658,13 @@ namespace PVIMS.Web
 
                     _db.SaveChanges();
 
-                    _summary.Append("<li>INFO: SUCCESSFUL. Report published...</li>");
+                    HttpCookie cookie = new HttpCookie("PopUpMessage");
+                    cookie.Value = "Custom report publish successfully";
+                    Response.Cookies.Add(cookie);
+
+                    var url = String.Format("ReportList.aspx");
+                    Response.Redirect(url);
+
                 }
                 catch (Exception ex)
                 {
@@ -615,22 +689,22 @@ namespace PVIMS.Web
             var metaTable = _db.MetaTables.Single(mt => mt.Id == id);
 
             // FROM
-            switch ((MetaTableTypes)metaTable.TableType.Id) 
+            switch ((MetaTableTypes)metaTable.TableType.Id)
             {
                 case MetaTableTypes.Core:
-                    fcriteria = "Meta" + metaTable.TableName + " P";
+                    fcriteria = "[Meta" + metaTable.TableName + "] P";
                     break;
 
                 case MetaTableTypes.CoreChild:
-                    fcriteria = "Meta" + metaTable.TableName + " C";
+                    fcriteria = "[Meta" + metaTable.TableName + "] C";
                     break;
 
                 case MetaTableTypes.Child:
-                    fcriteria = "Meta" + metaTable.TableName + " P";
+                    fcriteria = "[Meta" + metaTable.TableName + "] P";
                     break;
 
                 case MetaTableTypes.History:
-                    fcriteria = "Meta" + metaTable.TableName + " C";
+                    fcriteria = "[Meta" + metaTable.TableName + "] C";
                     break;
 
                 default:
@@ -651,7 +725,7 @@ namespace PVIMS.Web
                     // get parent
                     metaDependency = _db.MetaDependencies.Single(md => md.ReferenceTable.Id == id);
 
-                    jcriteria += String.Format(" LEFT JOIN Meta{0} P ON P.{1} = C.{2} ", metaDependency.ParentTable.TableName, metaDependency.ParentColumnName, metaDependency.ReferenceColumnName );
+                    jcriteria += String.Format(" LEFT JOIN [Meta{0}] P ON P.{1} = C.{2} ", metaDependency.ParentTable.TableName, metaDependency.ParentColumnName, metaDependency.ReferenceColumnName);
 
                     break;
             }
@@ -674,7 +748,7 @@ namespace PVIMS.Web
             }
 
             _sql = String.Format(@"
-                select {0}, COUNT(*) AS Value
+                select {0}, CAST(COUNT(*) as varchar) AS Value
                     from {4} 
                             {1}
                     where 1 = 1 {5}
@@ -699,19 +773,19 @@ namespace PVIMS.Web
             switch ((MetaTableTypes)metaTable.TableType.Id)
             {
                 case MetaTableTypes.Core:
-                    fcriteria = "Meta" + metaTable.TableName + " P";
+                    fcriteria = "[Meta" + metaTable.TableName + "] P";
                     break;
 
                 case MetaTableTypes.CoreChild:
-                    fcriteria = "Meta" + metaTable.TableName + " C";
+                    fcriteria = "[Meta" + metaTable.TableName + "] C";
                     break;
 
                 case MetaTableTypes.Child:
-                    fcriteria = "Meta" + metaTable.TableName + " P";
+                    fcriteria = "[Meta" + metaTable.TableName + "] P";
                     break;
 
                 case MetaTableTypes.History:
-                    fcriteria = "Meta" + metaTable.TableName + " C";
+                    fcriteria = "[Meta" + metaTable.TableName + "] C";
                     break;
 
                 default:
@@ -732,7 +806,7 @@ namespace PVIMS.Web
                     // get parent
                     metaDependency = _db.MetaDependencies.Single(md => md.ReferenceTable.Id == id);
 
-                    jcriteria += String.Format(" LEFT JOIN Meta{0} P ON P.{1} = C.{2} ", metaDependency.ParentTable.TableName, metaDependency.ParentColumnName, metaDependency.ReferenceColumnName);
+                    jcriteria += String.Format(" LEFT JOIN [Meta{0}] P ON P.{1} = C.{2} ", metaDependency.ParentTable.TableName, metaDependency.ParentColumnName, metaDependency.ReferenceColumnName);
 
                     break;
             }
@@ -741,9 +815,9 @@ namespace PVIMS.Web
             var fc = 0;
             foreach (StratifyStructure strat in _strats)
             {
-                fc+=1;
+                fc += 1;
 
-                scriteria += strat.AttributeName + " as 'Col" + fc.ToString() + "', ";
+                scriteria += "cast(" + strat.AttributeName + " as varchar)" + " as 'Col" + fc.ToString() + "', ";
                 gcriteria += strat.AttributeName + ", ";
                 ocriteria += strat.AttributeName + ", ";
             }
@@ -755,12 +829,12 @@ namespace PVIMS.Web
             var filc = 0;
             foreach (FilterStructure filter in _filters)
             {
-                filc+=1;
-                wcriteria += String.Format("{0} ({1} {2} %{3})", filter.Relation, filter.AttributeName, filter.Operator, filc.ToString() );
+                filc += 1;
+                wcriteria += String.Format("{0} ({1} {2} %{3})", filter.Relation, filter.AttributeName, filter.Operator, filc.ToString());
             }
 
             _sql = String.Format(@"
-                select {0}, COUNT(*) AS Col{6}
+                select {0}, CAST(COUNT(*) as varchar) AS Col{6}
                     from {4} 
                             {1}
                     where 1 = 1 {5}
@@ -774,7 +848,6 @@ namespace PVIMS.Web
             string fcriteria = ""; // from
             string jcriteria = ""; // joins
             string scriteria = ""; // selects
-            string gcriteria = ""; // groups
             string ocriteria = ""; // orders
             string wcriteria = ""; // wheres
 
@@ -785,19 +858,19 @@ namespace PVIMS.Web
             switch ((MetaTableTypes)metaTable.TableType.Id)
             {
                 case MetaTableTypes.Core:
-                    fcriteria = "Meta" + metaTable.TableName + " P";
+                    fcriteria = "[Meta" + metaTable.TableName + "] P";
                     break;
 
                 case MetaTableTypes.CoreChild:
-                    fcriteria = "Meta" + metaTable.TableName + " C";
+                    fcriteria = "[Meta" + metaTable.TableName + "] C";
                     break;
 
                 case MetaTableTypes.Child:
-                    fcriteria = "Meta" + metaTable.TableName + " P";
+                    fcriteria = "[Meta" + metaTable.TableName + "] P";
                     break;
 
                 case MetaTableTypes.History:
-                    fcriteria = "Meta" + metaTable.TableName + " C";
+                    fcriteria = "[Meta" + metaTable.TableName + "] C";
                     break;
 
                 default:
@@ -818,7 +891,7 @@ namespace PVIMS.Web
                     // get parent
                     metaDependency = _db.MetaDependencies.Single(md => md.ReferenceTable.Id == id);
 
-                    jcriteria += String.Format(" LEFT JOIN Meta{0} P ON P.{1} = C.{2} ", metaDependency.ParentTable.TableName, metaDependency.ParentColumnName, metaDependency.ReferenceColumnName);
+                    jcriteria += String.Format(" LEFT JOIN [Meta{0}] P ON P.{1} = C.{2} ", metaDependency.ParentTable.TableName, metaDependency.ParentColumnName, metaDependency.ReferenceColumnName);
 
                     break;
             }
@@ -852,7 +925,6 @@ namespace PVIMS.Web
             string fcriteria = ""; // from
             string jcriteria = ""; // joins
             string scriteria = ""; // selects
-            string gcriteria = ""; // groups
             string ocriteria = ""; // orders
             string wcriteria = ""; // wheres
 
@@ -863,19 +935,19 @@ namespace PVIMS.Web
             switch ((MetaTableTypes)metaTable.TableType.Id)
             {
                 case MetaTableTypes.Core:
-                    fcriteria = "Meta" + metaTable.TableName + " P";
+                    fcriteria = "[Meta" + metaTable.TableName + "] P";
                     break;
 
                 case MetaTableTypes.CoreChild:
-                    fcriteria = "Meta" + metaTable.TableName + " C";
+                    fcriteria = "[Meta" + metaTable.TableName + "] C";
                     break;
 
                 case MetaTableTypes.Child:
-                    fcriteria = "Meta" + metaTable.TableName + " P";
+                    fcriteria = "[Meta" + metaTable.TableName + "] P";
                     break;
 
                 case MetaTableTypes.History:
-                    fcriteria = "Meta" + metaTable.TableName + " C";
+                    fcriteria = "[Meta" + metaTable.TableName + "] C";
                     break;
 
                 default:
@@ -896,7 +968,7 @@ namespace PVIMS.Web
                     // get parent
                     metaDependency = _db.MetaDependencies.Single(md => md.ReferenceTable.Id == id);
 
-                    jcriteria += String.Format(" LEFT JOIN Meta{0} P ON P.{1} = C.{2} ", metaDependency.ParentTable.TableName, metaDependency.ParentColumnName, metaDependency.ReferenceColumnName);
+                    jcriteria += String.Format(" LEFT JOIN [Meta{0}] P ON P.{1} = C.{2} ", metaDependency.ParentTable.TableName, metaDependency.ParentColumnName, metaDependency.ReferenceColumnName);
 
                     break;
             }
@@ -905,9 +977,9 @@ namespace PVIMS.Web
             var fc = 0;
             foreach (ListStructure list in _lists)
             {
-                fc+=1;
+                fc += 1;
 
-                scriteria += list.AttributeName + " as 'Col" + fcriteria.ToString() + "', ";
+                scriteria += "cast(" + list.AttributeName + " as varchar)" + " as 'Col" + fcriteria.ToString() + "', ";
                 ocriteria += list.AttributeName + ", ";
             }
             scriteria = scriteria.Substring(0, scriteria.Length - 2);
@@ -917,7 +989,7 @@ namespace PVIMS.Web
             fc = 0;
             foreach (FilterStructure filter in _filters)
             {
-                fc+=1;
+                fc += 1;
                 wcriteria += String.Format("{0} ({1} {2} %{3})", filter.Relation, filter.AttributeName, filter.Operator, fc.ToString());
             }
 
@@ -991,13 +1063,14 @@ namespace PVIMS.Web
             XmlNode contentNode;
             XmlNode contentValueNode;
             XmlAttribute attrib;
+            XmlComment comment;
 
             XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
             xmlDoc.AppendChild(xmlDeclaration);
 
             rootNode = xmlDoc.CreateElement("MISSA_CustomReport", ns);
             attrib = xmlDoc.CreateAttribute("CreatedDate");
-            attrib.InnerText = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+            attrib.InnerText = DateTime.Now.ToString("yyyy-MM-dd hh:MM");
             rootNode.Attributes.Append(attrib);
 
             // Write filter
@@ -1292,7 +1365,7 @@ namespace PVIMS.Web
             var val = "";
             if (metaColumn != null)
             {
-                switch ((MetaColumnTypes)metaColumn.ColumnType.Id) 
+                switch ((MetaColumnTypes)metaColumn.ColumnType.Id)
                 {
                     case MetaColumnTypes.tbigint:
                     case MetaColumnTypes.tint:
@@ -1328,7 +1401,7 @@ namespace PVIMS.Web
                     case MetaColumnTypes.tnvarchar:
                     case MetaColumnTypes.tvarchar:
 
-                        if(String.IsNullOrEmpty(metaColumn.Range))
+                        if (String.IsNullOrEmpty(metaColumn.Range))
                         {
                             switch (ddlFilterOperator.SelectedValue)
                             {
@@ -1483,7 +1556,7 @@ namespace PVIMS.Web
         {
             Search();
         }
-        
+
         protected void btnPublish_Click(object sender, EventArgs e)
         {
             Publish();
@@ -1626,61 +1699,11 @@ namespace PVIMS.Web
                                 var sources = metaColumn.Range.Replace("SOURCE:", "").Split('.');
                                 switch (sources[0])
                                 {
-                                    case "EncounterType":
-                                        values = _db.EncounterTypes.OrderBy(et => et.Description).Select(s => new ListItem
+                                    case "OrgUnit":
+                                        values = _db.OrgUnits.OrderBy(f => f.Name).Select(s => new ListItem
                                         {
-                                            Value = s.Description,
-                                            Text = s.Description
-                                        })
-                                        .ToArray();
-
-                                        break;
-
-                                    case "Facility":
-                                        values = _db.Facilities.OrderBy(f => f.FacilityName).Select(s => new ListItem
-                                        {
-                                            Value = s.FacilityName,
-                                            Text = s.FacilityName
-                                        })
-                                        .ToArray();
-
-                                        break;
-
-                                    case "CohortGroup":
-                                        values = _db.CohortGroups.OrderBy(cg => cg.CohortName).Select(s => new ListItem
-                                        {
-                                            Value = s.CohortName,
-                                            Text = s.CohortName
-                                        })
-                                        .ToArray();
-
-                                        break;
-
-                                    case "LabTestUnit":
-                                        values = _db.LabTestUnits.OrderBy(ltu => ltu.Description).Select(s => new ListItem
-                                        {
-                                            Value = s.Description,
-                                            Text = s.Description
-                                        })
-                                        .ToArray();
-
-                                        break;
-
-                                    case "LabTest":
-                                        values = _db.LabTests.OrderBy(lt => lt.Description).Select(s => new ListItem
-                                        {
-                                            Value = s.Description,
-                                            Text = s.Description
-                                        })
-                                        .ToArray();
-
-                                        break;
-
-                                    case "Outcome":
-                                        values = _db.Outcomes.OrderBy(o => o.Description).Select(s => new ListItem
-                                        {
-                                            Value = s.Description,
-                                            Text = s.Description
+                                            Value = s.Name,
+                                            Text = s.Name
                                         })
                                         .ToArray();
 
@@ -1713,10 +1736,10 @@ namespace PVIMS.Web
                             else
                             {
                                 values = metaColumn.Range.Split(',').Select(s => new ListItem
-                                    {
-                                        Value = s,
-                                        Text = s
-                                    })
+                                {
+                                    Value = s,
+                                    Text = s
+                                })
                                     .ToArray();
                             }
 
@@ -1833,13 +1856,13 @@ namespace PVIMS.Web
 
             if (!String.IsNullOrWhiteSpace(txtReportName.Value))
             {
-                if (Regex.Matches(txtReportName.Value, @"[a-zA-Z']").Count < txtReportName.Value.Length)
+                if (Regex.Matches(txtReportName.Value, @"[a-zA-Z' ]").Count < txtReportName.Value.Length)
                 {
                     lblReportName.Attributes.Remove("class");
                     lblReportName.Attributes.Add("class", "input state-error");
                     var errorMessageDiv = new HtmlGenericControl("div");
                     errorMessageDiv.Attributes.Add("class", "note note-error");
-                    errorMessageDiv.InnerText = "Report Name contains invalid characters (Enter A-Z, a-z)";
+                    errorMessageDiv.InnerText = "Report Name contains invalid characters (Enter A-Z, a-z, space)";
                     lblReportName.Controls.Add(errorMessageDiv);
 
                     valid = false;
@@ -1926,7 +1949,6 @@ namespace PVIMS.Web
         }
 
         #endregion
-
     }
 
     public class ListStructure

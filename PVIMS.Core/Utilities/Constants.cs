@@ -15,5 +15,13 @@
             public const string PublisherAdministrator = "PublisherAdmin";
         }
 
+        public static class Portal
+        {
+            public const string Clinical = "Clinical";
+            public const string Analytical = "Analytical";
+            public const string Information = "Information";
+            public const string Reporting = "Reports";
+            public const string Admin = "Administration";
+        }
     }
 }

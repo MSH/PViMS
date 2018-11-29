@@ -82,11 +82,7 @@ namespace PVIMS.Web
             LoadDropDownList();
             RenderButtons();
             RenderPage();
-            if (_metaWidget != null)
-            {
-                RenderWidget();
-            }
-            ToggleView();
+            RenderWidget();
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -94,6 +90,7 @@ namespace PVIMS.Web
             if (!Page.IsPostBack)
             {
                 Master.SetMenuActive("PublishAdmin");
+                ToggleView();
             };
         }
 
@@ -165,92 +162,101 @@ namespace PVIMS.Web
 
         private void RenderWidget()
         {
-            txtUID.Value = _metaWidget.metawidget_guid.ToString();
-            txtName.Value = _metaWidget.WidgetName;
-            txtDefinition.Value = _metaWidget.WidgetDefinition;
-            ddlWidgetType.SelectedValue = _metaWidget.WidgetType.Id.ToString();
-            ddlWidgetStatus.SelectedValue = Convert.ToInt32(_metaWidget.WidgetStatus).ToString();
-            txtWidgetLocation.Value = _metaWidget.WidgetLocation.ToString();
-            ddlWidgetLocation.SelectedValue = _metaWidget.WidgetLocation.ToString();
-            txtIcon.Value = _metaWidget.Icon;
-
-            HideWidgetTypePanels();
-
-            var widgetType = UnitOfWork.Repository<MetaWidgetType>().Get(Convert.ToInt32(ddlWidgetType.SelectedValue));
-            var widgetTypeE = (MetaWidgetTypes)widgetType.Id;
-
-            switch (widgetTypeE)
+            if (_metaWidget != null)
             {
-                case MetaWidgetTypes.General:
-                    divContentGeneral.Visible = true;
-                    CKEditor1.Text = _metaWidget.Content;
+                txtUID.Value = _metaWidget.metawidget_guid.ToString();
+                txtName.Value = _metaWidget.WidgetName;
+                txtDefinition.Value = _metaWidget.WidgetDefinition;
+                ddlWidgetType.SelectedValue = _metaWidget.WidgetType.Id.ToString();
+                ddlWidgetStatus.SelectedValue = Convert.ToInt32(_metaWidget.WidgetStatus).ToString();
+                txtWidgetStatus.Value = _metaWidget.WidgetStatus.ToString();
+                txtWidgetLocation.Value = _metaWidget.WidgetLocation.ToString();
+                ddlWidgetLocation.SelectedValue = _metaWidget.WidgetLocation.ToString();
+                txtIcon.Value = _metaWidget.Icon;
 
-                    break;
+                HideWidgetTypePanels();
 
-                case MetaWidgetTypes.SubItem:
-                    divContentWiki.Visible = true;
+                var widgetType = UnitOfWork.Repository<MetaWidgetType>().Get(Convert.ToInt32(ddlWidgetType.SelectedValue));
+                var widgetTypeE = (MetaWidgetTypes)widgetType.Id;
 
-                    var tabsWiki = PrepareTabsForWidget();
-                    spnWikiList.Controls.Add(tabsWiki);
+                switch (widgetTypeE)
+                {
+                    case MetaWidgetTypes.General:
+                        divContentGeneral.Visible = true;
+                        CKEditor1.Text = _metaWidget.Content;
 
-                    var tabsWikiDiv = new HtmlGenericControl("div");
-                    tabsWikiDiv.Attributes.Add("class", "tab-content");
+                        break;
 
-                    // Create the XmlDocument
-                    XmlDocument wdoc = new XmlDocument();
-                    wdoc.LoadXml(_metaWidget.Content);
-                    XmlNode wroot = wdoc.DocumentElement;
+                    case MetaWidgetTypes.SubItem:
+                        divContentWiki.Visible = true;
 
-                    // Loop through each listitem
-                    var witem = 0;
-                    foreach (XmlNode node in wroot.ChildNodes)
-                    {
+                        var tabsWiki = PrepareTabsForWidget();
+                        spnWikiList.Controls.Add(tabsWiki);
+
+                        var tabsWikiDiv = new HtmlGenericControl("div");
+                        tabsWikiDiv.Attributes.Add("class", "tab-content");
+
+                        // Create the XmlDocument
+                        XmlDocument wdoc = new XmlDocument();
+                        wdoc.LoadXml(_metaWidget.Content);
+                        XmlNode wroot = wdoc.DocumentElement;
+
+                        // Loop through each listitem
+                        var witem = 0;
+                        foreach (XmlNode node in wroot.ChildNodes)
+                        {
+                            witem += 1;
+
+                            tabsWikiDiv.Controls.Add(PreparePaneForWikiItem(witem, node, false));
+                        }
                         witem += 1;
+                        for (int i = witem; i <= 15; i++)
+                        {
+                            tabsWikiDiv.Controls.Add(PreparePaneForWikiItem(i, null, true));
+                        }
+                        spnWikiList.Controls.Add(tabsWikiDiv);
 
-                        tabsWikiDiv.Controls.Add(PreparePaneForWikiItem(witem, node, false));
-                    }
-                    witem += 1;
-                    for (int i = witem; i <= 15; i++)
-                    {
-                        tabsWikiDiv.Controls.Add(PreparePaneForWikiItem(i, null, true));
-                    }
-                    spnWikiList.Controls.Add(tabsWikiDiv);
+                        break;
 
-                    break;
+                    case MetaWidgetTypes.ItemList:
+                        divContentItemList.Visible = true;
 
-                case MetaWidgetTypes.ItemList:
-                    divContentItemList.Visible = true;
+                        var tabsItems = PrepareTabsForWidget();
+                        spnItemList.Controls.Add(tabsItems);
 
-                    var tabsItems = PrepareTabsForWidget();
-                    spnItemList.Controls.Add(tabsItems);
+                        var tabsItemDiv = new HtmlGenericControl("div");
+                        tabsItemDiv.Attributes.Add("class", "tab-content");
 
-                    var tabsItemDiv = new HtmlGenericControl("div");
-                    tabsItemDiv.Attributes.Add("class", "tab-content");
+                        // Create the XmlDocument
+                        XmlDocument idoc = new XmlDocument();
+                        idoc.LoadXml(_metaWidget.Content);
+                        XmlNode iroot = idoc.DocumentElement;
 
-                    // Create the XmlDocument
-                    XmlDocument idoc = new XmlDocument();
-                    idoc.LoadXml(_metaWidget.Content);
-                    XmlNode iroot = idoc.DocumentElement;
+                        // Loop through each listitem
+                        var iitem = 0;
+                        foreach (XmlNode node in iroot.ChildNodes)
+                        {
+                            iitem += 1;
 
-                    // Loop through each listitem
-                    var iitem = 0;
-                    foreach (XmlNode node in iroot.ChildNodes)
-                    {
+                            tabsItemDiv.Controls.Add(PreparePaneForContentItem(iitem, node, false));
+                        }
                         iitem += 1;
+                        for (int i = iitem; i <= 15; i++)
+                        {
+                            tabsItemDiv.Controls.Add(PreparePaneForContentItem(i, null, true));
+                        }
+                        spnItemList.Controls.Add(tabsItemDiv);
 
-                        tabsItemDiv.Controls.Add(PreparePaneForContentItem(iitem, node, false));
-                    }
-                    iitem += 1;
-                    for (int i = iitem; i <= 15; i++)
-                    {
-                        tabsItemDiv.Controls.Add(PreparePaneForContentItem(i, null, true));
-                    }
-                    spnItemList.Controls.Add(tabsItemDiv);
+                        break;
 
-                    break;
-
-                default:
-                    break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                ddlWidgetStatus.SelectedValue = "2"; // set to unpublished
+                txtWidgetStatus.Value = "Unpublished";
             }
         }
 
@@ -474,7 +480,10 @@ namespace PVIMS.Web
                 case FormMode.AddMode:
                     divWikiContent.Visible = false;
 
-                    divWidgetLocation.Visible = _metaWidget != null ? _metaWidget.WidgetStatus == MetaWidgetStatus.Published : false;
+                    divWidgetLocation.Style.Add("display", "none;");
+
+                    ddlWidgetStatus.Visible = false;
+                    txtWidgetStatus.Visible = true;
 
                     break;
 
@@ -485,7 +494,13 @@ namespace PVIMS.Web
                     CKEditor1.Attributes.Add("readonly", "true");
                     CKEditor1.Style.Add("background-color", "#EBEBE4");
 
-                    divWidgetLocation.Visible = _metaWidget != null ? _metaWidget.WidgetStatus == MetaWidgetStatus.Published : false;
+                    if(_metaWidget.WidgetStatus == MetaWidgetStatus.Unpublished)
+                    {
+                        divWidgetLocation.Style.Add("display", "none;");
+                    }
+
+                    ddlWidgetStatus.Visible = false;
+                    txtWidgetStatus.Visible = true;
 
                     break;
 
@@ -496,7 +511,13 @@ namespace PVIMS.Web
                     ddlWidgetType.Attributes.Add("readonly", "true");
                     ddlWidgetType.Style.Add("background-color", "#EBEBE4");
 
-                    divWidgetLocation.Visible = _metaWidget != null ? _metaWidget.WidgetStatus == MetaWidgetStatus.Published : false;
+                    if (_metaWidget.WidgetStatus == MetaWidgetStatus.Unpublished)
+                    {
+                        divWidgetLocation.Style.Add("display", "none;");
+                    }
+
+                    ddlWidgetStatus.Visible = true;
+                    txtWidgetStatus.Visible = false;
 
                     break;
 
@@ -613,6 +634,8 @@ namespace PVIMS.Web
                     errorMessageDiv.Attributes.Add("class", "note note-error");
                     errorMessageDiv.InnerText = "Widget Location is required";
                     lblWidgetLocation.Controls.Add(errorMessageDiv);
+
+                    divWidgetLocation.Style.Add("display", "block");
 
                     err = true;
                 }
@@ -813,10 +836,6 @@ namespace PVIMS.Web
 
         #endregion
 
-        protected void ddlWidgetStatus_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            divWidgetLocation.Visible = (ddlWidgetStatus.SelectedValue == "1");
-        }
     }
 
     public static class ControlExtensions

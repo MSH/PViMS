@@ -150,33 +150,39 @@ namespace PVIMS.Web
         {
             if (User != null)
             {
+                var portalName = string.Empty;
                 // Highlight selected portal
                 switch (User.CurrentContext)
                 {
                     case "0":
                         hrefClinical.Style["color"] = "orange";
+                        portalName = Constants.Portal.Clinical + " Portal";
                         break;
 
                     case "1":
                         hrefAnalytical.Style["color"] = "orange";
+                        portalName = Constants.Portal.Analytical + " Portal";
                         break;
 
                     case "2":
                         hrefReporting.Style["color"] = "orange";
+                        portalName = Constants.Portal.Reporting + " Portal";
                         break;
 
                     case "3":
                         hrefPublisher.Style["color"] = "orange";
+                        portalName = Constants.Portal.Information + " Portal";
                         break;
 
                     case "4":
                         hrefAdmin.Style["color"] = "orange";
+                        portalName = Constants.Portal.Admin + " Portal";
                         break;
 
                     default:
                         break;
                 }
-                lblPortalName.Text = User.CurrentContext + " Portal";
+                lblPortalName.Text = portalName;
                 lblPortalName.Style["color"] = "orange";
 
                 // Portal roles

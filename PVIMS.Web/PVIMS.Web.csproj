@@ -573,6 +573,7 @@
     <Compile Include="Models\Patient\PatientConditionDeleteModel.cs" />
     <Compile Include="Models\Patient\PatientLabTestDeleteModel.cs" />
     <Compile Include="Models\Patient\PatientMedicationDeleteModel.cs" />
+    <Compile Include="Models\Patient\GradeDTO.cs" />
     <Compile Include="Models\PostDeployment\DeploymentSummaryViewModel.cs" />
     <Compile Include="Models\Encounter\EncounterAddModel.cs" />
     <Compile Include="Models\Encounter\EncounterDTO.cs" />

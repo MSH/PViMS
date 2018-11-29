@@ -864,3 +864,4 @@ SL-0061 - Ability to detect duplicate conditions
 ** Cohort view modified to display serious and non serious patient counts (total and per patient)
 ** Include in progress waiting screen for active dataset download, analyser, E2B creation
 ** All system reports to include date and time of extract when extracting to XLSX
+** Display grading scales when selecting severity grade scale in adverse event (add and edit)

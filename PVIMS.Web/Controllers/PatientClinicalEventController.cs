@@ -80,7 +80,8 @@ namespace PVIMS.Web.Controllers
                 NumericMinValue = c.NumericMinValue,
                 NumericMaxValue = c.NumericMaxValue,
                 PastDateOnly = c.PastDateOnly,
-                FutureDateOnly = c.FutureDateOnly
+                FutureDateOnly = c.FutureDateOnly,
+                AllowModal = c.AttributeKey == "Severity Grading Scale"
             })
             .ToArray();
 
@@ -487,7 +488,8 @@ namespace PVIMS.Web.Controllers
                 NumericMinValue = c.NumericMinValue,
                 NumericMaxValue = c.NumericMaxValue,
                 PastDateOnly = c.PastDateOnly,
-                FutureDateOnly = c.FutureDateOnly
+                FutureDateOnly = c.FutureDateOnly,
+                AllowModal = c.AttributeKey == "Severity Grading Scale"
             })
             .ToArray();
 
@@ -580,6 +582,7 @@ namespace PVIMS.Web.Controllers
                 PatientFullName = patientClinicalEvent.Patient.FullName,
                 PatientClinicalEventId = patientClinicalEvent.Id,
                 SourceTerminologyMedDRA = patientClinicalEvent.SourceTerminologyMedDra.DisplayName,
+                SourceTerminologyMedDRAId = patientClinicalEvent.SourceTerminologyMedDra.Id,
                 OnsetDate = patientClinicalEvent.OnsetDate,
                 ResolutionDate = patientClinicalEvent.ResolutionDate,
                 EventDuration = duration,
@@ -606,7 +609,8 @@ namespace PVIMS.Web.Controllers
                 NumericMinValue = c.NumericMinValue,
                 NumericMaxValue = c.NumericMaxValue,
                 PastDateOnly = c.PastDateOnly,
-                FutureDateOnly = c.FutureDateOnly
+                FutureDateOnly = c.FutureDateOnly,
+                AllowModal = c.AttributeKey == "Severity Grading Scale"
             })
            .ToArray();
 
@@ -978,7 +982,8 @@ namespace PVIMS.Web.Controllers
                 NumericMinValue = c.NumericMinValue,
                 NumericMaxValue = c.NumericMaxValue,
                 PastDateOnly = c.PastDateOnly,
-                FutureDateOnly = c.FutureDateOnly
+                FutureDateOnly = c.FutureDateOnly,
+                AllowModal = c.AttributeKey == "Severity Grading Scale"
             })
             .ToArray();
 
@@ -1278,5 +1283,39 @@ namespace PVIMS.Web.Controllers
             return _unitOfWork.Repository<User>().Queryable().SingleOrDefault(u => u.UserName == HttpContext.User.Identity.Name);
         }
 
+        [HttpGet]
+        public JsonResult GetGradesForScale(long terminologyMeddraId, int gradingScaleKey)
+        {
+            var selectionDataItem = _unitOfWork.Repository<SelectionDataItem>().Queryable()
+                .SingleOrDefault(s => s.AttributeKey == "Severity Grading Scale" && s.SelectionKey == gradingScaleKey.ToString());
+            var meddraTerm = _unitOfWork.Repository<TerminologyMedDra>().Queryable()
+                .SingleOrDefault(mt => mt.Id == terminologyMeddraId);
+
+            var meddraScale = _unitOfWork.Repository<MedDRAScale>().Queryable()
+                .SingleOrDefault(ms => ms.TerminologyMedDra.Id == terminologyMeddraId && ms.GradingScale.Id == selectionDataItem.Id);
+
+            List<GradeDTO.MeddraGradeItem> meddraGradings = new List<GradeDTO.MeddraGradeItem>();
+
+            if(meddraScale != null)
+            {
+                meddraGradings = _unitOfWork.Repository<MedDRAGrading>().Queryable()
+                            .Where(mg => mg.Scale.Id == meddraScale.Id)
+                            .OrderBy(mg => mg.Id)
+                            .Select(mg => new GradeDTO.MeddraGradeItem()
+                            {
+                                Description = mg.Description,
+                                Grade = mg.Grade
+                            }).ToList();
+            }
+
+            var grades = new GradeDTO
+            {
+                GradingScale = selectionDataItem != null ? selectionDataItem.Value : "Not Found",
+                MeddraTerm = meddraTerm != null ? meddraTerm.DisplayName : "Not Found",
+                MeddraGradeItems = meddraGradings
+            };
+
+            return Json(grades, JsonRequestBehavior.AllowGet);
+        }
     }
 }

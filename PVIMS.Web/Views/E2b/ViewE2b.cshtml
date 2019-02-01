@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "View E2B ICH Report";
     Layout = "~/Views/Shared/_StandardLayout.cshtml";
-    ViewBag.Icon = "fa fa-stethoscope";
+    ViewBag.Icon = "fa fa-dashboard";
     ViewBag.Heading = "E2B ICH Report";
     ViewBag.SubHeading = "View";
     ViewBag.ClinicalColour = "white"; ViewBag.AnalyticalColour = "orange"; ViewBag.ReportingColour = "white"; ViewBag.PublisherColour = "white"; ViewBag.AdminColour = "white";
@@ -207,15 +207,23 @@
                 success: function (data) {
                     var form = $('#datasetElementSubEditForm');
                     form.empty();
+
+                    var formField = "<div class='smart-form'><fieldset>";
+
                     $.each(data, function (index, value) {
 
                         formElements.push(value.DatasetElementSubId);
 
-                        var formField = "<div class='form-group'>";
+                        formField += "<div class='row'><section class='col col-xs-12'>";
 
-                        var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubName;
+                        var labelValue = value.DatasetElementSubRequired ? "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" + value.DatasetElementSubName : value.DatasetElementSubName;
+                        var helpValue = "";
+                        if (value.DatasetElementSubHelp != null) {
+                            helpValue += "<small>" + value.DatasetElementSubHelp + "</small>";
+                        }
 
-                        formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+                        formField += "<label class='input'>" + labelValue + "<br />";
+                        if (helpValue != "") { formField += helpValue; };
 
                         switch (value.DatasetElementSubType) {
                             case "Date":
@@ -230,11 +238,13 @@
 
                         }
 
-                        formField += "</div>"
-
-                        form.append(formField)
+                        formField += "</label></section></div>";
 
                     });
+
+                    formField += "</fieldset></div>";
+                    form.append(formField)
+
                 }
             });
         })

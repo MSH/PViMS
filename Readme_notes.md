@@ -870,3 +870,7 @@ SL-0061 - Ability to detect duplicate conditions
 ** Decode widget name and definition when rendering in widget admin
 ** Fix customisation of existing custom reports
 ** Ability to downlaod analytical dataset for specific cohorts only
+
+** 1.18.1/20190102
+** Fixed formatting of sub tables
+** Changed page icon from stethoscope to dashboard for E2B views in analytical portal

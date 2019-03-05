@@ -40,14 +40,39 @@ BEGIN TRAN A1
 			INNER JOIN Field f ON de.Field_Id = f.Id
 			INNER JOIN FieldType ft ON f.FieldType_Id = ft.Id
 		WHERE ds.Id = @ds_id and de.ElementName = 'Product Information' and desu.ElementName = 'Product Suspected'
-	 
-	SELECT ds.DatasetName, dc.DatasetCategoryName, de.ElementName, desu.ElementName, desu.FieldOrder, ROW_NUMBER() OVER(ORDER BY ds.DatasetName, dc.DatasetCategoryName, de.ElementName, desu.ElementName, desu.FieldOrder ASC) AS Row#
+
+	-- Convert drug strength (spontaneous report) to numeric - from alphanumeric
+	UPDATE desu SET desu.ElementName = 'Drug Strength'
 		FROM Dataset ds
 			INNER JOIN DatasetCategory dc ON ds.Id = dc.Dataset_Id 
 			INNER JOIN DatasetCategoryElement dce ON dc.Id = dce.DatasetCategory_Id 
 			INNER JOIN DatasetElement de ON dce.DatasetElement_Id = de.Id 
 			INNER JOIN DatasetElementSub desu ON desu.DatasetElement_Id = de.Id 
-			INNER JOIN Field f ON de.Field_Id = f.Id
+		WHERE ds.Id = @ds_id and de.ElementName = 'Product Information' and desu.ElementName = 'Drug strength'	
+	UPDATE desu SET desu.ElementName = 'Drug Strength Unit'
+		FROM Dataset ds
+			INNER JOIN DatasetCategory dc ON ds.Id = dc.Dataset_Id 
+			INNER JOIN DatasetCategoryElement dce ON dc.Id = dce.DatasetCategory_Id 
+			INNER JOIN DatasetElement de ON dce.DatasetElement_Id = de.Id 
+			INNER JOIN DatasetElementSub desu ON desu.DatasetElement_Id = de.Id 
+		WHERE ds.Id = @ds_id and de.ElementName = 'Product Information' and desu.ElementName = 'Drug strength unit'	
+	UPDATE f SET f.Decimals = 0, f.MaxSize = 99999999.00, f.MinSize = 1.00, f.FieldType_Id = 4
+		FROM Dataset ds
+			INNER JOIN DatasetCategory dc ON ds.Id = dc.Dataset_Id 
+			INNER JOIN DatasetCategoryElement dce ON dc.Id = dce.DatasetCategory_Id 
+			INNER JOIN DatasetElement de ON dce.DatasetElement_Id = de.Id 
+			INNER JOIN DatasetElementSub desu ON desu.DatasetElement_Id = de.Id 
+			INNER JOIN Field f ON desu.Field_Id = f.Id
+			INNER JOIN FieldType ft ON f.FieldType_Id = ft.Id
+		WHERE ds.Id = @ds_id and de.ElementName = 'Product Information' and desu.ElementName = 'Drug Strength'
+ 
+	SELECT ds.DatasetName, dc.DatasetCategoryName, de.ElementName, desu.ElementName, desu.FieldOrder, ft.[Description], f.[Decimals], f.MaxSize, f.MinSize, ROW_NUMBER() OVER(ORDER BY ds.DatasetName, dc.DatasetCategoryName, de.ElementName, desu.ElementName, desu.FieldOrder, ft.[Description], f.[Decimals], f.MaxSize, f.MinSize ASC) AS Row#
+		FROM Dataset ds
+			INNER JOIN DatasetCategory dc ON ds.Id = dc.Dataset_Id 
+			INNER JOIN DatasetCategoryElement dce ON dc.Id = dce.DatasetCategory_Id 
+			INNER JOIN DatasetElement de ON dce.DatasetElement_Id = de.Id 
+			INNER JOIN DatasetElementSub desu ON desu.DatasetElement_Id = de.Id 
+			INNER JOIN Field f ON desu.Field_Id = f.Id
 			INNER JOIN FieldType ft ON f.FieldType_Id = ft.Id
 		where ds.Id = @ds_id and de.ElementName = 'Product Information'
 		order by dc.CategoryOrder, dc.DatasetCategoryName, dce.Id, desu.FieldOrder

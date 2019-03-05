@@ -167,13 +167,11 @@ namespace PVIMS.Web.Controllers
                 if (config.ConfigValue.Contains("(R2)"))
                 {
                     datasetInstance.InitialiseValues(datasetInstance.Tag, sourceInstance, null);
-
                     SetInstanceValuesForSpontaneousRelease2(datasetInstance, sourceInstance, currentUser);
                 }
                 if (config.ConfigValue.Contains("(R3)"))
                 {
                     datasetInstance.InitialiseValues(datasetInstance.Tag, sourceInstance, null);
-
                     SetInstanceValuesForSpontaneousRelease3(datasetInstance, sourceInstance, currentUser, sourceInstance.Id);
                 }
 
@@ -1268,6 +1266,7 @@ namespace PVIMS.Web.Controllers
                     {
                         var reportInstanceMedication = unitOfWork.Repository<ReportInstanceMedication>().Queryable().Single(x => x.ReportInstanceMedicationGuid == sourceContext);
 
+                        // Causality
                         if (reportInstanceMedication.WhoCausality != null)
                         {
                             datasetInstance.SetInstanceSubValue(destinationProductElement.DatasetElementSubs.Single(des => des.ElementName == "Source of Assessment"), "WHO Causality Scale", (Guid)newContext);
@@ -1282,9 +1281,9 @@ namespace PVIMS.Web.Controllers
                             }
                         }
 
+                        // Treatment Duration
                         var startValue = drugItemValues.SingleOrDefault(div => div.DatasetElementSub.ElementName == "Drug Start Date");
                         var endValue = drugItemValues.SingleOrDefault(div => div.DatasetElementSub.ElementName == "Drug End Date");
-
                         if (startValue != null && endValue != null)
                         {
                             var rduration = (Convert.ToDateTime(endValue.InstanceValue) - Convert.ToDateTime(startValue.InstanceValue)).Days;
@@ -1292,9 +1291,15 @@ namespace PVIMS.Web.Controllers
                             datasetInstance.SetInstanceSubValue(destinationProductElement.DatasetElementSubs.Single(des => des.ElementName == "Drug Treatment Duration Unit"), "804=Day", (Guid)newContext);
                         }
 
-                        //        var characterValue =  drugItemValues.Single(div => div.DatasetElementSub.ElementName == "Product Suspected");
-                        //        var character = characterValue != null ? characterValue.InstanceValue = "Yes" ? "1=Suspect" : "2=Concomitant" : "2=Concomitant";
-                        //        datasetInstance.SetInstanceSubValue(destinationProductElement.DatasetElementSubs.Single(des => des.ElementName == "Drug Characterization"), character, newContext);
+                        // Dosage
+                        if(drugItemValues.SingleOrDefault(div => div.DatasetElementSub.ElementName == "Drug Strength") != null && drugItemValues.SingleOrDefault(div => div.DatasetElementSub.ElementName == "Dose Number") != null)
+                        {
+                            decimal strength = ConvertValueToDecimal(drugItemValues.SingleOrDefault(div => div.DatasetElementSub.ElementName == "Drug Strength").InstanceValue);
+                            decimal dosage = ConvertValueToDecimal(drugItemValues.SingleOrDefault(div => div.DatasetElementSub.ElementName == "Dose Number").InstanceValue);
+
+                            decimal dosageCalc = strength * dosage;
+                            datasetInstance.SetInstanceSubValue(destinationProductElement.DatasetElementSubs.Single(des => des.ElementName == "Structured Dosage"), dosageCalc.ToString(), (Guid)newContext);
+                        }
                     }
                 }
             }
@@ -1861,7 +1866,6 @@ namespace PVIMS.Web.Controllers
 
         } // end of sub
 
-
         private string MapDoseUnitForActive(string doseUnit)
         {
             switch (doseUnit)
@@ -1995,6 +1999,19 @@ namespace PVIMS.Web.Controllers
             } // if (!String.IsNullOrWhiteSpace(drugAction))
 
             return "";
+        }
+
+        private decimal ConvertValueToDecimal(string value)
+        {
+            decimal tempdec = 0;
+            if (Decimal.TryParse(value, out tempdec))
+            {
+                return tempdec;
+            }
+            else
+            {
+                return decimal.MinValue;
+            };
         }
     }
 }

@@ -52,6 +52,9 @@ BEGIN TRAN A1
 		where ds.Id = @ds_id and de.ElementName = 'Product Information'
 		order by dc.CategoryOrder, dc.DatasetCategoryName, dce.Id, desu.FieldOrder
  
+	-- Remove unused meta columns
+	DELETE MetaColumn WHERE ColumnName in ('CurrentFacilityName', 'LatestEncounterDate')
+ 
 INSERT INTO PostDeployment
 		(ScriptGuid, ScriptFileName, ScriptDescription, RunDate, StatusCode, StatusMessage, RunRank)
 	select NEWID(), @ScriptFileName, @ScriptFileName, GETDATE(), 200, NULL, (select max(RunRank) + 1 from PostDeployment)

@@ -968,6 +968,8 @@
     <Content Include="ModVersions\DataMod.v1.12.0.sql" />
     <Content Include="ModVersions\DataMod.v1.15.1.sql" />
     <Content Include="ModVersions\DataMod.v1.16.0.sql" />
+    <Content Include="ModVersions\DataMod.v1.17.3.sql" />
+    <Content Include="ModVersions\DataMod.v1.18.1.sql" />
     <Content Include="ModVersions\DataMod.v1.5.10.sql" />
     <Content Include="ModVersions\DataMod.v1.5.14.sql" />
     <Content Include="ModVersions\DataMod.v1.5.18.sql" />

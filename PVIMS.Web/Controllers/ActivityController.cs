@@ -31,6 +31,7 @@ namespace PVIMS.Web.Controllers
             var reportInstance = _unitOfWork.Repository<ReportInstance>().Queryable().Single(ri => ri.Id == reportInstanceId);
 
             ViewBag.MenuItem = string.Equals(reportInstance.WorkFlow.WorkFlowGuid.ToString(), "892F3305-7819-4F18-8A87-11CBA3AEE219", StringComparison.InvariantCultureIgnoreCase) ? "ActiveReporting" : "SpontaneousReporting";
+            ViewBag.PopUpMessage = PreparePopUpMessage();
 
             var returnUrl = "/Analytical/ReportInstanceList.aspx?wuid=" + reportInstance.WorkFlow.WorkFlowGuid.ToString();
             TempData["returnUrl"] = returnUrl;

@@ -56,6 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseInitializer.cs" />
+    <Compile Include="Migrations\201903051459363_AddStatusToMetaReport.cs" />
+    <Compile Include="Migrations\201903051459363_AddStatusToMetaReport.Designer.cs">
+      <DependentUpon>201903051459363_AddStatusToMetaReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="PVIMSDbContext.cs" />
     <Compile Include="Migrations\201506151011036_InitialCreate.cs" />
     <Compile Include="Migrations\201506151011036_InitialCreate.Designer.cs">
@@ -960,9 +964,25 @@
     <EmbeddedResource Include="Migrations\201804241616363_AddWidgetIcon.resx">
       <DependentUpon>201804241616363_AddWidgetIcon.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903051459363_AddStatusToMetaReport.resx">
+      <DependentUpon>201903051459363_AddStatusToMetaReport.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="DBChanges\DataPacks\Datapack.Chronic.sql" />
+    <Content Include="DBChanges\DataPacks\Datapack.E2BR2.sql" />
+    <Content Include="DBChanges\DataPacks\Datapack.Initialise.sql" />
+    <Content Include="DBChanges\DataPacks\Datapack.Spontaneous.sql" />
+    <Content Include="DBChanges\Functions\dbo.CleanJsonForString.sql" />
+    <Content Include="DBChanges\Maintenance\Indexes.sql" />
+    <Content Include="DBChanges\Seeds\Seed.InfoPages.sql" />
+    <Content Include="DBChanges\StoredProcedures\dbo.spGenerateAnalysis.sql" />
+    <Content Include="DBChanges\StoredProcedures\dbo.spGenerateContingency.sql" />
+    <Content Include="DBChanges\StoredProcedures\dbo.spGenerateDrugList.sql" />
+    <Content Include="DBChanges\StoredProcedures\dbo.spGeneratePatientListCohort.sql" />
+    <Content Include="DBChanges\StoredProcedures\dbo.spGeneratePatientListCondition.sql" />
+    <Content Include="DBChanges\StoredProcedures\dbo.spGenerateRiskFactors.sql" />
     <Content Include="ModVersions\DataMod.v1.10.0.Function.sql" />
     <Content Include="ModVersions\DataMod.v1.10.0.sql" />
     <Content Include="ModVersions\DataMod.v1.12.0.sql" />

@@ -117,6 +117,7 @@
     <Compile Include="Entities\LabResult.cs" />
     <Compile Include="Entities\NodeType.cs" />
     <Compile Include="ValueTypes\AdverseEventCriteria.cs" />
+    <Compile Include="ValueTypes\MetaReportStatus.cs" />
     <Compile Include="ValueTypes\MetaWidgetStatus.cs" />
     <Compile Include="ValueTypes\PatientOnStudyCriteria.cs" />
     <Compile Include="ValueTypes\CausalityCriteria.cs" />

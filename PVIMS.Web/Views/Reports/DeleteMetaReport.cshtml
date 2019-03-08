@@ -1,16 +1,16 @@
-﻿@model PVIMS.Web.Models.MetaWidgetDeleteModel
+﻿@model PVIMS.Web.Models.MetaReportDeleteModel
 @{
-    ViewBag.Title = "Delete Widget";
+    ViewBag.Title = "Delete Custom Report";
     Layout = "~/Views/Shared/_StandardLayout.cshtml";
     ViewBag.Icon = "fa-windows";
-    ViewBag.Heading = "Widget";
+    ViewBag.Heading = "Custom Report";
     ViewBag.SubHeading = "Delete";
     ViewBag.OverrideBreadcrumb = true;
-    ViewBag.ClinicalColour = "white"; ViewBag.AnalyticalColour = "white"; ViewBag.ReportingColour = "white"; ViewBag.PublisherColour = "orange"; ViewBag.AdminColour = "white";
+    ViewBag.ClinicalColour = "white"; ViewBag.AnalyticalColour = "white"; ViewBag.ReportingColour = "orange"; ViewBag.PublisherColour = "white"; ViewBag.AdminColour = "white";
 }
 @section breadcrumb
 {
-    <li>Widgets</li>
+    <li>Reports</li>
 }
 
 <!-- widget grid -->
@@ -20,7 +20,7 @@
             <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-cogs"></i> </span>
-                    <h2>Delete Widget (@Model.WidgetName)</h2>
+                    <h2>Delete Report (@Model.ReportName)</h2>
                 </header>
                 <!-- widget div-->
                 <div>
@@ -29,19 +29,11 @@
                             <strong>Please note!</strong> You are about to delete this record. This action is not reversible....
                         </div>
 
-                        @using (Html.BeginForm("DeleteMetaWidget", "Publisher", FormMethod.Post, new { @class = "smart-form" }))
+                        @using (Html.BeginForm("DeleteMetaReport", "Reports", FormMethod.Post, new { @class = "smart-form" }))
                         {
                             @Html.AntiForgeryToken()
 
-                            if (!ViewData.ModelState.IsValid)
-                            {
-                                <p class="alert alert-danger">
-                                    Please review and correct the errors below.
-                                </p>
-                            }
-
-                            @Html.HiddenFor(model => model.MetaWidgetId)
-                            @Html.HiddenFor(model => model.WidgetName)
+                            @Html.HiddenFor(model => model.MetaReportId)
 
                             <header>
                                 Basic Details
@@ -49,22 +41,18 @@
 
                             <fieldset>
                                 <section>
-                                    @Html.LabelFor(model => model.PageName)
+                                    @Html.LabelFor(model => model.ReportName)
                                     <label class="textarea">
-                                        @Html.EditorFor(model => model.PageName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
+                                        @Html.EditorFor(model => model.ReportName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
                                     </label>
+                                    @Html.ValidationMessageFor(model => model.ReportName, "", new { @class = "text-danger" })
                                 </section>
                                 <section>
-                                    @Html.LabelFor(model => model.WidgetName)
+                                    @Html.LabelFor(model => model.ReportDefinition)
                                     <label class="textarea">
-                                        @Html.EditorFor(model => model.WidgetName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
+                                        @Html.EditorFor(model => model.ReportDefinition, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
                                     </label>
-                                </section>
-                                <section>
-                                    @Html.LabelFor(model => model.WidgetType)
-                                    <label class="textarea">
-                                        @Html.EditorFor(model => model.WidgetType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
-                                    </label>
+                                    @Html.ValidationMessageFor(model => model.ReportDefinition, "", new { @class = "text-danger" })
                                 </section>
                             </fieldset>
 
@@ -72,7 +60,7 @@
                                 <button type="submit" class="btn btn-primary" value="Submit" name="button">
                                     Delete
                                 </button>
-                                <a href="@ViewBag.ReturnUrl" class="btn btn-default">Back</a>
+                                <a href="@Url.Action("CustomiseReport", "Reports", new { metaReportId = Model.MetaReportId })" class="btn btn-default btn-sm">Back</a>
                             </footer>
                         }
                     </div>

@@ -339,8 +339,6 @@ namespace PVIMS.Web
                 patients = patients.Where(p => XElement.Parse(p.CustomAttributesXmlSerialised).Descendants(path).Descendants("Value").First().Value == custom);
             }
 
-            // Loop through and render table
-            DateTime? lastEncounter = null;
             var rowCount = 0;
             foreach (var p in patients)
             {

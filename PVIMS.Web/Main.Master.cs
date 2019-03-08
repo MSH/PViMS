@@ -88,7 +88,14 @@ namespace PVIMS.Web
                 hrefDelete.HRef = "/Publisher/DeleteMetaPage?metaPageId=" + detail.MetaPageId;
                 hrefAdd.HRef = "/Publisher/PageCustomWidget.aspx?Id=0&pid=" + detail.MetaPageId;
             }
-            if(!String.IsNullOrWhiteSpace(detail.MetaDataLastUpdated))
+            if (detail.MetaReportId > 0)
+            {
+                divEdit.Visible = true;
+                hrefEdit.HRef = "/Reports/CustomiseReport?metaReportid=" + detail.MetaReportId;
+                hrefDelete.HRef = "/Reports/DeleteMetaReport?metaReportid=" + detail.MetaReportId;
+                hrefAdd.Visible = false;
+            }
+            if (!String.IsNullOrWhiteSpace(detail.MetaDataLastUpdated))
             {
                 divMetaDataLastUpdated.Visible = true;
                 spnMetaDataLastUpdated.InnerHtml = detail.MetaDataLastUpdated;

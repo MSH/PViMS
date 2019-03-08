@@ -462,6 +462,7 @@
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\AnalyserApiController.cs" />
     <Compile Include="Controllers\CohortApiController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\PublisherController.cs" />
     <Compile Include="Controllers\CohortController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
@@ -611,6 +612,10 @@
     <Compile Include="Models\Publisher\MetaWidgetMoveModel.cs" />
     <Compile Include="Models\Publisher\MetaWidgetDeleteModel.cs" />
     <Compile Include="Models\Publisher\MetaPageDeleteModel.cs" />
+    <Compile Include="Models\Reports\MetaReportDeleteModel.cs" />
+    <Compile Include="Models\Reports\MetaReportAttributeModel.cs" />
+    <Compile Include="Models\Reports\MetaReportItem.cs" />
+    <Compile Include="Models\Reports\CustomiseReportModel.cs" />
     <Compile Include="Patient\PatientSearch.aspx.cs">
       <DependentUpon>PatientSearch.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -689,20 +694,6 @@
     </Compile>
     <Compile Include="Admin\ReportMeta.aspx.designer.cs">
       <DependentUpon>ReportMeta.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\ReportCustom.aspx.cs">
-      <DependentUpon>ReportCustom.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Reports\ReportCustom.aspx.designer.cs">
-      <DependentUpon>ReportCustom.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\ReportList.aspx.cs">
-      <DependentUpon>ReportList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Reports\ReportList.aspx.designer.cs">
-      <DependentUpon>ReportList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\ReportViewer.aspx.cs">
       <DependentUpon>ReportViewer.aspx</DependentUpon>
@@ -2082,8 +2073,6 @@
     <Content Include="Publisher\Publisher.aspx" />
     <Content Include="Publisher\PageList.aspx" />
     <Content Include="Admin\ReportMeta.aspx" />
-    <Content Include="Reports\ReportCustom.aspx" />
-    <Content Include="Reports\ReportList.aspx" />
     <Content Include="Reports\ReportViewer.aspx" />
     <Content Include="Reports\System\ReportAdverseEventAnnual.aspx" />
     <Content Include="Reports\System\ReportAdverseEventQuarterly.aspx" />
@@ -2821,6 +2810,10 @@
     <Content Include="Views\CustomAttributeConfig\EditCustomAttribute.cshtml" />
     <Content Include="Views\Publisher\MoveMetaWidget.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Reports\CustomiseReport.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\DeleteMetaReport.cshtml" />
+    <Content Include="Views\Reports\ReportAttributeItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

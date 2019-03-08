@@ -1,0 +1,111 @@
+﻿@model IEnumerable<PVIMS.Web.Models.MetaReportItem>
+
+@{
+    ViewBag.Title = "Custom Reports";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa-windows";
+    ViewBag.Heading = "Custom Reports";
+    ViewBag.SubHeading = "List";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalColour = "white"; ViewBag.AnalyticalColour = "white"; ViewBag.ReportingColour = "orange"; ViewBag.PublisherColour = "white"; ViewBag.AdminColour = "white";
+}
+
+@section breadcrumb
+{
+	<li>Reports</li>
+}
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget well" id="wid-id-0"
+                     data-widget-editbutton="false"
+                     data-widget-custombutton="false"
+                     data-widget-deletebutton="false"
+                     data-widget-colorbutton="false">
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Reports</h2>
+                    </header>
+
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="widget-body">
+                                <table class="table table-striped table-bordered table-hover" id="dt_basic">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.GUID)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ReportName)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Definition)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Status)
+                                            </th>
+                                            <th>
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.GUID)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ReportName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Definition)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Status)
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a href="@Url.Action("CustomiseReport", "Reports", new { metaReportId = item.MetaReportId })" class="btn btn-default btn-sm">Customise</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </article>
+
+            <article class="col-sm-12 col-md-12 col-lg-3">
+                <div class="well no-padding" style="height:150px;">
+                    <h2 style="font-weight:bold; text-align:center;">Quick Links</h2>
+                    <fieldset>
+                        <div class="smart-form">
+                            <section class="col col-6">
+                                <a href="@Url.Action("CustomiseReport", "Reports", new { metaReportId = 0 })" class="btn btn-default btn-sm">Add Report</a>
+                            </section>
+                        </div>
+                    </fieldset>
+                </div>
+            </article>
+
+        </div>
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->

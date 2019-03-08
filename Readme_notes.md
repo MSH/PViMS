@@ -876,3 +876,6 @@ SL-0061 - Ability to detect duplicate conditions
 ** Changed page icon from stethoscope to dashboard for E2B views in analytical portal
 ** Update invalid properties list for meta refresh (patient)
 ** E2B calculation for spontaneous reports - Structured Dosage auto calculated
+
+** 1.19.0/20190306
+** Refactoring of report configuration tool (include delete and publish function)

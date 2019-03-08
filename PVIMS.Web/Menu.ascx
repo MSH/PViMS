@@ -39,7 +39,7 @@
                 </ul>
             </li>
 			<li id="reportlist" runat="server" visible="false">
-                <a href="/Reports/ReportList.aspx"><span class="menu-item-parent"><i class="fa fa-lg fa-fw fa-windows"></i>Report List</span></a>
+                <a href="/Reports/Index"><i class="fa fa-lg fa-fw fa-windows"></i><span class="menu-item-parent">Report List</span></a>
 			</li>
 		</ul>
         <span id="spnCustomReportList" runat="server"></span>

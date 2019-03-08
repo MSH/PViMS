@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="smart-form">
                             <section class="col col-3">
-                                <span class="label" style="padding:5px; background-color:lightgray;"> <b> Onset Date </b> </span>
+                                <span class="label" style="padding:5px; background-color:#F1F1F1;"> <b> Onset Date </b> </span>
                             </section>
                             <section class="col col-6">
                                 <label runat="server" id="lblOnsetDate" class="input" style="padding:5px;">
@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="smart-form">
                             <section class="col col-3">
-                                <span class="label" style="padding:5px; background-color:lightgray;"> <b> Facility Level MedDRA Term </b> </span>
+                                <span class="label" style="padding:5px; background-color:#F1F1F1;"> <b> Facility Level MedDRA Term </b> </span>
                             </section>
                             <section class="col col-6">
                                 <label runat="server" id="lblSource" class="input" style="padding:5px;">
@@ -36,7 +36,7 @@
                     <div class="row" id="divSelection" runat="server" visible="false">
                         <div class="smart-form">
                             <section class="col col-3">
-                                <span class="label" style="padding:5px; background-color:lightgray;"> <b> Central Level MedDRA Term </b> </span>
+                                <span class="label" style="padding:5px; background-color:#F1F1F1;"> <b> Central Level MedDRA Term </b> </span>
                             </section>
                             <section class="col col-6">
                                 <label runat="server" id="lblSelection" class="input" style="padding:5px;">
@@ -64,7 +64,7 @@
                             <div class="row">
                                 <div class="smart-form">
                                     <section class="col col-2">
-                                        <span class="label" style="padding:5px; background-color:lightgray;"> <b> Certain </b> </span>
+                                        <span class="label" style="padding:5px; background-color:#F1F1F1;"> <b> Certain </b> </span>
                                     </section>
                                     <section class="col col-4">
                                         <label runat="server" id="lblUniqueID" class="input">
@@ -72,7 +72,7 @@
                                         </label>
                                     </section>
                                     <section class="col col-2">
-                                        <span class="label" style="padding:5px; background-color:lightgray;"> <b> Probable/Likely </b> </span>
+                                        <span class="label" style="padding:5px; background-color:#F1F1F1;"> <b> Probable/Likely </b> </span>
                                     </section>
                                     <section class="col col-4">
                                         <label runat="server" id="Label1" class="input">
@@ -84,7 +84,7 @@
                             <div class="row">
                                 <div class="smart-form">
                                     <section class="col col-2">
-                                        <span class="label" style="padding:5px; background-color:lightgray;"> <b> Possible </b> </span>
+                                        <span class="label" style="padding:5px; background-color:#F1F1F1;"> <b> Possible </b> </span>
                                     </section>
                                     <section class="col col-4">
                                         <label runat="server" id="Label2" class="input">
@@ -92,7 +92,7 @@
                                         </label>
                                     </section>
                                     <section class="col col-2">
-                                        <span class="label" style="padding:5px; background-color:lightgray;"> <b> Unlikely </b> </span>
+                                        <span class="label" style="padding:5px; background-color:#F1F1F1;"> <b> Unlikely </b> </span>
                                     </section>
                                     <section class="col col-4">
                                         <label runat="server" id="Label3" class="input">
@@ -104,7 +104,7 @@
                             <div class="row">
                                 <div class="smart-form">
                                     <section class="col col-2">
-                                        <span class="label" style="padding:5px; background-color:lightgray;"> <b> Conditional </b> </span>
+                                        <span class="label" style="padding:5px; background-color:#F1F1F1;"> <b> Conditional </b> </span>
                                     </section>
                                     <section class="col col-4">
                                         <label runat="server" id="Label4" class="input">
@@ -112,7 +112,7 @@
                                         </label>
                                     </section>
                                     <section class="col col-2">
-                                        <span class="label" style="padding:5px; background-color:lightgray;"> <b> Unassessable </b> </span>
+                                        <span class="label" style="padding:5px; background-color:#F1F1F1;"> <b> Unassessable </b> </span>
                                     </section>
                                     <section class="col col-4">
                                         <label runat="server" id="Label5" class="input">

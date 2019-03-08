@@ -8,10 +8,10 @@ using System.Data.SqlClient;
 
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using System.Web;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Xml;
@@ -41,6 +41,8 @@ namespace PVIMS.Web
         private List<FilterStructure> _filters = new List<FilterStructure>();
         private List<ListStructure> _lists = new List<ListStructure>();
 
+        private bool _isPublisher = false;
+
         enum ReportType
         {
             None,
@@ -51,6 +53,8 @@ namespace PVIMS.Web
 
         protected void Page_Init(object sender, EventArgs e)
         {
+            if (HttpContext.Current.User.IsInRole("ReporterAdmin")) { _isPublisher = true; }
+
             if (Request.QueryString["id"] != null)
             {
                 _id = Convert.ToInt32(Request.QueryString["id"]);
@@ -88,7 +92,7 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.MainMenu.SetActive("ReportAdmin");
-            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Custom Reports", SubTitle = _metaReport.ReportName, Icon = "fa fa-file-text-o fa-fw" });
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Custom Reports", SubTitle = _metaReport.ReportName, Icon = "fa fa-file-text-o fa-fw", MetaReportId = _isPublisher ? _metaReport.Id : 0 });
         }
 
         #region "Preparation"
@@ -110,13 +114,16 @@ namespace PVIMS.Web
                 _reportType = ReportType.Summary;
 
                 mainNode = rootNode.SelectSingleNode("//Summary");
-                foreach (XmlNode subNode in mainNode.ChildNodes)
+                if (mainNode != null)
                 {
-                    StratifyStructure strat = new StratifyStructure();
-                    strat.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
-                    strat.AttributeName = subNode.Attributes["AttributeName"].Value;
-                    strat.DisplayName = subNode.Attributes["DisplayName"].Value;
-                    _strats.Add(strat);
+                    foreach (XmlNode subNode in mainNode.ChildNodes)
+                    {
+                        StratifyStructure strat = new StratifyStructure();
+                        strat.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
+                        strat.AttributeName = subNode.Attributes["AttributeName"].Value;
+                        strat.DisplayName = subNode.Attributes["DisplayName"].Value;
+                        _strats.Add(strat);
+                    }
                 }
             }
             else
@@ -124,27 +131,32 @@ namespace PVIMS.Web
                 _reportType = ReportType.Listing;
 
                 mainNode = rootNode.SelectSingleNode("//List");
-                foreach (XmlNode subNode in mainNode.ChildNodes)
+                if(mainNode != null)
                 {
-                    ListStructure list = new ListStructure();
-                    list.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
-                    list.AttributeName = subNode.Attributes.GetNamedItem("AttributeName").Value;
-                    list.DisplayName = subNode.Attributes.GetNamedItem("DisplayName").Value;
-                    _lists.Add(list);
+                    foreach (XmlNode subNode in mainNode.ChildNodes)
+                    {
+                        ListStructure list = new ListStructure();
+                        list.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
+                        list.AttributeName = subNode.Attributes.GetNamedItem("AttributeName").Value;
+                        list.DisplayName = subNode.Attributes.GetNamedItem("DisplayName").Value;
+                        _lists.Add(list);
+                    }
                 }
             }
 
             // filter
             mainNode = rootNode.SelectSingleNode("//Filter");
-            foreach (XmlNode subNode in mainNode.ChildNodes)
+            if (mainNode != null)
             {
-                FilterStructure filter = new FilterStructure();
-                filter.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
-                filter.AttributeName = subNode.Attributes.GetNamedItem("AttributeName").Value;
-                filter.Operator = subNode.Attributes.GetNamedItem("Operator").Value;
-                filter.Relation = subNode.Attributes.GetNamedItem("Relation").Value;
-                filter.FilterValue = subNode.Attributes.GetNamedItem("Value").Value;
-                _filters.Add(filter);
+                foreach (XmlNode subNode in mainNode.ChildNodes)
+                {
+                    FilterStructure filter = new FilterStructure();
+                    filter.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
+                    filter.AttributeName = subNode.Attributes.GetNamedItem("AttributeName").Value;
+                    filter.Operator = subNode.Attributes.GetNamedItem("Operator").Value;
+                    filter.Relation = subNode.Attributes.GetNamedItem("Relation").Value;
+                    _filters.Add(filter);
+                }
             }
         }
 
@@ -154,7 +166,7 @@ namespace PVIMS.Web
             {
                 HtmlGenericControl span = new HtmlGenericControl("span");
                 span.Attributes.Add("class", "label");
-                span.Attributes.Add("style", "padding:5px; background-color:lightgray; text-align:center;");
+                span.Attributes.Add("style", "padding:5px; background-color:#F1F1F1; text-align:center;");
                 span.InnerText = "NO FILTERS CONFIGURED";
 
                 spnFilter.Controls.Add(span);
@@ -1146,5 +1158,28 @@ namespace PVIMS.Web
 
         #endregion
 
+    }
+
+    public class ListStructure
+    {
+        public int MetaColumnId { get; set; }
+        public string AttributeName { get; set; }
+        public string DisplayName { get; set; }
+    }
+
+    public class StratifyStructure
+    {
+        public int MetaColumnId { get; set; }
+        public string AttributeName { get; set; }
+        public string DisplayName { get; set; }
+    }
+
+    public class FilterStructure
+    {
+        public int MetaColumnId { get; set; }
+        public string Relation { get; set; }
+        public string AttributeName { get; set; }
+        public string Operator { get; set; }
+        public string FilterValue { get; set; }
     }
 }

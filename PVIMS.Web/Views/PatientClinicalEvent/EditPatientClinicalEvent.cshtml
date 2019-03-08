@@ -112,7 +112,7 @@
                                 <section>
                                     @Html.LabelFor(model => model.EventAgeGroup, htmlAttributes: new { @class = "label" })
                                     <label class="input">
-                                        @Html.EditorFor(model => model.EventAgeGroup, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                        @Html.EditorFor(model => model.EventAgeGroup, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
                                     </label>
                                     @Html.ValidationMessageFor(model => model.EventAgeGroup, "", new { @class = "text-danger" })
                                 </section>
@@ -128,7 +128,7 @@
                                 <section>
                                     @Html.LabelFor(model => model.EventDuration, htmlAttributes: new { @class = "label" })
                                     <label class="input">
-                                        @Html.EditorFor(model => model.EventDuration, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                        @Html.EditorFor(model => model.EventDuration, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
                                     </label>
                                     @Html.ValidationMessageFor(model => model.EventDuration, "", new { @class = "text-danger" })
                                 </section>

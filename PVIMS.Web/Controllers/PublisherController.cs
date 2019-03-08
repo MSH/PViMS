@@ -40,7 +40,6 @@ namespace PVIMS.Web.Controllers
         {
             ViewBag.MenuItem = CurrentMenuItem;
 
-            // Prepare clinical event
             var metaPage = _unitOfWork.Repository<MetaPage>()
                 .Queryable()
                 .SingleOrDefault(p => p.Id == metaPageId);

@@ -209,7 +209,7 @@
                                     <div class="row">
                                         <div class="smart-form">
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Exposed </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Exposed </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label5" class="input">
@@ -217,7 +217,7 @@
                                                 </label>
                                             </section>
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Unexposed </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Unexposed </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label6" class="input">
@@ -229,7 +229,7 @@
                                     <div class="row">
                                         <div class="smart-form">
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Cases </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Cases </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label7" class="input">
@@ -237,7 +237,7 @@
                                                 </label>
                                             </section>
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Non-Cases </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Non-Cases </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label8" class="input">
@@ -249,7 +249,7 @@
                                     <div class="row">
                                         <div class="smart-form">
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Population </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Population </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label1" class="input">
@@ -257,7 +257,7 @@
                                                 </label>
                                             </section>
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> IR </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> IR </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="lblIncidenceRate" class="input">
@@ -269,7 +269,7 @@
                                     <div class="row">
                                         <div class="smart-form">
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Unadj. RR </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Unadj. RR </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label3" class="input">
@@ -277,7 +277,7 @@
                                                 </label>
                                             </section>
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Adj. RR </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Adj. RR </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label9" class="input">
@@ -604,7 +604,9 @@
             $('#modal-download').click(function () {
                 $('#dialog-message-download').dialog('open');
                 return false;
-            });            $("#dialog-message-download").dialog({
+            });
+
+            $("#dialog-message-download").dialog({
                 autoOpen: false,
                 modal: true,
                 title: "Confirm",
@@ -641,7 +643,8 @@
                         });
                     }
                 }]
-            });
+            });
+
 		});
 
         $("#ddlCohort").change(function () {

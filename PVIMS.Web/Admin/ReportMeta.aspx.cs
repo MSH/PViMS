@@ -28,7 +28,9 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("AdminReport");
-            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report Meta Data", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaPageId = 0 });
+
+            var config = _infrastructureService.GetOrCreateConfig(ConfigType.MetaDataLastUpdated);
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report Meta Data", SubTitle = "", Icon = "fa fa-windows fa-fw", MetaDataLastUpdated = config.ConfigValue });
 
             if (!Page.IsPostBack)
             {
@@ -475,7 +477,7 @@ namespace PVIMS.Web
         {
             Type type = obj.GetType();
             PropertyInfo[] properties = type.GetProperties();
-            var invalidProperties = new[] { "CustomAttributesXmlSerialised", "Archived", "ArchivedReason", "ArchivedDate", "AuditUser", "Age", "FullName", "DisplayName" };
+            var invalidProperties = new[] { "CustomAttributesXmlSerialised", "Archived", "ArchivedReason", "ArchivedDate", "AuditUser", "Age", "FullName", "DisplayName", "CurrentFacilityName", "LatestEncounterDate" };
 
             var metaTable = UnitOfWork.Repository<MetaTable>().Queryable().Single(mt => mt.TableName == entityName);
             var attributes = UnitOfWork.Repository<CustomAttributeConfiguration>().Queryable().Where(c => c.ExtendableTypeName == entityName).OrderBy(c => c.Id).ToList();
@@ -782,7 +784,7 @@ namespace PVIMS.Web
         {
             Type type = obj.GetType();
             PropertyInfo[] properties = type.GetProperties();
-            var invalidProperties = new[] { "CustomAttributesXmlSerialised", "Archived", "ArchivedReason", "ArchivedDate", "AuditUser", "Age", "FullName", "AgeGroup", "DisplayName" };
+            var invalidProperties = new[] { "CustomAttributesXmlSerialised", "Archived", "ArchivedReason", "ArchivedDate", "AuditUser", "Age", "FullName", "AgeGroup", "DisplayName", "CurrentFacilityName", "LatestEncounterDate" };
 
             var metaTable = UnitOfWork.Repository<MetaTable>().Queryable().Single(mt => mt.TableName == entityName);
 

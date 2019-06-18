@@ -1,0 +1,390 @@
+﻿@model PVIMS.Web.Models.MetaReportAttributeModel
+
+@{
+    ViewBag.Title = "Custom Reports";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa-windows";
+    ViewBag.Heading = "Custom Reports";
+    ViewBag.SubHeading = "View List Attributes";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalColour = "white"; ViewBag.AnalyticalColour = "white"; ViewBag.ReportingColour = "orange"; ViewBag.PublisherColour = "white"; ViewBag.AdminColour = "white";
+}
+
+@section breadcrumb
+{
+}
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <div class="row">
+
+        <article class="col-sm-12 col-md-12 col-lg-6">
+            <div class="well no-padding" style="height:auto;">
+                <h2 style="font-weight:bold; text-align:center;">Report Details</h2>
+                <fieldset>
+                    <div class="smart-form">
+                        <section class="col col-6">
+                            @Html.LabelFor(model => model.ReportName)
+                            <label class="input">
+                                @Html.EditorFor(model => model.ReportName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
+                            </label>
+                        </section>
+                        <section class="col col-lg-12">
+                            @Html.LabelFor(model => model.ReportDefinition)
+                            <label class="input">
+                                @Html.EditorFor(model => model.ReportDefinition, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
+                            </label>
+                        </section>
+                        <section class="col col-6">
+                            @Html.LabelFor(model => model.ReportTypeDisplay)
+                            <label class="input">
+                                @Html.EditorFor(model => model.ReportTypeDisplay, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
+                            </label>
+                        </section>
+                        <section class="col col-6">
+                            @Html.LabelFor(model => model.CoreEntityDisplay)
+                            <label class="input">
+                                @Html.EditorFor(model => model.CoreEntityDisplay, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
+                            </label>
+                        </section>
+                    </div>
+                </fieldset>
+            </div>
+        </article>
+
+        <article class="col-sm-12 col-md-12 col-lg-3">
+            <div class="well no-padding" style="height:150px;">
+                <h2 style="font-weight:bold; text-align:center;">Quick Links</h2>
+                <fieldset>
+                    <div class="smart-form">
+                        <section class="col col-6">
+                            <a href="@Url.Action("CustomiseReport", "Reports", new { metaReportId = Model.MetaReportId })" class="btn btn-default btn-sm" style="width:150px;">Return to Report</a>
+                        </section>
+                    </div>
+                </fieldset>
+            </div>
+        </article>
+
+    </div>
+
+    @if (Model.ViewType == PVIMS.Web.Models.ViewType.List)
+    {
+        <div class="row">
+
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+
+                <div class="well no-padding" style="height:auto;">
+                    <h2 style="font-weight:bold; text-align:center;">List Attributes</h2>
+
+                    <div class="well-sm">
+                        @using (Html.BeginForm("ReportAttributeItem", "Reports", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form1" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.HiddenFor(m => m.MetaReportId)
+                                @Html.HiddenFor(m => m.ReportType)
+                                @Html.HiddenFor(m => m.CoreEntity)
+                                @Html.HiddenFor(m => m.ViewType)
+                            </div>
+
+                            <fieldset>
+                                <div class="smart-form">
+                                    <section class="col col-4">
+                                        @Html.LabelFor(m => m.MetaColumnForListId)
+                                        <div class="input">
+                                            @Html.DropDownListFor(m => m.MetaColumnForListId, (List<SelectListItem>)ViewBag.MetaColumns, new { @class = "form-control" })
+                                        </div>
+                                    </section>
+                                    <section class="col col-4">
+                                        @Html.LabelFor(m => m.DisplayForList)
+                                        <div class="input">
+                                            @Html.EditorFor(model => model.DisplayForList, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </section>
+                                    <section class="col col-3">
+                                        <br />
+                                        <input type="submit" class="btn btn-default btn-sm" value="Add Column" />
+                                    </section>
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                    <table class="table table-striped table-bordered table-hover" id="dt_basic">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Attribute Name
+                                </th>
+                                <th>
+                                    Display Name
+                                </th>
+                                <th>
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ListItems)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AttributeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DisplayName)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("RemoveMetaColumn", new { metaReportId = Model.MetaReportId, metaColumnId = item.MetaColumnId, viewType = Convert.ToInt32(Model.ViewType) })" class="btn btn-default btn-sm">Remove Column</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </article>
+
+        </div>
+    }
+
+    @if (Model.ViewType == PVIMS.Web.Models.ViewType.Summary)
+    {
+        <div class="row">
+
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+
+                <div class="well no-padding" style="height:auto;">
+                    <h2 style="font-weight:bold; text-align:center;">Summary Attributes</h2>
+
+                    <div class="well-sm">
+                        @using (Html.BeginForm("ReportAttributeItem", "Reports", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form1" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.HiddenFor(m => m.MetaReportId)
+                                @Html.HiddenFor(m => m.ReportType)
+                                @Html.HiddenFor(m => m.CoreEntity)
+                                @Html.HiddenFor(m => m.ViewType)
+                            </div>
+
+                            <fieldset>
+                                <div class="smart-form">
+                                    <section class="col col-4">
+                                        @Html.LabelFor(m => m.MetaColumnForSummaryId)
+                                        <div class="input">
+                                            @Html.DropDownListFor(m => m.MetaColumnForSummaryId, (List<SelectListItem>)ViewBag.MetaColumns, new { @class = "form-control" })
+                                        </div>
+                                    </section>
+                                    <section class="col col-4">
+                                        @Html.LabelFor(m => m.DisplayForSummary)
+                                        <div class="input">
+                                            @Html.EditorFor(model => model.DisplayForSummary, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </section>
+                                    <section class="col col-3">
+                                        <br />
+                                        <input type="submit" class="btn btn-default btn-sm" value="Add Column" />
+                                    </section>
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                    <table class="table table-striped table-bordered table-hover" id="dt_basic">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Attribute Name
+                                </th>
+                                <th>
+                                    Display Name
+                                </th>
+                                <th>
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.StratifyItems)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AttributeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DisplayName)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("RemoveMetaColumn", new { metaReportId = Model.MetaReportId, metaColumnId = item.MetaColumnId, viewType = Convert.ToInt32(Model.ViewType) })" class="btn btn-default btn-sm">Remove Column</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </article>
+
+        </div>
+    }
+
+    @if (Model.ViewType == PVIMS.Web.Models.ViewType.Filter)
+    {
+        <div class="row">
+
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+
+                <div class="well no-padding" style="height:auto;">
+                    <h2 style="font-weight:bold; text-align:center;">Filter Attributes</h2>
+
+                    <div class="well-sm">
+                        @using (Html.BeginForm("ReportAttributeItem", "Reports", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Form1" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.HiddenFor(m => m.MetaReportId)
+                                @Html.HiddenFor(m => m.ReportType)
+                                @Html.HiddenFor(m => m.CoreEntity)
+                                @Html.HiddenFor(m => m.ViewType)
+                            </div>
+
+                            <fieldset>
+                                <div class="smart-form">
+                                    <section class="col col-2">
+                                        @Html.LabelFor(model => model.Relation)
+                                        <label class="input">
+                                            @Html.DropDownListFor(model => model.Relation, (IEnumerable<SelectListItem>)ViewBag.Relationships, new { @class = "form-control" })
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.Relation, "", new { @class = "text-danger" })
+                                    </section>
+                                    <section class="col col-4">
+                                        @Html.LabelFor(m => m.MetaColumnForFilterId)
+                                        <div class="input">
+                                            @Html.DropDownListFor(m => m.MetaColumnForFilterId, (List<SelectListItem>)ViewBag.MetaColumns, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.MetaColumnForFilterId, "", new { @class = "text-danger" })
+                                    </section>
+                                    <section class="col col-4">
+                                        @Html.LabelFor(model => model.Operator)
+                                        <label class="input">
+                                            @Html.DropDownListFor(model => model.Operator, (IEnumerable<SelectListItem>)ViewBag.Operators, new { @class = "form-control" })
+                                        </label>
+                                        @Html.ValidationMessageFor(model => model.Operator, "", new { @class = "text-danger" })
+                                    </section>
+                                    <section class="col col-2">
+                                        <br />
+                                        <input type="submit" class="btn btn-default btn-sm" value="Add Column" />
+                                    </section>
+                                </div>
+                            </fieldset>
+                        }
+                    </div>
+                    <table class="table table-striped table-bordered table-hover" id="dt_basic">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Relationship
+                                </th>
+                                <th>
+                                    Attribute Name
+                                </th>
+                                <th>
+                                    Operator
+                                </th>
+                                <th>
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.FilterItems)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Relation)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AttributeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Operator)
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("RemoveMetaColumn", new { metaReportId = Model.MetaReportId, metaColumnId = item.MetaColumnId, viewType = Convert.ToInt32(Model.ViewType) })" class="btn btn-default btn-sm">Remove Column</a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- end widget -->
+
+            </article>
+
+        </div>
+    }
+
+</section>
+<!-- end widget grid -->
+
+@section scripts{
+
+<script>
+
+    $("#MetaColumnForFilterId").change(function () {
+
+        // Clear all operator values and default with existing selection item
+        var operators = $('#Operator');
+        operators.empty();
+        // Reload initial selection value for operator
+
+
+        if ($(this).val() > 0) {
+            $.ajax({
+                type: "GET",
+                url: "/Reports/GetOperatorList",
+                data: {
+                    metaColumnId: $("#MetaColumnForFilterId").val()
+                },
+                beforeSend: function () {
+                    operators.attr("disabled", true);
+                },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    setTimeout(
+                        function () {
+                            operators.attr("disabled", false);
+
+                            operators.empty();
+                            operators.append(
+                                $('<option>', {
+                                    value: "",
+                                    text: "-- Please select an operator --"
+                                }, '</option>'));
+
+                            for (var i = 0; i < data.length; i++) {
+                                operators.append(
+                                    $('<option>', {
+                                        value: data[i].Value,
+                                        text: data[i].Text
+                                    }, '</option>'));
+                            }
+                        }, 1000);
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        }
+
+    });
+
+</script>
+
+}

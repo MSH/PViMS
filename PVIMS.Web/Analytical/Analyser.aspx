@@ -6,6 +6,35 @@
 <asp:Content runat="server" ID="Breadcrumbcontainer" ContentPlaceHolderID="breadcrumbcontainer"></asp:Content>
 
 <asp:Content runat="server" ID="Body" ClientIDMode="Static" ContentPlaceHolderID="BodyContentPlaceHolder">
+
+    <style>
+
+        .Waiting {
+          display: block;
+          visibility: visible;
+          position: absolute;
+          z-index: 999;
+          top: 0px;
+          left: 0px;
+          width: 105%;
+          height: 105%;
+          background-color:white;
+          vertical-align:bottom;
+          padding-top: 20%;
+          filter: alpha(opacity=75);
+          opacity: 0.75;
+          font-size:large;
+          color:blue;
+          font-style:italic;
+          font-weight:400;
+          background-image: url("/img/loading-red.gif");
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-position: center;
+          }
+
+    </style>
+
     <asp:HiddenField runat="server" ID="hfPosition" Value="" />
 
     <section novalidate>
@@ -19,7 +48,6 @@
 
                     <div class="jarviswidget" id="wid-id-1"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
 						<header>
-							<span class="widget-icon"> <i class="fa fa-comments"></i> </span>
 							<h2>Analysis Criteria for Active Reporting  </h2>
 						</header>
 								
@@ -79,15 +107,15 @@
 									            <div class="row">
                                                     <section class="col col-6">
 										                <label runat="server" id="lblCohort" class="input">Cohort
-				                                            <asp:DropDownList ID="ddlCohort" name="ddlCohort" runat="server" Style="color: black" CssClass="form-control" OnSelectedIndexChanged="ddlCohort_SelectedIndexChanged" AutoPostBack="true">
+				                                            <asp:DropDownList ID="ddlCohort" name="ddlCohort" runat="server" Style="color: black" CssClass="form-control">
                                                                 <asp:ListItem Selected="True" Text="" Value="0"></asp:ListItem>
 				                                            </asp:DropDownList>
                                                         </label>
                                                     </section>
 									            </div>
-									            <div class="row" style="padding:10px;" id="divCohort" runat="server" visible ="false">
+									            <div class="row" style="padding:10px;" id="divCohort">
                                                     <section class="col col-6">
-                                                        <span id="spnCohort" runat="server">
+                                                        <span id="spnCohort" id="spnCohort">
                                                         </span>
                                                     </section>
 									            </div>
@@ -181,7 +209,7 @@
                                     <div class="row">
                                         <div class="smart-form">
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Exposed </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Exposed </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label5" class="input">
@@ -189,7 +217,7 @@
                                                 </label>
                                             </section>
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Unexposed </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Unexposed </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label6" class="input">
@@ -201,7 +229,7 @@
                                     <div class="row">
                                         <div class="smart-form">
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Cases </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Cases </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label7" class="input">
@@ -209,7 +237,7 @@
                                                 </label>
                                             </section>
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Non-Cases </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Non-Cases </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label8" class="input">
@@ -221,7 +249,7 @@
                                     <div class="row">
                                         <div class="smart-form">
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Population </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Population </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label1" class="input">
@@ -229,7 +257,7 @@
                                                 </label>
                                             </section>
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> IR </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> IR </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="lblIncidenceRate" class="input">
@@ -241,7 +269,7 @@
                                     <div class="row">
                                         <div class="smart-form">
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Unadj. RR </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Unadj. RR </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label3" class="input">
@@ -249,7 +277,7 @@
                                                 </label>
                                             </section>
                                             <section class="col col-2">
-                                                <span class="label" style="padding:4px; background-color:lightgray;"> <b> Adj. RR </b> </span>
+                                                <span class="label" style="padding:4px; background-color:#F1F1F1;"> <b> Adj. RR </b> </span>
                                             </section>
                                             <section class="col col-4">
                                                 <label runat="server" id="Label9" class="input">
@@ -268,7 +296,7 @@
                                     </div>
                                     <div class="smart-form">
 								        <footer>
-                                            <a href="../FileDownload/DownloadActiveDataset" class="btn btn-primary">Download Dataset</a>
+                                            <a href="javascript:void(0);" class="btn btn-primary" id="modal-download">Download Dataset</a>
 								        </footer>
                                     </div>
                                 </div>
@@ -393,7 +421,6 @@
 
                     <div class="jarviswidget" id="wid-id-5"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
 						<header>
-							<span class="widget-icon"> <i class="fa fa-comments"></i> </span>
 							<h2>Results</h2>
 						</header>
 								
@@ -453,7 +480,6 @@
                     <div class="jarviswidget" id="wid-id-6"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
 
 						<header>
-							<span class="widget-icon"> <i class="fa fa-comments"></i> </span>
 							<h2>Patient List</h2>
 						</header>
 								
@@ -507,6 +533,23 @@
 
     </section>
 
+    <!-- use this modal to run the dataset download -->
+    <div id="dialog-message-download" title="Dialog Simple Title">
+	    <p>
+		    Please select a cohort that you would like to download the extract for ...
+	    </p>
+		<div class="form-group">
+			<label for="CohortGroupId">Cohort Group:</label>
+			<select class="input-sm" id="CohortGroupId" name="CohortGroupId">
+			</select>
+		</div>
+
+	    <div class="hr hr-12 hr-double"></div>
+	
+    </div><!-- #dialog-message -->
+
+    <div id="waitingScreen"  class="Waiting"></div>.
+
 </asp:Content>
 
 <asp:Content runat="server" ID="Scripts" ContentPlaceHolderID="scriptsPlaceholder">
@@ -525,6 +568,96 @@
                 f.val(position);
             };
         });
+    </script>
+
+    <script>
+
+        $(window).on('load', function () {
+            $("#waitingScreen").hide();
+            });
+
+        $("#btnAnalyse").click(function () {
+            $("#waitingScreen").show();
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+		$(function () {
+			$.ajax({
+				type: "GET",
+				url: "../Api/CohortApi/GetCohortGroups",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				async: false,
+				success: function (data) {
+					$('#CohortGroupId').empty();
+
+                    $('#CohortGroupId').append('<option value="0">-- All Cohorts --</option>');
+					$.each(data, function (index, item) {
+                        $('#CohortGroupId').append('<option value="' + item.Id + '">' + item.CohortName + '</option>');
+					});
+				}
+            });
+
+            $('#modal-download').click(function () {
+                $('#dialog-message-download').dialog('open');
+                return false;
+            });
+
+            $("#dialog-message-download").dialog({
+                autoOpen: false,
+                modal: true,
+                title: "Confirm",
+                buttons: [{
+                    html: "Cancel",
+                    "class": "btn btn-default",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }, {
+                    html: "<i class='fa fa-check'></i>&nbsp; OK",
+                    "class": "btn btn-primary",
+                    click: function () {
+                        $(this).dialog("close");
+
+                        $.ajax({
+                            url: "../FileDownload/DownloadActiveDataset",
+                            data: { cohortGroupId: $('#CohortGroupId').val() },
+                            cache: false, 
+                            type: "POST",
+                            dataType: "html",
+                            beforeSend: function () {
+                                $("#waitingScreen").show();
+                            },
+                            success: function (data, textStatus, XMLHttpRequest) {
+                                var response = JSON.parse(data);
+
+                                var response = JSON.parse(data);
+                                $("#waitingScreen").hide();
+                                window.location = "../FileDownload/DownloadExcelFile?fileName=" + response.FileName;
+                            },
+                            error: function () {
+                            }
+                        });
+                    }
+                }]
+            });
+
+		});
+
+        $("#ddlCohort").change(function () {
+            $("#spnCohort").empty();
+            var cohortId = $(this).val();
+            if (cohortId > 0) {
+            $.getJSON("../../Api/AnalyserApi/GetCohortDetails", { id: cohortId },
+                function (data) {
+                    $("#spnCohort").html(data);
+                });
+            }
+        });
+
     </script>
 
 </asp:Content>

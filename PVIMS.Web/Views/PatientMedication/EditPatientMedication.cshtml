@@ -63,14 +63,14 @@
                                 <section>
                                     @Html.LabelFor(model => model.Medication, htmlAttributes: new { @class = "label" })
                                     <label class="input">
-                                        @Html.EditorFor(model => model.Medication, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                        @Html.EditorFor(model => model.Medication, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
                                     </label>
                                     @Html.ValidationMessageFor(model => model.Medication, "", new { @class = "text-danger" })
                                 </section>
                                 <section>
                                     @Html.LabelFor(model => model.MedicationForm, htmlAttributes: new { @class = "label" })
                                     <label class="input">
-                                        @Html.EditorFor(model => model.MedicationForm, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                        @Html.EditorFor(model => model.MedicationForm, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
                                     </label>
                                 </section>
 

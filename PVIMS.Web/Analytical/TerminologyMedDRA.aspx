@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="smart-form">
                             <section class="col col-4">
-                                <span class="label" style="padding:5px; background-color:lightgray;" id="lblVerbatimLabel" runat="server"> </span>
+                                <span class="label" style="padding:5px; background-color:#F1F1F1;" id="lblVerbatimLabel" runat="server"> </span>
                             </section>
                             <section class="col col-8">
                                 <label runat="server" id="lblVerbatim" class="input" style="padding:5px;">
@@ -24,7 +24,7 @@
                     <div class="row" id="divSource" runat="server" style="display:block;">
                         <div class="smart-form">
                             <section class="col col-4">
-                                <span class="label" style="padding:5px; background-color:lightgray;"> <b> Facility Level MedDRA Term </b> </span>
+                                <span class="label" style="padding:5px; background-color:#F1F1F1;"> <b> Facility Level MedDRA Term </b> </span>
                             </section>
                             <section class="col col-8">
                                 <label runat="server" id="lblSource" class="input" style="padding:5px;">

@@ -27,10 +27,10 @@
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
 
                 <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget well" id="wid-id-0" 
-                     data-widget-editbutton="false" 
-                     data-widget-custombutton="false" 
-                     data-widget-deletebutton="false" 
+                <div class="jarviswidget well" id="wid-id-0"
+                     data-widget-editbutton="false"
+                     data-widget-custombutton="false"
+                     data-widget-deletebutton="false"
                      data-widget-colorbutton="false">
 
                     <header>
@@ -109,32 +109,32 @@
                                                 <td>
                                                     @if (item.PatientSummaryFileId > 0 || item.E2bXmlFileId > 0)
                                                     {
-                                                    <div class="btn-group">
-                                                        <button data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">
-                                                            Action
-                                                            <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu pull-right">
-                                                            @if (item.PatientSummaryFileId > 0)
-                                                            {
-                                                                <li>
-                                                                    <a href="@Url.Action("DownloadSingleAttachment", "FileDownload", new { attid = item.PatientSummaryFileId })">View Patient Summary</a>
-                                                                </li>
-                                                            }
-                                                            @if (item.PatientExtractFileId > 0)
-                                                            {
-                                                                <li>
-                                                                    <a href="@Url.Action("DownloadSingleAttachment", "FileDownload", new { attid = item.PatientExtractFileId })">View Patient Extract</a>
-                                                                </li>
-                                                            }
-                                                            @if (item.E2bXmlFileId > 0)
-                                                            {
-                                                                <li>
-                                                                    <a href="@Url.Action("DownloadSingleAttachment", "FileDownload", new { attid = item.E2bXmlFileId })">View E2B File</a>
-                                                                </li>
-                                                            }
-                                                        </ul>
-                                                    </div>
+                                                        <div class="btn-group">
+                                                            <button data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">
+                                                                Action
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu pull-right">
+                                                                @if (item.PatientSummaryFileId > 0)
+                                                                {
+                                                                    <li>
+                                                                        <a href="@Url.Action("DownloadSingleAttachment", "FileDownload", new { attid = item.PatientSummaryFileId })">View Patient Summary</a>
+                                                                    </li>
+                                                                }
+                                                                @if (item.PatientExtractFileId > 0)
+                                                                {
+                                                                    <li>
+                                                                        <a href="@Url.Action("DownloadSingleAttachment", "FileDownload", new { attid = item.PatientExtractFileId })">View Patient Extract</a>
+                                                                    </li>
+                                                                }
+                                                                @if (item.E2bXmlFileId > 0)
+                                                                {
+                                                                    <li>
+                                                                        <a href="@Url.Action("DownloadSingleAttachment", "FileDownload", new { attid = item.E2bXmlFileId })">View E2B File</a>
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                        </div>
                                                     }
                                                 </td>
                                             </tr>
@@ -148,15 +148,25 @@
                         <!-- end widget content -->
                     </div>
                     <!-- end widget div -->
-                    <footer>
-                        <a href="@ViewBag.ReturnUrl" class="btn btn-default">Back</a>
-                    </footer>
 
                 </div>
                 <!-- end widget -->
 
             </article>
             <!-- WIDGET END -->
+
+            <article class="col-sm-12 col-md-12 col-lg-3">
+                <div class="well no-padding" style="height:150px;">
+                    <h2 style="font-weight:bold; text-align:center;">Quick Links</h2>
+                    <fieldset>
+                        <div class="smart-form">
+                            <section class="col col-6">
+                                <a href="@ViewBag.ReturnUrl" class="btn btn-default btn-sm">Return to Report List</a>
+                            </section>
+                        </div>
+                    </fieldset>
+                </div>
+            </article>
 
         </div>
         <!-- end row -->

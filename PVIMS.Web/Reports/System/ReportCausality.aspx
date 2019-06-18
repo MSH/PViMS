@@ -87,15 +87,15 @@
                             </div>
                             <asp:Table id="dt_basic" runat="server" ClientIDMode="Static" class="table table-striped table-bordered table-hover"  width="100%">
                                 <asp:TableHeaderRow TableSection="TableHeader">
-                                    <asp:TableHeaderCell>First Name</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Last Name</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Facility</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Adverse Event</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Serious</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Onset Date</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Medication</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Naranjo Causality</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>WHO Causality</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="10%">First Name</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="10%">Last Name</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="10%">Facility</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="15%">Adverse Event</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="10%">Serious</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="10%">Onset Date</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="15%">Medication</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="10%">Naranjo Causality</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="10%">WHO Causality</asp:TableHeaderCell> 
                                 </asp:TableHeaderRow>
                             </asp:Table>
 

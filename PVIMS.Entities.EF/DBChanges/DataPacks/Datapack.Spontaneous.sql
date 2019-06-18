@@ -200,10 +200,10 @@ set @dceid = (SELECT @@IDENTITY)
 
 		-- Drug strength
 		INSERT [dbo].[Field] (Mandatory, MaxLength, Decimals, MaxSize, MinSize, Calculation, FileSize, FileExt, Anonymise, FieldType_Id)
-			VALUES (0, NULL, NULL, NULL, NULL, '', NULL, '', 0, 3) 
+			VALUES (0, NULL, 0, 99999999.00, 1.00, '', NULL, '', 0, 4) 
 		set @fid = (SELECT @@IDENTITY)
 		INSERT [dbo].[DatasetElementSub] ([ElementName], [Field_Id], [DatasetElement_Id], [OID], [DefaultValue], [System], FieldOrder)
-			VALUES ('Drug strength', @fid, @deid, '', '', 0, 3) 
+			VALUES ('Drug Strength', @fid, @deid, '', '', 0, 3) 
 
 		-- Drug strength unit
 		INSERT [dbo].[Field] (Mandatory, MaxLength, Decimals, MaxSize, MinSize, Calculation, FileSize, FileExt, Anonymise, FieldType_Id)

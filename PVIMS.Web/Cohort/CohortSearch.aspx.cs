@@ -59,7 +59,7 @@ namespace PVIMS.Web
                 row.Cells.Add(cell);
 
                 cell = new TableCell();
-                cell.Text = coh.CohortGroupEnrolments.Count.ToString();
+                cell.Text = coh.CohortGroupEnrolments.Where(cge => !cge.Archived && !cge.Patient.Archived).Count().ToString();
                 row.Cells.Add(cell);
 
                 cell = new TableCell();

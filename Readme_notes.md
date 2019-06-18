@@ -859,3 +859,23 @@ SL-0061 - Ability to detect duplicate conditions
 ** Include grade 5 and grade unknown into quarterly and annual adverse event reports
 ** Adverse event report stratified by seriousness and include cohort as criteria
 ** Store MetaDataLastUpdated time when refreshing
+** Patients on treatment report fixed to reflect serious events
+** Display last meta refresh data on each system report and admin page for meta refresh
+** Cohort view modified to display serious and non serious patient counts (total and per patient)
+** Include in progress waiting screen for active dataset download, analyser, E2B creation
+** All system reports to include date and time of extract when extracting to XLSX
+** Display grading scales when selecting severity grade scale in adverse event (add and edit)
+** Microsoft.Data.Odata updated to version 5.8.4 in line with OData Denial of Service Vulnerability
+** When adding a new widget in the info portal, ensure the widget is set to an unpublished status and location on change to be based off jquery and not postback
+** Decode widget name and definition when rendering in widget admin
+** Fix customisation of existing custom reports
+** Ability to downlaod analytical dataset for specific cohorts only
+
+** 1.18.1/20190102
+** Fixed formatting of sub tables
+** Changed page icon from stethoscope to dashboard for E2B views in analytical portal
+** Update invalid properties list for meta refresh (patient)
+** E2B calculation for spontaneous reports - Structured Dosage auto calculated
+
+** 1.19.0/20190306
+** Refactoring of report configuration tool (include delete and publish function)

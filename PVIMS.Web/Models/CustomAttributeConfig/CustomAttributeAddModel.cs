@@ -8,6 +8,14 @@ namespace PVIMS.Web.Models
 {
     public class CustomAttributeAddModel
     {
+        public CustomAttributeAddModel()
+        {
+            IsRequired = false;
+            PastDateOnly = false;
+            FutureDateOnly = false;
+            AllowModal = false;
+        }
+
         public string Name { get; set; }
         public string Detail { get; set; }
         public string Type { get; set; }
@@ -24,5 +32,6 @@ namespace PVIMS.Web.Models
         public bool PastDateOnly { get; set; }
         [HiddenInput(DisplayValue = false)]
         public bool FutureDateOnly { get; set; }
+        public bool AllowModal { get; set; }
     }
 }

@@ -1,9 +1,11 @@
 using System;
-using System.ComponentModel;
-using System.Linq;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+
+using PVIMS.Core.Models;
 
 using VPS.Common.Utilities;
 using VPS.CustomAttributes;
@@ -107,13 +109,28 @@ namespace PVIMS.Core.Entities
             }
         }
 
-        public DateTime? LastEncounterDate()
+        public string CurrentFacilityName
         {
-            if(Encounters.Count == 0) { 
-                return null;
+            get
+            {
+                var currentFacility = GetCurrentFacility();
+
+                return currentFacility == null ? "** Not set **" : currentFacility.Facility.DisplayName;
             }
-            else {
-                return Encounters.OrderByDescending(e => e.EncounterDate).FirstOrDefault().EncounterDate;
+        }
+
+        public DateTime? LatestEncounterDate
+        {
+            get
+            {
+                if (Encounters.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return Encounters.OrderByDescending(e => e.EncounterDate).FirstOrDefault().EncounterDate;
+                }
             }
         }
 
@@ -294,6 +311,36 @@ namespace PVIMS.Core.Entities
             if (PatientClinicalEvents.Count() > 0 || PatientConditions.Count() > 0 || PatientLabTests.Count() > 0 || PatientMedications.Count() > 0 || Encounters.Count() > 0) { hasData = true; };
 
             return hasData;
+        }
+
+        public PatientEventSummary GetEventSummary()
+        {
+            var seriesCount = 0;
+            var nonSeriesCount = 0;
+
+            IExtendable clinicalEventExtended;
+
+            foreach (PatientClinicalEvent clinicalEvent in PatientClinicalEvents.Where(pce => pce.Archived == false))
+            {
+                clinicalEventExtended = clinicalEvent;
+                var value = clinicalEventExtended.GetAttributeValue("Is the adverse event serious?").ToString();
+                if(value == "1")
+                {
+                    seriesCount += 1;
+                }
+                else
+                {
+                    nonSeriesCount += 1;
+                }
+            }
+
+            var model = new PatientEventSummary()
+            {
+                PatientId = Id,
+                NonSeriesEventCount = nonSeriesCount,
+                SeriesEventCount = seriesCount
+            };
+            return model;
         }
     }
 }

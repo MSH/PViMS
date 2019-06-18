@@ -94,6 +94,15 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.WebControls.ContentPlaceHolder breadcrumbcontainer;
         
         /// <summary>
+        /// spnPageTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnPageTitle;
+        
+        /// <summary>
         /// divEdit control.
         /// </summary>
         /// <remarks>
@@ -130,13 +139,22 @@ namespace PVIMS.Web {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor hrefDelete;
         
         /// <summary>
-        /// spnPageTitle control.
+        /// divMetaDataLastUpdated control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnPageTitle;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMetaDataLastUpdated;
+        
+        /// <summary>
+        /// spnMetaDataLastUpdated control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spnMetaDataLastUpdated;
         
         /// <summary>
         /// BodyContentPlaceHolder control.

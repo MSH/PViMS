@@ -146,7 +146,8 @@
                                         </section>
                                         <section class="col col-3">
 										    <label class="input" id="lblWidgetStatus" runat="server">Widget Status
-                                                <asp:DropDownList ID="ddlWidgetStatus" runat="server" CssClass="input-sm form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlWidgetStatus_SelectedIndexChanged">
+                                                <input class="form-control" id="txtWidgetStatus" type="text" runat="server" readonly="readonly" style="background-color:#EBEBE4;">
+                                                <asp:DropDownList ID="ddlWidgetStatus" runat="server" CssClass="input-sm form-control">
                                                     <asp:ListItem Value="1" Text="Published" selected="True"></asp:ListItem>
                                                     <asp:ListItem Value="2" Text="Unpublished"></asp:ListItem>
                                                 </asp:DropDownList>
@@ -391,19 +392,6 @@
             $("#li-" + (last_tab_index + 2)).show();
             $("#tab-" + (last_tab_index + 2)).addClass("active");
 
-            //jQuery.ajax({
-            //    type: "GET",
-            //    url: "../../Api/PageCustomWidgetApi/AddNewItemToWidget",
-            //    data: { type: 2, itemCount: num_tabs + 1,  metaPageId: 34 },
-            //    contentType: "application/json; charset=utf-8",
-            //    dataType: "html",
-            //    success: function (data) {
-            //        alert('here');
-            //        var tab = $("#spnItemList");
-            //        tab.html(data);
-            //    }
-            //});
-
             return false;
         });
 
@@ -550,6 +538,16 @@
                 }
             }]
         });
+
+        $('#ddlWidgetStatus').change(function (e) {
+            if ($('#ddlWidgetStatus').val() == "1") {
+                $('#divWidgetLocation').show();
+            }
+            else {
+                $('#divWidgetLocation').hide();
+            }
+        });
+
     </script>
 
 </asp:Content>

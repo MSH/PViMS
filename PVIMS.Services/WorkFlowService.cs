@@ -371,7 +371,7 @@ namespace PVIMS.Services
             if (reportInstance.WorkFlow.Description == "New Active Surveilliance Report")
             {
                 var clinicalEvt = _unitOfWork.Repository<PatientClinicalEvent>().Queryable().Single(pce => pce.PatientClinicalEventGuid == reportInstance.ContextGuid);
-                path = _artefactService.CreateActiveDatasetForDownload(clinicalEvt.Patient.Id);
+                path = _artefactService.CreateActiveDatasetForDownload(clinicalEvt.Patient.Id, 0);
             }
             else
             {

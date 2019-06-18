@@ -34,42 +34,6 @@
     <link rel="shortcut icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
     <link rel="icon" href="~/img/favicon/favicon.ico" type="image/x-icon">
 
-    <style>
-
-        /*  Page loading animation
-            Start by setting display:none to make this hidden.
-            Then we position it in relation to the viewport window
-            with position:fixed. Width, height, top and left speak
-            for themselves. Background we set to 80% white with
-            our animation centered, and no-repeating */
-        body.loading .animationmodal {
-            display:    none;
-            position:   fixed;
-            z-index:    1000;
-            top:        0;
-            left:       0;
-            height:     100%;
-            width:      100%;
-            background: rgba( 255, 255, 255, .8 ) 
-                        url('/img/ajax-loader.gif') 
-                        50% 50% 
-                        no-repeat;
-        }
-
-        /* When the body has the loading class, we turn
-            the scrollbar off with overflow:hidden */
-        body.loading .animationmodal {
-            overflow: hidden;   
-        }
-
-        /* Anytime the body has the loading class, our
-            modal element will be visible */
-        body.loading .animationmodal {
-            display: block;
-        }
-
-    </style>
-
 </head>
 
 <body class="">
@@ -182,15 +146,23 @@
 
 	        <div class="row">
 		        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="well" style="padding-top:10px; padding-bottom:0px;">
-		                <div class="col-md-2 col-md-offset-10" id="divEdit" runat="server" visible="false">
+                    <div class="well" style="padding-top:10px; padding-bottom:10px; height:85px;">
+                        <div class="col-md-6">
+                            <span id="spnPageTitle" runat="server"></span>
+                        </div>
+		                <div class="col-md-2 col-md-offset-4" id="divEdit" runat="server" visible="false">
                             <div style="padding-top:0px; padding-bottom:10px;">
                                 <a class="btn btn-primary btn-sm" id="hrefEdit" runat="server">Configure</a>
                                 <a class="btn btn-primary btn-sm" id="hrefAdd" runat="server">Add Widget</a>
                                 <a class="btn btn-default btn-sm" id="hrefDelete" runat="server">Delete</a>
     		                </div>
 		                </div>
-                        <span id="spnPageTitle" runat="server"></span>
+		                <div class="col-md-3 col-md-offset-3" id="divMetaDataLastUpdated" runat="server" visible="false">
+                            <div class="jumbotron" style="padding-top:10px; padding-bottom:10px;">
+                                <h4>Meta data last refreshed: <br /><span id="spnMetaDataLastUpdated" runat="server" style="font:bold;"></span></h4>
+    		                </div>
+		                </div>
+                        
     		        </div>
 		        </div>
 	        </div>
@@ -208,7 +180,7 @@
     <div class="page-footer">
         <div class="row">
             <div class="text-center">
-                <span class="txt-color-white" style="color:white">Management Sciences For Health © 2018 | Logged in as <asp:PlaceHolder id="pnlLogin" runat="server"></asp:PlaceHolder> | version 1.18.0</span>
+                <span class="txt-color-white" style="color:white">Management Sciences For Health © 2018 | Logged in as <asp:PlaceHolder id="pnlLogin" runat="server"></asp:PlaceHolder> | version 1.18.1</span>
             </div>
         </div>
     </div>
@@ -666,6 +638,7 @@
         $(function () {
             $('[data-toggle="popover"]').popover()
         });
+
 
     </script>
 

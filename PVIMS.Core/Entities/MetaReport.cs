@@ -1,14 +1,22 @@
 namespace PVIMS.Core.Entities
 {
+    using PVIMS.Core.ValueTypes;
+
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("MetaReport")]
     public class MetaReport : EntityBase
     {
+        public MetaReport()
+        {
+            metareport_guid = Guid.NewGuid();
+            Breadcrumb = "** NOT DEFINED **";
+            ReportStatus = MetaReportStatus.Unpublished;
+            IsSystem = false;
+        }
+
         [Required]
         public Guid metareport_guid { get; set; }
 
@@ -27,5 +35,9 @@ namespace PVIMS.Core.Entities
         public string SQLDefinition { get; set; }
 
         public bool IsSystem { get; set; }
+
+        [Required]
+        public virtual MetaReportStatus ReportStatus { get; set; }
+
     }
 }

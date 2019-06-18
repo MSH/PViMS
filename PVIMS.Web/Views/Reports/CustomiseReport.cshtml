@@ -1,0 +1,141 @@
+﻿@model PVIMS.Web.Models.CustomiseReportModel
+@{
+    ViewBag.Title = "Customise Report";
+    Layout = "~/Views/Shared/_StandardLayout.cshtml";
+    ViewBag.Icon = "fa-windows";
+    ViewBag.Heading = "Custom Reports";
+    ViewBag.SubHeading = "Add or Modify a Report";
+    ViewBag.OverrideBreadcrumb = true;
+    ViewBag.ClinicalColour = "white"; ViewBag.AnalyticalColour = "white"; ViewBag.ReportingColour = "orange"; ViewBag.PublisherColour = "white"; ViewBag.AdminColour = "white";
+}
+@section breadcrumb
+{
+    <li>Custom Reports</li>
+}
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+    <div class="row">
+
+        <div class="col-sm-12 col-md-12 col-lg-5">
+            <div class="well no-padding" style="height:auto;">
+
+
+                <h2 style="font-weight:bold; text-align:center;">Report Details</h2>
+                @using (Html.BeginForm("CustomiseReport", "Reports", FormMethod.Post, new { @class = "smart-form" }))
+                {
+                    <fieldset>
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.MetaReportId)
+
+                        <div class="row">
+                            <section class="col col-sm-12 col-md-12 col-lg-6">
+                                @Html.LabelFor(model => model.ReportName)
+                                <label class="input">
+                                    @Html.EditorFor(model => model.ReportName, new { htmlAttributes = new { @class = "form-control" } })
+                                </label>
+                                @Html.ValidationMessageFor(model => model.ReportName, "", new { @class = "text-danger" })
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-sm-12 col-md-12 col-lg-12">
+                                @Html.LabelFor(model => model.ReportDefinition)
+                                <label class="input">
+                                    @Html.EditorFor(model => model.ReportDefinition, new { htmlAttributes = new { @class = "form-control" } })
+                                </label>
+                                @Html.ValidationMessageFor(model => model.ReportDefinition, "", new { @class = "text-danger" })
+                            </section>
+                        </div>
+                        <div class="row">
+                            @if (Model.MetaReportId == 0)
+                            {
+                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                    @Html.LabelFor(model => model.ReportType)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.ReportType, (IEnumerable<SelectListItem>)ViewBag.ReportTypes, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.ReportType, "", new { @class = "text-danger" })
+                                </section>
+                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                    @Html.LabelFor(model => model.CoreEntity)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.CoreEntity, (List<SelectListItem>)ViewBag.CoreEntities, new { @class = "form-control" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.CoreEntity, "", new { @class = "text-danger" })
+                                </section>
+                            }
+                            else
+                            {
+                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                    @Html.LabelFor(model => model.ReportType)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.ReportType, (IEnumerable<SelectListItem>)ViewBag.ReportTypes, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.ReportType, "", new { @class = "text-danger" })
+                                </section>
+                                <section class="col col-sm-12 col-md-12 col-lg-6">
+                                    @Html.LabelFor(model => model.CoreEntity)
+                                    <label class="input">
+                                        @Html.DropDownListFor(model => model.CoreEntity, (List<SelectListItem>)ViewBag.CoreEntities, new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" })
+                                    </label>
+                                    @Html.ValidationMessageFor(model => model.CoreEntity, "", new { @class = "text-danger" })
+                                </section>
+                            }
+                        </div>
+                        <div class="row">
+                            <section class="col col-sm-12 col-md-12 col-lg-6">
+                                @Html.LabelFor(model => model.ReportStatus)
+                                <label class="input">
+                                    @Html.DropDownListFor(model => model.ReportStatus, (IEnumerable<SelectListItem>)ViewBag.ReportStatuses, new { @class = "form-control" })
+                                </label>
+                                @Html.ValidationMessageFor(model => model.ReportStatus, "", new { @class = "text-danger" })
+                            </section>
+                        </div>
+                    </fieldset>
+                    <div class="smart-form">
+                        <footer>
+                            <button type="submit" class="btn btn-primary btn-sm" value="Submit" name="button">
+                                Save
+                            </button>
+                            <a href="~/Reports/Index" class="btn btn-default btn-sm">Cancel</a>
+                        </footer>
+                    </div>
+                }
+            </div>
+        </div>
+
+        @if (Model.MetaReportId > 0)
+        {
+            <div class="col-sm-12 col-md-12 col-lg-3" style="height:auto;">
+                <div class="well no-padding">
+                    <h2 style="font-weight:bold; text-align:center;">Quick Links</h2>
+                    <fieldset>
+                        <div class="smart-form">
+                            <section class="col col-6">
+                                <a href="~/Reports/ReportViewer.aspx?Id=@Model.MetaReportId" class="btn btn-default btn-sm" style="width:150px;">View Report</a>
+                            </section>
+                            @if (Model.AllowDeletion)
+                            {
+                                <section class="col col-6">
+                                    <a href="@Url.Action("DeleteMetaReport", "Reports", new { metaReportId = Model.MetaReportId })" class="btn btn-default btn-sm" style="width:150px;">Delete Report</a>
+                                </section>
+                            }
+                            <section class="col col-6">
+                                <a href="@Url.Action("ReportAttributeItem", "Reports", new { metaReportId = Model.MetaReportId, viewType = Convert.ToInt32(Model.ViewType) })" class="btn btn-default btn-sm" style="width:150px;">Set Attributes</a>
+                            </section>
+                            <section class="col col-6">
+                                <a href="@Url.Action("ReportAttributeItem", "Reports", new { metaReportId = Model.MetaReportId, viewType = 3 })" class="btn btn-default btn-sm" style="width:150px;">Set Filter</a>
+                            </section>
+
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        }
+    </div>
+
+</section>
+<!-- end widget grid -->

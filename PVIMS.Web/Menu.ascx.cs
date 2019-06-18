@@ -5,8 +5,10 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 using PVIMS.Entities.EF;
+
 using PVIMS.Core.Entities;
 using PVIMS.Core.Services;
+using PVIMS.Core.ValueTypes;
 
 namespace PVIMS.Web
 {
@@ -80,7 +82,7 @@ namespace PVIMS.Web
                 case CurrentContext.ccReporting:
                     navReporter.Visible = true;
 
-                    //SetCustomMenus();
+                    SetCustomReportMenus();
                     if (HttpContext.Current.User.IsInRole("ReporterAdmin")) { reportlist.Visible = true; }
 
                     break;
@@ -126,7 +128,7 @@ namespace PVIMS.Web
             HtmlGenericControl ul = new HtmlGenericControl("ul");
 
             PVIMSDbContext db = new PVIMSDbContext();
-            foreach (MetaReport report in db.MetaReports.OrderBy(mr => mr.Id))
+            foreach (MetaReport report in db.MetaReports.Where(mr => mr.ReportStatus == MetaReportStatus.Published).OrderBy(mr => mr.Id))
             {
                 HtmlGenericControl li = new HtmlGenericControl("li");
                 li.Attributes.Add("id", "mnu_report" + report.Id.ToString());

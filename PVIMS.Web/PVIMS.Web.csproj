@@ -93,13 +93,11 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.OData.Core, Version=6.11.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.OData.Core.6.11.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.OData.Core.dll</HintPath>
@@ -165,9 +163,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Spatial, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.4\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.DynamicData" />
@@ -463,6 +460,9 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
+    <Compile Include="Controllers\AnalyserApiController.cs" />
+    <Compile Include="Controllers\CohortApiController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\PublisherController.cs" />
     <Compile Include="Controllers\CohortController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
@@ -572,6 +572,7 @@
     <Compile Include="Models\Patient\PatientConditionDeleteModel.cs" />
     <Compile Include="Models\Patient\PatientLabTestDeleteModel.cs" />
     <Compile Include="Models\Patient\PatientMedicationDeleteModel.cs" />
+    <Compile Include="Models\Patient\GradeDTO.cs" />
     <Compile Include="Models\PostDeployment\DeploymentSummaryViewModel.cs" />
     <Compile Include="Models\Encounter\EncounterAddModel.cs" />
     <Compile Include="Models\Encounter\EncounterDTO.cs" />
@@ -611,6 +612,10 @@
     <Compile Include="Models\Publisher\MetaWidgetMoveModel.cs" />
     <Compile Include="Models\Publisher\MetaWidgetDeleteModel.cs" />
     <Compile Include="Models\Publisher\MetaPageDeleteModel.cs" />
+    <Compile Include="Models\Reports\MetaReportDeleteModel.cs" />
+    <Compile Include="Models\Reports\MetaReportAttributeModel.cs" />
+    <Compile Include="Models\Reports\MetaReportItem.cs" />
+    <Compile Include="Models\Reports\CustomiseReportModel.cs" />
     <Compile Include="Patient\PatientSearch.aspx.cs">
       <DependentUpon>PatientSearch.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -689,20 +694,6 @@
     </Compile>
     <Compile Include="Admin\ReportMeta.aspx.designer.cs">
       <DependentUpon>ReportMeta.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\ReportCustom.aspx.cs">
-      <DependentUpon>ReportCustom.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Reports\ReportCustom.aspx.designer.cs">
-      <DependentUpon>ReportCustom.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\ReportList.aspx.cs">
-      <DependentUpon>ReportList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Reports\ReportList.aspx.designer.cs">
-      <DependentUpon>ReportList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\ReportViewer.aspx.cs">
       <DependentUpon>ReportViewer.aspx</DependentUpon>
@@ -2082,8 +2073,6 @@
     <Content Include="Publisher\Publisher.aspx" />
     <Content Include="Publisher\PageList.aspx" />
     <Content Include="Admin\ReportMeta.aspx" />
-    <Content Include="Reports\ReportCustom.aspx" />
-    <Content Include="Reports\ReportList.aspx" />
     <Content Include="Reports\ReportViewer.aspx" />
     <Content Include="Reports\System\ReportAdverseEventAnnual.aspx" />
     <Content Include="Reports\System\ReportAdverseEventQuarterly.aspx" />
@@ -2821,6 +2810,10 @@
     <Content Include="Views\CustomAttributeConfig\EditCustomAttribute.cshtml" />
     <Content Include="Views\Publisher\MoveMetaWidget.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Reports\CustomiseReport.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\DeleteMetaReport.cshtml" />
+    <Content Include="Views\Reports\ReportAttributeItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

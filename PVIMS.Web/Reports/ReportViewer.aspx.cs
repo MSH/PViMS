@@ -4,19 +4,14 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using System.Data;
-using System.Data.Common;
-using System.Data.Entity;
-using System.Data.Objects;
 using System.Data.SqlClient;
 
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
 using System.Web;
-using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Xml;
@@ -28,9 +23,6 @@ using PdfSharp;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
-
-using VPS.Common.Repositories;
-using VPS.CustomAttributes;
 
 using PVIMS.Core.Entities;
 using PVIMS.Core.ValueTypes;
@@ -49,6 +41,8 @@ namespace PVIMS.Web
         private List<FilterStructure> _filters = new List<FilterStructure>();
         private List<ListStructure> _lists = new List<ListStructure>();
 
+        private bool _isPublisher = false;
+
         enum ReportType
         {
             None,
@@ -59,6 +53,8 @@ namespace PVIMS.Web
 
         protected void Page_Init(object sender, EventArgs e)
         {
+            if (HttpContext.Current.User.IsInRole("ReporterAdmin")) { _isPublisher = true; }
+
             if (Request.QueryString["id"] != null)
             {
                 _id = Convert.ToInt32(Request.QueryString["id"]);
@@ -69,7 +65,6 @@ namespace PVIMS.Web
                     // Prepare report
                     PrepareStructures();
 
-                    RenderHeader();
                     RenderFilters();
                     RenderColumns();
                 }
@@ -96,7 +91,8 @@ namespace PVIMS.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Master.SetMenuActive("ReportOutstandingVisit");
+            Master.MainMenu.SetActive("ReportAdmin");
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Custom Reports", SubTitle = _metaReport.ReportName, Icon = "fa fa-file-text-o fa-fw", MetaReportId = _isPublisher ? _metaReport.Id : 0 });
         }
 
         #region "Preparation"
@@ -113,18 +109,21 @@ namespace PVIMS.Web
             XmlAttribute attr = rootNode.Attributes["Type"];
             XmlNode mainNode;
 
-            if(attr.Value == "Summary")
+            if (attr.Value == "Summary")
             {
                 _reportType = ReportType.Summary;
 
                 mainNode = rootNode.SelectSingleNode("//Summary");
-                foreach(XmlNode subNode in mainNode.ChildNodes)
+                if (mainNode != null)
                 {
-                    StratifyStructure strat = new StratifyStructure();
-                    strat.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
-                    strat.AttributeName = subNode.Attributes["AttributeName"].Value;
-                    strat.DisplayName = subNode.Attributes["DisplayName"].Value;
-                    _strats.Add(strat);
+                    foreach (XmlNode subNode in mainNode.ChildNodes)
+                    {
+                        StratifyStructure strat = new StratifyStructure();
+                        strat.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
+                        strat.AttributeName = subNode.Attributes["AttributeName"].Value;
+                        strat.DisplayName = subNode.Attributes["DisplayName"].Value;
+                        _strats.Add(strat);
+                    }
                 }
             }
             else
@@ -132,45 +131,42 @@ namespace PVIMS.Web
                 _reportType = ReportType.Listing;
 
                 mainNode = rootNode.SelectSingleNode("//List");
-                foreach (XmlNode subNode in mainNode.ChildNodes)
+                if(mainNode != null)
                 {
-                    ListStructure list = new ListStructure();
-                    list.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
-                    list.AttributeName = subNode.Attributes.GetNamedItem("AttributeName").Value;
-                    list.DisplayName = subNode.Attributes.GetNamedItem("DisplayName").Value;
-                    _lists.Add(list);
+                    foreach (XmlNode subNode in mainNode.ChildNodes)
+                    {
+                        ListStructure list = new ListStructure();
+                        list.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
+                        list.AttributeName = subNode.Attributes.GetNamedItem("AttributeName").Value;
+                        list.DisplayName = subNode.Attributes.GetNamedItem("DisplayName").Value;
+                        _lists.Add(list);
+                    }
                 }
             }
 
             // filter
             mainNode = rootNode.SelectSingleNode("//Filter");
-            foreach (XmlNode subNode in mainNode.ChildNodes)
+            if (mainNode != null)
             {
-                FilterStructure filter = new FilterStructure();
-                filter.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
-                filter.AttributeName = subNode.Attributes.GetNamedItem("AttributeName").Value;
-                filter.Operator = subNode.Attributes.GetNamedItem("Operator").Value;
-                filter.Relation = subNode.Attributes.GetNamedItem("Relation").Value;
-                filter.FilterValue = subNode.Attributes.GetNamedItem("Value").Value;
-                _filters.Add(filter);
+                foreach (XmlNode subNode in mainNode.ChildNodes)
+                {
+                    FilterStructure filter = new FilterStructure();
+                    filter.MetaColumnId = Convert.ToInt32(subNode.Attributes["MetaColumnId"].Value);
+                    filter.AttributeName = subNode.Attributes.GetNamedItem("AttributeName").Value;
+                    filter.Operator = subNode.Attributes.GetNamedItem("Operator").Value;
+                    filter.Relation = subNode.Attributes.GetNamedItem("Relation").Value;
+                    _filters.Add(filter);
+                }
             }
-        }
-
-        private void RenderHeader()
-        {
-            HtmlGenericControl h1 = new HtmlGenericControl("h1");
-            h1.Attributes.Add("class", "page-title txt-color-blueDark");
-            h1.InnerHtml = @"<i class=""fa fa-bar-chart-o fa-fw""></i> " + _metaReport.ReportName;
-            spnFormHeader.Controls.Add(h1);
         }
 
         private void RenderFilters()
         {
-            if(_filters.Count == 0)
+            if (_filters.Count == 0)
             {
                 HtmlGenericControl span = new HtmlGenericControl("span");
                 span.Attributes.Add("class", "label");
-                span.Attributes.Add("style", "padding:5px; background-color:lightgray; text-align:center;");
+                span.Attributes.Add("style", "padding:5px; background-color:#F1F1F1; text-align:center;");
                 span.InnerText = "NO FILTERS CONFIGURED";
 
                 spnFilter.Controls.Add(span);
@@ -183,9 +179,9 @@ namespace PVIMS.Web
                 foreach (FilterStructure filter in _filters)
                 {
                     secCount += 1;
-                    if(secCount > 5)
+                    if (secCount > 5)
                     {
-                        if(row != null) { spnFilter.Controls.Add(row); }
+                        if (row != null) { spnFilter.Controls.Add(row); }
                         secCount = 0;
                         row = new HtmlGenericControl("div");
                         row.Attributes.Add("class", "row");
@@ -199,7 +195,7 @@ namespace PVIMS.Web
                         HtmlGenericControl sec = new HtmlGenericControl("section");
                         sec.Attributes.Add("class", "col col-2");
 
-                        Label lbl = new Label() { CssClass="input" };
+                        Label lbl = new Label() { CssClass = "input" };
                         Label lblFriendlyName = new Label() { CssClass = "label", Text = filter.AttributeName };
                         lbl.Controls.Add(lblFriendlyName);
 
@@ -270,61 +266,11 @@ namespace PVIMS.Web
                                         var sources = metaColumn.Range.Replace("SOURCE:", "").Split('.');
                                         switch (sources[0])
                                         {
-                                            case "EncounterType":
-                                                values = _db.EncounterTypes.OrderBy(et => et.Description).Select(s => new ListItem
+                                            case "OrgUnit":
+                                                values = _db.OrgUnits.OrderBy(f => f.Name).Select(s => new ListItem
                                                 {
-                                                    Value = s.Description,
-                                                    Text = s.Description
-                                                })
-                                                .ToArray();
-
-                                                break;
-
-                                            case "Facility":
-                                                values = _db.Facilities.OrderBy(f => f.FacilityName).Select(s => new ListItem
-                                                {
-                                                    Value = s.FacilityName,
-                                                    Text = s.FacilityName
-                                                })
-                                                .ToArray();
-
-                                                break;
-
-                                            case "CohortGroup":
-                                                values = _db.CohortGroups.OrderBy(cg => cg.CohortName).Select(s => new ListItem
-                                                {
-                                                    Value = s.CohortName,
-                                                    Text = s.CohortName
-                                                })
-                                                .ToArray();
-
-                                                break;
-
-                                            case "LabTestUnit":
-                                                values = _db.LabTestUnits.OrderBy(ltu => ltu.Description).Select(s => new ListItem
-                                                {
-                                                    Value = s.Description,
-                                                    Text = s.Description
-                                                })
-                                                .ToArray();
-
-                                                break;
-
-                                            case "LabTest":
-                                                values = _db.LabTests.OrderBy(lt => lt.Description).Select(s => new ListItem
-                                                {
-                                                    Value = s.Description,
-                                                    Text = s.Description
-                                                })
-                                                .ToArray();
-
-                                                break;
-
-                                            case "Outcome":
-                                                values = _db.Outcomes.OrderBy(o => o.Description).Select(s => new ListItem
-                                                {
-                                                    Value = s.Description,
-                                                    Text = s.Description
+                                                    Value = s.Name,
+                                                    Text = s.Name
                                                 })
                                                 .ToArray();
 
@@ -357,10 +303,10 @@ namespace PVIMS.Web
                                     else
                                     {
                                         values = metaColumn.Range.Split(',').Select(s => new ListItem
-                                            {
-                                                Value = s,
-                                                Text = s
-                                            })
+                                        {
+                                            Value = s,
+                                            Text = s
+                                        })
                                             .ToArray();
                                     }
 
@@ -435,7 +381,7 @@ namespace PVIMS.Web
 
                     } // if (metaColumn != null)
                 } // foreach (FilterStructure filter in _filters)
-                
+
                 if (row.Controls.Count > 0) { spnFilter.Controls.Add(row); }
             }
         }
@@ -472,7 +418,7 @@ namespace PVIMS.Web
                     dt_basic.HideColumn(x);
                 }
             }
-            
+
         }
 
         #endregion
@@ -621,9 +567,9 @@ namespace PVIMS.Web
             var fc = 0;
             foreach (FilterStructure filter in _filters)
             {
-                fc+=1;
+                fc += 1;
 
-                sql = sql.Replace("%" + fc.ToString(), "1");
+                sql = sql.Replace("%" + fc.ToString(), filter.FilterValue);
             }
 
             SqlParameter[] parameters = new SqlParameter[0];
@@ -650,15 +596,151 @@ namespace PVIMS.Web
                 foreach (CustomReportList item in results)
                 {
                     row = new TableRow();
-                    
-                    Type myType = item.GetType();
-                    PropertyInfo[] myProperties = myType.GetProperties();
-
-                    for (int x = 0; x <= 20; x++)
+                    var i = 0;
+                    if (_reportType == ReportType.Listing)
                     {
+                        foreach (ListStructure list in _lists)
+                        {
+                            cell = new TableCell();
+
+                            i++;
+                            if (i == 1)
+                            {
+                                cell.Text = item.Col1;
+                            }
+                            if (i == 2)
+                            {
+                                cell.Text = item.Col2;
+                            }
+                            if (i == 3)
+                            {
+                                cell.Text = item.Col3;
+                            }
+                            if (i == 4)
+                            {
+                                cell.Text = item.Col4;
+                            }
+                            if (i == 5)
+                            {
+                                cell.Text = item.Col5;
+                            }
+                            if (i == 6)
+                            {
+                                cell.Text = item.Col6;
+                            }
+                            if (i == 7)
+                            {
+                                cell.Text = item.Col7;
+                            }
+                            if (i == 8)
+                            {
+                                cell.Text = item.Col8;
+                            }
+                            if (i == 9)
+                            {
+                                cell.Text = item.Col9;
+                            }
+                            if (i == 10)
+                            {
+                                cell.Text = item.Col10;
+                            }
+                            row.Cells.Add(cell);
+                        }
+                    }
+                    else
+                    {
+                        foreach (StratifyStructure strat in _strats)
+                        {
+                            cell = new TableCell();
+
+                            i++;
+                            if (i == 1)
+                            {
+                                cell.Text = item.Col1;
+                            }
+                            if (i == 2)
+                            {
+                                cell.Text = item.Col2;
+                            }
+                            if (i == 3)
+                            {
+                                cell.Text = item.Col3;
+                            }
+                            if (i == 4)
+                            {
+                                cell.Text = item.Col4;
+                            }
+                            if (i == 5)
+                            {
+                                cell.Text = item.Col5;
+                            }
+                            if (i == 6)
+                            {
+                                cell.Text = item.Col6;
+                            }
+                            if (i == 7)
+                            {
+                                cell.Text = item.Col7;
+                            }
+                            if (i == 8)
+                            {
+                                cell.Text = item.Col8;
+                            }
+                            if (i == 9)
+                            {
+                                cell.Text = item.Col9;
+                            }
+                            if (i == 10)
+                            {
+                                cell.Text = item.Col10;
+                            }
+                            row.Cells.Add(cell);
+                        }
                         cell = new TableCell();
-                        cell.Text = myProperties.GetValue(x).ToString();
+
+                        i++;
+                        if (i == 1)
+                        {
+                            cell.Text = item.Col1;
+                        }
+                        if (i == 2)
+                        {
+                            cell.Text = item.Col2;
+                        }
+                        if (i == 3)
+                        {
+                            cell.Text = item.Col3;
+                        }
+                        if (i == 4)
+                        {
+                            cell.Text = item.Col4;
+                        }
+                        if (i == 5)
+                        {
+                            cell.Text = item.Col5;
+                        }
+                        if (i == 6)
+                        {
+                            cell.Text = item.Col6;
+                        }
+                        if (i == 7)
+                        {
+                            cell.Text = item.Col7;
+                        }
+                        if (i == 8)
+                        {
+                            cell.Text = item.Col8;
+                        }
+                        if (i == 9)
+                        {
+                            cell.Text = item.Col9;
+                        }
+                        if (i == 10)
+                        {
+                            cell.Text = item.Col10;
+                        }
                         row.Cells.Add(cell);
+
                     }
 
                     dt_basic.Rows.Add(row);
@@ -681,7 +763,7 @@ namespace PVIMS.Web
             string destName = string.Format("ROV_{0}.pdf", DateTime.Now.ToString("yyyyMMddhhmmsss"));
             string destFile = string.Format("{0}{1}", documentDirectory, destName);
 
-            string logoName = string.Format("SIAPS_USAID_Horiz.png");
+            string logoName = string.Format("SIAPS_USAID_Horiz.jpg");
             string logoFile = string.Format("{0}{1}", logoDirectory, logoName);
 
             string fontFile = string.Format("{0}\\arial.ttf", System.AppDomain.CurrentDomain.BaseDirectory);
@@ -691,13 +773,6 @@ namespace PVIMS.Web
 
             // Create document
             PdfDocument pdfDoc = new PdfDocument();
-            XmlNode rootNode;
-            XmlNode filterNode;
-            XmlNode contentHeadNode;
-            XmlNode contentNode;
-            XmlNode contentValueNode;
-            XmlAttribute attrib;
-            XmlComment comment;
 
             // Create a new page
             PdfPage page = pdfDoc.AddPage();
@@ -726,8 +801,8 @@ namespace PVIMS.Web
             XFont fontr = new XFont("Calibri", 10, XFontStyle.Regular);
 
             // Write header
-            pdfDoc.Info.Title = "Outstanding Visit Report for " + DateTime.Now.ToString("yyyy-MM-dd hh:MM");
-            gfx.DrawString("Outstanding Visit Report for " + DateTime.Now.ToString("yyyy-MM-dd hh:MM"), fontb, XBrushes.Black, new XRect(columnPosition, linePosition, page.Width.Point, 20), XStringFormats.TopLeft);
+            pdfDoc.Info.Title = "Outstanding Visit Report for " + DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+            gfx.DrawString("Outstanding Visit Report for " + DateTime.Now.ToString("yyyy-MM-dd HH:mm"), fontb, XBrushes.Black, new XRect(columnPosition, linePosition, page.Width.Point, 20), XStringFormats.TopLeft);
 
             // Write filter
             linePosition += 24;
@@ -846,14 +921,13 @@ namespace PVIMS.Web
             XmlNode contentNode;
             XmlNode contentValueNode;
             XmlAttribute attrib;
-            XmlComment comment;
 
             XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
             xmlDoc.AppendChild(xmlDeclaration);
 
             rootNode = xmlDoc.CreateElement("PViMS_OutstandingVisitReport", ns);
             attrib = xmlDoc.CreateAttribute("CreatedDate");
-            attrib.InnerText = DateTime.Now.ToString("yyyy-MM-dd hh:MM");
+            attrib.InnerText = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             rootNode.Attributes.Append(attrib);
 
             // Write filter
@@ -1084,5 +1158,28 @@ namespace PVIMS.Web
 
         #endregion
 
+    }
+
+    public class ListStructure
+    {
+        public int MetaColumnId { get; set; }
+        public string AttributeName { get; set; }
+        public string DisplayName { get; set; }
+    }
+
+    public class StratifyStructure
+    {
+        public int MetaColumnId { get; set; }
+        public string AttributeName { get; set; }
+        public string DisplayName { get; set; }
+    }
+
+    public class FilterStructure
+    {
+        public int MetaColumnId { get; set; }
+        public string Relation { get; set; }
+        public string AttributeName { get; set; }
+        public string Operator { get; set; }
+        public string FilterValue { get; set; }
     }
 }

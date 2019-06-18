@@ -461,6 +461,7 @@ namespace PVIMS.Web
                 li = new HtmlGenericControl("li");
                 hyp = new HyperLink()
                 {
+                    CssClass = "LoadWaitingScreen",
                     NavigateUrl = "CausalityWHO.aspx?rid=" + reportInstance.Id.ToString(),
                     Text = "WHO Causality"
                 };
@@ -473,6 +474,7 @@ namespace PVIMS.Web
                 li = new HtmlGenericControl("li");
                 hyp = new HyperLink()
                 {
+                    CssClass = "LoadWaitingScreen",
                     NavigateUrl = "CausalityNaranjo.aspx?rid=" + reportInstance.Id.ToString(),
                     Text = "Naranjo Causality"
                 };
@@ -488,6 +490,7 @@ namespace PVIMS.Web
             li = new HtmlGenericControl("li");
             hyp = new HyperLink()
             {
+                CssClass = "LoadWaitingScreen",
                 NavigateUrl = "/Activity/AddActivity?activityInstanceId=" + currentActivityInstance.Id.ToString() + "&activityExecutionStatusId=" + causalityExecutionStatus.Id.ToString(),
                 Text = "Confirm Causality Set"
             };
@@ -525,6 +528,7 @@ namespace PVIMS.Web
                     li = new HtmlGenericControl("li");
                     hyp = new HyperLink()
                     {
+                        CssClass = "LoadWaitingScreen",
                         NavigateUrl = url,
                         Text = "Create E2B"
                     };
@@ -564,6 +568,7 @@ namespace PVIMS.Web
                 li = new HtmlGenericControl("li");
                 hyp = new HyperLink()
                 {
+                    CssClass = "LoadWaitingScreen",
                     NavigateUrl = "/E2b/EditE2b?datasetInstanceId=" + datasetInstance.Id.ToString(),
                     Text = "Update E2B"
                 };
@@ -574,6 +579,7 @@ namespace PVIMS.Web
                 li = new HtmlGenericControl("li");
                 hyp = new HyperLink()
                 {
+                    CssClass = "LoadWaitingScreen",
                     NavigateUrl = "/Activity/AddActivity?activityInstanceId=" + reportInstance.CurrentActivity.Id.ToString() + "&activityExecutionStatusId=" + e2bgenExecutionStatus.Id.ToString(),
                     Text = "Prepare Report for E2B Submission"
                 };
@@ -596,6 +602,7 @@ namespace PVIMS.Web
             li = new HtmlGenericControl("li");
             hyp = new HyperLink()
             {
+                CssClass = "LoadWaitingScreen",
                 NavigateUrl = "/Activity/AddActivity?activityInstanceId=" + reportInstance.CurrentActivity.Id.ToString() + "&activityExecutionStatusId=" + e2bSubExecutionStatus.Id.ToString(),
                 Text = "Confirm E2B Submission"
             };
@@ -628,6 +635,7 @@ namespace PVIMS.Web
             li = new HtmlGenericControl("li");
             hyp = new HyperLink()
             {
+                CssClass = "LoadWaitingScreen",
                 NavigateUrl = "/Activity/Index?reportInstanceId=" + reportInstance.Id.ToString(),
                 Text = "View Activity History"
             };
@@ -647,6 +655,7 @@ namespace PVIMS.Web
             li = new HtmlGenericControl("li");
             hyp = new HyperLink()
             {
+                CssClass = "LoadWaitingScreen",
                 NavigateUrl = "TerminologyMedDRA.aspx?rid=" + reportInstance.Id.ToString(),
                 Text = "Set Terminology"
             };
@@ -667,6 +676,7 @@ namespace PVIMS.Web
             li = new HtmlGenericControl("li");
             hyp = new HyperLink()
             {
+                CssClass = "LoadWaitingScreen",
                 NavigateUrl = "/Activity/AddActivity?activityInstanceId=" + currentActivityInstance.Id.ToString() + "&activityExecutionStatusId=" + confirmExecutionStatus.Id.ToString(),
                 Text = "Confirm Report"
             };
@@ -677,6 +687,7 @@ namespace PVIMS.Web
             li = new HtmlGenericControl("li");
             hyp = new HyperLink()
             {
+                CssClass = "LoadWaitingScreen",
                 NavigateUrl = "/Activity/AddActivity?activityInstanceId=" + currentActivityInstance.Id.ToString() + "&activityExecutionStatusId=" + deleteExecutionStatus.Id.ToString(),
                 Text = "Delete Report"
             };
@@ -705,6 +716,7 @@ namespace PVIMS.Web
                     li = new HtmlGenericControl("li");
                     hyp = new HyperLink()
                     {
+                        CssClass = "LoadWaitingScreen",
                         NavigateUrl = "/Patient/PatientView.aspx?pId=" + evt.Patient.Id.ToString(),
                         Text = "View Patient"
                     };
@@ -741,6 +753,7 @@ namespace PVIMS.Web
                 li = new HtmlGenericControl("li");
                 hyp = new HyperLink()
                 {
+                    CssClass = "LoadWaitingScreen",
                     NavigateUrl = "/E2b/EditSpontaneous?datasetInstanceId=" + datasetInstance.Id.ToString(),
                     Text = "Update Report"
                 };

@@ -2,12 +2,6 @@
 
 <asp:Content runat="server" ID="Body" ContentPlaceHolderID="BodyContentPlaceHolder">
 
-	<div class="row">
-		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-            <span id="spnFormHeader" runat="server"></span>
-		</div>
-	</div>
-				
 	<!-- widget grid -->
 	<section id="widget-grid" class="">
 

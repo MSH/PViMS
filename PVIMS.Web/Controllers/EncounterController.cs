@@ -406,12 +406,8 @@ namespace PVIMS.Web.Controllers
             ConditionGroupListItemModel[] cgitems = (ConditionGroupListItemModel[])cgarray.OrderByDescending(m => m.StartDate).ToArray();
             encounterViewModel.ConditionGroups = cgitems;
 
-            var weightElement = unitOfWork.Repository<DatasetElement>().Queryable().SingleOrDefault(de => de.ElementName == "Weight (kg)" && de.DatasetCategoryElements.Any(dce => dce.DatasetCategory.Dataset.DatasetName == "Chronic Treatment"));
-            if(weightElement != null)
-            {
-                var weightModel = _patientService.GetElementValuesForPatient(encounter.Patient, weightElement, 5);
-                encounterViewModel.InstanceValue = weightModel;
-            };
+            var weightModel = _patientService.GetElementValuesForPatient(encounter.Patient.Id, "Chronic Treatment", "Weight (kg)", 5);
+            encounterViewModel.InstanceValue = weightModel;
 
             return View(encounterViewModel);
         }

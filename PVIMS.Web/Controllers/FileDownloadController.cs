@@ -26,10 +26,10 @@ namespace PVIMS.Web.Controllers
             _artefactService = artefactService;
         }
 
-        public ActionResult DownloadActiveDataset()
+        public ActionResult DownloadActiveDataset(long cohortGroupId)
         {
-            var model = _artefactService.CreateActiveDatasetForDownload(0);
-            return File(string.Format("{0}{1}", model.Path, model.FileName), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", model.FileName);
+            var model = _artefactService.CreateActiveDatasetForDownload(0, cohortGroupId);
+            return Json(new { success = true, model.FileName }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DownloadSpontaneousDataset()
@@ -287,6 +287,22 @@ namespace PVIMS.Web.Controllers
             WriteXML(destFile, contentXml);
 
             return File(destFile, "application/xml ", destName);
+        }
+
+        public ActionResult DownloadExcelFile (string fileName)
+        {
+            var documentDirectory = String.Format("{0}\\Temp\\", System.AppDomain.CurrentDomain.BaseDirectory);
+            var fullPath = String.Format("{0}{1}", documentDirectory, fileName);
+
+            return File(fullPath, "application/vnd.ms-excel", fileName);
+        }
+
+        public ActionResult DownloadWordFile(string fileName)
+        {
+            var documentDirectory = String.Format("{0}\\Temp\\", System.AppDomain.CurrentDomain.BaseDirectory);
+            var fullPath = String.Format("{0}{1}", documentDirectory, fileName);
+
+            return File(fullPath, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", fileName);
         }
 
         #region "Private"

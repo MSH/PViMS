@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "E2B ICH Report";
     Layout = "~/Views/Shared/_StandardLayout.cshtml";
-    ViewBag.Icon = "fa fa-stethoscope";
+    ViewBag.Icon = "fa fa-dashboard";
     ViewBag.Heading = "E2B ICH Report (Active)";
     ViewBag.SubHeading = "Add";
     ViewBag.ClinicalColour = "white"; ViewBag.AnalyticalColour = "orange"; ViewBag.ReportingColour = "white"; ViewBag.PublisherColour = "white"; ViewBag.AdminColour = "white";
@@ -96,7 +96,7 @@
                                                                 @if (element.DatasetElementSystem)
                                                                 {
                                                                     <label class="input">
-                                                                        <input class="form-control" id="@element.DatasetElementId" value="@element.DatasetElementValue" type="text" readonly="readonly" style="background-color:lightgray;">
+                                                                        <input class="form-control" id="@element.DatasetElementId" value="@element.DatasetElementValue" type="text" readonly="readonly" style="background-color:#F1F1F1;">
                                                                     </label>
                                                                 }
                                                                 else

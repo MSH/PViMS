@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "E2B ICH Report";
     Layout = "~/Views/Shared/_StandardLayout.cshtml";
-    ViewBag.Icon = "fa fa-stethoscope";
+    ViewBag.Icon = "fa fa-dashboard";
     ViewBag.Heading = "E2B ICH Report";
     ViewBag.SubHeading = "Edit";
     ViewBag.ClinicalColour = "white"; ViewBag.AnalyticalColour = "orange"; ViewBag.ReportingColour = "white"; ViewBag.PublisherColour = "white"; ViewBag.AdminColour = "white";
@@ -97,7 +97,7 @@
                                                                 @if (element.DatasetElementSystem)
                                                                 {
                                                                     <label class="input">
-                                                                        <input class="form-control" id="@element.DatasetElementId" value="@element.DatasetElementValue" type="text" readonly="readonly" style="background-color:lightgray;">
+                                                                        <input class="form-control" id="@element.DatasetElementId" value="@element.DatasetElementValue" type="text" readonly="readonly" style="background-color:#F1F1F1;">
                                                                     </label>
                                                                 }
                                                                 else
@@ -326,19 +326,27 @@
             success: function (data) {
                 var form = $('#datasetElementSubAddForm');
                 form.empty();
+
+                var formField = "<div class='smart-form'><fieldset>";
+
                 $.each(data, function (index, value) {
 
                     formElements.push(value.DatasetElementSubId);
 
-                    var formField = "<div class='form-group'>";
+                    formField += "<div class='row'><section class='col col-xs-12'>";
 
-                    var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubName;
+                    var labelValue = value.DatasetElementSubRequired ? "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em> " + value.DatasetElementSubDisplayName : value.DatasetElementSubDisplayName;
+                    var helpValue = "";
+                    if (value.DatasetElementSubHelp != null) {
+                        helpValue += "<small>" + value.DatasetElementSubHelp + "</small>";
+                    }
 
-                    formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+                    formField += "<label class='input'>" + labelValue + "<br />";
+                    if (helpValue != "") { formField += helpValue; };
 
                     switch (value.DatasetElementSubType) {
                         case "Date":
-                            formField += "<input type='text' class='form-control datepicker' placeholder='yyyy-mm-dd' id='a" + value.DatasetElementSubId + "'/>";
+                            formField += "<input type='date' class='form-control datepicker' placeholder='yyyy-mm-dd' id='a" + value.DatasetElementSubId + "'/>";
                             break;
                         case "Listbox":
                         case "DropDownList":
@@ -369,10 +377,12 @@
 
                     }
 
-                    formField += "</div>"
+                    formField += "</label></section></div>";
 
-                    form.append(formField)
                 });
+
+                formField += "</fieldset></div>";
+                form.append(formField)
             }
         });
 
@@ -433,21 +443,29 @@
         jQuery.ajax({
             type: "GET",
             url: "../../Api/DatasetInstanceApi/GetDatasetInstanceSubValues",
-            data: { datasetInstanceId : datasetInstanceId, datasetElementId: datasetElementId, subValueContext: context },
+            data: { datasetInstanceId: datasetInstanceId, datasetElementId: datasetElementId, subValueContext: context },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
                 var form = $('#datasetElementSubEditForm');
                 form.empty();
+
+                var formField = "<div class='smart-form'><fieldset>";
+
                 $.each(data, function (index, value) {
 
                     formElements.push(value.DatasetElementSubId);
 
-                    var formField = "<div class='form-group'>";
+                    formField += "<div class='row'><section class='col col-xs-12'>";
 
-                    var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubName;
+                    var labelValue = value.DatasetElementSubRequired ? "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" + value.DatasetElementSubDisplayName : value.DatasetElementSubDisplayName;
+                    var helpValue = "";
+                    if (value.DatasetElementSubHelp != null) {
+                        helpValue += "<small>" + value.DatasetElementSubHelp + "</small>";
+                    }
 
-                    formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+                    formField += "<label class='input'>" + labelValue + "<br />";
+                    if (helpValue != "") { formField += helpValue; };
 
                     switch (value.DatasetElementSubType) {
                         case "Date":
@@ -488,11 +506,12 @@
 
                     }
 
-                    formField += "</div>"
-
-                    form.append(formField)
+                    formField += "</label></section></div>";
 
                 });
+
+                formField += "</fieldset></div>";
+                form.append(formField)
             }
         });
 
@@ -516,7 +535,7 @@
                 contentType: "application/json; charset=utf-8",
                 context: $('#datasetElementSubEditForm'),
                 dataType: "json",
-            }).done(function () {
+            }).done(function (html) {
                 $('#editDatasetElementSubModal').modal('hide');
                 $('#' + datasetElementId).html(html);
                 $('#Response_' + datasetElementId).css("display", "block").html("<span class='txt-color-green'>Row updated successfully</span>");

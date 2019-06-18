@@ -330,24 +330,27 @@
             success: function (data) {
                 var form = $('#datasetElementSubAddForm');
                 form.empty();
+
+                var formField = "<div class='smart-form'><fieldset>";
+
                 $.each(data, function (index, value) {
 
                     formElements.push(value.DatasetElementSubId);
 
-                    var formField = "<div class='form-group'>";
+                    formField += "<div class='row'><section class='col col-xs-12'>";
 
-                    var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubDisplayName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubDisplayName;
+                    var labelValue = value.DatasetElementSubRequired ? "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em> " + value.DatasetElementSubDisplayName : value.DatasetElementSubDisplayName;
                     var helpValue = "";
                     if (value.DatasetElementSubHelp != null) {
-                        helpValue += "<br/><small>" + value.DatasetElementSubHelp + "</small>";
+                        helpValue += "<small>" + value.DatasetElementSubHelp + "</small>";
                     }
 
-                    formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+                    formField += "<label class='input'>" + labelValue + "<br />";
                     if(helpValue != "") {formField += helpValue; };
 
                     switch (value.DatasetElementSubType) {
                         case "Date":
-                            formField += "<input type='text' class='form-control datepicker' placeholder='yyyy-mm-dd' id='a" + value.DatasetElementSubId + "'/>";
+                            formField += "<input type='date' class='form-control datepicker' placeholder='yyyy-mm-dd' id='a" + value.DatasetElementSubId + "'/>";
                             break;
                         case "Listbox":
                         case "DropDownList":
@@ -378,10 +381,12 @@
 
                     }
 
-                    formField += "</div>"
+                    formField += "</label></section></div>";
 
-                    form.append(formField)
                 });
+
+                formField += "</fieldset></div>";
+                form.append(formField)
             }
         });
 
@@ -448,19 +453,22 @@
             success: function (data) {
                 var form = $('#datasetElementSubEditForm');
                 form.empty();
+
+                var formField = "<div class='smart-form'><fieldset>";
+
                 $.each(data, function (index, value) {
 
                     formElements.push(value.DatasetElementSubId);
 
-                    var formField = "<div class='form-group'>";
+                    formField += "<div class='row'><section class='col col-xs-12'>";
 
-                    var labelValue = value.DatasetElementSubRequired ? value.DatasetElementSubDisplayName + "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" : value.DatasetElementSubDisplayName;
+                    var labelValue = value.DatasetElementSubRequired ? "<em class='fa fa-asterisk text-danger' style='padding-left:3px; font-size:75%; vertical-align:top;'></em>" + value.DatasetElementSubDisplayName : value.DatasetElementSubDisplayName;
                     var helpValue = "";
                     if (value.DatasetElementSubHelp != null) {
-                        helpValue += "<br/><small>" + value.DatasetElementSubHelp + "</small>";
+                        helpValue += "<small>" + value.DatasetElementSubHelp + "</small>";
                     }
 
-                    formField += "<label for='" + value.DatasetElementSubId + "'>" + labelValue + "</label>";
+                    formField += "<label class='input'>" + labelValue + "<br />";
                     if (helpValue != "") { formField += helpValue; };
 
                     switch (value.DatasetElementSubType) {
@@ -502,11 +510,12 @@
 
                     }
 
-                    formField += "</div>"
-
-                    form.append(formField)
+                    formField += "</label></section></div>";
 
                 });
+
+                formField += "</fieldset></div>";
+                form.append(formField)
             }
         });
 

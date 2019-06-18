@@ -6,8 +6,8 @@ using VPS.Common.Repositories;
 using VPS.Common.Utilities;
 
 using PVIMS.Core.Entities;
-using PVIMS.Core.Models;
 using PVIMS.Core.Services;
+using PVIMS.Core.Dto;
 
 namespace PVIMS.Services
 {
@@ -26,31 +26,67 @@ namespace PVIMS.Services
             _patientRepository = unitOfWork.Repository<Patient>();
         }
 
-        #region "Referential Checks"
-
-        public DatasetInstanceValueList GetElementValuesForPatient(Patient patient, DatasetElement element, int records)
+        public DatasetInstanceValueListDto GetElementValuesForPatient(long patientId, string datasetName, string elementName, int records)
         {
-            var encounters = _unitOfWork.Repository<Encounter>().Queryable().Where(e => e.Patient.Id == patient.Id).OrderByDescending(e => e.EncounterDate).Take(records);
-            var model = new DatasetInstanceValueList()
+            var encounters = _unitOfWork.Repository<Encounter>().Queryable()
+                .Where(e => e.Patient.Id == patientId)
+                .OrderByDescending(e => e.EncounterDate).Take(records);
+
+            var datasetElement = _unitOfWork.Repository<DatasetElement>().Queryable()
+                .SingleOrDefault(de => de.ElementName == elementName && de.DatasetCategoryElements.Any(dce => dce.DatasetCategory.Dataset.DatasetName == datasetName));
+
+            var model = new DatasetInstanceValueListDto()
             {
-                DatasetElement = element
+                DatasetElement = datasetElement
             };
-            foreach(Encounter encounter in encounters)
+
+            if (datasetElement != null)
             {
-                var val = GetValueForElement(_unitOfWork.Repository<DatasetInstance>().Queryable().SingleOrDefault(di => di.ContextID == encounter.Id), element);
-                var modelItem = new DatasetInstanceValueListItem()
+                foreach (Encounter encounter in encounters)
                 {
-                    Value = !String.IsNullOrWhiteSpace(val) ? val : "NO VALUE",
-                    ValueDate = encounter.EncounterDate
-                };
-                model.Values.Add(modelItem);
+                    var val = GetValueForElement(_unitOfWork.Repository<DatasetInstance>().Queryable().SingleOrDefault(di => di.ContextID == encounter.Id), datasetElement);
+                    var modelItem = new DatasetInstanceValueListItem()
+                    {
+                        Value = !String.IsNullOrWhiteSpace(val) ? val : "NO VALUE",
+                        ValueDate = encounter.EncounterDate
+                    };
+                    model.Values.Add(modelItem);
+                }
             }
 
             return model;
         }
 
+        public DatasetInstanceValueDto GetCurrentElementValueForPatient(long patientId, string datasetName, string elementName)
+        {
+            var model = new DatasetInstanceValueDto() {
+                ElementName = elementName,
+                Value = "NO VALUE"
+            };
 
-        #endregion
+            var patient = _unitOfWork.Repository<Patient>().Queryable()
+                .Include(p => p.Encounters)
+                .Single(p => p.Id == patientId);
+
+            var datasetElement = _unitOfWork.Repository<DatasetElement>().Queryable()
+                .SingleOrDefault(de => de.ElementName == elementName && de.DatasetCategoryElements.Any(dce => dce.DatasetCategory.Dataset.DatasetName == datasetName));
+
+            if (patient.Encounters.Count > 0 && datasetElement != null)
+            {
+                var encounter = patient.GetCurrentEncounter();
+
+                // Get Dataset Instance for encounter
+                var instance = _unitOfWork.Repository<DatasetInstance>().Queryable()
+                    .SingleOrDefault(di => di.ContextID == encounter.Id && di.Dataset.ContextType.Description == "Encounter");
+                if (instance != null)
+                {
+                    model.CollectionDate = encounter.EncounterDate;
+                    model.Value = instance.GetInstanceValue(datasetElement);
+                }
+            }
+
+            return model;
+        }
 
         #region "Private"
 

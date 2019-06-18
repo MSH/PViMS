@@ -43,7 +43,7 @@
                                 <section>
                                     @Html.LabelFor(model => model.PageName)
                                     <label class="textarea">
-                                        @Html.EditorFor(model => model.PageName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                        @Html.EditorFor(model => model.PageName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
                                     </label>
                                     @Html.ValidationMessageFor(model => model.PageName, "", new { @class = "text-danger" })
                                 </section>

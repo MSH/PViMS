@@ -89,10 +89,10 @@
                             </div>
                             <asp:Table id="dt_basic" runat="server" ClientIDMode="Static" class="table table-striped table-bordered table-hover"  width="100%">
                                 <asp:TableHeaderRow TableSection="TableHeader">
-                                    <asp:TableHeaderCell>Adverse Event</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Criteria</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Serious</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Patient Count</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="30%">Adverse Event</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="30%">Criteria</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="30%">Serious</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="30%">Patient Count</asp:TableHeaderCell> 
                                 </asp:TableHeaderRow>
                             </asp:Table>
 

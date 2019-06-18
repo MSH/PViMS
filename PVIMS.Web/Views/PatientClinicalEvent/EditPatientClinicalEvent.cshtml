@@ -43,6 +43,7 @@
 
                             @Html.HiddenFor(model => model.PatientClinicalEventId)
                             @Html.HiddenFor(model => model.PatientFullName)
+                            @Html.HiddenFor(model => model.SourceTerminologyMedDRAId)
 
                             <header>
                                 Basic Details
@@ -57,8 +58,8 @@
                                         </label>
                                     </section>
                                     @*<section>
-                                    <button type="button" id="btnMSearch" value="Change" onclick="ToggleMedDra();">Change</button>
-                                </section>*@
+                                        <button type="button" id="btnMSearch" value="Change" onclick="ToggleMedDra();">Change</button>
+                                    </section>*@
                                 </section>
 
                                 <section style="background-color:lightblue; padding: 10px; display:@Model.MeddraSearch" id="mSearch">
@@ -111,7 +112,7 @@
                                 <section>
                                     @Html.LabelFor(model => model.EventAgeGroup, htmlAttributes: new { @class = "label" })
                                     <label class="input">
-                                        @Html.EditorFor(model => model.EventAgeGroup, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                        @Html.EditorFor(model => model.EventAgeGroup, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
                                     </label>
                                     @Html.ValidationMessageFor(model => model.EventAgeGroup, "", new { @class = "text-danger" })
                                 </section>
@@ -127,7 +128,7 @@
                                 <section>
                                     @Html.LabelFor(model => model.EventDuration, htmlAttributes: new { @class = "label" })
                                     <label class="input">
-                                        @Html.EditorFor(model => model.EventDuration, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                        @Html.EditorFor(model => model.EventDuration, new { htmlAttributes = new { @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
                                     </label>
                                     @Html.ValidationMessageFor(model => model.EventDuration, "", new { @class = "text-danger" })
                                 </section>
@@ -154,14 +155,22 @@
                                                 @Html.EditorFor(m => m.CustomAttributes[i].PastDateOnly)
                                                 @Html.EditorFor(m => m.CustomAttributes[i].FutureDateOnly)
 
-                                                @if (Model.CustomAttributes[i].IsRequired)
-                                                {
-                                                    <label class="label"><em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>@Model.CustomAttributes[i].Name <font color="red">@Model.CustomAttributes[i].Detail</font></label>
-                                                }
-                                                else
-                                                {
-                                                    <label class="label">@Model.CustomAttributes[i].Name <font color="red">@Model.CustomAttributes[i].Detail</font></label>
-                                                }
+                                                <label class="label">
+                                                    @if (Model.CustomAttributes[i].IsRequired)
+                                                    {
+                                                        <em class="fa fa-asterisk text-danger" style="padding-right:3px; font-size:75%; vertical-align:top;"></em>
+                                                    }
+                                                    @if (Model.CustomAttributes[i].AllowModal)
+                                                    {
+                                                        <a href="#" data-toggle="modal" data-target="#scaleModal">@Model.CustomAttributes[i].Name</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Model.CustomAttributes[i].Name
+                                                    }
+
+                                                    <font color="red">@Model.CustomAttributes[i].Detail</font>
+                                                </label>
 
                                                 @switch (Model.CustomAttributes[i].Type)
                                                 {
@@ -171,33 +180,33 @@
                                                         </label>
                                                         break;
                                                     case "Selection":
-                                                    <label class="input">
-                                                        @{
-                                                        var selectedItems =(IEnumerable<SelectListItem>)ViewData[Model.CustomAttributes[i].Name];
-                                                        foreach(var selectedItem in selectedItems)
-                                                            {
-                                                       if (selectedItem.Value.Equals(Model.CustomAttributes[i].Value))
-                                                           {
-                                                           selectedItem.Selected =true;
-                                                           break;
-                                                       }
+                                                        <label class="input">
+                                                            @{
+                                                                var selectedItems = (IEnumerable<SelectListItem>)ViewData[Model.CustomAttributes[i].Name];
+                                                                foreach (var selectedItem in selectedItems)
+                                                                {
+                                                                    if (selectedItem.Value.Equals(Model.CustomAttributes[i].Value))
+                                                                    {
+                                                                        selectedItem.Selected = true;
+                                                                        break;
+                                                                    }
                                                                 }
-                                                        }
-                                                        @Html.DropDownListFor(model => model.CustomAttributes[i].Value, (IEnumerable<SelectListItem>)ViewData[Model.CustomAttributes[i].Name], new { @class = "form-control", onchange = "SelectedIndexChanged(this)" })
+                                                            }
+                                                            @Html.DropDownListFor(model => model.CustomAttributes[i].Value, (IEnumerable<SelectListItem>)ViewData[Model.CustomAttributes[i].Name], new { @class = "form-control", onchange = "SelectedIndexChanged(this)" })
 
 
-                                                    </label>
+                                                        </label>
                                                         break;
                                                     case "DateTime":
-                                                    <label class="input">
-                                                        @Html.EditorFor(model => model.CustomAttributes[i].Value, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
-                                                    </label>
+                                                        <label class="input">
+                                                            @Html.EditorFor(model => model.CustomAttributes[i].Value, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd" } })
+                                                        </label>
                                                         break;
                                                     case "String":
                                                     default:
-                                                    <label class="input">
-                                                        @Html.EditorFor(model => model.CustomAttributes[i].Value)
-                                                    </label>
+                                                        <label class="input">
+                                                            @Html.EditorFor(model => model.CustomAttributes[i].Value)
+                                                        </label>
                                                         break;
                                                 }
                                                 @Html.ValidationMessageFor(model => model.CustomAttributes[i].Value, "", new { @class = "text-danger" })
@@ -272,7 +281,7 @@
                                     }
                                 </div>
                             </div>
-                            <br/>
+                            <br />
                             <h5 class="margin-top-0">&nbsp;Causality </h5>
                             <div>
                                 <div class="widget-body padding">
@@ -294,12 +303,60 @@
                                         }
                                     }
                                 </div>
-                             </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
             }
+
+            <div class="modal" id="scaleModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="color:white">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>Grading Scale
+
+                        </div>
+
+                        <div class="modal-body smart-form">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-10">
+                                        MedDRA Term
+                                        <label class="input">
+                                            <input type="text" readonly="readonly" style="background-color:#EFEFEF;" id="txtMedDRATermForGrade" runat="server" />
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        Grading Scale
+                                        <label class="input">
+                                            <input type="text" readonly="readonly" style="background-color:#EFEFEF;" id="txtScaleForGrade" runat="server" />
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Grades</legend>
+                                <div class="row">
+                                    <section class="col col-10">
+                                        <span id="spnGrades"></span>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Close</button>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
 
         </article>
 
@@ -381,6 +438,47 @@
         function isDate(val) {
             var date = new Date(val);
             return (date instanceof Date && !isNaN(date.valueOf()));
+        }
+
+        $('#scaleModal').on('show.bs.modal', function (e) {
+
+            var url = "@Url.Action("GetGradesForScale", "PatientClinicalEvent")";
+
+            var terminologyMeddraId = $("#SourceTerminologyMedDRAId").val();
+            var gradingScaleKey = $("#CustomAttributes_12__Value").val();
+
+		    $.ajax({
+                type: "GET",
+		        url: url,
+                data: { terminologyMeddraId: terminologyMeddraId, gradingScaleKey: gradingScaleKey },
+		        contentType: "application/json; charset=utf-8",
+		        dataType: "json",
+                success: ShowGradeDetails,
+		    });
+        });
+
+        function ShowGradeDetails(response) {
+            $("#txtMedDRATermForGrade").val(response.MeddraTerm);
+            $("#txtScaleForGrade").val(response.GradingScale);
+            
+            if (response.hasOwnProperty("MeddraGradeItems")) {
+                ShowGrades(response.MeddraGradeItems);
+            }
+        }
+
+        function ShowGrades(grades) {
+            var gradeList = "";
+            if (grades.length == 0)
+            {
+                gradeList += "<b>No grades found</b>";
+            }
+
+            $(grades).each(function (index, element) {
+                // element == this
+                gradeList += "<b>" + element.Grade + "</b> <br />";
+                gradeList += element.Description + "<br /><br />";
+            });
+            $('#spnGrades').html(gradeList);
         }
 
     </script>

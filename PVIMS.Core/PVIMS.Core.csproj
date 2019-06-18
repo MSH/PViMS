@@ -66,13 +66,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultUserContext.cs" />
+    <Compile Include="Dto\DatasetInstanceValueListDto.cs" />
     <Compile Include="Entities\ActivityExecutionStatus.cs" />
     <Compile Include="Entities\ActivityExecutionStatusEvent.cs" />
     <Compile Include="Entities\MetaWidgetType.cs" />
     <Compile Include="Entities\ReportInstanceMedication.cs" />
     <Compile Include="Models\ActivityExecutionStatusForPatient.cs" />
     <Compile Include="Models\ArtefactInfoModel.cs" />
+    <Compile Include="Models\CohortSummary.cs" />
     <Compile Include="Models\ReportInstanceMedicationListItem.cs" />
+    <Compile Include="Models\PatientEventSummary.cs" />
     <Compile Include="Services\IArtefactService.cs" />
     <Compile Include="Services\IReportService.cs" />
     <Compile Include="Services\IWorkFlowService.cs" />
@@ -114,6 +117,7 @@
     <Compile Include="Entities\LabResult.cs" />
     <Compile Include="Entities\NodeType.cs" />
     <Compile Include="ValueTypes\AdverseEventCriteria.cs" />
+    <Compile Include="ValueTypes\MetaReportStatus.cs" />
     <Compile Include="ValueTypes\MetaWidgetStatus.cs" />
     <Compile Include="ValueTypes\PatientOnStudyCriteria.cs" />
     <Compile Include="ValueTypes\CausalityCriteria.cs" />
@@ -203,7 +207,7 @@
     <Compile Include="Models\CustomAttributeConfigDetail.cs" />
     <Compile Include="Models\CustomAttributeConfigListItem.cs" />
     <Compile Include="Models\RoleListItem.cs" />
-    <Compile Include="Models\DatasetInstanceValueListItem.cs" />
+    <Compile Include="Dto\DatasetInstanceValueDto.cs" />
     <Compile Include="Models\SelectionDataItemDetail.cs" />
     <Compile Include="Models\UserListItem.cs" />
     <Compile Include="PrimaryPrincipal.cs" />

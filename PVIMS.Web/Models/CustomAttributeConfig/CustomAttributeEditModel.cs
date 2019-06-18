@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace PVIMS.Web.Models
 {
     public class CustomAttributeEditModel
     {
+        public CustomAttributeEditModel()
+        {
+            IsRequired = false;
+            PastDateOnly = false;
+            FutureDateOnly = false;
+            AllowModal = false;
+        }
+
         public string Name { get; set; }
         public string Detail { get; set; }
         public string Type { get; set; }
@@ -24,5 +28,6 @@ namespace PVIMS.Web.Models
         public bool PastDateOnly { get; set; }
         [HiddenInput(DisplayValue = false)]
         public bool FutureDateOnly { get; set; }
+        public bool AllowModal { get; set; }
     }
 }

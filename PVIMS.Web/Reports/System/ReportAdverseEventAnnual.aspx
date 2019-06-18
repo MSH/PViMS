@@ -73,14 +73,15 @@
                             </div>
                             <asp:Table id="dt_basic" runat="server" ClientIDMode="Static" class="table table-striped table-bordered table-hover"  width="100%">
                                 <asp:TableHeaderRow TableSection="TableHeader">
-                                    <asp:TableHeaderCell>System Organ Class</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Period</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Facility</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Grade 1 <br />(mild)</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Grade 2 <br />(moderate)</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Grade 3 <br />(severe)</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Grade 5 <br />(Death)</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell>Grade <br />Unknown</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="26%">System Organ Class</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="13%">Period</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="13%">Facility</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="8%">Grade 1 <br />(mild)</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="8%">Grade 2 <br />(moderate)</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="8%">Grade 3 <br />(severe)</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="8%">Grade 4 <br />(life threatening)</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="8%">Grade 5 <br />(Death)</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell width="8%">Grade <br />Unknown</asp:TableHeaderCell> 
                                 </asp:TableHeaderRow>
                             </asp:Table>
 

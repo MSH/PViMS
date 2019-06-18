@@ -77,13 +77,28 @@ namespace PVIMS.Web
         public void SetPageHeader(PageHeaderDetail detail)
         {
             divEdit.Visible = false;
+            divMetaDataLastUpdated.Visible = false;
+
             spnPageTitle.InnerHtml = String.Format(@"<h1 class=""page-title txt-color-blueDark""><i class=""{0}""></i>{1}</h1>", detail.Icon, detail.Title);
-            if(detail.MetaPageId > 0)
+
+            if (detail.MetaPageId > 0)
             {
                 divEdit.Visible = true;
                 hrefEdit.HRef = "/Publisher/PageCustom.aspx?id=" + detail.MetaPageId;
                 hrefDelete.HRef = "/Publisher/DeleteMetaPage?metaPageId=" + detail.MetaPageId;
                 hrefAdd.HRef = "/Publisher/PageCustomWidget.aspx?Id=0&pid=" + detail.MetaPageId;
+            }
+            if (detail.MetaReportId > 0)
+            {
+                divEdit.Visible = true;
+                hrefEdit.HRef = "/Reports/CustomiseReport?metaReportid=" + detail.MetaReportId;
+                hrefDelete.HRef = "/Reports/DeleteMetaReport?metaReportid=" + detail.MetaReportId;
+                hrefAdd.Visible = false;
+            }
+            if (!String.IsNullOrWhiteSpace(detail.MetaDataLastUpdated))
+            {
+                divMetaDataLastUpdated.Visible = true;
+                spnMetaDataLastUpdated.InnerHtml = detail.MetaDataLastUpdated;
             }
         }
 
@@ -142,33 +157,39 @@ namespace PVIMS.Web
         {
             if (User != null)
             {
+                var portalName = string.Empty;
                 // Highlight selected portal
                 switch (User.CurrentContext)
                 {
                     case "0":
                         hrefClinical.Style["color"] = "orange";
+                        portalName = Constants.Portal.Clinical + " Portal";
                         break;
 
                     case "1":
                         hrefAnalytical.Style["color"] = "orange";
+                        portalName = Constants.Portal.Analytical + " Portal";
                         break;
 
                     case "2":
                         hrefReporting.Style["color"] = "orange";
+                        portalName = Constants.Portal.Reporting + " Portal";
                         break;
 
                     case "3":
                         hrefPublisher.Style["color"] = "orange";
+                        portalName = Constants.Portal.Information + " Portal";
                         break;
 
                     case "4":
                         hrefAdmin.Style["color"] = "orange";
+                        portalName = Constants.Portal.Admin + " Portal";
                         break;
 
                     default:
                         break;
                 }
-                lblPortalName.Text = User.CurrentContext + " Portal";
+                lblPortalName.Text = portalName;
                 lblPortalName.Style["color"] = "orange";
 
                 // Portal roles

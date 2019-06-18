@@ -31,11 +31,12 @@ namespace PVIMS.Web
         CausalityConfigType _configValue = CausalityConfigType.BothScales;
 
         public IReportService _reportService { get; set; }
+        public IInfrastructureService _infrastructureService { get; set; }
 
         protected void Page_Init(object sender, EventArgs e)
         {
-            var configValue = UnitOfWork.Repository<Config>().Queryable().Single(c => c.ConfigType == ConfigType.AssessmentScale).ConfigValue;
-            _configValue = (CausalityConfigType)Enum.Parse(typeof(CausalityConfigType), configValue.Replace(" ", ""));
+            var config = _infrastructureService.GetOrCreateConfig(ConfigType.AssessmentScale);
+            var _configValue = (CausalityConfigType)Enum.Parse(typeof(CausalityConfigType), config.ConfigValue.Replace(" ", ""));
 
             switch (_configValue)
             {
@@ -67,7 +68,10 @@ namespace PVIMS.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             Master.SetMenuActive("ReportCausalityNotSet");
-            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report - Causality", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw" });
+
+            var config = _infrastructureService.GetOrCreateConfig(ConfigType.MetaDataLastUpdated);
+            Master.SetPageHeader(new Models.PageHeaderDetail() { Title = "Report - Causality", SubTitle = "", Icon = "fa fa-bar-chart-o fa-fw", MetaDataLastUpdated = config.ConfigValue });
+
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
@@ -288,10 +292,10 @@ namespace PVIMS.Web
             var documentDirectory = String.Format("{0}\\Temp\\", System.AppDomain.CurrentDomain.BaseDirectory);
             var logoDirectory = String.Format("{0}\\img\\", System.AppDomain.CurrentDomain.BaseDirectory);
 
-            string destName = string.Format("RCNS_{0}.pdf", DateTime.Now.ToString("yyyyMMddhhmmsss"));
+            string destName = string.Format("ReportCausality_{0}.pdf", DateTime.Now.ToString("yyyyMMddhhmmsss"));
             string destFile = string.Format("{0}{1}", documentDirectory, destName);
 
-            string logoName = string.Format("SIAPS_USAID_Horiz.png");
+            string logoName = string.Format("SIAPS_USAID_Horiz.jpg");
             string logoFile = string.Format("{0}{1}", logoDirectory, logoName);
 
             string fontFile = string.Format("{0}\\arial.ttf", System.AppDomain.CurrentDomain.BaseDirectory);
@@ -301,13 +305,6 @@ namespace PVIMS.Web
 
             // Create document
             PdfDocument pdfDoc = new PdfDocument();
-            XmlNode rootNode;
-            XmlNode filterNode;
-            XmlNode contentHeadNode;
-            XmlNode contentNode;
-            XmlNode contentValueNode;
-            XmlAttribute attrib;
-            XmlComment comment;
 
             // Create a new page
             PdfPage page = pdfDoc.AddPage();
@@ -336,8 +333,8 @@ namespace PVIMS.Web
             XFont fontr = new XFont("Calibri", 10, XFontStyle.Regular);
 
             // Write header
-            pdfDoc.Info.Title = "Causality Report for " + DateTime.Now.ToString("yyyy-MM-dd hh:MM");
-            gfx.DrawString("Causality Report for " + DateTime.Now.ToString("yyyy-MM-dd hh:MM"), fontb, XBrushes.Black, new XRect(columnPosition, linePosition, page.Width.Point, 20), XStringFormats.TopLeft);
+            pdfDoc.Info.Title = "Causality Report for " + DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+            gfx.DrawString("Causality Report for " + DateTime.Now.ToString("yyyy-MM-dd HH:mm"), fontb, XBrushes.Black, new XRect(columnPosition, linePosition, page.Width.Point, 20), XStringFormats.TopLeft);
 
             // Write filter
             linePosition += 24;
@@ -445,7 +442,7 @@ namespace PVIMS.Web
             var ns = ""; // urn:pvims-org:v3
 
             string contentXml = string.Empty;
-            string destName = string.Format("RC_{0}.xml", DateTime.Now.ToString("yyyyMMddhhmmsss"));
+            string destName = string.Format("ReportCausality_{0}.xml", DateTime.Now.ToString("yyyyMMddhhmmsss"));
             string destFile = string.Format("{0}{1}", documentDirectory, destName);
 
             // Create document
@@ -456,14 +453,13 @@ namespace PVIMS.Web
             XmlNode contentNode;
             XmlNode contentValueNode;
             XmlAttribute attrib;
-            XmlComment comment;
 
             XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
             xmlDoc.AppendChild(xmlDeclaration);
 
             rootNode = xmlDoc.CreateElement("PViMS_CausalityReport", ns);
             attrib = xmlDoc.CreateAttribute("CreatedDate");
-            attrib.InnerText = DateTime.Now.ToString("yyyy-MM-dd hh:MM");
+            attrib.InnerText = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             rootNode.Attributes.Append(attrib);
 
             // Write filter
@@ -548,8 +544,10 @@ namespace PVIMS.Web
             ws.View.ShowGridLines = true;
 
             // Write content
-            var rowCount = 0;
+            var rowCount = 1;
             var cellCount = 0;
+
+            ws.Cells["A1"].Value = "Causality Report for " + DateTime.Now.ToString("yyyy-MM-dd HH:mm");
 
             foreach (TableRow row in dt_basic.Rows)
             {
@@ -573,7 +571,6 @@ namespace PVIMS.Web
             {
                 r.Style.Font.SetFromFont(new Font("Calibri", 10, FontStyle.Regular));
                 r.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                r.AutoFitColumns();
             }
             //Lock cells
             using (var r = ws.Cells["A1:" + GetExcelColumnName(cellCount) + rowCount])
@@ -583,7 +580,13 @@ namespace PVIMS.Web
             FormatAsBorder(ref ws, "A1:" + GetExcelColumnName(cellCount) + rowCount);
 
             // Format header
-            FormatAsHeader(ref ws, "A1:" + GetExcelColumnName(cellCount) + "1", false, ExcelHorizontalAlignment.Left);
+            FormatAsHeader(ref ws, "A1:" + GetExcelColumnName(cellCount) + "2", false, ExcelHorizontalAlignment.Left);
+
+            // Autofit
+            using (var r = ws.Cells["A1:" + GetExcelColumnName(cellCount) + rowCount])
+            {
+                r.AutoFitColumns();
+            }
 
             ws.Protection.IsProtected = true;
             ws.Protection.AllowAutoFilter = false;

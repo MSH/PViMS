@@ -62,14 +62,14 @@
                                 <section>
                                     @Html.LabelFor(model => model.SourceDescription)
                                     <label class="textarea">
-                                        @Html.TextAreaFor(model => model.SourceDescription, new { @class = "custom-scroll", @rows = "6", MaxLength = "500", @readonly = "readonly", @style = "background-color:lightgray; height: 80px;" })
+                                        @Html.TextAreaFor(model => model.SourceDescription, new { @class = "custom-scroll", @rows = "6", MaxLength = "500", @readonly = "readonly", @style = "background-color:#F1F1F1; height: 80px;" })
                                     </label>
                                 </section>
 
                                 <section>
                                     @Html.LabelFor(model => model.OnsetDate)
                                     <label class="input">
-                                        @Html.EditorFor(model => model.OnsetDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd", @readonly = "readonly", @style = "background-color:lightgray;" } })
+                                        @Html.EditorFor(model => model.OnsetDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "yyyy-mm-dd", @readonly = "readonly", @style = "background-color:#F1F1F1;" } })
                                     </label>
                                 </section>
 

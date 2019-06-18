@@ -2,16 +2,84 @@
 
 <asp:Content runat="server" ID="Body" ContentPlaceHolderID="BodyContentPlaceHolder">
 
-	<!-- widget grid -->
 	<section id="widget-grid" class="">
 
+        <div class="row">
+
+            <article class="col-sm-12 col-md-12 col-lg-6">
+                <div class="well no-padding" style="height:auto;">
+                    <h2 style="font-weight:bold; text-align:center;">Cohort Details</h2>
+                    <div class="smart-form">
+                        <fieldset>
+                            <div class="row">
+                                <section class="col col-6">
+                                    Cohort Name
+                                    <label class="input">
+                                        <input type="text" readonly="readonly" style="background-color:#EFEFEF; text-align:center;" id="txtCohortName" runat="server" />
+                                    </label>
+                                </section>
+                                <section class="col col-3">
+                                    Cohort Code
+                                    <label class="input">
+                                        <input type="text" readonly="readonly" style="background-color:#EFEFEF; text-align:center;" id="txtCohortCode" runat="server" />
+                                    </label>
+                                </section>
+                                <section class="col col-3">
+                                    Primary Condition
+                                    <label class="input">
+                                        <input type="text" readonly="readonly" style="background-color:#EFEFEF; text-align:center;" id="txtCohortCondition" runat="server" />
+                                    </label>
+                                </section>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </div>
+            </article>
+
+            <article class="col-sm-12 col-md-12 col-lg-4">
+                <div class="well no-padding" style="height:auto;">
+                    <h2 style="font-weight:bold; text-align:center;">Event Summary</h2>
+                    <div class="smart-form">
+                        <fieldset>
+                            <div class="row">
+                                <section class="col col-4">
+                                    Patient Count
+                                    <label class="input">
+                                        <input type="text" readonly="readonly" style="background-color:#EFEFEF; text-align:center;" id="txtPatientCount" runat="server" />
+                                    </label>
+                                </section>
+                                <section class="col col-4">
+                                    Non-Serious Events
+                                    <label class="input">
+                                        <input type="text" readonly="readonly" style="background-color:#EFEFEF; text-align:center;" id="txtNonSeriousCount" runat="server" />
+                                    </label>
+                                </section>
+                                <section class="col col-4">
+                                    Serious Events
+                                    <label class="input">
+                                        <input type="text" readonly="readonly" style="background-color:#EFEFEF; text-align:center;" id="txtSeriousCount" runat="server" />
+                                    </label>
+                                </section>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </div>
+            </article>
+
+        </div>
 		<div class="row">
 				
-			<!-- NEW WIDGET START -->
 			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				
 				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget" id="wid-id-5"  data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+				<div class="jarviswidget well" id="wid-id-5" 
+                    data-widget-editbutton="false" 
+                    data-widget-custombutton="false" 
+                    data-widget-deletebutton="false" 
+                    data-widget-colorbutton="false">
+
 					<header>
 						<span class="widget-icon"> <i class="fa fa-table"></i> </span>
 						<h2>Cohort View</h2>
@@ -30,28 +98,16 @@
 						<!-- widget content -->
 						<div class="widget-body no-padding">
 				
-							<div class="well well-sm bg-color-darken txt-color-white text-center">
-								<div class="row">
-                                    <section class="col col-12">
-										<label class="input">Cohort Name
-											<input class="form-control" id="txtCohortName" type="text" runat="server" readonly="readonly" style="background-color:#92A2A8; color:white;">
-                                        </label>
-										<label class="input">Cohort Code
-											<input class="form-control" id="txtCohortCode" type="text" runat="server" readonly="readonly" style="background-color:#92A2A8; color:white;">
-                                        </label>
-                                    </section>
-								</div>
-							</div>
-
                             <asp:Table id="dt_basic" runat="server" ClientIDMode="Static" class="table table-striped table-bordered table-hover"  width="100%">
                                 <asp:TableHeaderRow TableSection="TableHeader">
-                                    <asp:TableHeaderCell width="15%">Patient Name</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="15%">Facility</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="10%">Age</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="20%">Last Encounter</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="10%">Current Weight</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="20%">Adverse Reactions (Confirmed)</asp:TableHeaderCell> 
-                                    <asp:TableHeaderCell width="10%">Action</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Patient Name</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Facility</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Age</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Date of Last Encounter</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Current Weight</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Non-Serious Events</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Serious Events</asp:TableHeaderCell> 
+                                    <asp:TableHeaderCell>Action</asp:TableHeaderCell> 
                                 </asp:TableHeaderRow>
                             </asp:Table>
 
@@ -65,14 +121,10 @@
 				<!-- end widget -->
 
 			</article>
-			<!-- WIDGET END -->
 
 		</div>
-				
-		<!-- end row -->
 			
 	</section>
-	<!-- end widget grid -->
 
 </asp:Content>
 

@@ -2832,11 +2832,11 @@
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\DeleteMetaReport.cshtml" />
     <Content Include="Views\Reports\ReportAttributeItem.cshtml" />
+    <Content Include="Temp\.gitkeep" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Temp\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\SystemAdministration\" />
   </ItemGroup>

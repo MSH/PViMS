@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PVIMS.Web", "PVIMS.Web\PVIMS.Web.csproj", "{D3B4AC26-8CE4-442D-9CE2-D6AC777A7941}"
 EndProject
@@ -250,5 +250,8 @@ Global
 		{3B6DAD65-5D5D-4B53-B447-8F770D73EF2B} = {37E15065-1762-4AC0-B1C6-57CC8CA83F5F}
 		{4AB0BBE9-EF76-4399-B461-A5D55CCD2CBE} = {6477E7CF-E655-4A67-8BF2-A1723CD17330}
 		{A254503A-7DF5-4E1A-8554-C24DC98AE66A} = {19021AB2-9618-4DA0-A012-7DAC63075DA4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35CEACE9-46E6-4641-962D-1AFE7F47FF96}
 	EndGlobalSection
 EndGlobal

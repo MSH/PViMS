@@ -157,17 +157,9 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
-VPS.MIS.WebInterface/UploadedFiles/
-Tools/Scripts/TestResult.xml
-/VPS.MIS.WebInterface/TempFiles/
-VPS.MIS.WebInterface/Temp/bc_*
-VPS.MIS.WebInterface/Temp/PaymentList_*
-VPS.MIS.WebInterface/Temp/PC_*
-VPS.MIS.WebInterface/Temp/Temp-WP*
-/VPS.DataCollection/VPS.OfflineApp/platforms/android
-/VPS.DataCollection/VPS.OfflineApp/platforms/browser/www
-/VPS.Dcat.Core/Obfuscator_Input
-/VPS.Dcat.Interop.Stub/VPS.Dcat.Interop.Stub/Obfuscator_Input
-/VPS.Dcat.Services/Obfuscator_Input
-/VPS.Dcat.Web/sound
-/VPS.Dcat.Web/Templates/PatientSummary - Copy.docx
+
+# Custom files
+/Deployment/*
+!/Deployment/.gitkeep
+/.vs/*
+/VPS.Framework/.vs/VPS.Framework/*

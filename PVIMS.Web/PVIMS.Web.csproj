@@ -2060,10 +2060,31 @@
     <Content Include="ckeditor\plugins\wsc\dialogs\wsc.css" />
     <Content Include="ckeditor\plugins\wsc\dialogs\wsc.js" />
     <Content Include="ckeditor\plugins\xml\plugin.js" />
-    <Content Include="PostDeploymentScripts\First1.sql" />
-    <Content Include="PostDeploymentScripts\First2.sql" />
-    <Content Include="PostDeploymentScripts\First3.sql" />
-    <Content Include="PostDeploymentScripts\First4.sql" />
+    <Content Include="PostDeploymentScripts\dbo.CleanJsonForString.sql" />
+    <Content Include="PostDeploymentScripts\dbo.Datapack.Chronic.sql" />
+    <Content Include="PostDeploymentScripts\dbo.Datapack.E2BR2.sql" />
+    <Content Include="PostDeploymentScripts\dbo.Datapack.Spontaneous.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedConditions.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedDRA_1.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedDRA_10.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedDRA_2.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedDRA_3.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedDRA_4.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedDRA_5.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedDRA_6.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedDRA_7.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedDRA_8.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedDRA_9.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMedications.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedMeta.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedRiskFactor.sql" />
+    <Content Include="PostDeploymentScripts\dbo.SeedWorkFlow.sql" />
+    <Content Include="PostDeploymentScripts\dbo.spGenerateAnalysis.sql" />
+    <Content Include="PostDeploymentScripts\dbo.spGenerateContingency.sql" />
+    <Content Include="PostDeploymentScripts\dbo.spGenerateDrugList.sql" />
+    <Content Include="PostDeploymentScripts\dbo.spGeneratePatientListCohort.sql" />
+    <Content Include="PostDeploymentScripts\dbo.spGeneratePatientListCondition.sql" />
+    <Content Include="PostDeploymentScripts\dbo.spGenerateRiskFactors.sql" />
     <Content Include="Publisher\PageCustomWidget.aspx" />
     <Content Include="Publisher\PageCustom.aspx" />
     <Content Include="Publisher\PageViewer.aspx" />
@@ -2495,6 +2516,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Error\Web.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\pvims-demo.pubxml" />
     <None Include="Properties\PublishProfiles\pvims-georgia.pubxml" />
     <None Include="Properties\PublishProfiles\pvims-phil.pubxml" />
@@ -2799,10 +2821,6 @@
     <Content Include="Templates\PatientSummary_Spontaneous.docx" />
     <Content Include="Templates\SAEReport_Active.docx" />
     <Content Include="Templates\SAEReport_Spontaneous.docx" />
-    <Content Include="Temp\PatientSummary_Active.docx" />
-    <Content Include="Temp\PatientSummary_Spontaneous.docx" />
-    <Content Include="Temp\SAEReport_Active.docx" />
-    <Content Include="Temp\SAEReport_Spontaneous.docx" />
     <Content Include="Views\Cohort\DeleteCohort.cshtml" />
     <Content Include="Views\Publisher\DeleteMetaPage.cshtml" />
     <Content Include="Views\Publisher\DeleteMetaWidget.cshtml" />
@@ -2818,6 +2836,7 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Temp\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\SystemAdministration\" />
   </ItemGroup>

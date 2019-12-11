@@ -185,7 +185,9 @@ namespace PVIMS.Web
             var name = itemname.ToLower();
 
             var mnu = (HtmlGenericControl)FindControl(name);
-            mnu.Attributes.Add("class", "active");
+
+            if (mnu != null)
+                mnu.Attributes.Add("class", "active");
         }
 
     }

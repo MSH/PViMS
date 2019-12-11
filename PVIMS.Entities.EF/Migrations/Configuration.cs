@@ -46,7 +46,6 @@ namespace PVIMS.Entities.EF.Migrations
                 CreateEncounterTypes(context);
                 CreateStatus(context);
                 CreateMetaTypes(context);
-                CreateMedicationForms(context);
                 CreatePostDeploymentScripts(context);
                 CreateConfigValues(context);
                 CreateContactTypes(context);
@@ -78,18 +77,41 @@ namespace PVIMS.Entities.EF.Migrations
             };
             context.Users.AddOrUpdate(u => u.UserName, adminUser);
 
-            var role = context.Roles.SingleOrDefault(r => r.Key == "Admin");
-            var userRole = new UserRole
+            context.UserRoles.Add(new UserRole
             {
                 User = adminUser,
-                Role = role
-            };
-
-            var currentUserRole = context.UserRoles.FirstOrDefault(x => x.User.UserName == adminUser.UserName
-                                                                        && x.Role.Key == role.Key);
-            if (currentUserRole == null)
-                context.UserRoles.Add(userRole);
-
+                Role = context.Roles.SingleOrDefault(r => r.Key == "Admin")
+            });
+            context.UserRoles.Add(new UserRole
+            {
+                User = adminUser,
+                Role = context.Roles.SingleOrDefault(r => r.Key == "DataCap")
+            });
+            context.UserRoles.Add(new UserRole
+            {
+                User = adminUser,
+                Role = context.Roles.SingleOrDefault(r => r.Key == "Analyst")
+            });
+            context.UserRoles.Add(new UserRole
+            {
+                User = adminUser,
+                Role = context.Roles.SingleOrDefault(r => r.Key == "Reporter")
+            });
+            context.UserRoles.Add(new UserRole
+            {
+                User = adminUser,
+                Role = context.Roles.SingleOrDefault(r => r.Key == "Publisher")
+            });
+            context.UserRoles.Add(new UserRole
+            {
+                User = adminUser,
+                Role = context.Roles.SingleOrDefault(r => r.Key == "ReporterAdmin")
+            });
+            context.UserRoles.Add(new UserRole
+            {
+                User = adminUser,
+                Role = context.Roles.SingleOrDefault(r => r.Key == "PublisherAdmin")
+            });
             context.SaveChanges();
         }
 
@@ -659,8 +681,16 @@ namespace PVIMS.Entities.EF.Migrations
 					Category = "Custom",
 					AttributeKey = "Patient Contact Number",
                     StringMaxLength = 15
-				}
-			};
+				},
+                new CustomAttributeConfiguration
+                {
+                    ExtendableTypeName = "PatientLabTest",
+                    CustomAttributeType = CustomAttributeType.String,
+                    Category = "Lab Test",
+                    AttributeKey = "Comments",
+                    StringMaxLength = 255
+                }
+            };
 
             context.CustomAttributeConfigurations.AddOrUpdate(c => new { c.AttributeKey, c.ExtendableTypeName }, customAttributeConfigs);
             context.SaveChanges();
@@ -937,58 +967,12 @@ namespace PVIMS.Entities.EF.Migrations
 
             var metaWidgetTypes = new[]
 			{
-				new MetaWidgetType { metawidgettype_guid = Guid.NewGuid(), Description = "Report" },
-				new MetaWidgetType { metawidgettype_guid = Guid.NewGuid(), Description = "Content.General" },
-                new MetaWidgetType { metawidgettype_guid = Guid.NewGuid(), Description = "Content.FAQ" },
-                new MetaWidgetType { metawidgettype_guid = Guid.NewGuid(), Description = "Content.CaseStudy" }
+				new MetaWidgetType { metawidgettype_guid = Guid.NewGuid(), Description = "General" },
+				new MetaWidgetType { metawidgettype_guid = Guid.NewGuid(), Description = "SubItems" },
+                new MetaWidgetType { metawidgettype_guid = Guid.NewGuid(), Description = "ItemList" }
 			};
 
             context.MetaWidgetTypes.AddOrUpdate(mt => mt.Description, metaWidgetTypes);
-            context.SaveChanges();
-        }
-
-        private static void CreateMedicationForms(PVIMSDbContext context)
-        {
-            var medicationForms = new[]
-			{
-				new MedicationForm { Description = "Tablets" },
-				new MedicationForm { Description = "Ear Drops" },
-				new MedicationForm { Description = "Suspension" },
-				new MedicationForm { Description = "Lozenges" },
-				new MedicationForm { Description = "Cream" },
-				new MedicationForm { Description = "Ointment" },
-				new MedicationForm { Description = "Gel" },
-				new MedicationForm { Description = "Oral Gel" },
-				new MedicationForm { Description = "Lotion" },
-				new MedicationForm { Description = "Vaginal Cream" },
-				new MedicationForm { Description = "Eye Ointment" },
-				new MedicationForm { Description = "Syrup" },
-				new MedicationForm { Description = "Suppository" },
-				new MedicationForm { Description = "Nose Drops" },
-				new MedicationForm { Description = "Eye Drops" },
-				new MedicationForm { Description = "Capsules" },
-				new MedicationForm { Description = "Soap" },
-				new MedicationForm { Description = "Inhaler" },
-				new MedicationForm { Description = "Spray" },
-				new MedicationForm { Description = "Ampule" },
-				new MedicationForm { Description = "Amber" },
-				new MedicationForm { Description = "Crystals" },
-				new MedicationForm { Description = "Drops" },
-				new MedicationForm { Description = "Infusion" },
-				new MedicationForm { Description = "Injection" },
-				new MedicationForm { Description = "Oil" },
-				new MedicationForm { Description = "Powder" },
-				new MedicationForm { Description = "Sachets" },
-				new MedicationForm { Description = "Shampoo" },
-				new MedicationForm { Description = "Solution" },
-				new MedicationForm { Description = "Strips" },
-				new MedicationForm { Description = "Vial" },
-				new MedicationForm { Description = "Wax" },
-				new MedicationForm { Description = "Unknown" },
-				new MedicationForm { Description = "Tab/Cap" }
-			};
-
-            context.MedicationForms.AddOrUpdate(mf => mf.Description, medicationForms);
             context.SaveChanges();
         }
 
@@ -996,13 +980,13 @@ namespace PVIMS.Entities.EF.Migrations
         {
             var configs = new[]
 			{
-				new Config { ConfigType = ConfigType.E2BVersion, ConfigValue = "" },
-				new Config { ConfigType = ConfigType.WebServiceSubscriberList, ConfigValue = "" },
-				new Config { ConfigType = ConfigType.AssessmentScale, ConfigValue = "" },
-                new Config { ConfigType = ConfigType.MedDRAVersion, ConfigValue = "" },
-                new Config { ConfigType = ConfigType.ReportInstanceNewAlertCount, ConfigValue = "1" },
-                new Config { ConfigType = ConfigType.MedicationOnsetCheckPeriodWeeks, ConfigValue = "" },
-                new Config { ConfigType = ConfigType.MetaDataLastUpdated, ConfigValue = "" }
+				new Config { ConfigType = ConfigType.E2BVersion, ConfigValue = "E2B(R2) ICH Report" },
+				new Config { ConfigType = ConfigType.WebServiceSubscriberList, ConfigValue = "NOT SPECIFIED" },
+				new Config { ConfigType = ConfigType.AssessmentScale, ConfigValue = "Both Scales" },
+                new Config { ConfigType = ConfigType.MedDRAVersion, ConfigValue = "20.0" },
+                new Config { ConfigType = ConfigType.ReportInstanceNewAlertCount, ConfigValue = "0" },
+                new Config { ConfigType = ConfigType.MedicationOnsetCheckPeriodWeeks, ConfigValue = "5" },
+                new Config { ConfigType = ConfigType.MetaDataLastUpdated, ConfigValue = DateTime.Now.ToString("yyyy-MM-dd HH:mm") }
             };
 
             context.Configs.AddOrUpdate(c => c.ConfigType, configs);
@@ -1013,9 +997,9 @@ namespace PVIMS.Entities.EF.Migrations
         {
             var types = new[]
 			{
-				new SiteContactDetail { ContactType = ContactType.RegulatoryAuthority, ContactFirstName = "", ContactSurname = "", StreetAddress = "", City = "" },
-				new SiteContactDetail { ContactType = ContactType.ReportingAuthority, ContactFirstName = "", ContactSurname = "", StreetAddress = "", City = "" }
-			};
+				new SiteContactDetail { ContactType = ContactType.RegulatoryAuthority, ContactFirstName = "Not", ContactSurname = "Specified", StreetAddress = "None", City = "None", OrganisationName = "None" },
+                new SiteContactDetail { ContactType = ContactType.ReportingAuthority, ContactFirstName = "Uppsala", ContactSurname = "Monitoring Centre", StreetAddress = "Bredgrand 7B", City = "Uppsala", State = "None", PostCode = "75320", ContactEmail = "info@who-umc.org", ContactNumber = "18656060", CountryCode = "46", OrganisationName = "UMC" }
+            };
 
             context.SiteContactDetails.AddOrUpdate(c => c.ContactType, types);
             context.SaveChanges();
@@ -4480,10 +4464,31 @@ namespace PVIMS.Entities.EF.Migrations
         {
             var postDeployments = new[]
             {
-               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "First1.sql", ScriptDescription="First 1",RunRank = 1},
-               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "First2.sql", ScriptDescription="First 2",RunRank = 2},
-               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "First3.sql", ScriptDescription="First 3",RunRank = 3},
-               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "First4.sql", ScriptDescription="First 4",RunRank = 4},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.spGenerateRiskFactors.sql", ScriptDescription="Analysis - Generate risk factors",RunRank = 1},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.spGeneratePatientListCondition.sql", ScriptDescription="Analysis - Generate patient conditions",RunRank = 2},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.spGeneratePatientListCohort.sql", ScriptDescription="Analysis - Generate patient cohorts",RunRank = 3},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.spGenerateDrugList.sql", ScriptDescription="Analysis - Generate drug list",RunRank = 4},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.spGenerateContingency.sql", ScriptDescription="Analysis - Generate contingency",RunRank = 5},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.spGenerateAnalysis.sql", ScriptDescription="Analysis - Generate analysis",RunRank = 6},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.CleanJsonForString.sql", ScriptDescription="JSON String Handler Function",RunRank = 7},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedications.sql", ScriptDescription="Seed Medications",RunRank = 8},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMeta.sql", ScriptDescription="Seed META",RunRank = 9},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedDRA_1.sql", ScriptDescription="Seed MedDRA 10000",RunRank = 10},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedDRA_2.sql", ScriptDescription="Seed MedDRA 20000",RunRank = 11},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedDRA_3.sql", ScriptDescription="Seed MedDRA 30000",RunRank = 12},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedDRA_4.sql", ScriptDescription="Seed MedDRA 40000",RunRank = 13},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedDRA_5.sql", ScriptDescription="Seed MedDRA 50000",RunRank = 14},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedDRA_6.sql", ScriptDescription="Seed MedDRA 60000",RunRank = 15},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedDRA_7.sql", ScriptDescription="Seed MedDRA 70000",RunRank = 16},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedDRA_8.sql", ScriptDescription="Seed MedDRA 80000",RunRank = 17},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedDRA_9.sql", ScriptDescription="Seed MedDRA 90000",RunRank = 18},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedMedDRA_10.sql", ScriptDescription="Seed MedDRA 100000",RunRank = 19},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedConditions.sql", ScriptDescription="Seed Conditions",RunRank = 20},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.Datapack.Chronic.sql", ScriptDescription="Seed Chronic Dataset",RunRank = 21},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.Datapack.Spontaneous.sql", ScriptDescription="Seed Spontaneous Dataset",RunRank = 22},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.Datapack.E2BR2.sql", ScriptDescription="Seed E2B R2 Dataset",RunRank = 23},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedWorkFlow.sql", ScriptDescription="Seed Work Flow Processes",RunRank = 24},
+               new PostDeployment { ScriptGuid = Guid.NewGuid(),   ScriptFileName = "dbo.SeedRiskFactor.sql", ScriptDescription="Seed Risk Factors",RunRank = 25},
             };
 
             context.PostDeployments.AddOrUpdate(r => r.ScriptFileName, postDeployments);

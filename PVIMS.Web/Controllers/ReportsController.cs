@@ -735,9 +735,9 @@ namespace PVIMS.Web.Controllers
             }
             if(!String.IsNullOrWhiteSpace(model.ReportDefinition))
             {
-                if (Regex.Matches(model.ReportDefinition, @"[a-zA-Z'!,]").Count < model.ReportDefinition.Length)
+                if (Regex.Matches(model.ReportDefinition, @"[a-zA-Z '!,]").Count < model.ReportDefinition.Length)
                 {
-                    ModelState.AddModelError("ReportName", "Definition contains invalid characters (Enter A-Z, a-z, '!,).");
+                    ModelState.AddModelError("ReportDefinition", "Definition contains invalid characters (Enter A-Z, a-z, space, '!,).");
                 }
             }
             if (model.ReportType == 0)

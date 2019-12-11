@@ -10,11 +10,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-using VPS.Common.Repositories;
-
-using PVIMS.Core;
 using PVIMS.Core.Entities;
-using PVIMS.Entities.EF;
 
 namespace PVIMS.Web
 {
@@ -29,9 +25,9 @@ namespace PVIMS.Web
 
                 // reset context 
                 var user = UnitOfWork.Repository<User>().Queryable().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
-                if(user.CurrentContext != "Clinical")
+                if(user.CurrentContext != "0")
                 {
-                    user.CurrentContext = "Clinical";
+                    user.CurrentContext = "0";
                     UnitOfWork.Repository<User>().Update(user);
 
                     var url = @"\Calendar\CalendarView.aspx";
